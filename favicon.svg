@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Nova Kingdom Rentals logo">
+  <rect width="64" height="64" rx="12" fill="#050814"/>
+  <path d="M15 42h34l3-23-10 8-10-15-10 15-10-8 3 23Z" fill="#d8aa4a"/>
+  <path d="M17 47h30" stroke="#f7e7b3" stroke-width="4" stroke-linecap="round"/>
+</svg>

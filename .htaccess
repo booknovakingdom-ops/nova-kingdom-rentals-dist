@@ -1,0 +1,38 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # OLD GOOGLE / OLD WEBSITE URL REDIRECTS
+
+  RewriteRule ^pricing1/?$ /packages [R=301,L]
+  RewriteRule ^pricing/?$ /packages [R=301,L]
+  RewriteRule ^packages1/?$ /packages [R=301,L]
+
+  RewriteRule ^royal-lineup/?$ /rentals [R=301,L]
+  RewriteRule ^lineup/?$ /rentals [R=301,L]
+  RewriteRule ^rentals1/?$ /rentals [R=301,L]
+
+  RewriteRule ^bouncy-castle-rental-bridgewater/?$ /bouncy-castle-rentals-bridgewater-ns [R=301,L]
+  RewriteRule ^bouncy-castle-rentals-bridgewater/?$ /bouncy-castle-rentals-bridgewater-ns [R=301,L]
+  RewriteRule ^bouncy-castle-rental-bridgewater-ns/?$ /bouncy-castle-rentals-bridgewater-ns [R=301,L]
+  RewriteRule ^bounce-house-rental-bridgewater/?$ /bouncy-castle-rentals-bridgewater-ns [R=301,L]
+  RewriteRule ^bounce-house-rentals-bridgewater/?$ /bouncy-castle-rentals-bridgewater-ns [R=301,L]
+
+  RewriteRule ^water-slide-rental-nova-scotia/?$ /water-slide-rentals-nova-scotia [R=301,L]
+  RewriteRule ^water-slide-rentals-ns/?$ /water-slide-rentals-nova-scotia [R=301,L]
+  RewriteRule ^water-slide-rental-ns/?$ /water-slide-rentals-nova-scotia [R=301,L]
+
+  RewriteRule ^school-event-rentals-nova-scotia/?$ /school-event-inflatable-rentals-nova-scotia [R=301,L]
+  RewriteRule ^school-inflatable-rentals-nova-scotia/?$ /school-event-inflatable-rentals-nova-scotia [R=301,L]
+  RewriteRule ^community-event-rentals-ns/?$ /community-event-rentals-nova-scotia [R=301,L]
+
+  RewriteRule ^book-now/?$ /contact [R=301,L]
+  RewriteRule ^booking/?$ /contact [R=301,L]
+  RewriteRule ^check-availability/?$ /contact [R=301,L]
+
+  # REACT ROUTING FALLBACK
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
