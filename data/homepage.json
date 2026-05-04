@@ -1,0 +1,69 @@
+{
+  "hero": {
+    "eyebrow": "Premium Inflatable Rentals",
+    "heading": "Your Backyard Just Got Crowned",
+    "subheading": "Premium inflatable rentals, water slides, interactive games, and party packages. Bridgewater-based and serving South Shore, Nova Scotia, and select Atlantic Canada events by availability and travel quote.",
+    "primaryButton": "Check Availability",
+    "secondaryButton": "View Our Lineup",
+    "featuredProduct": "crown-rush-42"
+  },
+  "trustBadges": [
+    "Fully insured",
+    "Setup included",
+    "Bridgewater-based",
+    "Clean & safe equipment"
+  ],
+  "intro": {
+    "heading": "Premium inflatable fun, professionally handled.",
+    "text": "Nova Kingdom Rentals brings premium inflatable fun to backyard birthdays, school events, community events, and summer celebrations. We are Bridgewater-based and serve South Shore, Nova Scotia, and select Atlantic Canada events by availability and travel quote."
+  },
+  "categories": [
+    {
+      "title": "Inflatables",
+      "text": "Clean, memorable event rentals.",
+      "link": "/rentals"
+    },
+    {
+      "title": "Water Fun",
+      "text": "Splash-ready rentals for summer events.",
+      "link": "/rentals"
+    },
+    {
+      "title": "Interactive Games",
+      "text": "Competitive add-ons for all ages.",
+      "link": "/rentals"
+    },
+    {
+      "title": "Lawn Games",
+      "text": "Easy add-ons for birthdays, schools, and community events.",
+      "link": "/lawn-games"
+    },
+    {
+      "title": "Packages",
+      "text": "Bundled fun with built-in savings.",
+      "link": "/packages"
+    }
+  ],
+  "popularProductIds": [
+    "crown-island-combo",
+    "crown-rush-42",
+    "crown-axe-challenge"
+  ],
+  "howItWorks": [
+    {
+      "number": "01",
+      "title": "Choose your fun",
+      "text": "Pick a rental or package that fits your event."
+    },
+    {
+      "number": "02",
+      "title": "Send date and address",
+      "text": "Share the details so availability and travel can be checked."
+    },
+    {
+      "number": "03",
+      "title": "We confirm and deliver",
+      "text": "Booking is confirmed after availability, setup suitability, travel, and deposit details are reviewed."
+    }
+  ]
+}

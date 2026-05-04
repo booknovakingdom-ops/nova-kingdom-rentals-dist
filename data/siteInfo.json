@@ -1,0 +1,33 @@
+{
+  "businessName": "Nova Kingdom Rentals",
+  "legalOwner": "Baaz Global Inc.",
+  "phone": "902-990-0005",
+  "phoneHref": "tel:+19029900005",
+  "smsHref": "sms:+19029900005",
+  "email": "booknovakingdom@gmail.com",
+  "emailHref": "mailto:booknovakingdom@gmail.com",
+  "location": "Bridgewater, Nova Scotia",
+  "serviceArea": "Bridgewater, South Shore, Nova Scotia, and select Atlantic Canada events by availability and travel quote",
+  "announcement": "Bridgewater-based - Serving South Shore & Nova Scotia - First 15 km free",
+  "deliveryNote": "First 15 km free from Bridgewater, then $0.72/km.",
+  "availabilityNote": "Submitting a request does not confirm your booking. Nova Kingdom Rentals will confirm availability, travel cost, setup suitability, staffing requirements, and deposit details before your reservation is finalized.",
+  "insuranceNote": "Fully insured",
+  "setupNote": "Setup and takedown included",
+  "socialText": "Follow Nova Kingdom Rentals for new arrivals, event inspiration, and special offers.",
+  "socialLinks": [
+    {
+      "label": "Instagram",
+      "href": "https://www.instagram.com/novakingdomrentals?igsh=a3MwcmkwYWpqN3Zq"
+    },
+    {
+      "label": "Facebook",
+      "href": "https://www.facebook.com/novakingdomrentals?mibextid=wwXIfr&mibextid=wwXIfr"
+    },
+    {
+      "label": "WhatsApp",
+      "href": "https://wa.me/message/3RTPRNFKY45II1",
+      "buttonText": "Message Us on WhatsApp"
+    }
+  ],
+  "googleReviewHref": "https://g.page/r/CZXOs7GUjxR5EBI/review"
+}

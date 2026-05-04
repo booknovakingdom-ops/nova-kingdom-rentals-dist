@@ -1,0 +1,296 @@
+[
+  {
+    "id": "crown-island-combo",
+    "slug": "crown-island-combo",
+    "name": "Crown Island Combo",
+    "tagline": "Island Fun Like Royalty",
+    "category": "Combo Inflatable",
+    "price": "$310",
+    "status": "Available Now",
+    "image": "/images/crown island combo.jpeg",
+    "shortDescription": "Tropical combo with bounce, slide, and splash/pool fun.",
+    "fullDescription": "The Crown Island Combo brings tropical party energy with a bounce area, slide, and splash/pool zone. It is a strong choice for backyard birthdays, summer parties, and family events.",
+    "bestFor": [
+      "Backyard birthdays",
+      "Summer parties",
+      "Younger kids",
+      "Family gatherings"
+    ],
+    "features": [
+      "Bounce area",
+      "Slide",
+      "Splash/pool zone",
+      "Tropical theme",
+      "Designed for both adults and kids, up to 8 users",
+      "Adults max 2 at a time"
+    ],
+    "setupNotes": [
+      "Clear level setup area required",
+      "Power access required",
+      "Water source required for wet use",
+      "Adult supervision required at all times",
+      "Setup suitability confirmed before booking"
+    ],
+    "duration": "8 hours",
+    "wetUse": true,
+    "dimensions": "Length: 26 ft; Width: 14 ft; Height: 14.5 ft; Seat height: 4 ft 3 in",
+    "capacity": "Designed for both adults and kids, up to 8 users",
+    "specs": [
+      "Length: 26 ft",
+      "Width: 14 ft",
+      "Height: 14.5 ft",
+      "Seat height: 4 ft 3 in",
+      "Capacity: designed for both adults and kids, up to 8 users",
+      "Adults max 2 at a time",
+      "Adult supervision required"
+    ]
+  },
+  {
+    "id": "crown-axe-challenge",
+    "slug": "crown-axe-challenge",
+    "name": "Crown Axe Challenge",
+    "tagline": "Aim Like Royalty",
+    "category": "Interactive Game",
+    "price": "$180",
+    "status": "Available Now",
+    "image": "/images/crown axe thrower.jpeg",
+    "shortDescription": "Inflatable axe throwing for friendly competition.",
+    "fullDescription": "Crown Axe Challenge adds a safe competitive activity to birthdays, schools, community events, and group gatherings. It works well as a standalone game or as an add-on with an inflatable rental.",
+    "bestFor": [
+      "Older kids",
+      "Teens",
+      "Adults",
+      "Schools",
+      "Community events"
+    ],
+    "features": [
+      "Interactive game",
+      "Safe inflatable target",
+      "Great add-on",
+      "Competitive fun",
+      "Suitable for 2-4 people",
+      "Recommended for older kids, teens, and adults"
+    ],
+    "setupNotes": [
+      "Clear level setup area required",
+      "Adult supervision required",
+      "Suitable space around game required",
+      "Recommended age: 12+"
+    ],
+    "duration": "8 hours",
+    "wetUse": false,
+    "dimensions": "Width: 11.3 ft; Depth: 7.9 ft; Height: 10.2 ft",
+    "capacity": "Suitable for 2-4 people",
+    "specs": [
+      "Width: 11.3 ft",
+      "Depth: 7.9 ft",
+      "Height: 10.2 ft",
+      "Suitable for: 2-4 people",
+      "Recommended age: 12+"
+    ]
+  },
+  {
+    "id": "crown-kick-darts",
+    "slug": "crown-kick-darts",
+    "name": "Crown Kick Darts",
+    "tagline": "Kick for the Crown",
+    "category": "Interactive Game",
+    "price": "$160",
+    "status": "Available Now",
+    "image": "/images/crown football darts.jpeg",
+    "shortDescription": "Giant inflatable football darts game for all ages.",
+    "fullDescription": "Crown Kick Darts lets players kick soccer balls at a giant dartboard. It is simple, competitive, and fun for sports parties, schools, community events, teens, and adults.",
+    "bestFor": [
+      "Sports parties",
+      "Schools",
+      "Teens",
+      "Adults",
+      "Community events"
+    ],
+    "features": [
+      "Giant dartboard",
+      "Soccer ball game",
+      "Interactive competition",
+      "All-age fun",
+      "Inflation time: about 2 minutes",
+      "Accessories may include blower, pump, ropes, stakes, repair patches, sandbags, scoreboard, marker pen, storage bag, and soccer balls"
+    ],
+    "setupNotes": [
+      "Clear level setup area required",
+      "Adult supervision required",
+      "Safe play space required",
+      "Accessories may vary by event setup"
+    ],
+    "duration": "8 hours",
+    "wetUse": false,
+    "dimensions": "118.1 x 144.1 x 63 in / 3000 x 3660 x 1600 mm",
+    "specs": [
+      "Height: 10 ft / 3000 mm",
+      "Width: 12 ft / 3660 mm",
+      "Depth: 5.3 ft / 1600 mm",
+      "Product dimensions: 118.1 x 144.1 x 63 in / 3000 x 3660 x 1600 mm",
+      "Inflation time: about 2 minutes"
+    ]
+  },
+  {
+    "id": "crown-rush-42",
+    "slug": "crown-rush-42",
+    "name": "Crown Rush 42",
+    "tagline": "Conquer the Course Like Royalty",
+    "category": "Large Inflatable",
+    "price": "$450",
+    "status": "Arriving June 2026",
+    "image": "/images/crown rush 42.jpeg",
+    "shortDescription": "Large 42ft water slide and obstacle course combo.",
+    "fullDescription": "Crown Rush 42 is a large water slide and obstacle course combo built for high-energy fun. It is ideal for bigger birthdays, school events, larger yards, and community celebrations.",
+    "bestFor": [
+      "Big birthdays",
+      "Schools",
+      "Larger events",
+      "Community events"
+    ],
+    "features": [
+      "42ft water slide",
+      "Obstacle course style fun",
+      "High-energy attraction",
+      "Large visual impact"
+    ],
+    "setupNotes": [
+      "Large clear level setup area required",
+      "Power access required",
+      "Water source required for wet use",
+      "Adult supervision required at all times"
+    ],
+    "duration": "8 hours",
+    "wetUse": true,
+    "dimensions": "12.8m x 2.5m x 3.66m / 42ft x 8.2ft x 12ft"
+  },
+  {
+    "id": "crown-quest",
+    "slug": "crown-quest",
+    "name": "Crown Quest",
+    "tagline": "Conquer Every Challenge Like Royalty",
+    "category": "Obstacle Course",
+    "price": "$240",
+    "status": "Arriving June 2026",
+    "image": "/images/crown quest.jpeg",
+    "shortDescription": "Obstacle course attraction for bigger event energy.",
+    "fullDescription": "Crown Quest is an obstacle-course style inflatable built for movement, challenge, and group fun. It is especially useful for schools, community events, festivals, and larger groups.",
+    "bestFor": [
+      "Schools",
+      "Community events",
+      "Festivals",
+      "Bigger groups"
+    ],
+    "features": [
+      "Obstacle course",
+      "High-energy fun",
+      "Great for group flow",
+      "Strong event attraction"
+    ],
+    "setupNotes": [
+      "Clear level setup area required",
+      "Power access required",
+      "Adult supervision required at all times"
+    ],
+    "duration": "8 hours",
+    "wetUse": false
+  },
+  {
+    "id": "crown-cascade",
+    "slug": "crown-cascade",
+    "name": "Crown Cascade",
+    "tagline": "Make a Splash Like Royalty",
+    "category": "Water Slide",
+    "price": "$260",
+    "status": "Arriving June 2026",
+    "image": "/images/crown cascade.jpeg",
+    "shortDescription": "Colourful water slide for splash-ready summer fun.",
+    "fullDescription": "Crown Cascade is designed to bring water-slide excitement to warm-weather events. It is a great option for summer birthdays, backyard parties, and splash-ready celebrations.",
+    "bestFor": [
+      "Summer birthdays",
+      "Backyard parties",
+      "Hot-weather events",
+      "Water fun"
+    ],
+    "features": [
+      "Water slide",
+      "Colourful design",
+      "Splash-ready fun",
+      "Great summer attraction"
+    ],
+    "setupNotes": [
+      "Clear level setup area required",
+      "Power access required",
+      "Water source required",
+      "Safe drainage area required",
+      "Adult supervision required at all times"
+    ],
+    "duration": "8 hours",
+    "wetUse": true
+  },
+  {
+    "id": "crown-climber",
+    "slug": "crown-climber",
+    "name": "Crown Climber",
+    "tagline": "Reach the Top Like Royalty",
+    "category": "Challenge Inflatable",
+    "price": "$280",
+    "status": "Arriving June 2026",
+    "image": "/images/crown climber.jpeg",
+    "shortDescription": "Inflatable climbing wall attraction.",
+    "fullDescription": "Crown Climber adds a vertical challenge to events and is ideal for guests who want more than a regular bounce experience. It is a strong fit for school events, community events, and older kids.",
+    "bestFor": [
+      "Older kids",
+      "School events",
+      "Community events",
+      "Climbing challenge fun"
+    ],
+    "features": [
+      "Inflatable climbing wall",
+      "Challenge attraction",
+      "Great for older kids",
+      "Strong event add-on"
+    ],
+    "setupNotes": [
+      "Clear level setup area required",
+      "Power access required",
+      "Adult supervision required at all times"
+    ],
+    "duration": "8 hours",
+    "wetUse": false,
+    "dimensions": "5m x 4m x 4m / 16.4ft x 13.1ft x 13.1ft"
+  },
+  {
+    "id": "crown-dino-combo",
+    "slug": "crown-dino-combo",
+    "name": "Crown Dino Combo",
+    "tagline": "Bounce Like a Dino, Rule Like a King",
+    "category": "Combo Inflatable",
+    "price": "$210",
+    "status": "Arriving June 2026",
+    "image": "/images/crown dino.jpeg",
+    "shortDescription": "Dinosaur-themed combo inflatable with bounce and slide fun.",
+    "fullDescription": "Crown Dino Combo is a colourful dinosaur-themed inflatable designed for younger kids who love bounce and slide fun. It is a great choice for dinosaur birthdays and backyard parties.",
+    "bestFor": [
+      "Dinosaur birthdays",
+      "Younger kids",
+      "Backyard parties",
+      "Family events"
+    ],
+    "features": [
+      "Dinosaur theme",
+      "Bounce area",
+      "Slide",
+      "Kid-friendly design"
+    ],
+    "setupNotes": [
+      "Clear level setup area required",
+      "Power access required",
+      "Adult supervision required at all times"
+    ],
+    "duration": "8 hours",
+    "wetUse": false,
+    "dimensions": "4m x 4m x 3m / 13.1ft x 13.1ft x 9.8ft"
+  }
+]
