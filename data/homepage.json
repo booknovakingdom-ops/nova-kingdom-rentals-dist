@@ -1,8 +1,8 @@
 {
   "hero": {
     "eyebrow": "Premium Inflatable Rentals",
-    "heading": "Your Backyard Just Got Crowned",
-    "subheading": "Premium inflatable rentals, water slides, interactive games, and party packages. Bridgewater-based and serving South Shore, Nova Scotia, and select Atlantic Canada events by availability and travel quote.",
+    "heading": "Bridgewater Bounce House & Inflatable Rentals for Events",
+    "subheading": "Book bouncy castle rentals, water slide rentals, inflatable games, and lawn games in Bridgewater and across the South Shore, Nova Scotia. We also quote select Atlantic Canada events by availability and travel.",
     "primaryButton": "Check Availability",
     "secondaryButton": "View Our Lineup",
     "featuredProduct": "crown-rush-42"
@@ -14,23 +14,23 @@
     "Clean & safe equipment"
   ],
   "intro": {
-    "heading": "Premium inflatable fun, professionally handled.",
-    "text": "Nova Kingdom Rentals brings premium inflatable fun to backyard birthdays, school events, community events, and summer celebrations. We are Bridgewater-based and serve South Shore, Nova Scotia, and select Atlantic Canada events by availability and travel quote."
+    "heading": "Bridgewater-based party rentals for birthdays, schools, and community events.",
+    "text": "Nova Kingdom Rentals provides bouncy castle rentals, inflatable rentals, water slide rentals, and lawn game rentals for Bridgewater, South Shore, and Nova Scotia events. Explore Rentals, Packages, Lawn Games, Service Areas, FAQ, and Contact to plan your booking quickly."
   },
   "categories": [
     {
       "title": "Inflatables",
-      "text": "Clean, memorable event rentals.",
+      "text": "Browse all bounce house and inflatable rentals in Bridgewater NS.",
       "link": "/rentals"
     },
     {
       "title": "Water Fun",
-      "text": "Splash-ready rentals for summer events.",
+      "text": "See water slide rentals for summer birthdays and events across Nova Scotia.",
       "link": "/rentals"
     },
     {
       "title": "Interactive Games",
-      "text": "Competitive add-ons for all ages.",
+      "text": "Add interactive inflatable games for school and community events.",
       "link": "/rentals"
     },
     {
@@ -40,7 +40,7 @@
     },
     {
       "title": "Packages",
-      "text": "Bundled fun with built-in savings.",
+      "text": "Compare party rental packages built for value and larger events.",
       "link": "/packages"
     }
   ],
