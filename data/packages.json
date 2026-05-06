@@ -4,80 +4,131 @@
     "name": "Cascade Starter",
     "price": "$320",
     "savings": "$50",
-    "included": ["Crown Cascade", "5 Lawn Games"],
+    "included": [
+      "Crown Cascade",
+      "5 Lawn Games"
+    ],
     "badge": "Splash Pick",
-    "image": "/images/crown cascade.jpeg"
+    "image": "/images/crown cascade.jpeg",
+    "seoNote": "Bridgewater-based party rental package serving South Shore Nova Scotia by availability and travel quote."
   },
   {
     "id": "dino-dash",
     "name": "Dino Dash",
     "price": "$310",
     "savings": "$50",
-    "included": ["Crown Dino Combo", "Crown Kick Darts"],
+    "included": [
+      "Crown Dino Combo",
+      "Crown Kick Darts"
+    ],
     "badge": "Kids Favourite",
-    "image": "/images/crown dino.jpeg"
+    "image": "/images/crown dino.jpeg",
+    "seoNote": "Bridgewater-based party rental package serving South Shore Nova Scotia by availability and travel quote."
   },
   {
     "id": "island-splash",
     "name": "Island Splash",
     "price": "$370",
     "savings": "$50",
-    "included": ["Crown Island Combo", "5 Lawn Games"],
+    "included": [
+      "Crown Island Combo",
+      "5 Lawn Games"
+    ],
     "badge": "Summer Favourite",
-    "image": "/images/crown island combo.jpeg"
+    "image": "/images/crown island combo.jpeg",
+    "seoNote": "Bridgewater-based party rental package serving South Shore Nova Scotia by availability and travel quote."
   },
   {
     "id": "quest-games",
     "name": "Quest & Games",
     "price": "$449",
     "savings": "$81",
-    "included": ["Crown Quest", "Crown Axe Challenge", "5 Lawn Games"],
+    "included": [
+      "Crown Quest",
+      "Crown Axe Challenge",
+      "5 Lawn Games"
+    ],
     "badge": "Great for Schools",
-    "image": "/images/crown quest.jpeg"
+    "image": "/images/crown quest.jpeg",
+    "seoNote": "Bridgewater-based party rental package serving South Shore Nova Scotia by availability and travel quote."
   },
   {
     "id": "dino-party-plus",
     "name": "Dino Party Plus",
     "price": "$549",
     "savings": "$132",
-    "included": ["Crown Dino Combo", "Crown Kick Darts", "Crown Axe Challenge", "5 Lawn Games"],
+    "included": [
+      "Crown Dino Combo",
+      "Crown Kick Darts",
+      "Crown Axe Challenge",
+      "5 Lawn Games"
+    ],
     "badge": "Best Value",
-    "image": "/images/crown dino.jpeg"
+    "image": "/images/crown dino.jpeg",
+    "seoNote": "Bridgewater-based party rental package serving South Shore Nova Scotia by availability and travel quote."
   },
   {
     "id": "island-royale",
     "name": "Island Royale",
     "price": "$649",
     "savings": "$132",
-    "included": ["Crown Island Combo", "Crown Kick Darts", "Crown Axe Challenge", "5 Lawn Games"],
+    "included": [
+      "Crown Island Combo",
+      "Crown Kick Darts",
+      "Crown Axe Challenge",
+      "5 Lawn Games"
+    ],
     "badge": "Most Popular",
-    "image": "/images/crown island combo.jpeg"
+    "image": "/images/crown island combo.jpeg",
+    "seoNote": "Bridgewater-based party rental package serving South Shore Nova Scotia by availability and travel quote."
   },
   {
     "id": "royal-all-star",
     "name": "Royal All-Star",
     "price": "$849",
     "savings": "$61",
-    "included": ["Crown Rush 42", "Crown Axe Challenge", "Crown Kick Darts", "5 Lawn Games"],
+    "included": [
+      "Crown Rush 42",
+      "Crown Axe Challenge",
+      "Crown Kick Darts",
+      "5 Lawn Games"
+    ],
     "badge": "Big Event Pick",
-    "image": "/images/crown rush 42.jpeg"
+    "image": "/images/crown rush 42.jpeg",
+    "seoNote": "Bridgewater-based party rental package serving South Shore Nova Scotia by availability and travel quote."
   },
   {
     "id": "kingdom-deluxe",
     "name": "Kingdom Deluxe",
     "price": "$1,099",
     "savings": "$121",
-    "included": ["Crown Rush 42", "Crown Island Combo", "Crown Axe Challenge", "Crown Kick Darts", "5 Lawn Games"],
+    "included": [
+      "Crown Rush 42",
+      "Crown Island Combo",
+      "Crown Axe Challenge",
+      "Crown Kick Darts",
+      "5 Lawn Games"
+    ],
     "badge": "Deluxe",
-    "image": "/images/crown rush 42.jpeg"
+    "image": "/images/crown rush 42.jpeg",
+    "seoNote": "Bridgewater-based party rental package serving South Shore Nova Scotia by availability and travel quote."
   },
   {
     "id": "ultimate-kingdom",
     "name": "Ultimate Kingdom",
     "price": "$1,499",
     "savings": "$211",
-    "included": ["Crown Rush 42", "Crown Climber", "Crown Island Combo", "Crown Dino Combo", "Crown Axe Challenge", "Crown Kick Darts", "5 Lawn Games"],
+    "included": [
+      "Crown Rush 42",
+      "Crown Climber",
+      "Crown Island Combo",
+      "Crown Dino Combo",
+      "Crown Axe Challenge",
+      "Crown Kick Darts",
+      "5 Lawn Games"
+    ],
     "badge": "Ultimate Event",
-    "image": "/images/crown rush 42.jpeg"
+    "image": "/images/crown rush 42.jpeg",
+    "seoNote": "Bridgewater-based party rental package serving South Shore Nova Scotia by availability and travel quote."
   }
 ]

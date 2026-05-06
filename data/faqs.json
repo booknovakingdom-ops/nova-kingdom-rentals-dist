@@ -83,8 +83,16 @@
           "Unless otherwise stated, rentals include delivery, setup, takedown, blower, and basic setup support. Travel fees may apply depending on distance."
         ],
         [
+          "Do you deliver outside Bridgewater?",
+          "Yes. We are Bridgewater-based and deliver across the South Shore and many Nova Scotia communities by availability and travel quote. Select Atlantic Canada events can also be quoted."
+        ],
+        [
           "How far do you deliver?",
           "The first 15 km from Bridgewater is free. After that, travel is $0.72/km."
+        ],
+        [
+          "How much is delivery?",
+          "The first 15 km from Bridgewater is free. After that, travel is charged at $0.72/km and confirmed before booking."
         ],
         [
           "Do you set up and take down?",
@@ -112,6 +120,10 @@
           "A responsible adult aged 19+ must actively supervise participants at all times and remain close enough to stop unsafe use immediately."
         ],
         [
+          "Are inflatables supervised?",
+          "Yes. A responsible adult aged 19+ must actively supervise use at all times. We review safety rules at setup."
+        ],
+        [
           "Are you insured?",
           "Yes. Nova Kingdom Rentals is fully insured."
         ],
@@ -122,6 +134,10 @@
         [
           "What happens if the unit deflates, shifts, or becomes damaged?",
           "Stop use immediately and contact Nova Kingdom Rentals. Do not continue using the unit if it shifts, deflates, becomes damaged, or appears unsafe."
+        ],
+        [
+          "Can adults use the inflatables?",
+          "Some units allow limited adult participation when listed in the product details. For example, Crown Island Combo allows adults with a max of 2 at a time. Follow the unit-specific rules and supervision requirements."
         ]
       ]
     },
@@ -129,8 +145,8 @@
       "title": "Weather & Water Use",
       "items": [
         [
-          "What happens if the weather is bad?",
-          "Equipment must not be used during rain, thunderstorms, lightning, unsafe weather, or unsafe wind conditions. Weather-related decisions are handled for safety before or during the event."
+          "What happens if it rains?",
+          "For safety, inflatables cannot run in rain, thunderstorms, lightning, or unsafe wind. If weather is unsafe, we work with you on the safest available option based on timing and conditions."
         ],
         [
           "What is the wind limit?",
@@ -177,6 +193,10 @@
         [
           "Can schools and community events book?",
           "Yes. Schools, community events, festivals, and larger public events can request custom quotes. Additional supervision, site requirements, or approvals may apply."
+        ],
+        [
+          "Do you offer school and community event rentals?",
+          "Yes. We provide inflatable rentals, water slide rentals, interactive games, lawn games, and package options for school events and community events across Nova Scotia by availability and travel quote."
         ]
       ]
     }
