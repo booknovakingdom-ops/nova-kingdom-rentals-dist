@@ -44,11 +44,11 @@ export function packageIncludesAnyLawnGames(pkg) {
 
 export function getLawnGameAddonLine(pkg) {
   if (packageIncludesFiveLawnGames(pkg)) {
-    return "Upgrade from 5 lawn games to all 12 lawn games for only $150 extra.";
+    return "Upgrade from 5 Lawn Games to all 12 Lawn Games for $150";
   }
 
   if (!packageIncludesAnyLawnGames(pkg)) {
-    return "Add all 12 lawn games for $300 extra.";
+    return "Add all 12 Lawn Games for $300";
   }
 
   return "";
@@ -168,8 +168,8 @@ function renderPackagePanel(pkg) {
       </div>
 
       <div class="package-detail-copy">
-        <h3>Exactly what is included</h3>
-        <p>These Bridgewater-based party rental packages are built for South Shore Nova Scotia birthdays, school events, community events, and festivals that need simple planning and more variety.</p>
+        <h3>Included items and related photos</h3>
+        <p>These Bridgewater-based party rental packages include the items below. Photos use Nova Kingdom Rentals' existing rental and lawn game images where available.</p>
       </div>
       <div class="package-detail-items">${renderIncludedItems(pkg)}</div>
 
@@ -196,7 +196,7 @@ function setActiveButton(packageId) {
   document.querySelectorAll("[data-package-detail-button]").forEach((button) => {
     const isActive = button.dataset.packageDetailButton === packageId;
     button.setAttribute("aria-expanded", String(isActive));
-    button.textContent = isActive ? "Hide Details" : "View What’s Included";
+    button.textContent = "View What’s Included";
   });
 }
 
