@@ -161,7 +161,7 @@ function renderPackagePanel(pkg) {
       </div>
 
       <div class="package-detail-facts">
-        <article><span>Rental length</span><strong>${escapeHtml(pkg.duration || "Up to 8 hours for backyard/private rentals")}</strong></article>
+        <article><span>Rental length</span><strong>${escapeHtml(pkg.duration || "Up to 6 hours for package rentals")}</strong></article>
         <article><span>Setup</span><strong>Setup and takedown included</strong></article>
         <article><span>Delivery</span><strong>First 15 km from Bridgewater free, then $0.72/km unless otherwise quoted</strong></article>
         <article><span>Booking</span><strong>Final availability and setup suitability are confirmed manually</strong></article>
@@ -203,7 +203,8 @@ function setActiveButton(packageId) {
 function openPackage(pkg, card) {
   document.querySelector(".package-detail-panel")?.remove();
   state.activePackageId = pkg.id;
-  card.insertAdjacentHTML("afterend", renderPackagePanel(pkg));
+  const packageGrid = card.closest(".package-grid");
+  packageGrid?.insertAdjacentHTML("beforebegin", renderPackagePanel(pkg));
   setActiveButton(pkg.id);
   const panel = document.querySelector(".package-detail-panel");
   panel?.querySelector(".package-detail-close")?.addEventListener("click", () => {
@@ -218,7 +219,7 @@ function openPackage(pkg, card) {
       if (upgrade && upgradeCard) openPackage(upgrade, upgradeCard);
     });
   });
-  panel?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  panel?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function findPackageCard(pkg) {
@@ -238,19 +239,9 @@ function addSeoCopy(packageGrid) {
   packageGrid.closest("section")?.insertAdjacentElement("beforebegin", section);
 }
 
-function addLoadedMarker() {
-  if (!location.pathname.startsWith("/packages") || document.querySelector("[data-package-details-marker]")) return;
-  const marker = document.createElement("div");
-  marker.dataset.packageDetailsMarker = "true";
-  marker.textContent = "Package details script loaded";
-  marker.style.cssText = "margin:2rem auto 1rem;max-width:1100px;padding:.85rem 1rem;border:1px solid rgba(16,26,58,.18);border-radius:10px;background:#fff8df;color:#101a3a;font-weight:800;text-align:center;";
-  (document.querySelector("main") || document.body).appendChild(marker);
-}
-
 function enhancePackageCards() {
   if (!location.pathname.startsWith("/packages")) return;
   const packageGrid = document.querySelector(".package-grid");
-  addLoadedMarker();
   if (!packageGrid || !state.packages.length) return;
   addSeoCopy(packageGrid);
 
@@ -278,7 +269,6 @@ function enhancePackageCards() {
 
 async function initPackageDetails() {
   try {
-    addLoadedMarker();
     await ensureData();
     enhancePackageCards();
     state.observer = new MutationObserver(() => {
