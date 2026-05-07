@@ -238,9 +238,19 @@ function addSeoCopy(packageGrid) {
   packageGrid.closest("section")?.insertAdjacentElement("beforebegin", section);
 }
 
+function addLoadedMarker() {
+  if (!location.pathname.startsWith("/packages") || document.querySelector("[data-package-details-marker]")) return;
+  const marker = document.createElement("div");
+  marker.dataset.packageDetailsMarker = "true";
+  marker.textContent = "Package details script loaded";
+  marker.style.cssText = "margin:2rem auto 1rem;max-width:1100px;padding:.85rem 1rem;border:1px solid rgba(16,26,58,.18);border-radius:10px;background:#fff8df;color:#101a3a;font-weight:800;text-align:center;";
+  (document.querySelector("main") || document.body).appendChild(marker);
+}
+
 function enhancePackageCards() {
   if (!location.pathname.startsWith("/packages")) return;
   const packageGrid = document.querySelector(".package-grid");
+  addLoadedMarker();
   if (!packageGrid || !state.packages.length) return;
   addSeoCopy(packageGrid);
 
@@ -268,6 +278,7 @@ function enhancePackageCards() {
 
 async function initPackageDetails() {
   try {
+    addLoadedMarker();
     await ensureData();
     enhancePackageCards();
     state.observer = new MutationObserver(() => {
