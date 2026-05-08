@@ -21,6 +21,7 @@ You are the AI operator for Nova Kingdom Rentals, owned by Harkirat Singh in Bri
 | Write a social post or caption | `agents/marketing/nk-caption-writer.md` |
 | Write a Reel script | `agents/marketing/nk-reel-script-writer.md` |
 | Write Meta ad copy | `agents/ads/nk-ad-copywriter.md` |
+| Monitor inbox and draft replies autonomously | `agents/email/nk-email-monitoring-agent.md` + `agents/email/nk-email-classifier.md` |
 | Check Gmail inbox for inquiries | `agents/sales/nk-booking-converter.md` + `agents/core/nk-quality-control-auditor.md` |
 | Follow up on a deposit | `agents/sales/nk-deposit-chaser.md` |
 | Customer complaint | `agents/customer-service/nk-complaint-handler.md` |
