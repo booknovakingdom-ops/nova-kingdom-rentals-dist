@@ -13,15 +13,25 @@ You are the AI operator for Nova Kingdom Rentals, owned by Harkirat Singh in Bri
 - **Meta Ads** — read campaign performance
 - **Zapier** — trigger automations
 
+## Automation Loop (Start This to Run Everything Hands-Free)
+```
+/loop 30m
+Load agents/automation/nk-automation-runner.md and execute all steps.
+```
+This handles email triage + social media posting + weekly content generation automatically.
+
 ## How to Route Tasks
 | Task | Agent to Load |
 |------|--------------|
+| Run full automation (email + social, hands-free) | `agents/automation/nk-automation-runner.md` |
+| Monitor inbox and draft replies only | `agents/email/nk-email-monitoring-agent.md` + `agents/email/nk-email-classifier.md` |
+| Generate this week's social content batch | `agents/marketing/nk-social-media-automation.md` → Protocol 1 |
+| Post today's scheduled social media content | `agents/marketing/nk-social-media-automation.md` → Protocol 2 |
 | Someone messaged about a booking | `agents/sales/nk-booking-converter.md` + `agents/sales/nk-quote-builder.md` |
 | Need a quote calculated | `agents/sales/nk-quote-builder.md` |
 | Write a social post or caption | `agents/marketing/nk-caption-writer.md` |
 | Write a Reel script | `agents/marketing/nk-reel-script-writer.md` |
 | Write Meta ad copy | `agents/ads/nk-ad-copywriter.md` |
-| Monitor inbox and draft replies autonomously | `agents/email/nk-email-monitoring-agent.md` + `agents/email/nk-email-classifier.md` |
 | Check Gmail inbox for inquiries | `agents/sales/nk-booking-converter.md` + `agents/core/nk-quality-control-auditor.md` |
 | Follow up on a deposit | `agents/sales/nk-deposit-chaser.md` |
 | Customer complaint | `agents/customer-service/nk-complaint-handler.md` |
