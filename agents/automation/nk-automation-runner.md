@@ -5,11 +5,11 @@ This is the master agent that runs on a loop. Every time it is invoked, it execu
 
 ## How to Start the Automation Loop
 ```
-/loop 30m
+/loop 2m
 > Run the Nova Kingdom automation runner: load agents/automation/nk-automation-runner.md and execute all steps.
 ```
 
-This will run every 30 minutes continuously. To stop it, press Ctrl+C in the Claude Code terminal.
+This will run every 2 minutes continuously so email drafts are created as fast as possible. To stop it, press Ctrl+C in the Claude Code terminal.
 
 ---
 
@@ -112,7 +112,7 @@ To authenticate, run `list_enabled_zapier_actions` and follow any `auth_url` lin
 
 | Use Case | Command |
 |----------|---------|
-| Full automation (email + social) | `/loop 30m` → run automation runner |
-| Email only (lighter) | `/loop 30m` → run email monitoring agent |
+| Full automation (email + social) | `/loop 2m` → run automation runner |
+| Email only (lighter) | `/loop 2m` → run email monitoring agent |
 | Social posting only | `/loop 1h` → run social media automation Protocol 2 |
 | Weekly content generation | Manual trigger every Monday morning |
