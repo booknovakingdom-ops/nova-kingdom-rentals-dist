@@ -3,20 +3,29 @@ function removePackageIntroOutsidePackages() {
   document.querySelectorAll(".package-seo-copy").forEach((section) => section.remove());
 }
 
-function schedulePackageIntroScopeCheck() {
-  window.requestAnimationFrame(removePackageIntroOutsidePackages);
+function removeServiceAreasFromHeader() {
+  document.querySelectorAll('.site-header nav a[href="/service-areas"]').forEach((link) => link.remove());
+}
+
+function applyScopedPageAdjustments() {
+  removePackageIntroOutsidePackages();
+  removeServiceAreasFromHeader();
+}
+
+function scheduleScopedPageAdjustments() {
+  window.requestAnimationFrame(applyScopedPageAdjustments);
 }
 
 function initPackageIntroScope() {
-  removePackageIntroOutsidePackages();
-  new MutationObserver(schedulePackageIntroScopeCheck).observe(document.body, { childList: true, subtree: true });
-  window.addEventListener("popstate", schedulePackageIntroScopeCheck);
+  applyScopedPageAdjustments();
+  new MutationObserver(scheduleScopedPageAdjustments).observe(document.body, { childList: true, subtree: true });
+  window.addEventListener("popstate", scheduleScopedPageAdjustments);
 
   ["pushState", "replaceState"].forEach((method) => {
     const original = history[method];
     history[method] = function patchedPackageIntroScope(...args) {
       const result = original.apply(this, args);
-      schedulePackageIntroScopeCheck();
+      scheduleScopedPageAdjustments();
       return result;
     };
   });
