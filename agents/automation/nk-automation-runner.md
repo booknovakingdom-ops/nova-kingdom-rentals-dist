@@ -1,15 +1,15 @@
 # Nova Kingdom Automation Runner
 
 ## Role
-This is the master agent that runs on a loop. Every time it is invoked, it executes all automated tasks for Nova Kingdom Rentals in the correct order: email triage first, then social media. It is designed to be triggered by the `/loop` command on a regular interval.
+This is the master agent that runs on a loop. Every time it is invoked, it executes all automated tasks for Nova Kingdom Rentals in the correct order: email triage, DM monitoring, then social media. It is designed to be triggered by the `/loop` command on a regular interval.
 
 ## How to Start the Automation Loop
 ```
-/loop 2m
+/loop 20m
 > Run the Nova Kingdom automation runner: load agents/automation/nk-automation-runner.md and execute all steps.
 ```
 
-This will run every 2 minutes continuously so email drafts are created as fast as possible. To stop it, press Ctrl+C in the Claude Code terminal.
+This will run every 20 minutes. To stop it, press Ctrl+C in the Claude Code terminal.
 
 ---
 
@@ -83,7 +83,22 @@ If this week's content already exists in the queue: log "📝 Content: this week
 
 ---
 
-### STEP 4 — Deposit Chaser (Every Run)
+### STEP 4 — DM Monitoring: Instagram & Facebook Messenger (Every Run)
+Load and execute `agents/social/nk-dm-monitoring-agent.md` in full.
+
+This will:
+- Fetch recent Instagram DM conversations via Instagram for Business API
+- Fetch recent Facebook Messenger conversations via Facebook Pages API
+- Identify new/unread messages not yet logged
+- Classify each DM (booking inquiry, price question, complaint, etc.)
+- Log each DM + AI-suggested reply to Google Sheets `NK DM Inbox` tab
+- Flag urgent messages (complaints, confirmed payments) in the run summary
+
+If no new DMs: log "💬 DMs: no new messages." and proceed.
+
+---
+
+### STEP 5 — Deposit Chaser (Every Run)
 Load `agents/sales/nk-deposit-chaser.md`.
 
 **Search 1 — Customer deposit messages:**
@@ -109,7 +124,7 @@ If no deposit threads found: log "💳 Deposits: no new payment messages." and p
 
 ---
 
-### STEP 5 — Run Summary
+### STEP 6 — Run Summary
 After all steps complete, output a single clean summary:
 
 ```
@@ -120,6 +135,11 @@ After all steps complete, output a single clean summary:
   • Processed: [N] threads
   • Drafts created: [N]
   • Skipped (spam/blocked): [N]
+
+💬 DMs
+  • Instagram new: [N]
+  • Messenger new: [N]
+  • Logged to NK DM Inbox: [N]
 
 💳 DEPOSITS
   • New payment messages: [N]
@@ -162,6 +182,7 @@ Before the automation loop will work, these accounts must be authenticated in Za
 - [ ] **Google Sheets** — connect Google account (booknovakingdom@gmail.com)
 - [ ] **Gmail** — already connected ✅
 - [ ] **Google Sheets**: Create spreadsheet named `NK Content Queue` with worksheet `Queue` and headers in row 1: `post_date | day_of_week | platform | post_type | theme | caption | media_url | status | posted_at | notes`
+- [ ] **Google Sheets**: Create spreadsheet named `NK DM Inbox` with worksheet `Inbox` and headers in row 1: `received_at | platform | sender_name | sender_id | message_text | thread_id | intent | suggested_reply | status | notes`
 
 To authenticate, run `list_enabled_zapier_actions` and follow any `auth_url` links shown for unconnected apps.
 
@@ -171,7 +192,7 @@ To authenticate, run `list_enabled_zapier_actions` and follow any `auth_url` lin
 
 | Use Case | Command |
 |----------|---------|
-| Full automation (email + social) | `/loop 2m` → run automation runner |
-| Email only (lighter) | `/loop 2m` → run email monitoring agent |
+| Full automation (email + social + DMs) | `/loop 20m` → run automation runner |
+| Email only (lighter) | `/loop 20m` → run email monitoring agent |
 | Social posting only | `/loop 1h` → run social media automation Protocol 2 |
 | Weekly content generation | Manual trigger every Monday morning |

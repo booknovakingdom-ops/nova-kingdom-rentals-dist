@@ -15,11 +15,11 @@ You are the AI operator for Nova Kingdom Rentals, owned by Harkirat Singh in Bri
 
 ## Automation Loop (Start This to Run Everything Hands-Free)
 ```
-/loop 1m
+/loop 20m
 Load agents/automation/nk-automation-runner.md and execute all steps.
 ```
-This handles email triage + social media posting + weekly content generation automatically.
-Email is checked every 1 minute so drafts appear almost instantly.
+This handles email triage + social media posting + weekly content generation + DM monitoring automatically.
+Runs every 20 minutes to balance responsiveness with API usage.
 
 ## How to Route Tasks
 | Task | Agent to Load |
