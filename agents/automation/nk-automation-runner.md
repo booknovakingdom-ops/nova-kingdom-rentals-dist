@@ -13,16 +13,40 @@ This will run every 2 minutes continuously so email drafts are created as fast a
 
 ---
 
+## Agents Loaded Every Run
+
+Always load these before any step:
+1. `agents/core/nk-source-of-truth.md` — all pricing, products, policies, blocklist
+2. `agents/core/nk-business-operating-system.md` — master rules all agents operate inside
+
+These are the truth source. Never quote a price or confirm a policy without checking them first.
+
+---
+
 ## Execution Order (Every Run)
 
 ### STEP 1 — Email Monitoring (Every Run)
 Load and execute `agents/email/nk-email-monitoring-agent.md` in full.
 
+**Agents used by this step (loaded automatically by the email agent):**
+| Email Intent | Agent Loaded |
+|---|---|
+| Booking inquiry | `agents/sales/nk-booking-converter.md` + `agents/sales/nk-quote-builder.md` |
+| Price question | `agents/core/nk-source-of-truth.md` + `agents/sales/nk-package-recommender.md` |
+| Deposit / payment | `agents/sales/nk-deposit-chaser.md` |
+| Complaint | `agents/customer-service/nk-complaint-handler.md` |
+| Follow-up inquiry | `agents/sales/nk-cold-lead-reviver.md` |
+| Post-event | `agents/customer-service/nk-post-event-followup.md` |
+| School / org | `agents/sales/nk-school-community-events.md` |
+| Partnership / vendor | `agents/sales/nk-partnership-referral.md` |
+| Unknown | Draft holding reply, flag for Harkirat |
+| Spam | Skip — no draft |
+
 This will:
-- Scan Gmail inbox for unread emails (`is:unread in:inbox -label:AI-Drafted`)
+- `list_drafts(pageSize=50)` first → store subjects to prevent duplicates
+- Scan Gmail: `search_threads(query="is:unread in:inbox", pageSize=20)` (no label filter — deduplication handled by draft-subject check)
 - Classify each email using `agents/email/nk-email-classifier.md`
-- Draft a reply using the appropriate sales/service agent
-- Label processed threads with `AI-Drafted`
+- Draft a reply using the matched agent above
 - Output a summary table of all emails handled
 
 If inbox is clear: log "📭 Email: inbox clear" and proceed to Step 2.
@@ -31,6 +55,8 @@ If inbox is clear: log "📭 Email: inbox clear" and proceed to Step 2.
 
 ### STEP 2 — Social Media: Post Today's Scheduled Content
 Load `agents/marketing/nk-social-media-automation.md` and run **Protocol 2 — Daily Post Publishing**.
+
+**Agents used:** `agents/marketing/nk-caption-writer.md` · `agents/core/nk-source-of-truth.md`
 
 This will:
 - Query Google Sheets `NK Content Queue` for today's `Ready` posts
@@ -46,15 +72,32 @@ Check today's day of week.
 - If today is **Monday**: load `agents/marketing/nk-social-media-automation.md` and run **Protocol 1 — Weekly Content Generation**
 - Any other day: skip this step entirely
 
+**Agents used:** `agents/marketing/nk-caption-writer.md` · `agents/marketing/nk-content-calendar.md` · `agents/core/nk-source-of-truth.md`
+
 This will:
-- Generate Mon/Wed/Fri/Sun captions for the current week
+- Generate Mon/Wed/Fri/Sun captions for the current week using the monthly theme
+- Apply Crown Rush 42 launch sequence override if in May/June 2026
 - Add them as `Draft` rows in Google Sheets for Harkirat to review
 
 If this week's content already exists in the queue: log "📝 Content: this week already generated." and skip.
 
 ---
 
-### STEP 4 — Run Summary
+### STEP 4 — Deposit Chaser (Every Run)
+Load `agents/sales/nk-deposit-chaser.md`.
+
+Search Gmail for threads matching: `"deposit" OR "e-transfer" OR "etransfer" OR "sent payment" is:unread`
+
+For each match:
+- If deposit confirmed sent → draft acknowledgement + next steps (booking agreement)
+- If asking how to pay → draft payment instructions (e-transfer to booknovakingdom@gmail.com, no fee; card +5%)
+- Apply same duplicate-draft check used in Step 1
+
+If no deposit threads found: log "💳 Deposits: no new payment messages." and proceed.
+
+---
+
+### STEP 5 — Run Summary
 After all steps complete, output a single clean summary:
 
 ```
@@ -65,6 +108,10 @@ After all steps complete, output a single clean summary:
   • Processed: [N] threads
   • Drafts created: [N]
   • Skipped (spam/blocked): [N]
+
+💳 DEPOSITS
+  • New payment messages: [N]
+  • Deposit drafts created: [N]
 
 📱 SOCIAL MEDIA
   • Posted today: [N] ([platforms])
