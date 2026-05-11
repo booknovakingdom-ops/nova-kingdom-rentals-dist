@@ -28,13 +28,18 @@ If zero results: report "📭 Inbox clear — no unread threads." and stop.
 
 ### Step 3 — For each thread (process one at a time)
 1. `get_thread(threadId, messageFormat = "FULL_CONTENT")`
-2. Extract: sender email, sender name (first name only), subject, full body of the latest message, date sent
-3. **Duplicate check** — build the expected draft subject: `"re: " + subject.toLowerCase()`.
+2. **Read ALL messages in the thread from oldest to newest** — understand the full conversation history before writing anything. Never draft a reply based only on the latest message.
+3. Extract from the FULL thread: sender email, sender name (first name only), subject, complete conversation history, key facts already discussed (dates, pricing, units, deposits, requirements)
+4. Identify: the ID of the most recent message — this becomes `replyToMessageId` for the draft
+5. **Duplicate check** — build the expected draft subject: `"re: " + subject.toLowerCase()`.
    If `EXISTING_DRAFT_SUBJECTS` contains this subject: skip the thread. Log: "SKIP (draft exists): [subject]"
-4. **Blocklist check** — if sender email matches any address in `nk-source-of-truth.md § Blocklist`, skip. Log: "BLOCKED: [email]"
-5. Load `agents/email/nk-email-classifier.md` and classify the email
-6. Execute the matching Draft Protocol below
-7. After creating the draft: add `"re: " + subject.toLowerCase()` to `EXISTING_DRAFT_SUBJECTS` so subsequent threads in the same run are also deduplicated
+6. **Blocklist check** — if sender email matches any address in `nk-source-of-truth.md § Blocklist`, skip. Log: "BLOCKED: [email]"
+7. Load `agents/email/nk-email-classifier.md` and classify the email
+8. Execute the matching Draft Protocol below
+9. **When calling `create_draft`: always pass `replyToMessageId = [latest message ID]`** — this keeps the reply inside the existing thread. Never create a standalone new email for a reply.
+10. After creating the draft: add `"re: " + subject.toLowerCase()` to `EXISTING_DRAFT_SUBJECTS` so subsequent threads in the same run are also deduplicated
+
+**Critical rule: Never invent details.** Only reference facts explicitly stated in the thread. If the full history contradicts the latest message, flag it for Harkirat.
 
 ### Step 4 — Report summary
 After all threads are processed, output a clean table:

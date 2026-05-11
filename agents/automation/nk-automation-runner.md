@@ -86,12 +86,24 @@ If this week's content already exists in the queue: log "📝 Content: this week
 ### STEP 4 — Deposit Chaser (Every Run)
 Load `agents/sales/nk-deposit-chaser.md`.
 
-Search Gmail for threads matching: `"deposit" OR "e-transfer" OR "etransfer" OR "sent payment" is:unread`
+**Search 1 — Customer deposit messages:**
+Search Gmail: `("deposit" OR "e-transfer" OR "etransfer" OR "sent payment") is:unread`
 
 For each match:
-- If deposit confirmed sent → draft acknowledgement + next steps (booking agreement)
+- Load the FULL thread with `get_thread(FULL_CONTENT)` — read all prior messages to understand the booking context
+- If deposit confirmed sent → draft acknowledgement + confirmed booking summary + next steps (invoice, rental agreement, waiver)
 - If asking how to pay → draft payment instructions (e-transfer to booknovakingdom@gmail.com, no fee; card +5%)
+- Always reply with `replyToMessageId` = latest message ID in the thread
 - Apply same duplicate-draft check used in Step 1
+
+**Search 2 — Interac auto-deposit notifications:**
+Search Gmail: `from:notify@payments.interac.ca OR from:catch@payments.interac.ca is:unread`
+
+For each Interac notification:
+- Extract: amount received, sender name (payer)
+- Match the payer name to an open booking thread in the inbox
+- If match found: draft a deposit confirmation reply on that booking thread
+- If no match found: flag in ACTION REQUIRED — "Interac deposit received from [name] — no matching booking thread found"
 
 If no deposit threads found: log "💳 Deposits: no new payment messages." and proceed.
 
