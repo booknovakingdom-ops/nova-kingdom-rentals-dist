@@ -165,7 +165,28 @@ After all threads are processed, output a clean table:
 ---
 
 ### SPAM_OR_IRRELEVANT
-*Trigger: newsletter, promo, automated notification, off-topic.*
+*Trigger: any of the following — skip entirely, no draft, no CRM entry.*
+
+**Always skip:**
+- Newsletters and marketing promos
+- Meta / Facebook ad approval notifications
+- Google security alerts
+- Make / Zapier error notifications
+- No-reply automated emails
+- Generic promotions
+- Supplier emails (unless about equipment delivery or procurement)
+- Interac / QuickBooks / Stripe / payment processor auto-notifications (handle in DEPOSIT step instead)
+
+**Always process:**
+- Customer booking inquiries
+- Quote replies
+- Deposit / payment confirmations
+- Invoice questions
+- Agreement / waiver messages
+- School / daycare / community event emails
+- Review or testimonial replies
+- Customer complaints
+- Safety or weather questions
 
 Action: Skip entirely — no draft created. Log: "Skipped (spam/irrelevant)."
 
@@ -181,15 +202,35 @@ Flag: "❓ Needs manual review"
 
 ---
 
+## Quality Gate — Run Before Every Draft
+Before creating any customer-facing draft, verify ALL of the following:
+- [ ] Correct customer name (first name only)?
+- [ ] Correct event date (if mentioned)?
+- [ ] Correct unit/package (check availability in nk-source-of-truth.md — some arrive June)?
+- [ ] Price verified against nk-source-of-truth.md (not from memory)?
+- [ ] Travel fee calculated (first 15 km free, $0.72/km after)?
+- [ ] 30% deposit amount correct?
+- [ ] Balance (total − deposit) correct?
+- [ ] No booking confirmed without deposit received?
+- [ ] No personal name (Harkirat) used — sign as "Nova Kingdom Rentals Team"?
+- [ ] No HST added (not registered)?
+- [ ] No unsafe or unavailable inventory promise?
+- [ ] Short-event pricing (3/4/5 hr) marked [TO BE CONFIRMED] if used?
+- [ ] Clear next step for the customer?
+- [ ] Human tone, not robotic?
+
+If any box fails — fix it before creating the draft.
+
 ## Draft Formatting Rules
 - Always address the sender by first name
-- Sign every draft: "— Harkirat 👑" (complaints: "— Harkirat, Nova Kingdom Rentals")
+- Sign every draft: "— Nova Kingdom Rentals Team" (never include personal name unless Harkirat explicitly requests it)
 - Never mention AI, Claude, or automation
 - Never auto-send — `create_draft` only
 - Never quote a price without verifying against `nk-source-of-truth.md`
 - Never add HST
 - Never confirm a booking without a deposit received
 - Never reply to blocklisted senders
+- Never promise equipment arriving in June as available today
 
 ## Priority Order
 When multiple unread threads exist, sort and process in this order:

@@ -19,6 +19,7 @@ Booking Days: 7 days a week, anytime
 Travel: First 15 km FREE. $0.72/km after.
 Deposit: 30% of total
 Extension 8hr to 12hr: +$60
+Staff/attendant: $30/hour
 Credit card/bank: +5%
 E-transfer: No fee (booknovakingdom@gmail.com)
 Cheque: Schools/orgs only
@@ -27,16 +28,22 @@ Setup & teardown: ALWAYS included
 NSF fee: $35
 Overstay: $50 per 30 minutes
 Silly string: $500 per unit
+Short-event pricing (3/4/5 hr): Mark [TO BE CONFIRMED] — owner must approve before quoting
+
+## Current Availability (May 2026)
+Available NOW: Crown Island Combo · Crown Axe Challenge · Crown Kick Darts · Lawn Games
+Arriving June 2026: Crown Rush 42 · Crown Quest · Crown Cascade · Crown Climber · Crown Dino Combo
+Do NOT promise unavailable equipment without owner confirmation.
 
 ## Unit Pricing (8 Hours)
-Crown Rush 42: $450 (June 2026)
-Crown Quest: $240
-Crown Cascade: $260 (wet/dry)
-Crown Climber: $280
-Crown Dino Combo: $210
-Crown Island Combo: $310 (wet/dry)
-Crown Axe Challenge: $180
-Crown Kick Darts: $160
+Crown Rush 42: $450 (available June 2026)
+Crown Quest: $240 (available June 2026)
+Crown Cascade: $260 wet/dry (available June 2026)
+Crown Climber: $280 (available June 2026)
+Crown Dino Combo: $210 (available June 2026)
+Crown Island Combo: $310 wet/dry (available NOW)
+Crown Axe Challenge: $180 (available NOW)
+Crown Kick Darts: $160 (available NOW)
 
 ## Lawn Games (12 total)
 1. Cornhole 2. Giant Connect 4 3. Giant Jenga 4. Ladder Toss 5. Ring Toss
