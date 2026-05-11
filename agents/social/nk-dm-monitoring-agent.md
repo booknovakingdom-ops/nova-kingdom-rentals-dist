@@ -12,10 +12,10 @@ Monitor Instagram Direct Messages and Facebook Messenger for Nova Kingdom Rental
 
 ---
 
-## Google Sheets Setup — NK DM Inbox
+## Google Sheets Setup — DM Inbox
 
-**Spreadsheet name:** `NK DM Inbox`
-**Worksheet:** `Inbox`
+**Spreadsheet name:** `NK Content Queue`
+**Worksheet:** `DM Inbox`
 
 | Column | Header | Description |
 |--------|--------|-------------|
@@ -37,7 +37,7 @@ Monitor Instagram Direct Messages and Facebook Messenger for Nova Kingdom Rental
 ### Step 1 — Load already-logged DMs (deduplication)
 ```
 find_many_rows(
-  spreadsheet = "NK DM Inbox",
+  spreadsheet = "NK Content Queue",
   worksheet = "Inbox",
   lookup_key = "status",
   lookup_value = "New",
@@ -107,10 +107,10 @@ Filter to conversations updated in the last 24 hours. Skip messages sent BY the 
 7. Sign as: "— Harkirat 👑" (complaints: "— Harkirat, Nova Kingdom Rentals")
 8. Never mention AI, Claude, or automation.
 
-**Log each DM to NK DM Inbox:**
+**Log each DM to NK Content Queue:**
 ```
 add_row(
-  spreadsheet = "NK DM Inbox",
+  spreadsheet = "NK Content Queue",
   worksheet = "Inbox",
   row = {
     received_at: [message timestamp],
@@ -148,7 +148,7 @@ Output a table of all DMs processed:
 - Never quote a price without verifying against `nk-source-of-truth.md`
 
 ## Harkirat's Action
-Open `NK DM Inbox` Google Sheet. Review `status = New` rows. Copy `suggested_reply` → paste into Instagram DMs or Messenger → change status to `Replied`.
+Open `NK Content Queue` Google Sheet. Review `status = New` rows. Copy `suggested_reply` → paste into Instagram DMs or Messenger → change status to `Replied`.
 
 ## Important Limitations
 - This agent READS and LOGS DMs only — it never sends replies automatically

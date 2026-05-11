@@ -182,7 +182,7 @@ Before the automation loop will work, these accounts must be authenticated in Za
 - [ ] **Google Sheets** — connect Google account (booknovakingdom@gmail.com)
 - [ ] **Gmail** — already connected ✅
 - [ ] **Google Sheets**: Create spreadsheet named `NK Content Queue` with worksheet `Queue` and headers in row 1: `post_date | day_of_week | platform | post_type | theme | caption | media_url | status | posted_at | notes`
-- [ ] **Google Sheets**: Create spreadsheet named `NK DM Inbox` with worksheet `Inbox` and headers in row 1: `received_at | platform | sender_name | sender_id | message_text | thread_id | intent | suggested_reply | status | notes`
+- [ ] **Google Sheets**: In `NK Content Queue` spreadsheet, add a worksheet tab named `DM Inbox` with headers in row 1: `received_at | platform | sender_name | sender_id | message_text | thread_id | intent | suggested_reply | status | notes`
 
 To authenticate, run `list_enabled_zapier_actions` and follow any `auth_url` links shown for unconnected apps.
 
