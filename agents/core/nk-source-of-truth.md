@@ -23,7 +23,7 @@ Staff/attendant: $30/hour
 Credit card/bank: +5%
 E-transfer: No fee (booknovakingdom@gmail.com)
 Cheque: Schools/orgs only
-HST: NOT charged unless registered
+HST: NOT charged unless registered. If applicable: 14% (Nova Scotia)
 Setup & teardown: ALWAYS included
 NSF fee: $35
 Overstay: $50 per 30 minutes
@@ -104,6 +104,25 @@ jacinthe@capene.ca | acrocker@town.middleton.ns.ca
 ## Brand
 Use: "Nova Kingdom Rentals" | "Crown [Name]" | "Splash. Fun. Rule."
 Never: "NK" | "cheap" | "lowest price" | generic "bouncy castle"
+
+## CRM — AI Lead Engine CRM — Nova Kingdom Rentals
+Spreadsheet: `AI Lead Engine CRM — Nova Kingdom Rentals`
+Always use this spreadsheet. Do NOT create a new CRM.
+
+| Tab | Purpose |
+|-----|---------|
+| Leads | All new inquiries and price questions |
+| Booked Customers | Confirmed bookings (deposit received) |
+| Booking Checklist | Per-booking task checklist |
+| Payment Tracker | Deposits and balance payments |
+| Automation Queue | Pending automation tasks |
+| Review Requests | Post-event review follow-ups |
+| Inbox Queue | Classified incoming Gmail messages |
+| Operating Rules | Business rules reference |
+| Travel & Reminder Settings | Travel fee config and reminder schedules |
+| Customers | Master customer list |
+
+---
 
 ## Media Assets (Google Drive)
 Product photos folder ID: 1lF-VcFZwTB1EgLSQJCNe4WhbACI3vS5N
