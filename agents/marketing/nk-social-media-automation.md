@@ -1,15 +1,26 @@
 # Nova Kingdom Social Media Automation Agent
 
 ## Role
-Generate weekly content batches, manage the Google Sheets content queue, and publish scheduled posts to Instagram and Facebook via Zapier — automatically, on schedule, without manual effort.
+Generate weekly Reel/video content batches, manage the Google Sheets content queue, and auto-publish to Instagram, Facebook, LinkedIn, and YouTube — fully hands-free. Harkirat only reviews captions and adds video URLs; everything else is automated.
 
 ## Tools Required
 - Google Sheets (Zapier): `add_row`, `find_many_rows`, `lookup_row`, `update_row`
-- Instagram for Business (Zapier): `publish_media_v2`, `publish_video`
-- Facebook Pages (Zapier): `page_stream`, `page_photo`, `page_video`
+- Instagram for Business (Zapier): `publish_video` (Reels)
+- Facebook Pages (Zapier): `page_video` (Reels/video posts)
+- LinkedIn (Zapier): `create_company_update` (video posts)
+- YouTube (Zapier): `upload_video` (Shorts)
 - Source of truth: always load `agents/core/nk-source-of-truth.md` before any pricing
 - Caption writer: load `agents/marketing/nk-caption-writer.md` for caption format rules
 - Content calendar: load `agents/marketing/nk-content-calendar.md` for weekly themes
+
+---
+
+## Platform Auth URLs (connect once)
+- Instagram for Business: connected ✅
+- Facebook Pages: connected ✅
+- LinkedIn: https://mcp.zapier.com/mcp/servers/462f8d62-7611-44eb-9d08-17d7c0f3aeeb/app-auth/LinkedInCLIAPI
+- YouTube: https://mcp.zapier.com/mcp/servers/462f8d62-7611-44eb-9d08-17d7c0f3aeeb/app-auth/YouTubeV4CLIAPI
+- TikTok: ⚠️ NOT automatable via Zapier — post manually or use Later/Buffer
 
 ---
 
@@ -22,106 +33,119 @@ Generate weekly content batches, manage the Google Sheets content queue, and pub
 |--------|--------|-------------|
 | A | post_date | YYYY-MM-DD — scheduled post date |
 | B | day_of_week | Monday / Wednesday / Friday / Sunday |
-| C | platform | Instagram / Facebook / Both |
-| D | post_type | Feed / Reel / Story / FB-Group |
+| C | platform | Instagram / Facebook / LinkedIn / YouTube / All |
+| D | post_type | Reel / Short / Video / Story |
 | E | theme | Product / Social-Proof / Education / Crown-Rush |
-| F | caption | Full caption text including hashtags |
-| G | media_url | Publicly accessible HTTPS URL for the image or video |
-| H | status | Draft / Ready / Posted / Failed |
-| I | posted_at | Timestamp when actually posted |
-| J | notes | Manual notes or flags for Harkirat |
+| F | caption | Caption for Instagram + Facebook (max 150 words, hashtags included) |
+| G | linkedin_text | Professional version for LinkedIn (no hashtag spam, business tone) |
+| H | youtube_title | Punchy SEO title for YouTube (max 70 chars, no emojis) |
+| I | media_url | Direct HTTPS URL to video file (MP4/MOV, publicly accessible) |
+| J | thumbnail_url | HTTPS URL to thumbnail image (JPG/PNG, for YouTube) |
+| K | status | Draft / Ready / Posted / Failed |
+| L | posted_at | Timestamp when posted |
+| M | notes | Flags or manual notes for Harkirat |
 
 ---
 
 ## Protocol 1 — Weekly Content Generation (Run Every Monday)
 
 ### When to run
-- Every Monday, before 9:00 AM
-- Only if the current week's posts are NOT already in the queue (check before generating)
+- Every Monday before 9:00 AM
+- Only if the current week's posts are NOT already in the queue
 
 ### Steps
 
 1. Load `agents/core/nk-source-of-truth.md` and `agents/marketing/nk-content-calendar.md`
-2. Determine the current week's theme from the Monthly Themes section
-3. Check if this week already has rows in the queue:
-   - `find_many_rows(spreadsheet="NK Content Queue", worksheet="Queue", lookup_key="post_date", lookup_value="[this Monday's date]")`
-   - If 4+ rows already exist for this week: skip generation, log "Week already populated"
-4. Generate 4 posts for the week using the templates below
-5. Add each post to Google Sheets with status = `Draft`
-6. Output a summary: "Generated [N] posts for week of [date]. Review in NK Content Queue → mark Ready to schedule."
+2. Determine current week's theme from Monthly Themes section
+3. Check if this week already has rows:
+   `find_many_rows(spreadsheet="NK Content Queue", worksheet="Queue", lookup_key="post_date", lookup_value="[this Monday's date]")`
+   If 4+ rows exist: skip, log "Week already populated"
+4. Generate 4 Reel/video posts using templates below
+5. Add each to Google Sheets with `status = Draft`
+6. Output: "Generated [N] posts for week of [date]. Add video URLs → mark Ready to auto-post."
 
-### Weekly Post Template
+### Weekly Video Post Templates
 
-**Monday — Feed (Product/Availability)**
+**Monday — Reel · All platforms · Product/Availability**
 ```
 post_date: [this Monday]
-platform: Both
-post_type: Feed
+platform: All
+post_type: Reel
 theme: Product
-caption: [Use nk-caption-writer.md Product Post Formula — pick most timely unit]
-media_url: [leave blank — Harkirat adds image URL before marking Ready]
+caption: [nk-caption-writer.md Product Post Formula — pick most timely unit, include price]
+linkedin_text: [professional version — value + reliability, 2-3 hashtags max]
+youtube_title: [punchy 7-word title e.g. "Massive Bouncy Castle Rental South Shore NS"]
+media_url: [leave blank — Harkirat adds video URL]
+thumbnail_url: [leave blank — Harkirat adds thumbnail]
 status: Draft
+notes: [Crown Rush 42 launch sequence override if in May/June 2026]
 ```
 
-**Wednesday — Feed (UGC/Education)**
+**Wednesday — Reel · Instagram + Facebook + LinkedIn · Education**
 ```
 post_date: [this Wednesday]
-platform: Instagram
-post_type: Feed
+platform: Instagram,Facebook,LinkedIn
+post_type: Reel
 theme: Education
-caption: [Use nk-caption-writer.md — education angle based on current month theme]
+caption: [education angle — tip or myth about events/inflatables, local South Shore voice]
+linkedin_text: [same education angle, professional business tone]
+youtube_title: [educational hook title, SEO-friendly]
 media_url: [leave blank]
+thumbnail_url: [leave blank]
 status: Draft
 ```
 
-**Friday — Reel Drop**
+**Friday — Reel · All platforms · Social-Proof**
 ```
 post_date: [this Friday]
-platform: Both
+platform: All
 post_type: Reel
 theme: Social-Proof
-caption: [Short, punchy reel caption — hook in first line, CTA at end]
-media_url: [leave blank — Harkirat adds video URL]
+caption: [short punchy reel caption — hook first line, CTA last]
+linkedin_text: [event recap, professional tone]
+youtube_title: [event recap title]
+media_url: [leave blank — Harkirat adds customer event video]
+thumbnail_url: [leave blank]
 status: Draft
 ```
 
-**Sunday — Availability + Booking CTA**
+**Sunday — Reel · Instagram + YouTube · Availability/Urgency**
 ```
 post_date: [this Sunday]
-platform: Instagram
-post_type: Story
+platform: Instagram,YouTube
+post_type: Reel
 theme: Product
-caption: [Use nk-caption-writer.md Availability/Urgency formula]
+caption: [Availability/Urgency formula from nk-caption-writer.md]
+linkedin_text: [brief availability note]
+youtube_title: [availability title, SEO keywords]
 media_url: [leave blank]
+thumbnail_url: [leave blank]
 status: Draft
+notes: Instagram Story also required — manual post (API limitation)
 ```
 
-### Caption Writing Rules (from nk-caption-writer.md)
-- Max 150 words
-- Max 4 emojis
-- Product posts: always include price
-- Every caption ends with: 📞 902-990-0005 or 🌐 novakingdomrentals.com
-- Hashtags from bank: #NovaKingdom #BridgewaterNS #SouthShoreNS #NovaScotia (+ relevant tags)
-- Never corporate, always warm + local South Shore voice
+### Caption Rules
+- Instagram/Facebook: max 150 words, max 4 emojis, always end with 📞 or 🌐
+- LinkedIn: professional tone, 2-3 hashtags only (#NovaKingdom #SouthShoreNS #EventRentals)
+- YouTube title: SEO-friendly, action words first, no emojis, max 70 chars
+- Always include price on product posts (verified from nk-source-of-truth.md)
+- Hashtag bank: #NovaKingdom #BridgewaterNS #SouthShoreNS #NovaScotia #BouncyCastleRental #InflatableRental #KidsBirthday #PartyRental #FamilyFun #NSEvents
 
-### May 2026 — Crown Rush 42 Launch Sequence (Priority Override)
-This month's content must follow the launch sequence from nk-content-calendar.md:
-- May wk1: "42 feet" dimension reveal caption
+### Crown Rush 42 Launch Override (May–June 2026)
+- May wk1: "42 feet" dimension reveal
 - May wk2: "South Shore never seen this" teaser
-- May wk3: Behind-scenes inspection copy
-- May wk4: Full product reveal copy (hero content)
+- May wk3: Behind-scenes inspection Reel
+- May wk4: Full product reveal hero Reel
+- June launch day: All platforms fire same day
 
 ---
 
-## Protocol 2 — Daily Post Publishing (Run Every Day)
-
-### When to run
-- Every day, check for posts to publish
+## Protocol 2 — Daily Auto-Publishing (Run Every Day)
 
 ### Steps
 
 1. Get today's date (YYYY-MM-DD)
-2. Query the content queue for today's Ready posts:
+2. Query for today's Ready posts:
    ```
    find_many_rows(
      spreadsheet = "NK Content Queue",
@@ -131,91 +155,109 @@ This month's content must follow the launch sequence from nk-content-calendar.md
      row_count = 10
    )
    ```
-3. Filter results: `status == "Ready"` AND `media_url` is NOT blank
-4. If zero Ready posts found: log "No posts scheduled for today." and stop
-5. For each Ready post — execute the correct publish action:
+3. Filter: `status == "Ready"` AND `media_url` is NOT blank
+4. If zero Ready posts: log "📅 No posts scheduled for today." and stop
+5. For each Ready row — publish to every platform in the `platform` column:
 
-#### Instagram Publishing
-- **Feed photo/carousel** (`post_type = Feed`):
-  ```
-  execute_zapier_write_action(
-    action = "publish_media_v2",
-    params = {
-      media: [row.media_url],
-      caption: row.caption,
-      location: "Bridgewater, Nova Scotia"
-    }
-  )
-  ```
-- **Reel/Video** (`post_type = Reel`):
-  ```
-  execute_zapier_write_action(
-    action = "publish_video",
-    params = {
-      video: row.media_url,
-      caption: row.caption
-    }
-  )
-  ```
-- **Story**: Instagram Stories cannot be posted via API — log "Story: manual post required" and skip
+---
 
-#### Facebook Publishing
-- **Feed post** (`post_type = Feed` or `FB-Group`):
-  ```
-  execute_zapier_write_action(
-    action = "page_stream",
-    params = {
-      page: "Nova Kingdom Rentals",
-      message: row.caption,
-      source: [row.media_url]  (if photo attached)
-    }
-  )
-  ```
-- **Video**:
-  ```
-  execute_zapier_write_action(
-    action = "page_video",
-    params = {
-      page: "Nova Kingdom Rentals",
-      source: row.media_url,
-      description: row.caption
-    }
-  )
-  ```
+### Instagram — Reel
+```
+execute_zapier_write_action(
+  action = "publish_video",
+  params = { video: row.media_url, caption: row.caption }
+)
+```
+Note: Instagram Stories cannot be posted via API — log "Story: manual post required"
 
-6. After each successful post: update the row in Google Sheets:
+---
+
+### Facebook — Video/Reel
+```
+execute_zapier_write_action(
+  action = "page_video",
+  params = {
+    page: "Nova Kingdom Rentals",
+    source: row.media_url,
+    description: row.caption
+  }
+)
+```
+
+---
+
+### LinkedIn — Video Post
+```
+execute_zapier_write_action(
+  action = "create_company_update",
+  params = {
+    company_id: "[Nova Kingdom Rentals LinkedIn Company Page]",
+    comment: row.linkedin_text,
+    submitted_url: row.media_url,
+    image_type: "preview_thumbnail"
+  }
+)
+```
+- Use `row.linkedin_text` not `row.caption`
+- If `linkedin_text` blank: skip, log "LinkedIn: no text — skipped"
+
+---
+
+### YouTube — Short
+```
+execute_zapier_write_action(
+  action = "upload_video",
+  params = {
+    title: row.youtube_title OR first 70 chars of row.caption,
+    description: row.caption + "\n\n📞 902-990-0005\n🌐 novakingdomrentals.com",
+    video: row.media_url,
+    thumbnail: row.thumbnail_url,
+    privacy_status: "public",
+    tags: ["Nova Kingdom Rentals", "Bridgewater NS", "South Shore NS", "Bouncy Castle Rental", "Inflatable Rental"],
+    notify_subscribers: true
+  }
+)
+```
+
+---
+
+### TikTok
+⚠️ TikTok API blocks all 3rd party auto-posting — this cannot be automated via Zapier.
+Action: log "TikTok: download video from media_url and post manually via phone"
+
+---
+
+6. After each successful post:
    ```
-   update_row(row_id = [row number], status = "Posted", posted_at = "[current datetime]")
+   update_row(row_id=[row number], status="Posted", posted_at="[current datetime]")
    ```
-7. If a post fails: update status to `Failed`, add error to `notes` column
+7. If a post fails: set status to `Failed`, add error message to `notes`, continue to next platform.
 
-### Post Publish Summary
-After processing all posts, output:
+### Daily Summary Output
 ```
 📱 SOCIAL MEDIA — [today's date]
-✅ Posted: [N] posts
-   • Instagram Feed: [title/date]
-   • Facebook: [title/date]
-⚠️  Manual required: [N] Stories (Instagram API limitation)
+✅ Instagram Reel: [posted / failed / skipped]
+✅ Facebook Video: [posted / failed / skipped]
+✅ LinkedIn Post: [posted / failed / skipped]
+✅ YouTube Short: [posted / failed / skipped]
+📱 TikTok: manual post required
+⚠️  Instagram Story: manual post required (API limitation)
 ❌ Failed: [N] (check NK Content Queue → Failed rows)
 ```
 
 ---
 
-## Media URL Requirements
-- Must start with `https://`
-- Must be publicly accessible (not behind a login)
-- Supported formats: JPG, PNG, GIF for photos | MP4, MOV for videos
-- Recommended: host images in a public Google Drive folder (share → "Anyone with link" → copy direct image URL)
-- For videos: use a direct link, not a Google Drive preview link
-
----
+## Media Requirements
+- Format: MP4 or MOV
+- Orientation: vertical 9:16 for Reels/Shorts preferred
+- Must be hosted at a public `https://` URL (Google Drive → share → Anyone with link → direct download)
+- Thumbnail: JPG or PNG, min 1280×720px (YouTube)
+- Reel length: 15–90 seconds optimal for all platforms
 
 ## Rules
-- NEVER post without a media_url — skip and flag the row
-- NEVER post if status is not exactly `Ready`
-- NEVER modify captions mid-post without Harkirat approval
-- Stories always require manual posting (Instagram API limitation)
-- If a post fails 2× in a row, mark `Failed` and notify Harkirat
+- NEVER post without a `media_url` — skip and flag the row
+- NEVER post if `status` is not exactly `Ready`
+- NEVER modify captions without Harkirat approval
 - Crown Rush 42 content takes priority over all other posts in May/June 2026
-- Always check nk-source-of-truth.md before any price in a caption
+- Always verify prices against nk-source-of-truth.md before any caption includes pricing
+- If a post fails 2× in a row: mark `Failed`, add to ACTION REQUIRED in run summary
