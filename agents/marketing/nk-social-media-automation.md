@@ -18,7 +18,7 @@ Generate weekly Reel/video content batches, manage the Google Sheets content que
 ## Platform Auth URLs (connect once)
 - Instagram for Business: connected ✅
 - Facebook Pages: connected ✅
-- LinkedIn: https://mcp.zapier.com/mcp/servers/462f8d62-7611-44eb-9d08-17d7c0f3aeeb/app-auth/LinkedInCLIAPI
+- LinkedIn: connected ✅ (personal profile: linkedin.com/in/nova-kingdom-26561440a)
 - YouTube: https://mcp.zapier.com/mcp/servers/462f8d62-7611-44eb-9d08-17d7c0f3aeeb/app-auth/YouTubeV4CLIAPI
 - TikTok: ⚠️ NOT automatable via Zapier — post manually or use Later/Buffer
 
@@ -186,18 +186,20 @@ execute_zapier_write_action(
 
 ---
 
-### LinkedIn — Video Post
+### LinkedIn — Share Post
 ```
 execute_zapier_write_action(
-  action = "create_company_update",
+  action = "share",
   params = {
-    company_id: "[Nova Kingdom Rentals LinkedIn Company Page]",
     comment: row.linkedin_text,
-    submitted_url: row.media_url,
-    image_type: "preview_thumbnail"
+    visibility__code: "anyone",
+    content__submitted_url: row.media_url,
+    content__title: row.youtube_title,
+    content__description: row.linkedin_text
   }
 )
 ```
+- Posts to Nova Kingdom Rentals personal LinkedIn profile (linkedin.com/in/nova-kingdom-26561440a)
 - Use `row.linkedin_text` not `row.caption`
 - If `linkedin_text` blank: skip, log "LinkedIn: no text — skipped"
 
