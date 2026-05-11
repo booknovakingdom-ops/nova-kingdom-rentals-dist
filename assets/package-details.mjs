@@ -11,12 +11,7 @@ export const LAWN_GAMES_LIST = [
   "Ladder Toss",
   "Ring Toss",
   "Badminton",
-  "Tug of War",
-  "Tic Tac Toe",
-  "Washer Toss",
-  "Spikeball",
-  "Bocce Ball",
-  "Croquet"
+  "Tug of War"
 ];
 
 const state = {
@@ -44,11 +39,11 @@ export function packageIncludesAnyLawnGames(pkg) {
 
 export function getLawnGameAddonLine(pkg) {
   if (packageIncludesFiveLawnGames(pkg)) {
-    return "Upgrade from 5 Lawn Games to all 12 Lawn Games for $150";
+    return "Upgrade from 5 Lawn Games to all available Lawn Games for $150";
   }
 
   if (!packageIncludesAnyLawnGames(pkg)) {
-    return "Add all 12 Lawn Games for $300";
+    return "Add all available Lawn Games for $300";
   }
 
   return "";
@@ -176,7 +171,7 @@ function renderPackagePanel(pkg) {
       <div class="package-addon-box">
         <h3>Lawn games add-on</h3>
         <p>${escapeHtml(addonLine)}</p>
-        <small>Full 12-game lineup: ${escapeHtml(LAWN_GAMES_LIST.join(", "))}.</small>
+        <small>Available lawn game lineup: ${escapeHtml(LAWN_GAMES_LIST.join(", "))}.</small>
       </div>
 
       <div class="package-upgrades">
