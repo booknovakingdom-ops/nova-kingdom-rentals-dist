@@ -65,6 +65,17 @@ After all threads are processed, output a clean table:
 5. If enough info (unit + location + date): calculate full quote using Quote Builder formula
 6. If missing info: use the First Response template asking the 3 key questions
 7. Always end with: "Want me to lock in [date]?"
+8. **Log to CRM** — add a row to `AI Lead Engine CRM — Nova Kingdom Rentals` → `Leads` worksheet:
+   - Contact Name: sender first + last name
+   - Email: sender email
+   - Phone: if mentioned in thread
+   - Source: Gmail
+   - Lead Type: Individual (birthday/personal) or School/Org as appropriate
+   - Lead Reason: brief summary of what they're asking for
+   - Suggested Offer: the unit/package quoted
+   - Priority: Hot (date within 30 days), Warm (30–90 days), Cold (no date given)
+   - Status: New Lead
+   - Last Contacted: today's date
 
 **Draft subject:** `Re: [original subject]`
 
@@ -77,6 +88,7 @@ After all threads are processed, output a clean table:
 2. Pick 2–3 most relevant units/packages for their apparent needs — do NOT paste the full price list
 3. Briefly explain what's included (delivery, setup, takedown)
 4. Soft close: "Want me to check a date for you?"
+5. **Log to CRM** — same as BOOKING_INQUIRY but Priority: Warm, Status: New Lead
 
 ---
 
@@ -87,6 +99,11 @@ After all threads are processed, output a clean table:
 2. Deposit confirmed received → confirm the exact dollar amount received, state booking is confirmed, list event summary (date, time, unit, location), state remaining balance
 3. Asking how to pay → explain e-transfer to booknovakingdom@gmail.com (no fee) or card (+5%)
 4. Confirm clear next step in closing line
+5. **Log to CRM** — find existing row by email and update, OR add new row:
+   - Status: Deposit Received
+   - Booked: Yes
+   - Last Contacted: today's date
+   - Lead Reason: include deposit amount and event date if known
 
 **Deposit confirmation rules (learned from Harkirat's edits):**
 - Say "deposit has been received" — never "automatically deposited" or internal payment system language
