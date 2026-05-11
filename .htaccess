@@ -34,6 +34,11 @@
   RewriteRule ^booking/?$ /contact [R=301,L]
   RewriteRule ^check-availability/?$ /contact [R=301,L]
 
+  # STATIC ROUTE HTML (SEO)
+  # Serve generated /route/index.html files for clean URLs before the SPA fallback.
+  RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+  RewriteRule ^(.+[^/])$ /$1/index.html [L]
+
   # REACT ROUTING FALLBACK
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
