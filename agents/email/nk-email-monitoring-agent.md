@@ -84,9 +84,15 @@ After all threads are processed, output a clean table:
 *Trigger: confirms deposit sent, asks how to pay, requests receipt.*
 
 1. Load `agents/sales/nk-deposit-chaser.md`
-2. Deposit claimed sent → thank them, confirm you'll verify and send the booking agreement
+2. Deposit confirmed received → confirm the exact dollar amount received, state booking is confirmed, list event summary (date, time, unit, location), state remaining balance
 3. Asking how to pay → explain e-transfer to booknovakingdom@gmail.com (no fee) or card (+5%)
 4. Confirm clear next step in closing line
+
+**Deposit confirmation rules (learned from Harkirat's edits):**
+- Say "deposit has been received" — never "automatically deposited" or internal payment system language
+- Only mention "rental agreement and waiver forms" as pending items — do NOT mention invoice (handled separately via QuickBooks)
+- No filler phrases like "in a separate email" or "please watch for those in a separate email" — just "please watch for those"
+- Keep it tight — booking summary + remaining balance + reminders + closing line
 
 ---
 
