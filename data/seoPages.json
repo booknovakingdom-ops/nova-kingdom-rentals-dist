@@ -8,8 +8,17 @@
     "h1": "Bouncy Castle Rentals in Bridgewater NS",
     "intro": "Nova Kingdom Rentals is Bridgewater-based and provides premium inflatable rentals, bouncy castles, water slides, interactive games, and lawn games for birthdays, schools, and community events.",
     "serviceAreaText": "Bookings are confirmed after availability, travel cost, setup suitability, staffing requirements, and deposit details are reviewed.",
-    "bestFor": ["Backyard birthdays", "School events", "Community events", "Summer parties"],
-    "featuredProductIds": ["crown-island-combo", "crown-rush-42", "crown-axe-challenge"],
+    "bestFor": [
+      "Backyard birthdays",
+      "School events",
+      "Community events",
+      "Summer parties"
+    ],
+    "featuredProductIds": [
+      "crown-island-combo",
+      "crown-rush-42",
+      "crown-axe-challenge"
+    ],
     "faq": [
       {
         "question": "Do you deliver in Bridgewater?",
@@ -21,7 +30,7 @@
       }
     ],
     "ctaHeading": "Check availability for your Bridgewater event",
-    "ctaText": "Send your date, address, and event details. We’ll confirm availability, travel cost, setup suitability, and deposit details."
+    "ctaText": "Send your date, address, and event details. We\u2019ll confirm availability, travel cost, setup suitability, and deposit details."
   },
   {
     "slug": "inflatable-rentals-south-shore-ns",
@@ -32,8 +41,17 @@
     "h1": "Inflatable Rentals on the South Shore NS",
     "intro": "Nova Kingdom Rentals is based in Bridgewater and serves South Shore communities by availability and travel quote with premium inflatables, water slides, interactive games, lawn games, and party packages.",
     "serviceAreaText": "Travel fees and availability are confirmed before booking so every South Shore event is planned around the actual address, setup area, and event needs.",
-    "bestFor": ["South Shore birthdays", "School fun days", "Community celebrations", "Outdoor summer events"],
-    "featuredProductIds": ["crown-island-combo", "crown-cascade", "crown-kick-darts"],
+    "bestFor": [
+      "South Shore birthdays",
+      "School fun days",
+      "Community celebrations",
+      "Outdoor summer events"
+    ],
+    "featuredProductIds": [
+      "crown-island-combo",
+      "crown-cascade",
+      "crown-kick-darts"
+    ],
     "faq": [
       {
         "question": "Do you serve the South Shore?",
@@ -56,8 +74,17 @@
     "h1": "Party Rentals in Chester NS",
     "intro": "Nova Kingdom Rentals is based in Bridgewater and serves Chester by availability and travel quote with inflatable rentals, water fun, interactive games, lawn games, and event packages.",
     "serviceAreaText": "For Chester events, travel fees, setup suitability, staffing needs, and availability are confirmed before booking.",
-    "bestFor": ["Birthday parties", "School celebrations", "Community events", "Family gatherings"],
-    "featuredProductIds": ["crown-island-combo", "crown-axe-challenge", "crown-kick-darts"],
+    "bestFor": [
+      "Birthday parties",
+      "School celebrations",
+      "Community events",
+      "Family gatherings"
+    ],
+    "featuredProductIds": [
+      "crown-island-combo",
+      "crown-axe-challenge",
+      "crown-kick-darts"
+    ],
     "faq": [
       {
         "question": "Do you deliver party rentals to Chester?",
@@ -65,7 +92,7 @@
       }
     ],
     "ctaHeading": "Check availability for Chester",
-    "ctaText": "Send your Chester event details and we’ll confirm availability, travel cost, setup suitability, and deposit details."
+    "ctaText": "Send your Chester event details and we\u2019ll confirm availability, travel cost, setup suitability, and deposit details."
   },
   {
     "slug": "bouncy-castle-rentals-lunenburg-ns",
@@ -76,8 +103,17 @@
     "h1": "Bouncy Castle Rentals in Lunenburg NS",
     "intro": "Nova Kingdom Rentals is based in Bridgewater and serves Lunenburg by availability and travel quote with premium bouncy castles, combo inflatables, games, and event add-ons.",
     "serviceAreaText": "Travel cost, setup suitability, and availability are confirmed before any Lunenburg booking is finalized.",
-    "bestFor": ["Lunenburg birthdays", "School events", "Summer parties", "Community celebrations"],
-    "featuredProductIds": ["crown-island-combo", "crown-dino-combo", "crown-cascade"],
+    "bestFor": [
+      "Lunenburg birthdays",
+      "School events",
+      "Summer parties",
+      "Community celebrations"
+    ],
+    "featuredProductIds": [
+      "crown-island-combo",
+      "crown-dino-combo",
+      "crown-cascade"
+    ],
     "faq": [
       {
         "question": "Do you deliver to Lunenburg?",
@@ -96,8 +132,17 @@
     "h1": "Inflatable Rentals in Mahone Bay NS",
     "intro": "Nova Kingdom Rentals is based in Bridgewater and serves Mahone Bay by availability and travel quote with premium inflatable rentals, water slides, interactive games, and lawn game add-ons.",
     "serviceAreaText": "Mahone Bay bookings are confirmed after we review availability, address, travel cost, setup suitability, and deposit details.",
-    "bestFor": ["Backyard parties", "School events", "Water fun", "Family gatherings"],
-    "featuredProductIds": ["crown-island-combo", "crown-rush-42", "crown-kick-darts"],
+    "bestFor": [
+      "Backyard parties",
+      "School events",
+      "Water fun",
+      "Family gatherings"
+    ],
+    "featuredProductIds": [
+      "crown-island-combo",
+      "crown-rush-42",
+      "crown-kick-darts"
+    ],
     "faq": [
       {
         "question": "Can you quote Mahone Bay events?",
@@ -105,7 +150,7 @@
       }
     ],
     "ctaHeading": "Check Mahone Bay availability",
-    "ctaText": "Share your event details and we’ll confirm availability, travel cost, and setup suitability."
+    "ctaText": "Share your event details and we\u2019ll confirm availability, travel cost, and setup suitability."
   },
   {
     "slug": "party-rentals-liverpool-ns",
@@ -116,8 +161,17 @@
     "h1": "Party Rentals in Liverpool NS",
     "intro": "Nova Kingdom Rentals is based in Bridgewater and serves Liverpool by availability and travel quote with inflatable party rentals, water slides, interactive games, lawn games, and packages.",
     "serviceAreaText": "For Liverpool events, travel cost and availability are confirmed before booking so your quote reflects the real event address and setup needs.",
-    "bestFor": ["Birthday parties", "Community events", "School celebrations", "Summer rentals"],
-    "featuredProductIds": ["crown-cascade", "crown-island-combo", "crown-axe-challenge"],
+    "bestFor": [
+      "Birthday parties",
+      "Community events",
+      "School celebrations",
+      "Summer rentals"
+    ],
+    "featuredProductIds": [
+      "crown-cascade",
+      "crown-island-combo",
+      "crown-axe-challenge"
+    ],
     "faq": [
       {
         "question": "Do you serve Liverpool, Nova Scotia?",
@@ -136,8 +190,17 @@
     "h1": "Bouncy Castle Rentals in Shelburne NS",
     "intro": "Nova Kingdom Rentals is based in Bridgewater and serves Shelburne by availability and travel quote for bouncy castle rentals, inflatable games, water fun, and custom event packages.",
     "serviceAreaText": "Shelburne event requests are reviewed for travel distance, setup suitability, staffing requirements, weather, availability, and deposit details before booking.",
-    "bestFor": ["Family celebrations", "School events", "Community days", "Larger outdoor parties"],
-    "featuredProductIds": ["crown-island-combo", "crown-rush-42", "crown-kick-darts"],
+    "bestFor": [
+      "Family celebrations",
+      "School events",
+      "Community days",
+      "Larger outdoor parties"
+    ],
+    "featuredProductIds": [
+      "crown-island-combo",
+      "crown-rush-42",
+      "crown-kick-darts"
+    ],
     "faq": [
       {
         "question": "Can you deliver to Shelburne?",
@@ -145,7 +208,7 @@
       }
     ],
     "ctaHeading": "Check Shelburne rental availability",
-    "ctaText": "Send your event details and we’ll review availability, travel cost, staffing needs, and setup suitability."
+    "ctaText": "Send your event details and we\u2019ll review availability, travel cost, staffing needs, and setup suitability."
   },
   {
     "slug": "inflatable-rentals-yarmouth-ns",
@@ -156,8 +219,17 @@
     "h1": "Inflatable Rentals in Yarmouth NS",
     "intro": "Nova Kingdom Rentals is based in Bridgewater and can quote Yarmouth inflatable rentals by availability, travel distance, staffing requirements, and setup needs.",
     "serviceAreaText": "Yarmouth events may work best for larger bookings, schools, community events, festivals, fairs, or custom event packages where travel and staffing can be planned in advance.",
-    "bestFor": ["School events", "Community events", "Festivals", "Custom event packages"],
-    "featuredProductIds": ["crown-rush-42", "crown-quest", "crown-axe-challenge"],
+    "bestFor": [
+      "School events",
+      "Community events",
+      "Festivals",
+      "Custom event packages"
+    ],
+    "featuredProductIds": [
+      "crown-rush-42",
+      "crown-quest",
+      "crown-axe-challenge"
+    ],
     "faq": [
       {
         "question": "Do you serve Yarmouth?",
@@ -176,8 +248,17 @@
     "h1": "Party Rentals in Digby NS",
     "intro": "Nova Kingdom Rentals is based in Bridgewater and can quote Digby party rentals by availability, travel distance, staffing needs, and setup requirements.",
     "serviceAreaText": "Travel cost, setup suitability, staffing requirements, and availability are confirmed before any Digby booking is finalized.",
-    "bestFor": ["Community events", "School celebrations", "Larger parties", "Summer gatherings"],
-    "featuredProductIds": ["crown-island-combo", "crown-rush-42", "crown-axe-challenge"],
+    "bestFor": [
+      "Community events",
+      "School celebrations",
+      "Larger parties",
+      "Summer gatherings"
+    ],
+    "featuredProductIds": [
+      "crown-island-combo",
+      "crown-rush-42",
+      "crown-axe-challenge"
+    ],
     "faq": [
       {
         "question": "Do you quote Digby party rentals?",
@@ -196,8 +277,17 @@
     "h1": "Inflatable Rentals in Kentville NS",
     "intro": "Nova Kingdom Rentals is based in Bridgewater and serves Kentville and Annapolis Valley events by availability and travel quote with inflatables, games, lawn games, and event packages.",
     "serviceAreaText": "Kentville and Annapolis Valley bookings are reviewed for travel distance, setup suitability, staffing requirements, and availability before confirmation.",
-    "bestFor": ["Annapolis Valley events", "Schools", "Community celebrations", "Birthday parties"],
-    "featuredProductIds": ["crown-rush-42", "crown-cascade", "crown-kick-darts"],
+    "bestFor": [
+      "Annapolis Valley events",
+      "Schools",
+      "Community celebrations",
+      "Birthday parties"
+    ],
+    "featuredProductIds": [
+      "crown-rush-42",
+      "crown-cascade",
+      "crown-kick-darts"
+    ],
     "faq": [
       {
         "question": "Do you serve Kentville and the Annapolis Valley?",
@@ -216,8 +306,17 @@
     "h1": "Water Slide Rentals in Nova Scotia",
     "intro": "Nova Kingdom Rentals is Bridgewater-based and serves Nova Scotia water slide events by availability and travel quote, with splash-ready inflatables for summer birthdays, schools, and community celebrations.",
     "serviceAreaText": "Water-slide bookings require suitable power, water source, drainage, weather conditions, setup space, and confirmed availability before booking.",
-    "bestFor": ["Summer birthdays", "School fun days", "Community events", "Hot-weather parties"],
-    "featuredProductIds": ["crown-rush-42", "crown-cascade", "crown-island-combo"],
+    "bestFor": [
+      "Summer birthdays",
+      "School fun days",
+      "Community events",
+      "Hot-weather parties"
+    ],
+    "featuredProductIds": [
+      "crown-rush-42",
+      "crown-cascade",
+      "crown-island-combo"
+    ],
     "faq": [
       {
         "question": "Do water slides need water access?",
@@ -236,8 +335,18 @@
     "h1": "School Event Inflatable Rentals in Nova Scotia",
     "intro": "Nova Kingdom Rentals supports Nova Scotia school events by availability and travel quote with inflatables, interactive games, lawn games, and custom packages designed for organized event flow.",
     "serviceAreaText": "School bookings are reviewed for access, supervision, setup area, power, water when needed, staffing requirements, travel cost, and availability before confirmation.",
-    "bestFor": ["School fun days", "Graduation events", "Field days", "Fundraisers"],
-    "featuredProductIds": ["crown-rush-42", "crown-quest", "crown-axe-challenge", "crown-kick-darts"],
+    "bestFor": [
+      "School fun days",
+      "Graduation events",
+      "Field days",
+      "Fundraisers"
+    ],
+    "featuredProductIds": [
+      "crown-rush-42",
+      "crown-quest",
+      "crown-axe-challenge",
+      "crown-kick-darts"
+    ],
     "faq": [
       {
         "question": "Can schools request custom quotes?",
@@ -256,8 +365,18 @@
     "h1": "Community Event Rentals in Nova Scotia",
     "intro": "Nova Kingdom Rentals is Bridgewater-based and quotes Nova Scotia community events by availability, travel distance, staffing needs, and setup requirements.",
     "serviceAreaText": "Community event rentals are confirmed only after availability, travel cost, site suitability, supervision needs, and deposit details are reviewed.",
-    "bestFor": ["Community celebrations", "Festivals", "Family fun days", "Municipal events"],
-    "featuredProductIds": ["crown-rush-42", "crown-quest", "crown-kick-darts", "crown-axe-challenge"],
+    "bestFor": [
+      "Community celebrations",
+      "Festivals",
+      "Family fun days",
+      "Municipal events"
+    ],
+    "featuredProductIds": [
+      "crown-rush-42",
+      "crown-quest",
+      "crown-kick-darts",
+      "crown-axe-challenge"
+    ],
     "faq": [
       {
         "question": "Do community events need extra planning?",
@@ -272,12 +391,21 @@
     "regionType": "province",
     "title": "Lawn Game Rentals in Nova Scotia",
     "metaTitle": "Lawn Game Rentals Nova Scotia | Nova Kingdom Rentals",
-    "metaDescription": "Lawn game rentals for Nova Scotia birthdays, schools, community events, and party packages. Add Giant Connect 4, Cornhole, Ring Toss, Spikeball, and more.",
+    "metaDescription": "Lawn game rentals for Nova Scotia birthdays, schools, community events, and party packages. Available games include Cornhole, Giant Connect 4, Giant Jenga, Ladder Toss, Ring Toss, Badminton, and Tug of War.",
     "h1": "Lawn Game Rentals in Nova Scotia",
-    "intro": "Nova Kingdom Rentals offers lawn game rentals as easy add-ons or standalone requests by availability and travel quote for birthdays, schools, community events, and outdoor celebrations.",
+    "intro": "Nova Kingdom Rentals offers lawn game rentals from Bridgewater for events across the South Shore and Nova Scotia by availability and travel quote. Available games include Cornhole, Giant Connect 4, Giant Jenga, Ladder Toss, Ring Toss, Badminton, and Tug of War.",
     "serviceAreaText": "Nova Kingdom Rentals is Bridgewater-based and can quote lawn games across Nova Scotia by availability, event location, travel distance, and setup needs. Lawn games can be quoted separately or added to inflatable and package rentals.",
-    "bestFor": ["All-ages events", "Schools", "Outdoor parties", "Community gatherings"],
-    "featuredProductIds": ["crown-axe-challenge", "crown-kick-darts", "crown-island-combo"],
+    "bestFor": [
+      "All-ages events",
+      "Schools",
+      "Outdoor parties",
+      "Community gatherings"
+    ],
+    "featuredProductIds": [
+      "crown-axe-challenge",
+      "crown-kick-darts",
+      "crown-island-combo"
+    ],
     "faq": [
       {
         "question": "Can lawn games be booked without an inflatable?",
@@ -294,10 +422,20 @@
     "metaTitle": "Inflatable Rentals Halifax NS | Event Quotes Available",
     "metaDescription": "Bridgewater-based Nova Kingdom Rentals can quote select Halifax inflatable rentals for larger events, schools, community celebrations, festivals, and custom packages.",
     "h1": "Inflatable Rentals in Halifax NS",
-    "intro": "Nova Kingdom Rentals is based in Bridgewater and serves Halifax by availability and travel quote, especially for larger events, schools, community celebrations, festivals, and custom event packages.",
-    "serviceAreaText": "Halifax bookings are reviewed for travel distance, staffing needs, setup suitability, event size, and availability before confirmation.",
-    "bestFor": ["Schools", "Corporate events", "Community celebrations", "Large private events"],
-    "featuredProductIds": ["crown-rush-42", "crown-quest", "crown-axe-challenge", "crown-kick-darts"],
+    "intro": "Nova Kingdom Rentals is based in Bridgewater, not Halifax. We can quote selected larger Halifax bouncy castle rentals and inflatable rentals by availability, travel distance, staffing requirements, and setup needs. Travel quoted separately.",
+    "serviceAreaText": "Halifax bookings are reviewed case by case for event size, travel distance, staffing needs, setup suitability, and availability before confirmation. We do not operate a local Halifax branch.",
+    "bestFor": [
+      "Schools",
+      "Corporate events",
+      "Community celebrations",
+      "Large private events"
+    ],
+    "featuredProductIds": [
+      "crown-rush-42",
+      "crown-quest",
+      "crown-axe-challenge",
+      "crown-kick-darts"
+    ],
     "faq": [
       {
         "question": "Are you based in Halifax?",
@@ -305,7 +443,7 @@
       }
     ],
     "ctaHeading": "Request a Halifax event quote",
-    "ctaText": "Send your event details so we can review travel, staffing, availability, and setup requirements."
+    "ctaText": "Send your event date, address, event size, timing, and rental interests so we can review whether travel, staffing, and availability work for your booking."
   },
   {
     "slug": "bouncy-castle-rentals-dartmouth-ns",
@@ -314,10 +452,19 @@
     "metaTitle": "Bouncy Castle Rentals Dartmouth NS | Nova Kingdom Rentals",
     "metaDescription": "Bouncy castle and inflatable rentals for select Dartmouth events by availability and travel quote from Bridgewater-based Nova Kingdom Rentals.",
     "h1": "Bouncy Castle Rentals in Dartmouth NS",
-    "intro": "Nova Kingdom Rentals is based in Bridgewater and serves Dartmouth by availability and travel quote for bouncy castles, inflatables, games, and custom event packages.",
-    "serviceAreaText": "Dartmouth event requests are confirmed only after travel cost, setup suitability, staffing requirements, and availability are reviewed.",
-    "bestFor": ["Larger birthdays", "Schools", "Community events", "Custom packages"],
-    "featuredProductIds": ["crown-island-combo", "crown-rush-42", "crown-kick-darts"],
+    "intro": "Nova Kingdom Rentals is based in Bridgewater, not Dartmouth. We can quote selected larger Dartmouth bouncy castle rentals and inflatable rentals by availability, travel distance, staffing requirements, and setup needs. Travel quoted separately.",
+    "serviceAreaText": "Dartmouth bookings are reviewed case by case for event size, travel distance, staffing needs, setup suitability, and availability before confirmation. We do not operate a local Dartmouth branch.",
+    "bestFor": [
+      "Larger birthdays",
+      "Schools",
+      "Community events",
+      "Custom packages"
+    ],
+    "featuredProductIds": [
+      "crown-island-combo",
+      "crown-rush-42",
+      "crown-kick-darts"
+    ],
     "faq": [
       {
         "question": "Can you quote Dartmouth events?",
@@ -325,7 +472,7 @@
       }
     ],
     "ctaHeading": "Check Dartmouth availability",
-    "ctaText": "Send your date, address, event size, and rental interests so we can review the best fit."
+    "ctaText": "Send your event date, address, event size, timing, and rental interests so we can review whether travel, staffing, and availability work for your booking."
   },
   {
     "slug": "inflatable-rentals-truro-ns",
@@ -334,10 +481,19 @@
     "metaTitle": "Inflatable Rentals Truro NS | Nova Kingdom Rentals",
     "metaDescription": "Inflatable rentals and event packages for Truro NS by availability and travel quote. Ideal for schools, community events, and larger celebrations.",
     "h1": "Inflatable Rentals in Truro NS",
-    "intro": "Nova Kingdom Rentals is based in Bridgewater and serves Truro by availability and travel quote with inflatables, interactive games, lawn games, and custom event packages.",
-    "serviceAreaText": "Truro events are quoted based on availability, travel distance, setup suitability, staffing requirements, and event details.",
-    "bestFor": ["School events", "Community events", "Festivals", "Large celebrations"],
-    "featuredProductIds": ["crown-rush-42", "crown-quest", "crown-axe-challenge"],
+    "intro": "Nova Kingdom Rentals is based in Bridgewater, not Truro. We can quote selected larger Truro bouncy castle rentals and inflatable rentals by availability, travel distance, staffing requirements, and setup needs. Travel quoted separately.",
+    "serviceAreaText": "Truro bookings are reviewed case by case for event size, travel distance, staffing needs, setup suitability, and availability before confirmation. We do not operate a local Truro branch.",
+    "bestFor": [
+      "School events",
+      "Community events",
+      "Festivals",
+      "Large celebrations"
+    ],
+    "featuredProductIds": [
+      "crown-rush-42",
+      "crown-quest",
+      "crown-axe-challenge"
+    ],
     "faq": [
       {
         "question": "Do you serve Truro?",
@@ -345,7 +501,7 @@
       }
     ],
     "ctaHeading": "Request a Truro event quote",
-    "ctaText": "Send your event address, date, and rental interests for a travel and availability review."
+    "ctaText": "Send your event date, address, event size, timing, and rental interests so we can review whether travel, staffing, and availability work for your booking."
   },
   {
     "slug": "bouncy-castle-rentals-sydney-ns",
@@ -354,10 +510,19 @@
     "metaTitle": "Bouncy Castle Rentals Sydney NS | Select Event Quotes",
     "metaDescription": "Bouncy castle and inflatable rentals for select Sydney NS events by availability, travel distance, staffing, and setup requirements.",
     "h1": "Bouncy Castle Rentals in Sydney NS",
-    "intro": "Nova Kingdom Rentals is based in Bridgewater and can quote select Sydney events by availability, travel distance, staffing requirements, and setup needs.",
-    "serviceAreaText": "Sydney event quotes are best suited for larger events, schools, festivals, fairs, and custom event packages where travel and staffing can be planned in advance.",
-    "bestFor": ["Larger events", "Schools", "Festivals", "Custom packages"],
-    "featuredProductIds": ["crown-rush-42", "crown-quest", "crown-kick-darts"],
+    "intro": "Nova Kingdom Rentals is based in Bridgewater, not Sydney. We can quote selected larger Sydney bouncy castle rentals and inflatable rentals by availability, travel distance, staffing requirements, and setup needs. Travel quoted separately.",
+    "serviceAreaText": "Sydney bookings are reviewed case by case for event size, travel distance, staffing needs, setup suitability, and availability before confirmation. We do not operate a local Sydney branch.",
+    "bestFor": [
+      "Larger events",
+      "Schools",
+      "Festivals",
+      "Custom packages"
+    ],
+    "featuredProductIds": [
+      "crown-rush-42",
+      "crown-quest",
+      "crown-kick-darts"
+    ],
     "faq": [
       {
         "question": "Do you guarantee delivery to Sydney?",
@@ -365,7 +530,7 @@
       }
     ],
     "ctaHeading": "Request a Sydney event quote",
-    "ctaText": "Send event details early so we can review whether travel, staffing, and availability work for your date."
+    "ctaText": "Send your event date, address, event size, timing, and rental interests so we can review whether travel, staffing, and availability work for your booking."
   },
   {
     "slug": "inflatable-rentals-atlantic-canada",
@@ -374,10 +539,20 @@
     "metaTitle": "Inflatable Rentals Atlantic Canada | Custom Event Quotes",
     "metaDescription": "Select Atlantic Canada inflatable rental quotes for larger events, schools, festivals, fairs, corporate events, and community celebrations by availability and travel planning.",
     "h1": "Inflatable Rentals in Atlantic Canada",
-    "intro": "For larger events, schools, festivals, fairs, and community celebrations, Nova Kingdom Rentals can quote select Atlantic Canada events by availability, travel distance, staffing, and setup requirements.",
-    "serviceAreaText": "Atlantic Canada quotes are reviewed case by case for travel, staffing, setup suitability, ferry or distance considerations, weather, availability, and event scale.",
-    "bestFor": ["Larger events", "Schools", "Festivals", "Corporate events"],
-    "featuredProductIds": ["crown-rush-42", "crown-quest", "crown-axe-challenge", "crown-kick-darts"],
+    "intro": "For larger events, schools, festivals, fairs, and community celebrations, Nova Kingdom Rentals is based in Bridgewater, Nova Scotia and can quote selected larger Atlantic Canada events by availability, travel distance, staffing, and setup requirements. Travel quoted separately.",
+    "serviceAreaText": "Atlantic Canada quotes are reviewed case by case for travel, staffing, setup suitability, ferry or distance considerations, weather, availability, and event scale. We do not operate local branches across Atlantic Canada.",
+    "bestFor": [
+      "Larger events",
+      "Schools",
+      "Festivals",
+      "Corporate events"
+    ],
+    "featuredProductIds": [
+      "crown-rush-42",
+      "crown-quest",
+      "crown-axe-challenge",
+      "crown-kick-darts"
+    ],
     "faq": [
       {
         "question": "Do you serve all of Atlantic Canada?",
@@ -394,10 +569,20 @@
     "metaTitle": "Event Rentals Atlantic Canada | Inflatables, Games & Packages",
     "metaDescription": "Custom event rental quotes for select Atlantic Canada schools, festivals, fairs, corporate events, and community celebrations by availability and travel planning.",
     "h1": "Event Rentals in Atlantic Canada",
-    "intro": "Nova Kingdom Rentals can quote select Atlantic Canada event rentals for larger schools, festivals, fairs, corporate events, community events, and custom packages by availability and travel planning.",
-    "serviceAreaText": "Each Atlantic Canada event request is reviewed for availability, travel distance, staffing requirements, setup suitability, timing, and deposit details before confirmation.",
-    "bestFor": ["Festivals", "Fairs", "Corporate events", "Community events"],
-    "featuredProductIds": ["crown-rush-42", "crown-quest", "crown-kick-darts", "crown-axe-challenge"],
+    "intro": "Nova Kingdom Rentals is based in Bridgewater, Nova Scotia and can quote selected larger Atlantic Canada event rentals for larger schools, festivals, fairs, corporate events, community events, and custom packages by availability and travel planning. Travel quoted separately.",
+    "serviceAreaText": "Each Atlantic Canada event request is reviewed for availability, travel distance, staffing requirements, setup suitability, timing, and deposit details before confirmation. We do not operate local branches across Atlantic Canada.",
+    "bestFor": [
+      "Festivals",
+      "Fairs",
+      "Corporate events",
+      "Community events"
+    ],
+    "featuredProductIds": [
+      "crown-rush-42",
+      "crown-quest",
+      "crown-kick-darts",
+      "crown-axe-challenge"
+    ],
     "faq": [
       {
         "question": "What Atlantic Canada events are a good fit?",
@@ -414,10 +599,20 @@
     "metaTitle": "School Event Rentals Atlantic Canada | Nova Kingdom Rentals",
     "metaDescription": "School event rental quotes for select Atlantic Canada schools by availability, travel distance, staffing, supervision needs, and setup requirements.",
     "h1": "School Event Rentals in Atlantic Canada",
-    "intro": "Nova Kingdom Rentals can quote select Atlantic Canada school events by availability, travel distance, staffing requirements, supervision needs, and setup suitability.",
-    "serviceAreaText": "School events outside Nova Scotia are reviewed case by case and are not confirmed until travel, staffing, site requirements, and deposit details are approved.",
-    "bestFor": ["School fun days", "Field days", "Fundraisers", "Community school events"],
-    "featuredProductIds": ["crown-rush-42", "crown-quest", "crown-axe-challenge", "crown-kick-darts"],
+    "intro": "Nova Kingdom Rentals is based in Bridgewater, Nova Scotia and can quote selected larger Atlantic Canada school events by availability, travel distance, staffing requirements, supervision needs, and setup suitability. Travel quoted separately.",
+    "serviceAreaText": "School events outside Nova Scotia are reviewed case by case and are not confirmed until travel, staffing, site requirements, and deposit details are approved. We do not operate local branches across Atlantic Canada.",
+    "bestFor": [
+      "School fun days",
+      "Field days",
+      "Fundraisers",
+      "Community school events"
+    ],
+    "featuredProductIds": [
+      "crown-rush-42",
+      "crown-quest",
+      "crown-axe-challenge",
+      "crown-kick-darts"
+    ],
     "faq": [
       {
         "question": "Can Atlantic Canada schools request quotes?",
@@ -434,10 +629,20 @@
     "metaTitle": "Festival Inflatable Rentals Atlantic Canada | Custom Quotes",
     "metaDescription": "Festival inflatable rental quotes for select Atlantic Canada fairs, festivals, and community celebrations by availability, travel planning, staffing, and setup requirements.",
     "h1": "Festival Inflatable Rentals in Atlantic Canada",
-    "intro": "For festivals, fairs, and larger community celebrations, Nova Kingdom Rentals can quote select Atlantic Canada inflatable rentals by availability, travel distance, staffing, and setup requirements.",
-    "serviceAreaText": "Festival bookings require early planning for site access, power, water when needed, supervision, staffing, weather safety, insurance needs, travel, and deposit details.",
-    "bestFor": ["Festivals", "Fairs", "Community celebrations", "Large public events"],
-    "featuredProductIds": ["crown-rush-42", "crown-quest", "crown-kick-darts", "crown-axe-challenge"],
+    "intro": "For festivals, fairs, and larger community celebrations, Nova Kingdom Rentals is based in Bridgewater, Nova Scotia and can quote selected larger Atlantic Canada inflatable rentals by availability, travel distance, staffing, and setup requirements. Travel quoted separately.",
+    "serviceAreaText": "Festival bookings require early planning for site access, power, water when needed, supervision, staffing, weather safety, insurance needs, travel, and deposit details. We do not operate local branches across Atlantic Canada.",
+    "bestFor": [
+      "Festivals",
+      "Fairs",
+      "Community celebrations",
+      "Large public events"
+    ],
+    "featuredProductIds": [
+      "crown-rush-42",
+      "crown-quest",
+      "crown-kick-darts",
+      "crown-axe-challenge"
+    ],
     "faq": [
       {
         "question": "Can festivals request inflatable rentals?",
