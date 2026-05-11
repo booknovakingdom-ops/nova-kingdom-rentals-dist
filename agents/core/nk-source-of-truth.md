@@ -97,3 +97,43 @@ jacinthe@capene.ca | acrocker@town.middleton.ns.ca
 ## Brand
 Use: "Nova Kingdom Rentals" | "Crown [Name]" | "Splash. Fun. Rule."
 Never: "NK" | "cheap" | "lowest price" | generic "bouncy castle"
+
+## Media Assets (Google Drive)
+Product photos folder ID: 1lF-VcFZwTB1EgLSQJCNe4WhbACI3vS5N
+Owner: booknovakingdom@gmail.com
+Always use these real product photos for social posts — never AI-generated images.
+
+| File | Drive ID |
+|------|----------|
+| crown rush 42.jpeg | 1jiVv1-M_kjSHmI2arDoqxUZBmhcPIg2V |
+| crown quest.jpeg | 1B0BNnX45Hh6dWePWSAC3QNKtIigWktJO |
+| crown cascade.jpeg | 1dhcryoTqcYzC5tuYKlQ0ms8BmyWLCTMu |
+| crown climber.jpeg | 1tUdivsacPYQo52mGmaUc90SYSPMR6g9w |
+| crown dino.jpeg | 1RdZjqdc26_Lc8oQzbSdtBx7no9sfF-1t |
+| crown island combo.jpeg | 1bGj8pGMbpyERZzrLW3gZePteAUyv0TQz |
+| crown axe thrower.jpeg | 1htmbZaMWPq1w2BwrT-H5VJa9OycpJdhq |
+| crown football darts.jpeg | 1okZD8iG_v72WqbuU1J6d-8WpBk2gvxAB |
+| quest and games.jpeg | 1cd0QZl4I1fOLNvS97nyII-zEI9K859lW |
+| royal all star.jpeg | 1TxTnTJux0Ktm5NwhV8JmVUQ0lAKIzWyt |
+| ultimate kingdom.jpeg | 1t6ra1QuC1Kekq642JDIchmDhTzyq16Dz |
+| island royale.jpeg | 1hjYDrGUmziYapvH4VVwHpppaXJa69E3x |
+| dino party combo.jpeg | 1gIx8rIsXt1bEJsUCKTFZf5ejYZII7fAP |
+| kingdom deluxe.jpeg | 1YD9G3gPYLb27Mu86ZBKR3_jeUYBf2-hu |
+| island splash.jpeg | 1YN9E7ZXY52RU5N0iitzmbpSLMuoZTMMN |
+| dino dash.jpeg | 1Vrbm2W1mZ1PBe5Dw2cPanhGCcFst39sp |
+| cascade starter.jpeg | 1Av75CSLSZSOAXZx57qhEhesX3bM-MOfz |
+| nova kingdom rentals logo.jpeg | 1uooz4ydIx127ql_HbxlPi1EIeefOUmGf |
+| cornhole.png | 1Vqxl-mBfbBJhnQM3NAkaSL-XnDq3PT9B |
+| connect 4.png | 1ogwcXOEE2ag8G-Z2dK9tRSbaUYBSTN8e |
+| ladder toss.png | 1DdtiHCvjp3_pRGEhVCplzF8FZ8Ox7GKz |
+| badminton.png | 1cJLvZcEVKBJLhfPWPEzysEHz9fumSdgF |
+| giant jenga.png | 1SSC0TrVvH_slBQBrXq9OtWGPOCv_EXvp |
+| ring toss.png | 19_4cA9cWJg3wFUs1El_PI56UzEOlnI5e |
+| tug of war.png | 1Ltpj-7lbxUo9SdhFyERpymhtP3uNd7GQ |
+| croquet set.png | 1UBcu4z-uYEirzzzqklqcaQ2iHN4ihPnU |
+| spikeball pro kit.png | 1Nheq5p-MVURo9k5UhpyPJ3IyAN-CBIP_ |
+| tic tac toe.png | 1TUQXX93YMlnHao1NB1CqQswCxSnvkjW6 |
+| bocce ball set.png | 1CKov550rSuWmlYuEs6zWDPbQejkl-Xwt |
+| washer toss game.png | 1sKPgOUCDy8y7byT8WlHT0VlbqS9fxGgd |
+
+Direct download URL format: https://drive.google.com/uc?export=download&id=[FILE_ID]
