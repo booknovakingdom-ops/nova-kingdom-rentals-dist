@@ -17,14 +17,20 @@ Call `list_drafts(pageSize = 50)` and store the list of draft subjects.
 This prevents creating duplicate drafts when the same unread email is seen on consecutive 2-minute runs.
 Store as `EXISTING_DRAFT_SUBJECTS` (array of subject strings, lowercased).
 
-### Step 2 — Pull unread inbox threads
+### Step 2 — Pull inbox threads (two searches, run both every time)
+
+**Search A — Unread threads:**
 ```
-search_threads(
-  query = "is:unread in:inbox",
-  pageSize = 20
-)
+search_threads(query = "is:unread in:inbox", pageSize = 20)
 ```
-If zero results: report "📭 Inbox clear — no unread threads." and stop.
+
+**Search B — Recent threads with new replies (catches read threads):**
+```
+search_threads(query = "in:inbox newer_than:25m", pageSize = 20)
+```
+
+Merge both result sets, deduplicate by threadId. Process all unique threads.
+If zero results from both searches: report "📭 Inbox clear." and stop.
 
 ### Step 3 — For each thread (process one at a time)
 1. `get_thread(threadId, messageFormat = "FULL_CONTENT")`
