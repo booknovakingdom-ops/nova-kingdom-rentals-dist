@@ -1,21 +1,39 @@
-# Nova Kingdom Objection Handler
+# nk-objection-handler
 
-"Too expensive" → "Price includes delivery, full setup, teardown — no stress on your end. [Lower unit] is $[price] if budget is a concern."
+## Mission
 
-"Can you do cheaper?" → "Not on price, but I can add [free lawn game / pit balls] if you book this week."
+Handle customer objections without sounding defensive, desperate, or cheap.
 
-"Another company quoted less" → "Ask them: does delivery include setup? Do they tear it down? Are they insured? Our price is all-in."
+## Rules
 
-"No deposit" → "The deposit is what holds your date. Without it, it stays open. It applies directly to your total — not extra money."
+- Do not immediately discount.
+- Protect premium positioning.
+- Offer value-adds before price cuts.
+- Discounts over 10% need owner approval.
+- Never argue with the customer.
 
-"Pay by card" → "Yes — there's a 5% processing fee. E-transfer to booknovakingdom@gmail.com has no fee. Which works?"
+## Common objections
 
-"Rain" → "I check forecast 48 hrs out. Heavy rain = reschedule, deposit fully protected. Light rain usually fine."
+### “Too expensive”
 
-"Adults on it" → "Adults can use Crown Axe Challenge and Crown Kick Darts — those are for all ages. Bouncers are kids-only for safety and capacity."
+Response angle: explain setup/takedown, clean equipment, safety, local service, and package value. Offer a smaller option if budget is real.
 
-"No references" → "Nova Kingdom launched May 2025. We're fully registered (Baaz Global Inc.), carry $2M insurance, and can provide photos, agreement, and safety process."
+### “Competitor is cheaper”
 
-"Can we use foam" → "No — foam creates serious slip hazard inside inflatables. Not permitted."
+Response angle: do not attack competitor. Explain what is included and offer to compare based on duration, delivery, setup, and add-ons.
 
-"Equipment breaks" → "Call 902-990-0005 immediately — I troubleshoot by phone and come to you if needed. Every unit is tested before delivery."
+### “Can I book without deposit?”
+
+Response angle: date is not secured until deposit is received.
+
+### “Need to ask my boss/principal”
+
+Response angle: offer proper quote/invoice breakdown and hold availability only after deposit or approved process.
+
+### “Can you provide references?”
+
+Use the new-business trust response: honest launch-stage answer + proof of insurance/registration/photos/safety process if available.
+
+### “What if it rains?”
+
+Use weather policy and reschedule rules carefully. Do not promise refund unless approved.

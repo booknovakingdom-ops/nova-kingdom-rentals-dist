@@ -1,113 +1,204 @@
-# Nova Kingdom Source of Truth
-Last Updated: May 2026
+# Nova Kingdom Rentals — Source of Truth
 
-## Business Identity
-Business Name: Nova Kingdom Rentals
-Legal Entity: Baaz Global Inc.
-Owner: Harkirat Singh
-Business Phone: 902-990-0005
-Owner Personal: 902-399-6167
-Business Email: booknovakingdom@gmail.com
-Website: novakingdomrentals.com
-Instagram: https://www.instagram.com/novakingdomrentals
-Facebook: https://www.facebook.com/share/1BDmbNQfG9/
-Google Review: https://g.page/r/CZXOs7GUjxR5EBI/review
-Location: Bridgewater, Nova Scotia
-Booking Days: 7 days a week, anytime
+This file is the official business memory. Every agent must use this before making customer-facing decisions.
 
-## Pricing Rules
-Travel: First 15 km FREE. $0.72/km after.
-Deposit: 30% of total
-Extension 8hr to 12hr: +$60
-Staff/attendant: $30/hour
-Credit card/bank: +5%
-E-transfer: No fee (booknovakingdom@gmail.com)
-Cheque: Schools/orgs only
-HST: NOT charged unless registered. If applicable: 14% (Nova Scotia)
-Setup & teardown: ALWAYS included
-NSF fee: $35
-Overstay: $50 per 30 minutes
-Silly string: $500 per unit
-Short-event pricing (3/4/5 hr): Mark [TO BE CONFIRMED] — owner must approve before quoting
+## Business identity
 
-## Current Availability (May 2026)
-Available NOW: Crown Island Combo · Crown Axe Challenge · Crown Kick Darts · Lawn Games
-Arriving June 2026: Crown Rush 42 · Crown Quest · Crown Cascade · Crown Climber · Crown Dino Combo
-Do NOT promise unavailable equipment without owner confirmation.
+- Business name: Nova Kingdom Rentals
+- Ownership entity: Baaz Global Inc.
+- Base: Bridgewater, Nova Scotia
+- Website: novakingdomrentals.com
+- Email / e-transfer: booknovakingdom@gmail.com
+- Service language: premium, clear, local, fun, royal, trustworthy
+- Customer-facing sender: Nova Kingdom Rentals or Nova Kingdom Rentals Team
+- Do not use the owner’s personal name in customer-facing drafts unless explicitly requested.
 
-## Unit Pricing (8 Hours)
-Crown Rush 42: $450 (available June 2026)
-Crown Quest: $240 (available June 2026)
-Crown Cascade: $260 wet/dry (available June 2026)
-Crown Climber: $280 (available June 2026)
-Crown Dino Combo: $210 (available June 2026)
-Crown Island Combo: $310 wet/dry (available NOW)
-Crown Axe Challenge: $180 (available NOW)
-Crown Kick Darts: $160 (available NOW)
+## Core offer
 
-## Lawn Games (12 total)
-1. Cornhole 2. Giant Connect 4 3. Giant Jenga 4. Ladder Toss 5. Ring Toss
-6. Badminton 7. Tug of War 8. Tic Tac Toe 9. Washer Toss 10. Spikeball
-11. Bocce Ball 12. Croquet
+Nova Kingdom Rentals provides inflatable rentals, party rentals, lawn games, and event add-ons for birthdays, schools, daycares, community events, fundraisers, churches, and private parties.
 
-Pricing: Any 5 games: $150 | All 12: $250 | Upgrade 5→12: +$100
+## Delivery and travel
 
-## Event Packages (6 Hours)
-Cascade Starter: $320 — Crown Cascade + 5 Games (save $50)
-Dino Dash: $310 — Crown Dino Combo + Crown Kick Darts (save $50)
-Island Splash: $370 — Crown Island Combo + 5 Games (save $50)
-Quest & Games: $449 — Crown Quest + Crown Axe + 5 Games (save $81)
-Dino Party Plus: $549 — Crown Dino + Crown Kick Darts + Crown Axe + 5 Games (save $132)
-Island Royale: $649 — Crown Island + Crown Kick Darts + Crown Axe + 5 Games (save $132)
-Royal All-Star: $849 — Crown Rush 42 + Crown Axe + Crown Kick Darts + 5 Games (save $61)
-Kingdom Deluxe: $1,099 — Crown Rush 42 + Crown Island + Crown Axe + Crown Kick Darts + 5 Games (save $121)
-Ultimate Kingdom: $1,499 — Crown Rush 42 + Crown Climber + Crown Island + Crown Dino + Crown Axe + Crown Kick Darts + 5 Games (save $211)
+- First 15 km from Bridgewater are free unless a custom quote says otherwise.
+- Travel after the free zone: $0.72/km.
+- Always ask for the event address before a final quote.
+- For distant small bookings, flag low-margin risk and consider minimum order or package upsell.
 
-Lawn game upgrade: Package has 5 → upgrade to all 12 for +$100 | Package has none → add 5 for $150 / all 12 for $250
+## Payment rules
 
-## Cancellation Policy
-24+ hrs notice: One reschedule within 90 days
-Under 24 hrs: No refund, no reschedule
-Weather reschedule: 12 hrs written notice required
-Shutdown before 50% rental elapsed: 50% credit valid 90 days
-Shutdown at/after 50%: No refund
+- Standard deposit: 30% to secure booking.
+- Remaining balance: due at delivery/setup unless another written arrangement is approved.
+- Booking is not confirmed until deposit is received.
+- E-transfer accepted at booknovakingdom@gmail.com.
+- Schools/organizations may request invoice and cheque payment; still flag that date is secured according to approved payment terms.
+- Credit card/bank processing fee: 5% if used, unless owner waives it.
+- HST: do not charge unless registered or required. If asked: “HST is not charged at this time unless applicable/required.” If the business becomes registered/required to collect, use the current Nova Scotia HST rate, which is 14% as of April 1, 2025, unless CRA/NS rules change.
 
-## Safety Limits
-Wind: Stop at or above 38 km/h
-Thunder/lightning: Immediate shutdown
-Alcohol events: Prior written approval required
+## Standard private/backyard 8-hour individual pricing
 
-## Prohibited Items
-Silly string: $500/unit | Face paint/glitter/confetti: cleaning fee
-Food/drinks inside: cleaning fee | Foam machines: NOT permitted
+| Item | Standard price | Duration |
+|---|---:|---|
+| Crown Rush 42 | $450 | 8 hours |
+| Crown Quest | $240 | 8 hours |
+| Crown Cascade | $260 | 8 hours |
+| Crown Climber | $280 | 8 hours |
+| Crown Dino Combo | $210 | 8 hours |
+| Crown Island Combo | $310 | 8 hours |
+| Crown Axe Challenge | $180 | 8 hours |
+| Crown Kick Darts | $160 | 8 hours |
 
-## Equipment Costs
-Crown Island Combo: $2,200 CAD
-Crown Axe Challenge: $600 CAD
-Crown Kick Darts: $370 CAD
-Crown Rush 42: ~$1,029 USD + freight share
+## Current / near-term inventory note
 
-## Supplier: DFRL (Xiangcheng Dongfang Ruilong)
-Location: Zhoukou, Henan, China
-WhatsApp: +86 18339409887 | Email: 18339409887@163.com
-Material: 0.55mm PVC | Lead time: ~30 days | Payment: 70% deposit
+Current available lineup has included Crown Island Combo, Axe Thrower/Crown Axe Challenge, Football Darts/Crown Kick Darts, and Lawn Games. Other larger units were planned for June arrival. Before promising any unit, verify the current inventory and arrival status.
 
-## Insurance
-Broker: Link 1408 | Type: Commercial General Liability
-Coverage: $2,000,000 | Renewal: April 28 | Reminder: February 28
+## Branded product names and positioning
 
-## Blocklist
-NEVER: smilesandchucklesbrookfield@gmail.com
-Corrected: hia@tcrce.ca | lhs@tcrce.ca | dnces@tcrce.ca
-jacinthe@capene.ca | acrocker@town.middleton.ns.ca
+| Product | Tagline / positioning |
+|---|---|
+| Crown Rush 42 | Conquer the Course Like Royalty — 42 ft obstacle + water slide combo |
+| Crown Quest | Conquer Every Challenge Like Royalty — obstacle course |
+| Crown Cascade | Make a Splash Like Royalty — water slide |
+| Crown Climber | Reach the Top Like Royalty — climbing wall |
+| Crown Dino Combo | Bounce Like a Dino, Rule Like a King |
+| Crown Island Combo | Island Fun Like Royalty — bounce + slide + pool/ball pit option |
+| Crown Axe Challenge | inflatable axe throwing challenge |
+| Crown Kick Darts | football darts challenge |
 
-## Brand
-Use: "Nova Kingdom Rentals" | "Crown [Name]" | "Splash. Fun. Rule."
-Never: "NK" | "cheap" | "lowest price" | generic "bouncy castle"
+## 6-hour event/package pricing
+
+| Package | Price | Regular value | Savings | Includes |
+|---|---:|---:|---:|---|
+| Cascade Starter | $320 | $370 | $50 | Crown Cascade + 5 Lawn Games |
+| Dino Dash | $310 | $360 | $50 | Crown Dino Combo + Crown Kick Darts |
+| Island Splash | $370 | $420 | $50 | Crown Island Combo + 5 Lawn Games |
+| Quest & Games | $449 | $530 | $81 | Crown Quest + Crown Axe Challenge + 5 Lawn Games |
+| Dino Party Plus | $549 | $681 | $132 | Crown Dino Combo + Crown Kick Darts + Crown Axe Challenge + 5 Lawn Games |
+| Island Royale | $649 | $781 | $132 | Crown Island Combo + Crown Kick Darts + Crown Axe Challenge + 5 Lawn Games |
+| Royal All-Star | $849 | $910 | $61 | Crown Rush 42 + Crown Axe Challenge + Crown Kick Darts + 5 Lawn Games |
+| Kingdom Deluxe | $1,099 | $1,220 | $121 | Crown Rush 42 + Crown Island Combo + Crown Axe Challenge + Crown Kick Darts + 5 Lawn Games |
+| Ultimate Kingdom | $1,499 | $1,710 | $211 | Crown Rush 42 + Crown Climber + Crown Island Combo + Crown Dino Combo + Crown Axe Challenge + Crown Kick Darts + 5 Lawn Games |
+
+## Lawn games
+
+Known lawn games include Cornhole, Giant Connect 4, Giant Jenga, Ladder Toss, Ring Toss, Badminton, Tug of War, Tic Tac Toe, Washer Toss, Spikeball, Bocce Ball, and Croquet.
+
+Pricing logic:
+
+- 5 lawn games standalone: $150.
+- If a package already includes 5 lawn games, offer upgrade to all 12 lawn games for +$100 extra.
+- If a package does not include lawn games, offer all 12 lawn games for $250.
+- Do not invent individual game pricing without approval.
+
+## Staffing and attendants
+
+- Attendant/supervisor rate: $30/hour per person unless owner changes it.
+- Inflatables require responsible adult supervision.
+- Lawn games, Crown Axe Challenge, and Crown Kick Darts do not normally require dedicated attendants, but attendants can be arranged if requested or recommended for public events.
+- For large school/public events, recommend or require attendants based on risk.
+
+## Safety and setup rules
+
+- Indoor gym setups require sandbags because stakes cannot be used indoors.
+- Weather, wind, thunder/lightning, surface, water, power, and supervision must be checked.
+- Customer must provide safe site access, suitable surface, required power/water, and adult supervision unless staff are booked.
+- Water should be turned off at least 1 hour before pickup for wet units.
+- Foam can create slippery conditions around inflatables; flag this as a serious safety concern and require owner review.
+- Never operate or recommend operation if safety conditions are not met.
+
+## Weather / reschedule rules
+
+- Customer should monitor weather and give written notice at least 12 hours before event for weather-related reschedule request.
+- Deposit is normally non-refundable but may transfer to one rescheduled date within 90 days if policy requirements are met.
+- Within 24 hours or after setup, refund/reschedule options are limited and require policy/owner review.
+- Company may shut down or refuse operation for safety.
+
+## Customer trust rules
+
+Nova Kingdom Rentals is a newer business. If asked for references, be honest:
+
+- Say the business launched in May 2026 and is building its review base.
+- Offer proof of insurance/registration if available, equipment photos, invoice, agreement, and safety/setup process.
+- Do not fake references or exaggerate history.
+
+## Communication tone
+
+- Human, short, clear, not robotic.
+- Customer messages should usually be shorter than internal notes.
+- Avoid overexplaining unless the customer needs institutional detail.
+- For schools and organizations, use professional email style.
+- For Facebook/Instagram leads, use short friendly replies.
+
+## Insurance and trust documents
+
+- Standard insurance reference: $2M liability coverage.
+- Broker reference: Broker Link 1408.
+- Renewal / key insurance date: April 28.
+- When customers, schools, municipalities, or event organizers ask for insurance, offer proof/certificate where available and route through Documents & Legal Manager.
+- Do not claim a specific certificate has been issued for an event until the document exists and is verified.
+
+## Review link
+
+- Google Review link: https://g.page/r/CZXOs7GUjxR5EBI/review
+- Use this in review-request templates after completed events.
+
+## Short-event pricing
+
+- 3-hour, 4-hour, 5-hour, and other shortened event pricing is [TO BE CONFIRMED] unless a specific approved quote exists.
+- Do not invent short-event pricing. Draft options and flag owner approval required.
+
+## Approval required
+
+Owner approval required for:
+
+- Refunds
+- Discounts over 10%
+- Free delivery outside normal range
+- Safety exceptions
+- Public events with unusual risk
+- Injury/incident complaints
+- Legal threats
+- Insurance claims
+- Changing official pricing or contract terms
+- Promising unavailable or not-yet-arrived units
+- Any booking below minimum profitable margin
+
+## Business contact
+
+- Business phone: 902-990-0005
+- Owner personal: 902-399-6167
+- Business email: booknovakingdom@gmail.com
+- Instagram: https://www.instagram.com/novakingdomrentals
+- Facebook: https://www.facebook.com/share/1BDmbNQfG9/
+- Google Review: https://g.page/r/CZXOs7GUjxR5EBI/review
+- Booking days: 7 days a week, anytime
+
+## Fees and penalties
+
+- NSF fee: $35
+- Overstay fee: $50 per 30 minutes beyond rental period
+- Silly string: $500 per unit damaged
+- Face paint / glitter / confetti: cleaning fee (amount TBD)
+- Food/drinks inside inflatables: cleaning fee
+- Foam machines: NOT permitted
+
+## Safety limits
+
+- Wind: stop at or above 38 km/h
+- Thunder/lightning: immediate shutdown
+- Alcohol events: prior written approval required
+
+## Blocklist — never reply or draft for these senders
+
+- smilesandchucklesbrookfield@gmail.com
+
+Corrected emails (typo-prone, verify before sending):
+- hia@tcrce.ca | lhs@tcrce.ca | dnces@tcrce.ca
+- jacinthe@capene.ca | acrocker@town.middleton.ns.ca
 
 ## CRM — AI Lead Engine CRM — Nova Kingdom Rentals
+
 Spreadsheet: `AI Lead Engine CRM — Nova Kingdom Rentals`
-Always use this spreadsheet. Do NOT create a new CRM.
+Always use this spreadsheet. Do NOT create a new one.
 
 | Tab | Purpose |
 |-----|---------|
@@ -122,12 +213,11 @@ Always use this spreadsheet. Do NOT create a new CRM.
 | Travel & Reminder Settings | Travel fee config and reminder schedules |
 | Customers | Master customer list |
 
----
-
 ## Media Assets (Google Drive)
+
 Product photos folder ID: 1lF-VcFZwTB1EgLSQJCNe4WhbACI3vS5N
 Owner: booknovakingdom@gmail.com
-Always use these real product photos for social posts — never AI-generated images.
+Always use real product photos — never AI-generated images.
 
 | File | Drive ID |
 |------|----------|
@@ -148,18 +238,13 @@ Always use these real product photos for social posts — never AI-generated ima
 | island splash.jpeg | 1YN9E7ZXY52RU5N0iitzmbpSLMuoZTMMN |
 | dino dash.jpeg | 1Vrbm2W1mZ1PBe5Dw2cPanhGCcFst39sp |
 | cascade starter.jpeg | 1Av75CSLSZSOAXZx57qhEhesX3bM-MOfz |
-| nova kingdom rentals logo.jpeg | 1uooz4ydIx127ql_HbxlPi1EIeefOUmGf |
-| cornhole.png | 1Vqxl-mBfbBJhnQM3NAkaSL-XnDq3PT9B |
-| connect 4.png | 1ogwcXOEE2ag8G-Z2dK9tRSbaUYBSTN8e |
-| ladder toss.png | 1DdtiHCvjp3_pRGEhVCplzF8FZ8Ox7GKz |
-| badminton.png | 1cJLvZcEVKBJLhfPWPEzysEHz9fumSdgF |
-| giant jenga.png | 1SSC0TrVvH_slBQBrXq9OtWGPOCv_EXvp |
-| ring toss.png | 19_4cA9cWJg3wFUs1El_PI56UzEOlnI5e |
-| tug of war.png | 1Ltpj-7lbxUo9SdhFyERpymhtP3uNd7GQ |
-| croquet set.png | 1UBcu4z-uYEirzzzqklqcaQ2iHN4ihPnU |
-| spikeball pro kit.png | 1Nheq5p-MVURo9k5UhpyPJ3IyAN-CBIP_ |
-| tic tac toe.png | 1TUQXX93YMlnHao1NB1CqQswCxSnvkjW6 |
-| bocce ball set.png | 1CKov550rSuWmlYuEs6zWDPbQejkl-Xwt |
-| washer toss game.png | 1sKPgOUCDy8y7byT8WlHT0VlbqS9fxGgd |
+| nova kingdom rentals logo.jpeg | 1uooz4ydIx127ql_HbxlPf1EIeefOUmGf |
 
 Direct download URL format: https://drive.google.com/uc?export=download&id=[FILE_ID]
+
+## Supplier
+
+DFRL (Xiangcheng Dongfang Ruilong)
+Location: Zhoukou, Henan, China
+WhatsApp: +86 18339409887 | Email: 18339409887@163.com
+Material: 0.55mm PVC | Lead time: ~30 days | Payment: 70% deposit
