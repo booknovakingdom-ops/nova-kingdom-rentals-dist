@@ -56,19 +56,11 @@
     "accent": "navy"
   },
   {
-    "id": "tic-tac-toe",
-    "name": "Tic Tac Toe",
-    "description": "A simple oversized game that is easy for kids and families to enjoy.",
-    "bestFor": "Kids parties, family fun, indoor/outdoor events.",
-    "image": "/images/lawn-games/tic tac toe.png",
-    "accent": "gold"
-  },
-  {
-    "id": "washer-toss",
-    "name": "Washer Toss",
-    "description": "A relaxed toss game that works well for casual competitions.",
-    "bestFor": "Backyard parties, BBQs, adults and families.",
-    "image": "/images/lawn-games/washer toss game.png",
+    "id": "bocce-ball",
+    "name": "Bocce Ball",
+    "description": "A classic outdoor game that is easy to play and great for relaxed events.",
+    "bestFor": "Family gatherings, community events, adults.",
+    "image": "/images/lawn-games/bocce bll set.png",
     "accent": "green"
   },
   {
@@ -80,19 +72,27 @@
     "accent": "blue"
   },
   {
-    "id": "bocce-ball",
-    "name": "Bocce Ball",
-    "description": "A classic outdoor game that is easy to play and great for relaxed events.",
-    "bestFor": "Family gatherings, community events, adults.",
-    "image": "/images/lawn-games/bocce bll set.png",
-    "accent": "green"
+    "id": "giant-tic-tac-toe",
+    "name": "Giant Tic Tac Toe",
+    "description": "A simple oversized game that is easy for kids and families to enjoy.",
+    "bestFor": "Kids parties, family fun, indoor/outdoor events.",
+    "image": "/images/lawn-games/tic tac toe.png",
+    "accent": "gold"
   },
   {
     "id": "croquet",
     "name": "Croquet",
-    "description": "A timeless lawn game with a relaxed, classy feel.",
+    "description": "A timeless lawn game with a relaxed, classic feel.",
     "bestFor": "Garden parties, family events, casual outdoor fun.",
     "image": "/images/lawn-games/croquet set.png",
     "accent": "gold"
+  },
+  {
+    "id": "birch-wood-washer-toss",
+    "name": "Birch Wood Washer Toss",
+    "description": "A relaxed toss game that works well for casual competitions.",
+    "bestFor": "Backyard parties, BBQs, adults and families.",
+    "image": "/images/lawn-games/washer toss game.png",
+    "accent": "green"
   }
 ]

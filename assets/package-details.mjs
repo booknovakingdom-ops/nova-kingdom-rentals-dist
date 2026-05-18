@@ -12,11 +12,11 @@ export const LAWN_GAMES_LIST = [
   "Ring Toss",
   "Badminton",
   "Tug of War",
-  "Tic Tac Toe",
-  "Washer Toss",
-  "Spikeball",
   "Bocce Ball",
-  "Croquet"
+  "Spikeball",
+  "Giant Tic Tac Toe",
+  "Croquet",
+  "Birch Wood Washer Toss"
 ];
 
 const state = {
