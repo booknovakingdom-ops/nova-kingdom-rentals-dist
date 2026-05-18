@@ -54,5 +54,45 @@
     "bestFor": "School events, community events, team fun.",
     "image": "/images/lawn-games/tug of war.png",
     "accent": "navy"
+  },
+  {
+    "id": "bocce-ball",
+    "name": "Bocce Ball",
+    "description": "A relaxed yet strategic outdoor classic that works for all ages and group sizes.",
+    "bestFor": "Backyard parties, corporate events, community gatherings.",
+    "image": "/images/lawn-games/bocce bll set.png",
+    "accent": "green"
+  },
+  {
+    "id": "spikeball",
+    "name": "Spikeball",
+    "description": "Fast-paced team game that gets competitive quickly — great for teens and adults.",
+    "bestFor": "Teens, adults, school events, active parties.",
+    "image": "/images/lawn-games/spikeball pro kit.png",
+    "accent": "gold"
+  },
+  {
+    "id": "giant-tic-tac-toe",
+    "name": "Giant Tic Tac Toe",
+    "description": "The classic game scaled up for outdoor fun at any age.",
+    "bestFor": "Kids parties, family events, school events.",
+    "image": "/images/lawn-games/tic tac toe.png",
+    "accent": "blue"
+  },
+  {
+    "id": "croquet",
+    "name": "Croquet",
+    "description": "A timeless lawn game that adds a touch of classic fun to any outdoor event.",
+    "bestFor": "Backyard parties, family gatherings, community events.",
+    "image": "/images/lawn-games/croquet set.png",
+    "accent": "green"
+  },
+  {
+    "id": "birch-wood-washer-toss",
+    "name": "Birch Wood Washer Toss",
+    "description": "A solid wood washer toss set with a satisfying skill element for players of all ages.",
+    "bestFor": "Backyard BBQs, casual parties, all-ages events.",
+    "image": "/images/lawn-games/washer toss game.png",
+    "accent": "gold"
   }
 ]

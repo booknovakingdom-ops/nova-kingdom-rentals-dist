@@ -11,7 +11,12 @@ export const LAWN_GAMES_LIST = [
   "Ladder Toss",
   "Ring Toss",
   "Badminton",
-  "Tug of War"
+  "Tug of War",
+  "Bocce Ball",
+  "Spikeball",
+  "Giant Tic Tac Toe",
+  "Croquet",
+  "Birch Wood Washer Toss"
 ];
 
 const state = {
@@ -39,11 +44,11 @@ export function packageIncludesAnyLawnGames(pkg) {
 
 export function getLawnGameAddonLine(pkg) {
   if (packageIncludesFiveLawnGames(pkg)) {
-    return "Upgrade from 5 Lawn Games to all available Lawn Games for $150";
+    return "Standalone lawn game upgrades available: 10 Lawn Games Package ($250) or 12 Lawn Games Package ($280) — includes all 12 games. Cornhole add-on +$25 where applicable.";
   }
 
   if (!packageIncludesAnyLawnGames(pkg)) {
-    return "Add all available Lawn Games for $300";
+    return "Add standalone lawn games: 5 Lawn Games Package ($175), 10 Lawn Games Package ($250), or 12 Lawn Games Package ($280 — all 12 games). Cornhole add-on +$25 where applicable.";
   }
 
   return "";

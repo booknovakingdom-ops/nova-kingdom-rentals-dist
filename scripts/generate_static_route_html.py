@@ -219,7 +219,7 @@ def route_metadata(
         },
         "/lawn-games": {
             "title": "Lawn Game Rentals | Nova Kingdom Rentals",
-            "description": "Rent lawn games in Bridgewater, the South Shore, and across Nova Scotia. Available games include Cornhole, Giant Connect 4, Giant Jenga, Ladder Toss, Ring Toss, Badminton, and Tug of War.",
+            "description": "Rent lawn games in Bridgewater, the South Shore, and across Nova Scotia. All 12 games available: Cornhole, Giant Connect 4, Giant Jenga, Ladder Toss, Ring Toss, Badminton, Tug of War, Bocce Ball, Spikeball, Giant Tic Tac Toe, Croquet, and Birch Wood Washer Toss. Packages from $175.",
             "image": LAWN_IMAGE,
             "schema": [breadcrumb_schema("/lawn-games", "Lawn Game Rentals")],
         },
