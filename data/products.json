@@ -262,6 +262,38 @@
     "dimensions": "5m x 4m x 4m / 16.4ft x 13.1ft x 13.1ft"
   },
   {
+    "id": "crown-carnival-challenge",
+    "slug": "crown-carnival-challenge",
+    "name": "Crown Carnival Challenge",
+    "tagline": "Bring the Carnival to Your Event",
+    "category": "Inflatable Game",
+    "price": "$270",
+    "status": "Available Now",
+    "image": "/images/crown axe thrower.jpeg",
+    "shortDescription": "Carnival-style inflatable challenge game for all ages.",
+    "fullDescription": "Crown Carnival Challenge brings a carnival-style game experience to birthdays, school events, community celebrations, and backyard parties. It works great as a standalone rental or as an add-on alongside other inflatables and packages. Add-on pricing available when booked with any package.",
+    "bestFor": [
+      "Birthdays",
+      "School events",
+      "Community events",
+      "Backyard parties",
+      "Carnival-themed events"
+    ],
+    "features": [
+      "Carnival-style inflatable game",
+      "Fun for all ages",
+      "Great standalone or add-on",
+      "Interactive competitive fun"
+    ],
+    "setupNotes": [
+      "Clear level setup area required",
+      "Power access required",
+      "Adult supervision required at all times"
+    ],
+    "duration": "8 hours",
+    "wetUse": false
+  },
+  {
     "id": "crown-dino-combo",
     "slug": "crown-dino-combo",
     "name": "Crown Dino Combo",

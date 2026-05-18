@@ -346,3 +346,7 @@
 
 /* Required star */
 .nk-req { color: #c9a227; }
+
+/* Power outlet note and review flag */
+.nk-field-note { font-size: 0.75rem; color: #556; margin-top: 0.3rem; line-height: 1.4; }
+.nk-power-flag { font-size: 0.78rem; color: #e0a020; font-weight: 600; margin-top: 0.25rem; }
