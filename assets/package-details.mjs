@@ -44,13 +44,11 @@ export function packageIncludesAnyLawnGames(pkg) {
 
 export function getLawnGameAddonLine(pkg) {
   if (packageIncludesFiveLawnGames(pkg)) {
-    return "Standalone lawn game upgrades available: 10 Lawn Games Package ($250) or 12 Lawn Games Package ($280) — includes all 12 games. Cornhole add-on +$25 where applicable.";
+    return "This package includes 5 Lawn Games. You can upgrade to 10 Lawn Games (+$75) or all 12 Lawn Games (+$105 — includes all 12 games including Cornhole). Cornhole add-on +$25 available with the 5 or 10 game selection.";
   }
-
   if (!packageIncludesAnyLawnGames(pkg)) {
-    return "Add standalone lawn games: 5 Lawn Games Package ($175), 10 Lawn Games Package ($250), or 12 Lawn Games Package ($280 — all 12 games). Cornhole add-on +$25 where applicable.";
+    return "Lawn Game packages can be added separately — 5 Lawn Games ($175), 10 Lawn Games ($250), or all 12 Lawn Games ($280 — includes Cornhole). Cornhole add-on +$25 available with the 5 or 10 game selection.";
   }
-
   return "";
 }
 
@@ -174,9 +172,10 @@ function renderPackagePanel(pkg) {
       <div class="package-detail-items">${renderIncludedItems(pkg)}</div>
 
       <div class="package-addon-box">
-        <h3>Lawn games add-on</h3>
-        <p>${escapeHtml(addonLine)}</p>
+        <h3>Optional add-ons</h3>
+        <p><strong>Lawn Games:</strong> ${escapeHtml(addonLine)}</p>
         <small>Available lawn game lineup: ${escapeHtml(LAWN_GAMES_LIST.join(", "))}.</small>
+        <p style="margin-top:0.75rem;"><strong>Crown Carnival Challenge:</strong> Add the Crown Carnival Challenge inflatable game to any package for $200 (standalone price $270). Features basketball shoot, elephant toss, Tic Tac Toe, and on-point target game in one unit.</p>
       </div>
 
       <div class="package-upgrades">

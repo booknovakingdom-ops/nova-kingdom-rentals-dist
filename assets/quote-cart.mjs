@@ -60,12 +60,7 @@ const ALL_LG_IDS = new Set([
   "lg-5", "lg-10", "lg-12",
   "lg-upgrade-10", "lg-upgrade-12",
   "lg-cornhole-addon",
-  "lg-cornhole-standalone",  // standalone Cornhole is mutually exclusive with LG packages
 ]);
-
-// Individual add-on IDs — independent of the main LG package group
-const CORNHOLE_STANDALONE_ID = "lg-cornhole-standalone";
-const INDIVIDUAL_GAME_ID     = "lg-individual";
 
 const DISCLAIMER =
   "This is an availability request, not a confirmed booking. Nova Kingdom Rentals will manually confirm availability, delivery cost, setup suitability, staffing needs, and deposit/payment details.";
@@ -142,6 +137,38 @@ function normalizeCarnivalPrice(cart) {
   );
 }
 
+// Returns true if every core product of pkgBId is already in pkgAId
+function isPkgCoveredBy(pkgBId, pkgAId) {
+  const b = PKG_INCLUDED_PRODUCTS[pkgBId];
+  const a = PKG_INCLUDED_PRODUCTS[pkgAId];
+  if (!b || !a || b.size === 0) return false;
+  for (const pid of b) { if (!a.has(pid)) return false; }
+  return true;
+}
+
+// Returns name of first cart package that fully covers pkgId, or null
+function getCoveringPackage(pkgId, cart) {
+  for (const item of cart) {
+    if (item.id === pkgId) continue;
+    if (item.id.startsWith("pkg-") && isPkgCoveredBy(pkgId, item.id)) return item.name;
+  }
+  return null;
+}
+
+// Returns cart items (packages) whose core products are fully covered by pkgId
+function getCoveredPackages(pkgId, cart) {
+  return cart.filter((item) =>
+    item.id !== pkgId &&
+    item.id.startsWith("pkg-") &&
+    isPkgCoveredBy(item.id, pkgId)
+  );
+}
+
+// One-shot message shown in the panel after auto-removing overlapping packages
+const REMOVED_NOTE_KEY = "nk_removed_note";
+function setRemovedNote(msg) { try { sessionStorage.setItem(REMOVED_NOTE_KEY, msg); } catch {} }
+function popRemovedNote()     { try { const m = sessionStorage.getItem(REMOVED_NOTE_KEY); if (m) sessionStorage.removeItem(REMOVED_NOTE_KEY); return m; } catch { return null; } }
+
 function cartStats(items) {
   const subtotal        = items.reduce((s, i) => s + i.price, 0);
   const inflatableCount = items.filter((i) => i.isInflatable !== false).length;
@@ -183,12 +210,12 @@ function updateBar() {
     const pid        = btn.dataset.nkId;
     const includedIn = included[pid];
     if (includedIn) {
-      btn.textContent = "Included in package";
-      btn.classList.add("in-cart");
-      btn.disabled = true;
+      btn.textContent = "Included in package"; btn.classList.add("in-cart"); btn.disabled = true;
+    } else if (pid.startsWith("pkg-") && getCoveringPackage(pid, items)) {
+      btn.textContent = "Already covered by your package"; btn.classList.add("in-cart"); btn.disabled = true;
     } else {
       const inCart = items.some((i) => i.id === pid);
-      btn.disabled  = false;
+      btn.disabled = false;
       btn.textContent = inCart ? "In Quote ✓" : "Add to Quote";
       btn.classList.toggle("in-cart", inCart);
     }
@@ -266,6 +293,17 @@ function renderPanel() {
 function makeItemsSection(items) {
   const sec = document.createElement("section");
   sec.innerHTML = '<p class="nk-qs-title">Selected items</p>';
+
+  // One-time note after an overlapping package was auto-removed
+  const removedNote = popRemovedNote();
+  if (removedNote) {
+    const noteEl = document.createElement("p");
+    noteEl.className = "nk-estimate-note";
+    noteEl.style.cssText = "color:#c9a227;margin-bottom:0.5rem;";
+    noteEl.textContent = removedNote;
+    sec.appendChild(noteEl);
+  }
+
   if (!items.length) {
     sec.insertAdjacentHTML("beforeend",
       '<p class="nk-empty-note">No items added yet. Use the "Add to Quote" buttons on rentals or packages, or pick a lawn game option below.</p>');
@@ -297,15 +335,11 @@ function makeItemsSection(items) {
 
 // ── Lawn game section ────────────────────────────────────────────
 function makeLawnSection(items) {
-  const cartIds            = new Set(items.map((i) => i.id));
-  const hasPkgWith5LG      = items.some((i) => i.includesLawnGames === true);
-  const options            = hasPkgWith5LG ? UPGRADE_OPTIONS : LAWN_GAME_PACKAGES;
-  const selectedOpt        = options.find((p) => cartIds.has(p.id));
-  const hasFullLG          = cartIds.has("lg-12") || cartIds.has("lg-upgrade-12");
-  const hasCornholeAddon   = cartIds.has("lg-cornhole-addon");
-  const hasCornholeSA      = cartIds.has(CORNHOLE_STANDALONE_ID);
-  const indivItem          = items.find((i) => i.id === INDIVIDUAL_GAME_ID);
-  const indivQty           = indivItem ? Math.round(indivItem.price / 25) : 0;
+  const cartIds          = new Set(items.map((i) => i.id));
+  const hasPkgWith5LG    = items.some((i) => i.includesLawnGames === true);
+  const options          = hasPkgWith5LG ? UPGRADE_OPTIONS : LAWN_GAME_PACKAGES;
+  const selectedOpt      = options.find((p) => cartIds.has(p.id));
+  const hasCornholeAddon = cartIds.has("lg-cornhole-addon");
 
   const sec = document.createElement("section");
 
@@ -383,91 +417,6 @@ function makeLawnSection(items) {
     renderPanel();
   });
   sec.appendChild(chRow);
-
-  // ── Individual add-ons sub-section ───────────────────────────
-  const indivSec = document.createElement("div");
-  const indivTitle = document.createElement("p");
-  indivTitle.className = "nk-qs-title";
-  indivTitle.style.marginTop = "1rem";
-  indivTitle.textContent = "Individual add-ons";
-  indivSec.appendChild(indivTitle);
-
-  // Standalone Cornhole ($45) — hidden when full 12-game or cornhole add-on already selected
-  if (!hasFullLG && !hasCornholeAddon) {
-    const cBtn = document.createElement("button");
-    cBtn.type = "button";
-    cBtn.className = "nk-lg-btn" + (hasCornholeSA ? " selected" : "");
-    const cName  = document.createElement("span"); cName.className  = "nk-lg-btn-name";  cName.textContent  = "Cornhole (standalone)";
-    const cPrice = document.createElement("span"); cPrice.className = "nk-lg-btn-price"; cPrice.textContent = "$45";
-    const cNote  = document.createElement("span"); cNote.className  = "nk-lg-btn-note";  cNote.textContent  = "Individual game — no package required";
-    cBtn.appendChild(cName); cBtn.appendChild(cPrice); cBtn.appendChild(cNote);
-    cBtn.addEventListener("click", () => {
-      let cart = loadCart();
-      const nowIn = cart.some((i) => i.id === CORNHOLE_STANDALONE_ID);
-      if (nowIn) {
-        saveCart(cart.filter((i) => i.id !== CORNHOLE_STANDALONE_ID));
-      } else {
-        cart = cart.filter((i) => !ALL_LG_IDS.has(i.id));
-        cart.push({ id: CORNHOLE_STANDALONE_ID, name: "Cornhole (standalone)", price: 45, isInflatable: false });
-        saveCart(cart);
-      }
-      updateBar();
-      renderPanel();
-    });
-    indivSec.appendChild(cBtn);
-  }
-
-  // Generic individual game counter ($25 each, max 12)
-  const indivRow = document.createElement("div");
-  indivRow.className = "nk-cornhole-row";
-  indivRow.style.marginTop = "0.5rem";
-
-  const indivLbl = document.createElement("span");
-  indivLbl.style.cssText = "flex:1;font-size:0.83rem;color:#aab;";
-  indivLbl.textContent = "Other individual lawn game(s) — $25 each";
-
-  const ctrlWrap = document.createElement("div");
-  ctrlWrap.style.cssText = "display:flex;align-items:center;gap:0.4rem;";
-
-  const minusBtn = document.createElement("button");
-  minusBtn.type = "button"; minusBtn.textContent = "−";
-  minusBtn.className = "nk-item-remove";
-  minusBtn.style.cssText = "font-size:1.2rem;padding:0 0.4rem;";
-
-  const qtySpan = document.createElement("span");
-  qtySpan.style.cssText = "min-width:1.4em;text-align:center;color:#c9a227;font-weight:700;";
-  qtySpan.textContent = String(indivQty);
-
-  const plusBtn = document.createElement("button");
-  plusBtn.type = "button"; plusBtn.textContent = "+";
-  plusBtn.className = "nk-item-remove";
-  plusBtn.style.cssText = "font-size:1.2rem;padding:0 0.4rem;color:#c9a227;";
-
-  const indivPriceSpan = document.createElement("span");
-  indivPriceSpan.className = "nk-cornhole-price";
-  indivPriceSpan.textContent = indivQty > 0 ? formatMoney(indivQty * 25) : "";
-
-  function changeIndivQty(delta) {
-    const newQty = Math.max(0, Math.min(12, indivQty + delta));
-    let cart = loadCart().filter((i) => i.id !== INDIVIDUAL_GAME_ID);
-    if (newQty > 0) {
-      const label = newQty + " Individual Lawn Game" + (newQty > 1 ? "s" : "") + " (\xd7$25)";
-      cart.push({ id: INDIVIDUAL_GAME_ID, name: label, price: newQty * 25, isInflatable: false });
-    }
-    saveCart(cart);
-    updateBar();
-    renderPanel();
-  }
-
-  minusBtn.addEventListener("click", () => changeIndivQty(-1));
-  plusBtn.addEventListener("click",  () => changeIndivQty(+1));
-
-  ctrlWrap.appendChild(minusBtn); ctrlWrap.appendChild(qtySpan);
-  ctrlWrap.appendChild(plusBtn);  ctrlWrap.appendChild(indivPriceSpan);
-  indivRow.appendChild(indivLbl); indivRow.appendChild(ctrlWrap);
-  indivSec.appendChild(indivRow);
-
-  sec.appendChild(indivSec);
   return sec;
 }
 
@@ -754,19 +703,19 @@ function enhanceProductDetail() {
 function injectAddBtn(container, id, name, price, isInflatable, insertBefore, meta) {
   if (container.querySelector(".nk-add-to-quote")) return;
 
-  // Check if already included in a selected package — show disabled state
-  const cart     = loadCart();
-  const included = getIncludedProductIds(cart);
-  const inCart   = cart.some((i) => i.id === id);
+  const cart       = loadCart();
+  const included   = getIncludedProductIds(cart);
+  const inCart     = cart.some((i) => i.id === id);
   const includedIn = included[id];
+  const coveredBy  = !includedIn && id.startsWith("pkg-") ? getCoveringPackage(id, cart) : null;
 
   const btn = document.createElement("button");
   btn.type = "button";
   btn.dataset.nkId = id;
 
-  if (includedIn) {
+  if (includedIn || coveredBy) {
     btn.className   = "nk-add-to-quote in-cart";
-    btn.textContent = "Included in package";
+    btn.textContent = includedIn ? "Included in package" : "Already covered by your package";
     btn.disabled    = true;
   } else {
     btn.className   = "nk-add-to-quote" + (inCart ? " in-cart" : "");
@@ -774,24 +723,35 @@ function injectAddBtn(container, id, name, price, isInflatable, insertBefore, me
   }
 
   btn.addEventListener("click", () => {
-    let currentCart = loadCart();
-    const currentIncluded = getIncludedProductIds(currentCart);
-    if (currentIncluded[id]) return; // already in a package — no-op
+    let currentCart   = loadCart();
+    const currIncluded = getIncludedProductIds(currentCart);
+    if (currIncluded[id]) return; // product already in a package
+    if (id.startsWith("pkg-") && getCoveringPackage(id, currentCart)) return; // package already covered
 
     const nowIn = currentCart.some((i) => i.id === id);
     if (nowIn) {
       saveCart(currentCart.filter((i) => i.id !== id));
     } else {
-      // Package with 5 LG: auto-remove standalone LG selections
+      // Package with 5 LG: remove standalone LG selections
       if (meta?.includesLawnGames) {
         currentCart = currentCart.filter((i) => i.id !== "lg-5" && i.id !== "lg-10" && i.id !== "lg-12");
       }
-      // Package: auto-remove individual products that are included in it
+      // Remove individual products already included in this package
       const pkgIncluded = PKG_INCLUDED_PRODUCTS[id];
       if (pkgIncluded) {
         currentCart = currentCart.filter((i) => !pkgIncluded.has(i.id));
       }
-      // Determine correct price (Crown Carnival Challenge: $200 add-on when package in cart)
+      // Auto-remove smaller packages whose core products are now covered by this one
+      if (id.startsWith("pkg-")) {
+        const covered = getCoveredPackages(id, currentCart);
+        if (covered.length > 0) {
+          const names = covered.map((p) => p.name).join(", ");
+          setRemovedNote("Removed overlapping package" + (covered.length > 1 ? "s" : "") + " to avoid double-charging: " + names + ".");
+          const coveredIds = new Set(covered.map((p) => p.id));
+          currentCart = currentCart.filter((i) => !coveredIds.has(i.id));
+        }
+      }
+      // Crown Carnival Challenge: $200 add-on when any package is in cart
       let actualPrice = price;
       if (id === CROWN_CARNIVAL_ID) {
         actualPrice = currentCart.some((i) => i.id.startsWith("pkg-")) ? CROWN_CARNIVAL_ADDON : CROWN_CARNIVAL_STANDALONE;
@@ -799,15 +759,15 @@ function injectAddBtn(container, id, name, price, isInflatable, insertBefore, me
       currentCart.push({ id, name, price: actualPrice, isInflatable, ...meta });
       saveCart(currentCart);
     }
-    // Always normalize carnival price after any cart change
     saveCart(normalizeCarnivalPrice(loadCart()));
 
-    const afterCart = loadCart();
+    const afterCart    = loadCart();
     const afterIncluded = getIncludedProductIds(afterCart);
+    const afterCovered  = afterIncluded[id] ? null : (id.startsWith("pkg-") ? getCoveringPackage(id, afterCart) : null);
     if (afterIncluded[id]) {
-      btn.textContent = "Included in package";
-      btn.classList.add("in-cart");
-      btn.disabled = true;
+      btn.textContent = "Included in package";   btn.classList.add("in-cart"); btn.disabled = true;
+    } else if (afterCovered) {
+      btn.textContent = "Already covered by your package"; btn.classList.add("in-cart"); btn.disabled = true;
     } else {
       const after = afterCart.some((i) => i.id === id);
       btn.textContent = after ? "In Quote ✓" : "Add to Quote";
