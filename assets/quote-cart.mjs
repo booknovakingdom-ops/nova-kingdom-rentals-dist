@@ -1,10 +1,10 @@
-/* Nova Kingdom Rentals — Quote Cart v20260518-lawnfix
+/* Nova Kingdom Rentals — Quote Cart v20260518-rushfix
    Availability request only. No payment. No confirmed booking.
-   Changes vs packagefix:
-   - Individual lawn game "Add to Quote" buttons injected directly on /lawn-games cards
-   - Price shown on each card ($45 Cornhole, $25 all others)
-   - "Check Availability" CTA hidden on lawn game cards
-   - Selecting 12-game package auto-removes individual lg-game-* items from cart
+   Changes vs lawnfix:
+   - Crown Rush 42 functionally covers Cascade + Quest: blocks adding them and
+     auto-removes them if present when Rush 42 is added (standalone or via package)
+   - Sandbag unit count now uses physical inflatable unit count per package
+     (e.g. Ultimate Kingdom = 6 units × $25 = $150, not 1 × $25)
 */
 
 console.info("Nova Quote Cart loaded");
@@ -35,6 +35,12 @@ const PKG_INCLUDED_PRODUCTS = {
   "pkg-royal-all-star":   new Set(["product-crown-rush-42", "product-crown-axe-challenge", "product-crown-kick-darts"]),
   "pkg-kingdom-deluxe":   new Set(["product-crown-rush-42", "product-crown-island-combo", "product-crown-axe-challenge", "product-crown-kick-darts"]),
   "pkg-ultimate-kingdom": new Set(["product-crown-rush-42", "product-crown-climber", "product-crown-island-combo", "product-crown-dino-combo", "product-crown-axe-challenge", "product-crown-kick-darts"]),
+};
+
+// Crown Rush 42 is a combined unit — functionally covers Cascade and Quest.
+// Any item (standalone product or package) that includes Rush 42 also blocks these.
+const PRODUCT_COVERS = {
+  "product-crown-rush-42": new Set(["product-crown-cascade", "product-crown-quest"]),
 };
 
 // Power distance options that trigger a "manual review" flag
@@ -119,12 +125,24 @@ const escHtml    = (s) => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").r
 const parsePrice = (t) => parseFloat(String(t).replace(/[^0-9.]/g,"")) || 0;
 const formatMoney = (n) => "$" + Number(n).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,",");
 
-// Returns { productId: packageName } for all products included in packages currently in cart
+// Returns { productId: coveringItemName } for all products blocked by items currently in cart.
+// Handles: package → its included products, and Rush 42 (standalone or via package) → Cascade + Quest.
 function getIncludedProductIds(cart) {
   const map = {};
   for (const item of cart) {
-    const s = PKG_INCLUDED_PRODUCTS[item.id];
-    if (s) s.forEach((pid) => { map[pid] = item.name; });
+    // Products included in a package
+    const pkgSet = PKG_INCLUDED_PRODUCTS[item.id];
+    if (pkgSet) {
+      pkgSet.forEach((pid) => {
+        map[pid] = item.name;
+        // Transitive: if this included product functionally covers others, block those too
+        const transitive = PRODUCT_COVERS[pid];
+        if (transitive) transitive.forEach((tpid) => { if (!map[tpid]) map[tpid] = item.name; });
+      });
+    }
+    // Standalone product that functionally covers others (e.g. Rush 42 → Cascade + Quest)
+    const covers = PRODUCT_COVERS[item.id];
+    if (covers) covers.forEach((pid) => { if (!map[pid]) map[pid] = item.name; });
   }
   return map;
 }
@@ -171,9 +189,27 @@ const REMOVED_NOTE_KEY = "nk_removed_note";
 function setRemovedNote(msg) { try { sessionStorage.setItem(REMOVED_NOTE_KEY, msg); } catch {} }
 function popRemovedNote()     { try { const m = sessionStorage.getItem(REMOVED_NOTE_KEY); if (m) sessionStorage.removeItem(REMOVED_NOTE_KEY); return m; } catch { return null; } }
 
+// Counts distinct physical inflatable units across cart items.
+// Packages are expanded to their included product IDs; standalone products count as 1 each.
+// Deduplication via Set prevents double-counting when packages overlap.
+// Lawn games and non-inflatable add-ons (isInflatable === false) are excluded.
+function countPhysicalUnits(items) {
+  const seen = new Set();
+  for (const item of items) {
+    if (item.isInflatable === false) continue;
+    const pkgProducts = PKG_INCLUDED_PRODUCTS[item.id];
+    if (pkgProducts) {
+      pkgProducts.forEach((pid) => seen.add(pid));
+    } else {
+      seen.add(item.id);
+    }
+  }
+  return seen.size;
+}
+
 function cartStats(items) {
   const subtotal        = items.reduce((s, i) => s + i.price, 0);
-  const inflatableCount = items.filter((i) => i.isInflatable !== false).length;
+  const inflatableCount = countPhysicalUnits(items);
   const lawnsOnly       = items.length > 0 && items.every((i) => i.isInflatable === false);
   const hasWater        = items.some((i) => WATER_RE.test(i.name));
   return { subtotal, inflatableCount, lawnsOnly, hasWater };
@@ -768,6 +804,21 @@ function injectAddBtn(container, id, name, price, isInflatable, insertBefore, me
       const pkgIncluded = PKG_INCLUDED_PRODUCTS[id];
       if (pkgIncluded) {
         currentCart = currentCart.filter((i) => !pkgIncluded.has(i.id));
+        // Also remove products transitively covered (e.g. Rush 42 in a package covers Cascade + Quest)
+        pkgIncluded.forEach((pid) => {
+          const transitive = PRODUCT_COVERS[pid];
+          if (transitive) currentCart = currentCart.filter((i) => !transitive.has(i.id));
+        });
+      }
+      // For standalone products that functionally cover others (Rush 42 → Cascade + Quest)
+      const productCovers = PRODUCT_COVERS[id];
+      if (productCovers) {
+        const coveredItems = currentCart.filter((i) => productCovers.has(i.id));
+        if (coveredItems.length > 0) {
+          const names = coveredItems.map((p) => p.name).join(", ");
+          setRemovedNote("Removed overlapping item" + (coveredItems.length > 1 ? "s" : "") + " to avoid double-charging: " + names + ".");
+          currentCart = currentCart.filter((i) => !productCovers.has(i.id));
+        }
       }
       // Auto-remove smaller packages whose core products are now covered by this one
       if (id.startsWith("pkg-")) {
