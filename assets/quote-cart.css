@@ -1,0 +1,348 @@
+/* Nova Kingdom Rentals — Quote Cart */
+.nk-add-to-quote {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 2px solid #c9a227;
+  color: #c9a227;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  letter-spacing: 0.02em;
+  width: 100%;
+  justify-content: center;
+}
+.nk-add-to-quote:hover,
+.nk-add-to-quote:focus-visible {
+  background: #c9a227;
+  color: #050814;
+  outline: none;
+}
+.nk-add-to-quote.in-cart {
+  background: #c9a227;
+  color: #050814;
+}
+
+/* Floating bar */
+.nk-quote-bar {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #050814;
+  border: 2px solid #c9a227;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.nk-quote-bar[hidden] { display: none; }
+.nk-quote-bar-label {
+  font-size: 0.8rem;
+  color: #aab;
+  white-space: nowrap;
+}
+.nk-quote-bar-count {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #c9a227;
+  min-width: 1.2em;
+  text-align: center;
+}
+.nk-quote-bar-btn {
+  background: #c9a227;
+  color: #050814;
+  border: none;
+  border-radius: 4px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+.nk-quote-bar-btn:hover { background: #e0b72e; }
+
+/* Overlay */
+.nk-quote-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9100;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  justify-content: flex-end;
+}
+.nk-quote-overlay[hidden] { display: none; }
+
+/* Panel */
+.nk-quote-panel {
+  background: #0e1123;
+  width: min(540px, 100vw);
+  height: 100dvh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 24px rgba(0,0,0,0.5);
+}
+.nk-qp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid #1e2340;
+  position: sticky;
+  top: 0;
+  background: #0e1123;
+  z-index: 1;
+}
+.nk-qp-header h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #eef;
+  margin: 0;
+}
+.nk-qp-close {
+  background: none;
+  border: none;
+  color: #778;
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.2rem 0.4rem;
+}
+.nk-qp-close:hover { color: #eef; }
+.nk-qp-body {
+  flex: 1;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Sections */
+.nk-qs-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #778;
+  margin: 0 0 0.75rem;
+}
+
+/* Item list */
+.nk-item-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.nk-item-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #131730;
+  border-radius: 5px;
+  padding: 0.6rem 0.75rem;
+}
+.nk-item-name {
+  flex: 1;
+  font-size: 0.875rem;
+  color: #d0d4ec;
+}
+.nk-item-price {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #c9a227;
+  white-space: nowrap;
+}
+.nk-item-remove {
+  background: none;
+  border: none;
+  color: #556;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0 0.2rem;
+  line-height: 1;
+}
+.nk-item-remove:hover { color: #e05050; }
+.nk-empty-note {
+  font-size: 0.85rem;
+  color: #556;
+  font-style: italic;
+}
+
+/* Lawn game packages */
+.nk-lg-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+@media (max-width: 420px) { .nk-lg-grid { grid-template-columns: 1fr; } }
+.nk-lg-btn {
+  background: #131730;
+  border: 2px solid #1e2340;
+  border-radius: 5px;
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.nk-lg-btn:hover, .nk-lg-btn:focus-visible { border-color: #c9a227; outline: none; }
+.nk-lg-btn.selected { border-color: #c9a227; background: #1a1f3a; }
+.nk-lg-btn-name {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #d0d4ec;
+}
+.nk-lg-btn-price {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #c9a227;
+  margin-top: 0.15rem;
+}
+.nk-lg-btn-note {
+  display: block;
+  font-size: 0.72rem;
+  color: #667;
+  margin-top: 0.2rem;
+  line-height: 1.3;
+}
+.nk-cornhole-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: #131730;
+  border-radius: 5px;
+}
+.nk-cornhole-row label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.83rem;
+  color: #aab;
+  cursor: pointer;
+  flex: 1;
+}
+.nk-cornhole-price {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #c9a227;
+}
+
+/* Estimate */
+.nk-estimate-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.nk-estimate-table tr td { padding: 0.3rem 0; color: #aab; }
+.nk-estimate-table tr td:last-child { text-align: right; color: #d0d4ec; }
+.nk-estimate-table tr.total td { border-top: 1px solid #1e2340; padding-top: 0.5rem; font-weight: 700; }
+.nk-estimate-table tr.total td:last-child { color: #c9a227; font-size: 1rem; }
+.nk-estimate-note {
+  font-size: 0.75rem;
+  color: #556;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+
+/* Form */
+.nk-qf-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.75rem;
+}
+.nk-qf-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #778;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.nk-qf-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+@media (max-width: 380px) { .nk-qf-row { grid-template-columns: 1fr; } }
+.nk-qf-field input,
+.nk-qf-field select,
+.nk-qf-field textarea {
+  background: #131730;
+  border: 1px solid #1e2340;
+  border-radius: 4px;
+  color: #d0d4ec;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.85rem;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.nk-qf-field input:focus,
+.nk-qf-field select:focus,
+.nk-qf-field textarea:focus {
+  outline: 2px solid #c9a227;
+  outline-offset: 1px;
+  border-color: #c9a227;
+}
+.nk-qf-field textarea { min-height: 80px; resize: vertical; }
+.nk-qf-field select option { background: #131730; }
+
+/* Disclaimer */
+.nk-disclaimer {
+  font-size: 0.78rem;
+  color: #556;
+  background: #0a0d1a;
+  border-radius: 5px;
+  padding: 0.75rem;
+  line-height: 1.5;
+  border: 1px solid #1e2340;
+}
+
+/* Submit */
+.nk-qf-submit {
+  width: 100%;
+  background: #c9a227;
+  color: #050814;
+  border: none;
+  border-radius: 5px;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  margin-top: 0.5rem;
+}
+.nk-qf-submit:hover { background: #e0b72e; }
+.nk-qf-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+.nk-form-msg {
+  font-size: 0.85rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+.nk-form-msg.success { background: #0d2a1e; color: #5dcc8a; border: 1px solid #1a5535; }
+.nk-form-msg.error { background: #2a0d0d; color: #e06060; border: 1px solid #551515; }
+
+/* Water access conditional */
+.nk-water-field { display: none; }
+.nk-water-field.show { display: flex; }
+
+/* Required star */
+.nk-req { color: #c9a227; }
