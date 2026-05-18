@@ -1,10 +1,11 @@
-/* Nova Kingdom Rentals — Quote Cart v20260518-rushfix
+/* Nova Kingdom Rentals — Quote Cart v20260518-pkgoverlapfix
    Availability request only. No payment. No confirmed booking.
-   Changes vs lawnfix:
-   - Crown Rush 42 functionally covers Cascade + Quest: blocks adding them and
-     auto-removes them if present when Rush 42 is added (standalone or via package)
-   - Sandbag unit count now uses physical inflatable unit count per package
-     (e.g. Ultimate Kingdom = 6 units × $25 = $150, not 1 × $25)
+   Changes vs rushfix:
+   - effectiveProductSet() expands PKG_INCLUDED_PRODUCTS via PRODUCT_COVERS before
+     package-to-package comparison, so packages containing Rush 42 correctly block
+     packages that include Cascade or Quest
+   - isPkgCoveredBy() now uses effectiveProductSet() for both sides
+   - Sandbag unit counting unchanged (Rush 42 = 1 physical unit)
 */
 
 console.info("Nova Quote Cart loaded");
@@ -157,10 +158,24 @@ function normalizeCarnivalPrice(cart) {
   );
 }
 
-// Returns true if every core product of pkgBId is already in pkgAId
+// Expands a package's product set by applying PRODUCT_COVERS.
+// e.g. Royal All-Star includes Rush 42, so its effective set also includes Cascade + Quest.
+// Used only for package overlap comparison — NOT for sandbag unit counting.
+function effectiveProductSet(pkgId) {
+  const base = PKG_INCLUDED_PRODUCTS[pkgId];
+  if (!base) return null;
+  const expanded = new Set(base);
+  base.forEach((pid) => {
+    const covers = PRODUCT_COVERS[pid];
+    if (covers) covers.forEach((cpid) => expanded.add(cpid));
+  });
+  return expanded;
+}
+
+// Returns true if every effective product of pkgBId is already covered by pkgAId
 function isPkgCoveredBy(pkgBId, pkgAId) {
-  const b = PKG_INCLUDED_PRODUCTS[pkgBId];
-  const a = PKG_INCLUDED_PRODUCTS[pkgAId];
+  const b = effectiveProductSet(pkgBId);
+  const a = effectiveProductSet(pkgAId);
   if (!b || !a || b.size === 0) return false;
   for (const pid of b) { if (!a.has(pid)) return false; }
   return true;
