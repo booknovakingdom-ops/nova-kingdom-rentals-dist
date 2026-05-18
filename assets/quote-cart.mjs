@@ -1,12 +1,14 @@
-/* Nova Kingdom Rentals — Quote Cart v20260518-cartfix
+/* Nova Kingdom Rentals — Quote Cart v20260518-statefix
    Availability request only. No payment. No confirmed booking.
-   Root-cause fixes vs prior version:
-   - renderPanel() removed from MutationObserver (was the freeze source)
-   - window.NovaQuoteCartInitialized guard prevents double-init
-   - DOM elements checked for existence before creation
-   - Observer guarded with busy flag to prevent re-entrancy
-   - updateBar() never calls renderPanel()
-   - renderPanel() never calls init/enhanceAll/updateBar
+   Changes vs cartfix:
+   - formState persists customer fields across cart add/remove/open/close
+   - captureFormState() reads form before any rebuild; restoreFormState() repopulates
+   - recalcEstimate() called once after restore so estimate reflects saved km/surface
+   - Package cards: "Check Availability" link hidden when Add to Quote present
+   - Product detail: "Check Availability" link hidden when Add to Quote present
+   - Smart lawn game section: upgrade pricing when cart has a package with 5 LG included
+   - Packages with includesLawnGames:true auto-remove standalone LG items on add
+   - ALL_LG_IDS covers both standalone and upgrade IDs for clean clearing
 */
 
 console.info("Nova Quote Cart loaded");
@@ -19,17 +21,60 @@ const FREE_KM     = 15;
 const RATE_PER_KM = 0.72;
 const SANDBAG_FEE = 25;
 
+// Standalone lawn game packages
 const LAWN_GAME_PACKAGES = [
   { id: "lg-5",  name: "5 Lawn Games Package",  price: 175, note: "Excludes Cornhole and Giant Connect 4", cornholeEligible: true,  isInflatable: false },
   { id: "lg-10", name: "10 Lawn Games Package", price: 250, note: "Excludes Cornhole",                    cornholeEligible: true,  isInflatable: false },
   { id: "lg-12", name: "12 Lawn Games Package", price: 280, note: "All 12 games including Cornhole",       cornholeEligible: false, isInflatable: false },
 ];
-const LG_IDS = new Set(LAWN_GAME_PACKAGES.map((p) => p.id));
+
+// Upgrade options when cart already contains a package that includes 5 lawn games.
+// Priced as the difference from the standalone 5-game package ($175).
+const UPGRADE_OPTIONS = [
+  { id: "lg-upgrade-10", name: "Upgrade included 5 Lawn Games to 10 Lawn Games", price: 75,  note: "Excludes Cornhole — Cornhole add-on +$25", cornholeEligible: true,  isInflatable: false },
+  { id: "lg-upgrade-12", name: "Upgrade included 5 Lawn Games to all 12 Lawn Games", price: 105, note: "All 12 games including Cornhole",        cornholeEligible: false, isInflatable: false },
+];
+
+// All IDs that belong to the lawn-game selection group (cleared before any new LG selection)
+const ALL_LG_IDS = new Set(["lg-5", "lg-10", "lg-12", "lg-upgrade-10", "lg-upgrade-12", "lg-cornhole-addon"]);
 
 const DISCLAIMER =
   "This is an availability request, not a confirmed booking. Nova Kingdom Rentals will manually confirm availability, delivery cost, setup suitability, staffing needs, and deposit/payment details.";
 
 const WATER_RE = /water|cascade|island combo|rush|splash/i;
+
+// ── Form state (persists across renderPanel calls) ───────────────
+// Keys match the `name` attributes of the form fields.
+const formState = {
+  name: "", email: "", phone: "",
+  eventDate: "", startTime: "", endTime: "",
+  eventAddress: "", city: "", province: "Nova Scotia",
+  postalCode: "", kmFromBridgewater: "", setupSurface: "",
+  powerAccess: "", waterAccess: "", guests: "", notes: ""
+};
+
+function captureFormState(form) {
+  if (!form) return;
+  // Use individual element access; FormData misses disabled fields and some selects in some browsers
+  for (const key of Object.keys(formState)) {
+    const el = form.querySelector("[name='" + key + "']");
+    if (el) formState[key] = el.value;
+  }
+}
+
+function restoreFormState(form) {
+  if (!form) return;
+  for (const [key, value] of Object.entries(formState)) {
+    const el = form.querySelector("[name='" + key + "']");
+    if (el && value !== "") el.value = value;
+  }
+}
+
+function clearFormState() {
+  for (const key of Object.keys(formState)) {
+    formState[key] = key === "province" ? "Nova Scotia" : "";
+  }
+}
 
 // ── Cart state (sessionStorage) ──────────────────────────────────
 function loadCart() {
@@ -48,10 +93,10 @@ const parsePrice = (t) => parseFloat(String(t).replace(/[^0-9.]/g,"")) || 0;
 const formatMoney = (n) => "$" + Number(n).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,",");
 
 function cartStats(items) {
-  const subtotal       = items.reduce((s,i) => s + i.price, 0);
+  const subtotal        = items.reduce((s,i) => s + i.price, 0);
   const inflatableCount = items.filter((i) => i.isInflatable !== false).length;
-  const lawnsOnly      = items.length > 0 && items.every((i) => i.isInflatable === false);
-  const hasWater       = items.some((i) => WATER_RE.test(i.name));
+  const lawnsOnly       = items.length > 0 && items.every((i) => i.isInflatable === false);
+  const hasWater        = items.some((i) => WATER_RE.test(i.name));
   return { subtotal, inflatableCount, lawnsOnly, hasWater };
 }
 
@@ -77,10 +122,8 @@ function updateBar() {
   const items = loadCart();
   bar.hidden = items.length === 0;
   if (count) count.textContent = String(items.length);
-  // Refresh Add-to-Quote button labels without touching innerHTML
-  const cart = loadCart();
   document.querySelectorAll(".nk-add-to-quote[data-nk-id]").forEach((btn) => {
-    const inCart = cart.some((i) => i.id === btn.dataset.nkId);
+    const inCart = items.some((i) => i.id === btn.dataset.nkId);
     btn.textContent = inCart ? "In Quote ✓" : "Add to Quote";
     btn.classList.toggle("in-cart", inCart);
   });
@@ -120,28 +163,33 @@ function openPanel() {
 function closePanel() {
   const overlay = eid("nk-quote-overlay");
   if (!overlay) return;
+  // Capture any unsaved form input before closing
+  captureFormState(eid("nk-quote-overlay")?.querySelector("#nk-quote-form"));
   overlay.hidden = true;
   document.body.style.overflow = "";
 }
 
-// ── Panel rendering (called explicitly from user actions only) ───
+// ── Panel rendering ──────────────────────────────────────────────
+// Called only from explicit user actions (open, add, remove, LG toggle).
 // NEVER called from MutationObserver. NEVER calls init/enhanceAll/updateBar.
 function renderPanel() {
   const body = eid("nk-qp-body");
   if (!body) return;
   try {
+    // Always capture current form values before blowing away the DOM
+    captureFormState(body.querySelector("#nk-quote-form"));
+
     const items = loadCart();
     const stats = cartStats(items);
 
-    // Build new content in a fragment — one innerHTML assignment per section
     const frag = document.createDocumentFragment();
     frag.appendChild(makeItemsSection(items));
     frag.appendChild(makeLawnSection(items));
     frag.appendChild(makeEstimateSection(items, stats));
     frag.appendChild(makeFormSection(items, stats));
 
-    body.innerHTML = "";          // one clear
-    body.appendChild(frag);      // one append
+    body.innerHTML = "";     // single clear
+    body.appendChild(frag); // single append
   } catch (err) {
     console.error("Nova Quote Cart panel render failed:", err);
   }
@@ -153,26 +201,20 @@ function makeItemsSection(items) {
   sec.innerHTML = '<p class="nk-qs-title">Selected items</p>';
   if (!items.length) {
     sec.insertAdjacentHTML("beforeend",
-      '<p class="nk-empty-note">No items added yet. Use the "Add to Quote" buttons on rentals, packages, or pick a lawn game package below.</p>');
+      '<p class="nk-empty-note">No items added yet. Use the "Add to Quote" buttons on rentals or packages, or pick a lawn game option below.</p>');
     return sec;
   }
   const ul = document.createElement("ul");
   ul.className = "nk-item-list";
   items.forEach((item) => {
-    const li = document.createElement("li");
-    li.className = "nk-item-row";
-    // Use DOM methods, not innerHTML, so textContent changes don't cascade
-    const nameSpan  = document.createElement("span"); nameSpan.className  = "nk-item-name";  nameSpan.textContent = item.name;
-    const priceSpan = document.createElement("span"); priceSpan.className = "nk-item-price"; priceSpan.textContent = formatMoney(item.price);
+    const li        = document.createElement("li");   li.className       = "nk-item-row";
+    const nameSpan  = document.createElement("span"); nameSpan.className = "nk-item-name";  nameSpan.textContent = item.name;
+    const priceSpan = document.createElement("span"); priceSpan.className= "nk-item-price"; priceSpan.textContent = formatMoney(item.price);
     const rmBtn     = document.createElement("button");
-    rmBtn.type = "button";
-    rmBtn.className = "nk-item-remove";
+    rmBtn.type = "button"; rmBtn.className = "nk-item-remove";
     rmBtn.setAttribute("aria-label", "Remove " + item.name);
-    rmBtn.textContent = "✕";
-    rmBtn.dataset.rmId = item.id;
-    li.appendChild(nameSpan);
-    li.appendChild(priceSpan);
-    li.appendChild(rmBtn);
+    rmBtn.textContent = "✕"; rmBtn.dataset.rmId = item.id;
+    li.appendChild(nameSpan); li.appendChild(priceSpan); li.appendChild(rmBtn);
     ul.appendChild(li);
   });
   ul.addEventListener("click", (e) => {
@@ -186,26 +228,42 @@ function makeItemsSection(items) {
   return sec;
 }
 
-// ── Lawn game packages section ───────────────────────────────────
+// ── Lawn game section ────────────────────────────────────────────
+// If cart contains a package that already includes 5 lawn games,
+// show upgrade options (+$75 / +$105) instead of full standalone prices.
 function makeLawnSection(items) {
-  const sec = document.createElement("section");
-  sec.innerHTML = '<p class="nk-qs-title">Lawn game packages (standalone)</p>';
+  const cartIds       = new Set(items.map((i) => i.id));
+  const hasPkgWith5LG = items.some((i) => i.includesLawnGames === true);
+  const options       = hasPkgWith5LG ? UPGRADE_OPTIONS : LAWN_GAME_PACKAGES;
+  const selectedOpt   = options.find((p) => cartIds.has(p.id));
 
-  const cartIds      = new Set(items.map((i) => i.id));
-  const selectedPkg  = LAWN_GAME_PACKAGES.find((p) => cartIds.has(p.id));
+  const sec = document.createElement("section");
+
+  const titleP = document.createElement("p");
+  titleP.className = "nk-qs-title";
+  titleP.textContent = hasPkgWith5LG
+    ? "Lawn game upgrades (your package includes 5 games)"
+    : "Lawn game packages (standalone)";
+  sec.appendChild(titleP);
+
+  if (hasPkgWith5LG) {
+    const note = document.createElement("p");
+    note.className = "nk-estimate-note";
+    note.style.marginBottom = "0.5rem";
+    note.textContent = "Your package already includes 5 Lawn Games. Upgrade pricing below reflects only the difference — no double charge.";
+    sec.appendChild(note);
+  }
 
   const grid = document.createElement("div");
   grid.className = "nk-lg-grid";
-
-  LAWN_GAME_PACKAGES.forEach((pkg) => {
+  options.forEach((opt) => {
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "nk-lg-btn" + (cartIds.has(pkg.id) ? " selected" : "");
-    btn.setAttribute("data-lg-id", pkg.id);
-    // Use DOM, not innerHTML
-    const n = document.createElement("span"); n.className = "nk-lg-btn-name";  n.textContent = pkg.name;
-    const p = document.createElement("span"); p.className = "nk-lg-btn-price"; p.textContent = formatMoney(pkg.price);
-    const o = document.createElement("span"); o.className = "nk-lg-btn-note";  o.textContent = pkg.note;
+    btn.className = "nk-lg-btn" + (cartIds.has(opt.id) ? " selected" : "");
+    btn.setAttribute("data-lg-id", opt.id);
+    const n = document.createElement("span"); n.className = "nk-lg-btn-name";  n.textContent = opt.name;
+    const p = document.createElement("span"); p.className = "nk-lg-btn-price"; p.textContent = formatMoney(opt.price) + (hasPkgWith5LG ? " upgrade" : "");
+    const o = document.createElement("span"); o.className = "nk-lg-btn-note";  o.textContent = opt.note;
     btn.appendChild(n); btn.appendChild(p); btn.appendChild(o);
     grid.appendChild(btn);
   });
@@ -213,13 +271,12 @@ function makeLawnSection(items) {
   grid.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-lg-id]");
     if (!btn) return;
-    const pkgId  = btn.dataset.lgId;
-    const pkgDef = LAWN_GAME_PACKAGES.find((p) => p.id === pkgId);
-    if (!pkgDef) return;
-    // Remove all lawn game packages + cornhole addon, then toggle
-    let cart = loadCart().filter((i) => !LG_IDS.has(i.id) && i.id !== "lg-cornhole-addon");
-    if (!cartIds.has(pkgId)) {
-      cart.push({ id: pkgDef.id, name: pkgDef.name, price: pkgDef.price, isInflatable: false });
+    const optId  = btn.dataset.lgId;
+    const optDef = options.find((p) => p.id === optId);
+    if (!optDef) return;
+    let cart = loadCart().filter((i) => !ALL_LG_IDS.has(i.id)); // clear all LG selections
+    if (!cartIds.has(optId)) {
+      cart.push({ id: optDef.id, name: optDef.name, price: optDef.price, isInflatable: false });
     }
     saveCart(cart);
     updateBar();
@@ -227,8 +284,8 @@ function makeLawnSection(items) {
   });
   sec.appendChild(grid);
 
-  // Cornhole add-on (only when 5- or 10-game package selected)
-  const canAddCornhole = selectedPkg?.cornholeEligible === true;
+  // Cornhole add-on row — shown when selected option is cornhole-eligible
+  const canAddCornhole = selectedOpt?.cornholeEligible === true;
   const cornholeInCart = cartIds.has("lg-cornhole-addon");
 
   const chRow = document.createElement("div");
@@ -237,19 +294,14 @@ function makeLawnSection(items) {
 
   const lbl = document.createElement("label");
   const chk = document.createElement("input");
-  chk.type = "checkbox";
-  chk.id = "nk-cornhole-check";
+  chk.type = "checkbox"; chk.id = "nk-cornhole-check";
   if (cornholeInCart) chk.checked = true;
-  const lbTxt = document.createTextNode(" Cornhole add-on");
   lbl.appendChild(chk);
-  lbl.appendChild(lbTxt);
+  lbl.appendChild(document.createTextNode(" Add Cornhole"));
 
   const chPrice = document.createElement("span");
-  chPrice.className = "nk-cornhole-price";
-  chPrice.textContent = "+$25";
-
-  chRow.appendChild(lbl);
-  chRow.appendChild(chPrice);
+  chPrice.className = "nk-cornhole-price"; chPrice.textContent = "+$25";
+  chRow.appendChild(lbl); chRow.appendChild(chPrice);
   chRow.addEventListener("change", (e) => {
     if (e.target !== chk) return;
     let cart = loadCart().filter((i) => i.id !== "lg-cornhole-addon");
@@ -264,44 +316,36 @@ function makeLawnSection(items) {
 
 // ── Estimate section ─────────────────────────────────────────────
 function makeEstimateSection(items, stats) {
-  const { subtotal, inflatableCount, lawnsOnly } = stats;
+  const { subtotal, lawnsOnly } = stats;
   const sec = document.createElement("section");
-
-  const title = document.createElement("p");
-  title.className = "nk-qs-title";
-  title.textContent = "Preliminary estimate";
+  const title = document.createElement("p"); title.className = "nk-qs-title"; title.textContent = "Preliminary estimate";
   sec.appendChild(title);
-
-  const tbl = document.createElement("table");
-  tbl.className = "nk-estimate-table";
+  const tbl = document.createElement("table"); tbl.className = "nk-estimate-table";
   tbl.innerHTML =
     "<tr><td>Subtotal</td><td>" + escHtml(formatMoney(subtotal)) + "</td></tr>" +
     "<tr><td>Delivery</td><td id='nk-delivery-val'>Enter km below</td></tr>" +
     "<tr><td>Sandbag anchoring estimate</td><td id='nk-sandbag-val'>" + (lawnsOnly ? "N/A" : "Enter surface below") + "</td></tr>" +
     "<tr class='total'><td>Estimated total</td><td id='nk-total-val'>" + escHtml(formatMoney(subtotal)) + "</td></tr>";
   sec.appendChild(tbl);
-
-  const note = document.createElement("p");
-  note.className = "nk-estimate-note";
+  const note = document.createElement("p"); note.className = "nk-estimate-note";
   note.textContent = "Final anchoring requirements confirmed after setup review. Delivery: $0.72/km after the first 15 km from Bridgewater. Sandbag fee applies to inflatables on non-grass surfaces.";
   sec.appendChild(note);
   return sec;
 }
 
 // ── Form section ─────────────────────────────────────────────────
+// Form fields are always repopulated from formState after rebuild.
+// Listeners write back to formState on every input/change.
 function makeFormSection(items, stats) {
   const { subtotal, inflatableCount, lawnsOnly, hasWater } = stats;
   const selectedSummary = items.map((i) => i.name + " (" + formatMoney(i.price) + ")").join("; ") || "No items selected";
 
   const sec = document.createElement("section");
-  const title = document.createElement("p");
-  title.className = "nk-qs-title";
-  title.textContent = "Event & contact details";
+  const title = document.createElement("p"); title.className = "nk-qs-title"; title.textContent = "Event & contact details";
   sec.appendChild(title);
 
   const form = document.createElement("form");
   form.id = "nk-quote-form";
-  // Build form via innerHTML once — no live event handlers in the HTML string
   form.innerHTML = `
     <div class="nk-qf-row">
       <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-name">Name <span class="nk-req">*</span></label><input id="nkf-name" name="name" type="text" required placeholder="Your name"></div>
@@ -319,7 +363,7 @@ function makeFormSection(items, stats) {
     <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-addr">Event address <span class="nk-req">*</span></label><input id="nkf-addr" name="eventAddress" type="text" required placeholder="Street address"></div>
     <div class="nk-qf-row">
       <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-city">City / town <span class="nk-req">*</span></label><input id="nkf-city" name="city" type="text" required placeholder="e.g. Bridgewater"></div>
-      <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-prov">Province</label><input id="nkf-prov" name="province" type="text" value="Nova Scotia"></div>
+      <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-prov">Province</label><input id="nkf-prov" name="province" type="text"></div>
     </div>
     <div class="nk-qf-row">
       <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-postal">Postal code</label><input id="nkf-postal" name="postalCode" type="text" placeholder="B4V ___"></div>
@@ -363,8 +407,15 @@ function makeFormSection(items, stats) {
   `;
   sec.appendChild(form);
 
-  // Live estimate — only updates text in existing cells, never touches innerHTML
-  const kmInput      = form.querySelector("#nkf-km");
+  // ── Restore saved state into form fields ─────────────────────
+  restoreFormState(form);
+
+  // ── Persist state on every input/change ──────────────────────
+  form.addEventListener("input",  () => captureFormState(form));
+  form.addEventListener("change", () => captureFormState(form));
+
+  // ── Live estimate (reads from live form, no DOM structure change)
+  const kmInput       = form.querySelector("#nkf-km");
   const surfaceSelect = form.querySelector("#nkf-surface");
 
   function recalcEstimate() {
@@ -379,28 +430,22 @@ function makeFormSection(items, stats) {
     let delivery = 0;
     let deliveryText = "Delivery quoted manually";
     if (km !== null) {
-      if (km <= FREE_KM) {
-        deliveryText = "Free (within 15 km)";
-      } else {
-        delivery = Math.round((km - FREE_KM) * RATE_PER_KM);
-        deliveryText = formatMoney(delivery) + " est.";
-      }
+      if (km <= FREE_KM) { deliveryText = "Free (within 15 km)"; }
+      else { delivery = Math.round((km - FREE_KM) * RATE_PER_KM); deliveryText = formatMoney(delivery) + " est."; }
     }
 
     let sandbags = 0;
     let sandbagText = "N/A";
     if (!lawnsOnly && inflatableCount > 0) {
-      if (surface === "Grass")                            { sandbagText = "$0 (grass — no sandbags)"; }
+      if      (surface === "Grass")                           { sandbagText = "$0 (grass — no sandbags)"; }
       else if (surface === "Indoor gym" ||
-               surface === "Concrete or asphalt")        { sandbags = inflatableCount * SANDBAG_FEE;
-                                                           sandbagText = formatMoney(sandbags) + " est. (" + inflatableCount + " unit" + (inflatableCount !== 1 ? "s" : "") + " × $25)"; }
-      else if (surface === "Artificial turf")             { sandbagText = "May be required — manual review"; }
-      else if (surface === "Gravel")                      { sandbagText = "Manual review — setup may not be approved"; }
-      else if (surface === "Other")                       { sandbagText = "Manual review required"; }
-      else                                                { sandbagText = "Enter surface above"; }
+               surface === "Concrete or asphalt")            { sandbags = inflatableCount * SANDBAG_FEE; sandbagText = formatMoney(sandbags) + " est. (" + inflatableCount + " unit" + (inflatableCount !== 1 ? "s" : "") + " × $25)"; }
+      else if (surface === "Artificial turf")                 { sandbagText = "May be required — manual review"; }
+      else if (surface === "Gravel")                          { sandbagText = "Manual review — setup may not be approved"; }
+      else if (surface === "Other")                           { sandbagText = "Manual review required"; }
+      else                                                    { sandbagText = "Enter surface above"; }
     }
 
-    // Only textContent — no innerHTML, no DOM structure change
     deliveryEl.textContent = deliveryText;
     sandbagEl.textContent  = sandbagText;
     totalEl.textContent    = formatMoney(subtotal + delivery + sandbags);
@@ -409,7 +454,10 @@ function makeFormSection(items, stats) {
   kmInput?.addEventListener("input",  recalcEstimate);
   surfaceSelect?.addEventListener("change", recalcEstimate);
 
-  // Form submit
+  // Run once now so restored km/surface values populate the estimate immediately
+  recalcEstimate();
+
+  // ── Form submit ───────────────────────────────────────────────
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const submitBtn = form.querySelector("#nk-qf-submit-btn");
@@ -417,9 +465,8 @@ function makeFormSection(items, stats) {
     if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending…"; }
     if (msgEl)     { msgEl.hidden = true; msgEl.className = "nk-form-msg"; }
 
-    const fd      = new FormData(form);
-    const km      = parseFloat(fd.get("kmFromBridgewater") || "") || null;
-    const surface = fd.get("setupSurface") || "";
+    const km      = parseFloat(formState.kmFromBridgewater) || null;
+    const surface = formState.setupSurface || "";
     const delivery = km === null ? null : (km <= FREE_KM ? 0 : Math.round((km - FREE_KM) * RATE_PER_KM));
     let sandbags = 0;
     if (!lawnsOnly && inflatableCount > 0 && (surface === "Indoor gym" || surface === "Concrete or asphalt")) {
@@ -427,45 +474,48 @@ function makeFormSection(items, stats) {
     }
 
     const payload = {
-      access_key:      W3F_KEY,
-      subject:         "New Nova Kingdom Rentals Quote Request",
-      business:        "Nova Kingdom Rentals",
-      inquiryType:     "Availability request — not a confirmed booking",
-      name:            fd.get("name"),
-      email:           fd.get("email"),
-      phone:           fd.get("phone"),
-      eventDate:       fd.get("eventDate"),
-      startTime:       fd.get("startTime"),
-      endTime:         fd.get("endTime"),
-      eventAddress:    fd.get("eventAddress"),
-      city:            fd.get("city"),
-      province:        fd.get("province"),
-      postalCode:      fd.get("postalCode"),
-      setupSurface:    surface,
-      powerAccess:     fd.get("powerAccess"),
-      waterAccess:     fd.get("waterAccess"),
-      guests:          fd.get("guests"),
+      access_key:       W3F_KEY,
+      subject:          "New Nova Kingdom Rentals Quote Request",
+      business:         "Nova Kingdom Rentals",
+      inquiryType:      "Availability request — not a confirmed booking",
+      name:             formState.name,
+      email:            formState.email,
+      phone:            formState.phone,
+      eventDate:        formState.eventDate,
+      startTime:        formState.startTime,
+      endTime:          formState.endTime,
+      eventAddress:     formState.eventAddress,
+      city:             formState.city,
+      province:         formState.province,
+      postalCode:       formState.postalCode,
+      setupSurface:     surface,
+      powerAccess:      formState.powerAccess,
+      waterAccess:      formState.waterAccess,
+      guests:           formState.guests,
       kmFromBridgewater: km !== null ? km + " km" : "Not provided — quoted manually",
-      notes:           fd.get("notes"),
-      selectedItems:   selectedSummary,
-      subtotal:        formatMoney(subtotal),
+      notes:            formState.notes,
+      selectedItems:    selectedSummary,
+      subtotal:         formatMoney(subtotal),
       deliveryEstimate: delivery === null ? "Quoted manually" : formatMoney(delivery),
-      sandbagEstimate: sandbags > 0 ? formatMoney(sandbags) : (lawnsOnly ? "N/A (lawn games only)" : "Depends on surface"),
-      estimatedTotal:  formatMoney(subtotal + (delivery || 0) + sandbags),
-      disclaimer:      DISCLAIMER,
+      sandbagEstimate:  sandbags > 0 ? formatMoney(sandbags) : (lawnsOnly ? "N/A (lawn games only)" : "Depends on surface"),
+      estimatedTotal:   formatMoney(subtotal + (delivery || 0) + sandbags),
+      disclaimer:       DISCLAIMER,
     };
 
     try {
       const res  = await fetch("https://api.web3forms.com/submit", {
-        method:  "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body:    JSON.stringify(payload),
+        method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (!res.ok || !data.success) throw new Error("Submission failed");
       if (msgEl) { msgEl.hidden = false; msgEl.className = "nk-form-msg success"; msgEl.textContent = "Quote request sent! We'll confirm availability, delivery cost, and next steps soon."; }
       if (submitBtn) submitBtn.textContent = "Sent!";
+      // Clear both form and cart after successful submission
       form.reset();
+      clearFormState();
+      saveCart([]);
+      updateBar();
     } catch {
       if (msgEl) { msgEl.hidden = false; msgEl.className = "nk-form-msg error"; msgEl.textContent = "Something went wrong. Please call or text 902-990-0005."; }
       if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Request Availability"; }
@@ -475,18 +525,28 @@ function makeFormSection(items, stats) {
   return sec;
 }
 
-// ── Card enhancement (Add to Quote buttons) ──────────────────────
+// ── Card enhancement ─────────────────────────────────────────────
+
+function hideCheckAvailabilityLinks(container) {
+  container.querySelectorAll("a, button").forEach((el) => {
+    if (el.textContent.trim() === "Check Availability") {
+      el.style.display = "none";
+      el.setAttribute("aria-hidden", "true");
+    }
+  });
+}
+
 function enhanceProductCards() {
   document.querySelectorAll(".product-card:not(.lawn-feature-card):not([data-nk-enhanced])").forEach((card) => {
     card.dataset.nkEnhanced = "1";
-    const name     = card.querySelector("h3")?.textContent?.trim();
-    const priceEl  = card.querySelector(".product-body strong") || card.querySelector("strong");
-    const id       = name ? "product-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-") : null;
+    const name    = card.querySelector("h3")?.textContent?.trim();
+    const priceEl = card.querySelector(".product-body strong") || card.querySelector("strong");
+    const id      = name ? "product-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-") : null;
     if (!name || !priceEl || !id) return;
-    const price    = parsePrice(priceEl.textContent);
+    const price = parsePrice(priceEl.textContent);
     if (!price) return;
-    const insertBefore = card.querySelector(".button, a");
-    injectAddBtn(card, id, name, price, true, insertBefore);
+    injectAddBtn(card, id, name, price, true, card.querySelector(".button, a"), {});
+    // Product cards use "View Details" not "Check Availability" — no hiding needed
   });
 }
 
@@ -497,10 +557,19 @@ function enhancePackageCards() {
     const priceEl = card.querySelector("strong");
     const id      = name ? "pkg-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-") : null;
     if (!name || !priceEl || !id) return;
-    const price   = parsePrice(priceEl.textContent);
+    const price = parsePrice(priceEl.textContent);
     if (!price) return;
-    const insertBefore = card.querySelector("[data-package-detail-button], .button, a");
-    injectAddBtn(card, id, name, price, true, insertBefore);
+
+    // Detect whether this package includes 5 lawn games from the rendered included-items text
+    const includedText = Array.from(card.querySelectorAll("p")).map((p) => p.textContent).join(" ");
+    const includesLawnGames = /5\s*lawn\s*games?/i.test(includedText);
+
+    injectAddBtn(card, id, name, price, true,
+      card.querySelector("[data-package-detail-button], .button, a"),
+      { includesLawnGames });
+
+    // Hide "Check Availability" — "Add to Quote" is the primary CTA; "View What's Included" stays
+    hideCheckAvailabilityLinks(card);
   });
 }
 
@@ -512,13 +581,14 @@ function enhanceProductDetail() {
   const priceEl = hero.querySelector(".detail-meta span");
   const id      = name ? "product-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-") : null;
   if (!name || !priceEl || !id) return;
-  const price   = parsePrice(priceEl.textContent);
+  const price = parsePrice(priceEl.textContent);
   if (!price) return;
-  const insertBefore = hero.querySelector(".button-row, .button, a");
-  injectAddBtn(hero, id, name, price, true, insertBefore);
+  injectAddBtn(hero, id, name, price, true,
+    hero.querySelector(".button-row, .button, a"), {});
+  hideCheckAvailabilityLinks(hero);
 }
 
-function injectAddBtn(container, id, name, price, isInflatable, insertBefore) {
+function injectAddBtn(container, id, name, price, isInflatable, insertBefore, meta) {
   if (container.querySelector(".nk-add-to-quote")) return;
   const inCart = loadCart().some((i) => i.id === id);
   const btn = document.createElement("button");
@@ -527,10 +597,17 @@ function injectAddBtn(container, id, name, price, isInflatable, insertBefore) {
   btn.textContent = inCart ? "In Quote ✓" : "Add to Quote";
   btn.dataset.nkId = id;
   btn.addEventListener("click", () => {
-    const cart = loadCart();
+    let cart = loadCart();
     const nowIn = cart.some((i) => i.id === id);
-    if (nowIn) { saveCart(cart.filter((i) => i.id !== id)); }
-    else        { saveCart([...cart, { id, name, price, isInflatable }]); }
+    if (nowIn) {
+      saveCart(cart.filter((i) => i.id !== id));
+    } else {
+      // If this package includes 5 LG, auto-remove conflicting standalone LG selections
+      if (meta?.includesLawnGames) {
+        cart = cart.filter((i) => i.id !== "lg-5" && i.id !== "lg-10" && i.id !== "lg-12");
+      }
+      saveCart([...cart, { id, name, price, isInflatable, ...meta }]);
+    }
     const after = loadCart().some((i) => i.id === id);
     btn.textContent = after ? "In Quote ✓" : "Add to Quote";
     btn.classList.toggle("in-cart", after);
@@ -557,20 +634,15 @@ function init() {
     updateBar();
     enhanceAll();
 
-    // MutationObserver: ONLY for card enhancement.
-    // renderPanel() is NEVER called from here.
+    // MutationObserver: card enhancement only. renderPanel() NEVER called here.
     let observerBusy = false;
     const observer = new MutationObserver(() => {
       if (observerBusy) return;
       observerBusy = true;
-      requestAnimationFrame(() => {
-        enhanceAll();
-        observerBusy = false;
-      });
+      requestAnimationFrame(() => { enhanceAll(); observerBusy = false; });
     });
     observer.observe(document.body, { childList: true, subtree: true });
 
-    // SPA navigation support
     const scheduleEnhance = () => setTimeout(enhanceAll, 100);
     window.addEventListener("popstate", scheduleEnhance);
     if (!window.NovaQuoteCartHistoryPatched) {
