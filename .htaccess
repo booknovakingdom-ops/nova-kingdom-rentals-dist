@@ -2,6 +2,19 @@
   AddType application/javascript .mjs
 </IfModule>
 
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|json|txt)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+  <FilesMatch "\.(mjs|js|css)$">
+    Header set Cache-Control "public, max-age=3600, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+DirectoryIndex index.html
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
@@ -36,8 +49,10 @@
 
   # STATIC ROUTE HTML (SEO)
   # Serve generated /route/index.html files for clean URLs before the SPA fallback.
-  RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
-  RewriteRule ^(.+[^/])$ /$1/index.html [L]
+  # %{REQUEST_FILENAME} is more reliable on shared hosts than DOCUMENT_ROOT when
+  # the domain root is symlinked or internally remapped by the hosting panel.
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
+  RewriteRule ^(.+?)/?$ $1/index.html [L]
 
   # REACT ROUTING FALLBACK
   RewriteRule ^index\.html$ - [L]
