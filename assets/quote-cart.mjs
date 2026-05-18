@@ -1,12 +1,10 @@
-/* Nova Kingdom Rentals — Quote Cart v20260518-finalrefine
+/* Nova Kingdom Rentals — Quote Cart v20260518-lawnfix
    Availability request only. No payment. No confirmed booking.
-   Changes vs statefix:
-   - Power field replaced: "Distance to power outlet" with 5 options + note + manual-review flag
-   - Duplicate protection: packages block re-adding their included products
-   - Crown Carnival Challenge: $270 standalone, $200 when any package is in cart
-   - Individual lawn game add-ons: Cornhole standalone $45, generic +$25/each counter
-   - Agreement/waiver note added near submit button
-   - "Check Availability" hidden on product rental cards too
+   Changes vs packagefix:
+   - Individual lawn game "Add to Quote" buttons injected directly on /lawn-games cards
+   - Price shown on each card ($45 Cornhole, $25 all others)
+   - "Check Availability" CTA hidden on lawn game cards
+   - Selecting 12-game package auto-removes individual lg-game-* items from cart
 */
 
 console.info("Nova Quote Cart loaded");
@@ -54,6 +52,10 @@ const UPGRADE_OPTIONS = [
   { id: "lg-upgrade-10", name: "Upgrade to 10 Lawn Games", price: 75,  note: "Excludes Cornhole — Cornhole add-on +$25", cornholeEligible: true,  isInflatable: false },
   { id: "lg-upgrade-12", name: "Upgrade to all 12 Lawn Games", price: 105, note: "All 12 games including Cornhole",       cornholeEligible: false, isInflatable: false },
 ];
+
+// Pricing for individual lawn game add-ons (per card on /lawn-games)
+const LG_INDIVIDUAL_PRICES = { "cornhole": 45 }; // all others $25
+const LG_GAME_ID_PREFIX    = "lg-game-";
 
 // Cleared as a group when a new lawn-game package/upgrade is selected
 const ALL_LG_IDS = new Set([
@@ -203,13 +205,16 @@ function updateBar() {
   if (JSON.stringify(items) !== JSON.stringify(rawItems)) saveCart(items);
 
   const included = getIncludedProductIds(items);
+  const has12LG  = items.some((i) => i.id === "lg-12" || i.id === "lg-upgrade-12");
   bar.hidden = items.length === 0;
   if (count) count.textContent = String(items.length);
 
   document.querySelectorAll(".nk-add-to-quote[data-nk-id]").forEach((btn) => {
     const pid        = btn.dataset.nkId;
     const includedIn = included[pid];
-    if (includedIn) {
+    if (has12LG && pid.startsWith(LG_GAME_ID_PREFIX)) {
+      btn.textContent = "In 12-game package"; btn.classList.add("in-cart"); btn.disabled = true;
+    } else if (includedIn) {
       btn.textContent = "Included in package"; btn.classList.add("in-cart"); btn.disabled = true;
     } else if (pid.startsWith("pkg-") && getCoveringPackage(pid, items)) {
       btn.textContent = "Already covered by your package"; btn.classList.add("in-cart"); btn.disabled = true;
@@ -381,6 +386,10 @@ function makeLawnSection(items) {
     const optDef = options.find((p) => p.id === optId);
     if (!optDef) return;
     let cart = loadCart().filter((i) => !ALL_LG_IDS.has(i.id));
+    // 12-game package covers all individual games — remove them to avoid double-charging
+    if (optId === "lg-12" || optId === "lg-upgrade-12") {
+      cart = cart.filter((i) => !i.id.startsWith(LG_GAME_ID_PREFIX));
+    }
     if (!cartIds.has(optId)) {
       cart.push({ id: optDef.id, name: optDef.name, price: optDef.price, isInflatable: false });
     }
@@ -685,6 +694,25 @@ function enhancePackageCards() {
   });
 }
 
+function enhanceLawnGameCards() {
+  document.querySelectorAll(".lawn-game-card:not([data-nk-lg-enhanced])").forEach((card) => {
+    card.dataset.nkLgEnhanced = "1";
+    const name = card.querySelector("h3")?.textContent?.trim();
+    if (!name) return;
+    const slug  = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    const id    = LG_GAME_ID_PREFIX + slug;
+    const price = LG_INDIVIDUAL_PRICES[slug] ?? 25;
+    const existingCta = card.querySelector(".button-dark, .button, a");
+    const priceEl = document.createElement("p");
+    priceEl.className   = "nk-lg-card-price";
+    priceEl.textContent = "$" + price;
+    if (existingCta) { existingCta.insertAdjacentElement("beforebegin", priceEl); }
+    else             { card.appendChild(priceEl); }
+    injectAddBtn(card, id, name, price, false, existingCta, {});
+    hideCheckAvailabilityLinks(card);
+  });
+}
+
 function enhanceProductDetail() {
   const hero = document.querySelector(".product-detail-hero:not([data-nk-enhanced])");
   if (!hero) return;
@@ -785,6 +813,7 @@ function enhanceAll() {
   enhanceProductCards();
   enhancePackageCards();
   enhanceProductDetail();
+  enhanceLawnGameCards();
 }
 
 // ── Init (idempotent, runs once) ─────────────────────────────────
