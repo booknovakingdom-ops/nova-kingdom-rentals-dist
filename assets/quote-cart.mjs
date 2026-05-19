@@ -1,4 +1,4 @@
-/* Nova Kingdom Rentals — Quote Cart v20260518-pkgoverlapfix
+/* Nova Kingdom Rentals — Quote Cart v20260518-carnivalcard
    Availability request only. No payment. No confirmed booking.
    Changes vs rushfix:
    - effectiveProductSet() expands PKG_INCLUDED_PRODUCTS via PRODUCT_COVERS before
@@ -22,6 +22,15 @@ const SANDBAG_FEE = 25;
 const CROWN_CARNIVAL_ID         = "product-crown-carnival-challenge";
 const CROWN_CARNIVAL_STANDALONE = 270;
 const CROWN_CARNIVAL_ADDON      = 200;
+
+// Extra display metadata for specific cart items (thumbnail + subtitle in cart panel)
+const CART_ITEM_META = {
+  [CROWN_CARNIVAL_ID]: {
+    image:      "/images/crown carnival challenge.jpeg",
+    subtitle:   "Basketball shoot · Elephant toss · Tic Tac Toe · On-point target game",
+    addonLabel: "Add-on",
+  },
+};
 
 // Package cart IDs → included individual product cart IDs.
 // IDs are derived from names via: "pkg-" + name.toLowerCase().replace(/[^a-z0-9]+/g,"-")
@@ -365,17 +374,39 @@ function makeItemsSection(items) {
       '<p class="nk-empty-note">No items added yet. Use the "Add to Quote" buttons on rentals or packages, or pick a lawn game option below.</p>');
     return sec;
   }
+  const hasPkg = items.some((i) => i.id.startsWith("pkg-"));
   const ul = document.createElement("ul");
   ul.className = "nk-item-list";
   items.forEach((item) => {
-    const li        = document.createElement("li");   li.className        = "nk-item-row";
-    const nameSpan  = document.createElement("span"); nameSpan.className  = "nk-item-name";  nameSpan.textContent = item.name;
+    const li   = document.createElement("li"); li.className = "nk-item-row";
+    const meta = CART_ITEM_META[item.id];
+
+    if (meta?.image) {
+      const thumb = document.createElement("img");
+      thumb.className = "nk-item-thumb";
+      thumb.src = meta.image;
+      thumb.alt = "";
+      thumb.setAttribute("aria-hidden", "true");
+      thumb.setAttribute("loading", "lazy");
+      li.appendChild(thumb);
+    }
+
+    const info = document.createElement("div"); info.className = "nk-item-info";
+    const nameSpan = document.createElement("span"); nameSpan.className = "nk-item-name"; nameSpan.textContent = item.name;
+    info.appendChild(nameSpan);
+    if (meta?.subtitle) {
+      const sub = document.createElement("small"); sub.className = "nk-item-sub";
+      sub.textContent = (hasPkg && meta.addonLabel ? meta.addonLabel + " · " : "") + meta.subtitle;
+      info.appendChild(sub);
+    }
+    li.appendChild(info);
+
     const priceSpan = document.createElement("span"); priceSpan.className = "nk-item-price"; priceSpan.textContent = formatMoney(item.price);
-    const rmBtn     = document.createElement("button");
+    const rmBtn = document.createElement("button");
     rmBtn.type = "button"; rmBtn.className = "nk-item-remove";
     rmBtn.setAttribute("aria-label", "Remove " + item.name);
     rmBtn.textContent = "✕"; rmBtn.dataset.rmId = item.id;
-    li.appendChild(nameSpan); li.appendChild(priceSpan); li.appendChild(rmBtn);
+    li.appendChild(priceSpan); li.appendChild(rmBtn);
     ul.appendChild(li);
   });
   ul.addEventListener("click", (e) => {
@@ -745,6 +776,13 @@ function enhancePackageCards() {
   });
 }
 
+function enhanceCarnivalAddonBtns() {
+  document.querySelectorAll("[data-nk-carnival-addon]:not([data-nk-ca-enhanced])").forEach((card) => {
+    card.dataset.nkCaEnhanced = "1";
+    injectAddBtn(card, CROWN_CARNIVAL_ID, "Crown Carnival Challenge", CROWN_CARNIVAL_ADDON, true, null, {});
+  });
+}
+
 function enhanceLawnGameCards() {
   document.querySelectorAll(".lawn-game-card:not([data-nk-lg-enhanced])").forEach((card) => {
     card.dataset.nkLgEnhanced = "1";
@@ -880,6 +918,7 @@ function enhanceAll() {
   enhancePackageCards();
   enhanceProductDetail();
   enhanceLawnGameCards();
+  enhanceCarnivalAddonBtns();
 }
 
 // ── Init (idempotent, runs once) ─────────────────────────────────

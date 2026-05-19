@@ -154,10 +154,29 @@
   border-radius: 5px;
   padding: 0.6rem 0.75rem;
 }
-.nk-item-name {
+.nk-item-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.nk-item-info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.nk-item-name {
   font-size: 0.875rem;
   color: #d0d4ec;
+}
+.nk-item-sub {
+  font-size: 0.72rem;
+  color: #778;
+  line-height: 1.35;
+  white-space: normal;
 }
 .nk-item-price {
   font-size: 0.875rem;

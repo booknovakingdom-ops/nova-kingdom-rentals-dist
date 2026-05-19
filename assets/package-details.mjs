@@ -175,7 +175,22 @@ function renderPackagePanel(pkg) {
         <h3>Optional add-ons</h3>
         <p><strong>Lawn Games:</strong> ${escapeHtml(addonLine)}</p>
         <small>Available lawn game lineup: ${escapeHtml(LAWN_GAMES_LIST.join(", "))}.</small>
-        <p style="margin-top:0.75rem;"><strong>Crown Carnival Challenge:</strong> Add the Crown Carnival Challenge inflatable game to any package for $200 (standalone price $270). Features basketball shoot, elephant toss, Tic Tac Toe, and on-point target game in one unit.</p>
+
+        <div class="package-addon-carnival" data-nk-carnival-addon>
+          <img src="/images/crown carnival challenge.jpeg" alt="Crown Carnival Challenge inflatable add-on" loading="lazy" onerror="this.style.display='none'">
+          <div class="package-addon-carnival-body">
+            <span class="package-addon-badge">Add-on</span>
+            <h4>Crown Carnival Challenge</h4>
+            <ul class="package-addon-features">
+              <li>Basketball shoot</li>
+              <li>Elephant toss</li>
+              <li>Tic Tac Toe</li>
+              <li>On-point target game</li>
+            </ul>
+            <p class="package-addon-price">Add to any package for <strong>$200</strong></p>
+            <small class="package-addon-standalone">Standalone price: $270</small>
+          </div>
+        </div>
       </div>
 
       <div class="package-upgrades">
