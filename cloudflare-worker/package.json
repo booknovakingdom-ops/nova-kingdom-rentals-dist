@@ -1,0 +1,15 @@
+{
+  "name": "nova-kingdom-estimate-delivery-worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cloudflare Worker: server-side Google Routes API proxy for Nova Kingdom Rentals delivery estimates",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev":    "wrangler dev",
+    "test":   "node test.mjs",
+    "secret": "wrangler secret put GOOGLE_MAPS_API_KEY"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}

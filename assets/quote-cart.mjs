@@ -1,9 +1,9 @@
-/* Nova Kingdom Rentals — Quote Cart v20260519-finalaudit
+/* Nova Kingdom Rentals — Quote Cart v20260519-mapsapi
    Availability request only. No payment. No confirmed booking.
-   Changes vs mapready:
-   - Delivery + sandbag merged into one "Delivery & setup estimate" row with single tooltip
-   - Combined display logic: computed delivery + computed sandbag = combined est.;
-     any manual component shows appropriate fallback text in one line
+   Changes vs finalaudit:
+   - NOVA_KINGDOM_BASE_ADDRESS updated to full street address (backend validates it)
+   - DELIVERY_API_URL constant: swap to workers.dev URL if domain is not on Cloudflare
+   - Loading pulse class (.nk-loading) added while delivery API is in flight
 */
 
 console.info("Nova Quote Cart loaded");
@@ -17,9 +17,16 @@ const RATE_PER_KM = 0.72;
 const SANDBAG_FEE = 15;
 const TRAVEL_RATE = 25; // $25/hr staff travel, used in auto-calculated delivery estimate
 
-// /api/estimate-delivery origin. The backend keeps the exact residential address and
-// the Google Maps API key server-side — do NOT hardcode them here.
-const NOVA_KINGDOM_BASE_ADDRESS = "Bridgewater, NS";
+// Full base address sent to the Worker. The Worker validates this value and keeps
+// the Google Maps API key server-side — do NOT hardcode the key here.
+const NOVA_KINGDOM_BASE_ADDRESS = "598 Upper Branch Rd, Wileville, NS B4V 5M7, Canada";
+
+// Delivery API endpoint.
+// • If novakingdomrentals.com is on Cloudflare with the worker route configured,
+//   the relative "/api/estimate-delivery" is intercepted by the Worker automatically.
+// • If using a standalone workers.dev URL (no Cloudflare DNS proxy), replace with:
+//   "https://estimate-delivery.<YOUR_ACCOUNT>.workers.dev"
+const DELIVERY_API_URL = "/api/estimate-delivery";
 
 // Crown Carnival Challenge: dynamic pricing based on whether a package is in cart
 const CROWN_CARNIVAL_ID         = "product-crown-carnival-challenge";
@@ -151,12 +158,15 @@ async function estimateDeliveryFromAddress(address) {
   deliveryState.isManual    = false;
 
   const setupEl = eid("nk-setup-val");
-  if (setupEl) setupEl.textContent = "Looking up delivery estimate…";
+  if (setupEl) {
+    setupEl.textContent = "Looking up delivery estimate…";
+    setupEl.classList.add("nk-loading");
+  }
 
   try {
     const controller = new AbortController();
     const timeoutId  = setTimeout(() => controller.abort(), 8000);
-    const res = await fetch("/api/estimate-delivery", {
+    const res = await fetch(DELIVERY_API_URL, {
       method:  "POST",
       headers: { "Content-Type": "application/json" },
       body:    JSON.stringify({ origin: NOVA_KINGDOM_BASE_ADDRESS, destination: trimmed }),
@@ -177,6 +187,8 @@ async function estimateDeliveryFromAddress(address) {
     deliveryState.isManual        = true;
   }
   deliveryState.isPending = false;
+  const setupElFinal = eid("nk-setup-val");
+  if (setupElFinal) setupElFinal.classList.remove("nk-loading");
   triggerRecalcEstimate();
 }
 

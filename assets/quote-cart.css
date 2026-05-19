@@ -423,3 +423,13 @@
   color: #556;
   margin-top: 0.15rem;
 }
+
+/* Loading pulse while delivery API is in-flight */
+.nk-loading {
+  animation: nk-pulse 1.4s ease-in-out infinite;
+  color: #667 !important;
+}
+@keyframes nk-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
