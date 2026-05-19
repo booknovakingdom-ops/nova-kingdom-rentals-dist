@@ -188,7 +188,7 @@ def route_metadata(
 
     routes: dict[str, dict[str, Any]] = {
         "/": {
-            "title": "Bouncy Castle Rentals Bridgewater NS | Nova Kingdom Rentals",
+            "title": "Inflatable & Bouncy Castle Rentals Nova Scotia | Nova Kingdom Rentals",
             "description": "Bridgewater bouncy castle rentals with inflatables, water slides, combos, lawn games and party packages. Setup included. Larger events available across Nova Scotia and the Maritimes.",
             "image": GENERAL_IMAGE,
             "schema": [

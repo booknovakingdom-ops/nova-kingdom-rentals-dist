@@ -1,11 +1,9 @@
-/* Nova Kingdom Rentals — Quote Cart v20260519-mapready
+/* Nova Kingdom Rentals — Quote Cart v20260519-finalaudit
    Availability request only. No payment. No confirmed booking.
-   Changes vs deliveryrtfix:
-   - Address-based delivery: estimateDeliveryFromAddress() calls POST /api/estimate-delivery
-     (graceful fallback to "manual quote" when endpoint is absent/fails/times out)
-   - Staff travel card grid removed; combined fee auto-calculates from API response
-   - Sandbag fee $15/unit (was $25); turf/gravel/other surface → manual review
-   - km manual-entry field removed; address drives delivery estimate
+   Changes vs mapready:
+   - Delivery + sandbag merged into one "Delivery & setup estimate" row with single tooltip
+   - Combined display logic: computed delivery + computed sandbag = combined est.;
+     any manual component shows appropriate fallback text in one line
 */
 
 console.info("Nova Quote Cart loaded");
@@ -152,8 +150,8 @@ async function estimateDeliveryFromAddress(address) {
   deliveryState.isPending   = true;
   deliveryState.isManual    = false;
 
-  const deliveryEl = eid("nk-delivery-val");
-  if (deliveryEl) deliveryEl.textContent = "Looking up delivery estimate…";
+  const setupEl = eid("nk-setup-val");
+  if (setupEl) setupEl.textContent = "Looking up delivery estimate…";
 
   try {
     const controller = new AbortController();
@@ -682,38 +680,23 @@ function makeEstimateSection(items, stats) {
   const tbl = document.createElement("table"); tbl.className = "nk-estimate-table";
   tbl.innerHTML =
     "<tr><td>Subtotal</td><td>" + escHtml(formatMoney(subtotal)) + "</td></tr>" +
-    "<tr><td>Delivery Estimate <span class='nk-tooltip-wrap'>" +
-      "<button class='nk-tooltip-icon nk-tip-delivery' type='button' aria-label='About delivery estimate'>ⓘ</button>" +
-      "<span class='nk-tooltip-body nk-tip-body-delivery'>Delivery estimate may include distance-based travel and required staff travel time. Final delivery/travel cost is confirmed manually after address review.</span>" +
-    "</span></td><td id='nk-delivery-val'>Enter event address below</td></tr>" +
-    "<tr><td>Sandbag anchoring estimate <span class='nk-tooltip-wrap'>" +
-      "<button class='nk-tooltip-icon nk-tip-sandbag' type='button' aria-label='About sandbag anchoring'>ⓘ</button>" +
-      "<span class='nk-tooltip-body nk-tip-body-sandbag'>Sandbags may be required for indoor, concrete, asphalt, turf, gravel, or other non-grass setups. Final anchoring requirements are confirmed manually after setup review.</span>" +
-    "</span></td><td id='nk-sandbag-val'>" + (lawnsOnly ? "N/A" : "Enter surface below") + "</td></tr>" +
+    "<tr><td>Delivery &amp; setup estimate <span class='nk-tooltip-wrap'>" +
+      "<button class='nk-tooltip-icon nk-tip-setup' type='button' aria-label='About delivery and setup estimate'>ⓘ</button>" +
+      "<span class='nk-tooltip-body nk-tip-body-setup'>Delivery &amp; setup estimate may include distance-based travel, required staff travel time, and sandbag anchoring for non-grass setups. Final delivery, travel, and anchoring costs are confirmed manually after address and setup review.</span>" +
+    "</span></td><td id='nk-setup-val'>Enter event address below</td></tr>" +
     "<tr><td>Event attendant estimate</td><td id='nk-attendant-val'>—</td></tr>" +
     "<tr class='total'><td>Estimated total</td><td id='nk-total-val'>" + escHtml(formatMoney(subtotal)) + "</td></tr>";
 
-  const deliveryTipIcon = tbl.querySelector(".nk-tip-delivery");
-  const deliveryTipBody = tbl.querySelector(".nk-tip-body-delivery");
-  const sandbagTipIcon  = tbl.querySelector(".nk-tip-sandbag");
-  const sandbagTipBody  = tbl.querySelector(".nk-tip-body-sandbag");
-  if (deliveryTipIcon && deliveryTipBody) {
-    deliveryTipIcon.addEventListener("click", (e) => {
+  const setupTipIcon = tbl.querySelector(".nk-tip-setup");
+  const setupTipBody = tbl.querySelector(".nk-tip-body-setup");
+  if (setupTipIcon && setupTipBody) {
+    setupTipIcon.addEventListener("click", (e) => {
       e.stopPropagation();
-      deliveryTipBody.classList.toggle("visible");
-      sandbagTipBody?.classList.remove("visible");
-    });
-  }
-  if (sandbagTipIcon && sandbagTipBody) {
-    sandbagTipIcon.addEventListener("click", (e) => {
-      e.stopPropagation();
-      sandbagTipBody.classList.toggle("visible");
-      deliveryTipBody?.classList.remove("visible");
+      setupTipBody.classList.toggle("visible");
     });
   }
   document.addEventListener("click", () => {
-    deliveryTipBody?.classList.remove("visible");
-    sandbagTipBody?.classList.remove("visible");
+    setupTipBody?.classList.remove("visible");
   });
   sec.appendChild(tbl);
 
@@ -816,51 +799,81 @@ function makeFormSection(items, stats) {
   const surfaceSelect = form.querySelector("#nkf-surface");
 
   function recalcEstimate() {
-    const deliveryEl  = eid("nk-delivery-val");
-    const sandbagEl   = eid("nk-sandbag-val");
+    const setupEl     = eid("nk-setup-val");
     const attendantEl = eid("nk-attendant-val");
     const totalEl     = eid("nk-total-val");
-    if (!deliveryEl || !sandbagEl || !totalEl) return;
+    if (!setupEl || !totalEl) return;
 
     const surface = surfaceSelect?.value || "";
 
-    // ── Delivery ─────────────────────────────────────────────────
-    let deliveryCost   = 0;
-    let deliveryManual = false;
-
-    if (!deliveryState.isPending) {
-      if (deliveryState.isManual || deliveryState.distanceKm === null) {
-        deliveryManual = true;
-        deliveryEl.textContent = "Delivery estimate — quoted manually after address review";
-      } else {
-        const km         = deliveryState.distanceKm;
-        const billableKm = Math.max(km - FREE_KM, 0);
-        const distFee    = Math.round(billableKm * 2 * RATE_PER_KM * 100) / 100;
-        const rtHr       = (deliveryState.durationMinutes * 2) / 60;
-        const billableHr = Math.ceil(rtHr / 0.25) * 0.25;
-        const staffFee   = Math.round(billableHr * TRAVEL_RATE * 100) / 100;
-        deliveryCost     = Math.round((distFee + staffFee) * 100) / 100;
-        const mainText   = deliveryCost === 0 ? "Free (within 15 km)" : "$" + deliveryCost.toFixed(2) + " est.";
-        const fmtHr      = parseFloat(billableHr.toFixed(2)).toString();
-        const subText    = "Distance: " + km.toFixed(1) + " km • Estimated round-trip staff travel: " + fmtHr + " hr";
-        deliveryEl.innerHTML = escHtml(mainText) + "<br><small class='nk-delivery-sub'>" + escHtml(subText) + "</small>";
-      }
-    }
-    // If isPending: "Looking up…" is already set by estimateDeliveryFromAddress — don't overwrite.
-
     // ── Sandbag — $15/unit for hard surfaces ─────────────────────
-    let sandbags    = 0;
-    let sandbagText = "N/A";
+    let sandbags      = 0;
+    let sandbagManual = false;
+    let sandbagNote   = "";
     if (!lawnsOnly && inflatableCount > 0) {
       if (surface === "Grass") {
-        sandbagText = "$0 (grass — no sandbags)";
+        // $0 — no note
       } else if (surface === "Indoor gym" || surface === "Concrete or asphalt") {
         sandbags    = inflatableCount * SANDBAG_FEE;
-        sandbagText = inflatableCount + " unit" + (inflatableCount !== 1 ? "s" : "") + " \xd7 $15 = " + formatMoney(sandbags) + " est.";
+        sandbagNote = inflatableCount + " unit" + (inflatableCount !== 1 ? "s" : "") + " \xd7 $15 anchoring";
       } else if (surface === "Artificial turf" || surface === "Gravel" || surface === "Other") {
-        sandbagText = "Manual review after setup details";
+        sandbagManual = true;
+        sandbagNote   = "anchoring (manual review)";
+      } else if (surface === "") {
+        sandbagNote = "anchoring (enter surface below)";
+      }
+    }
+
+    // ── Delivery ──────────────────────────────────────────────────
+    let deliveryCost    = 0;
+    let deliveryManual  = false;
+    let deliverySubText = "";
+
+    if (deliveryState.isPending) {
+      // "Looking up…" already set by estimateDeliveryFromAddress — keep it, update total only
+    } else if (deliveryState.isManual || deliveryState.distanceKm === null) {
+      deliveryManual = true;
+    } else {
+      const km         = deliveryState.distanceKm;
+      const billableKm = Math.max(km - FREE_KM, 0);
+      const distFee    = Math.round(billableKm * 2 * RATE_PER_KM * 100) / 100;
+      const rtHr       = (deliveryState.durationMinutes * 2) / 60;
+      const billableHr = Math.ceil(rtHr / 0.25) * 0.25;
+      const staffFee   = Math.round(billableHr * TRAVEL_RATE * 100) / 100;
+      deliveryCost     = Math.round((distFee + staffFee) * 100) / 100;
+      const fmtHr      = parseFloat(billableHr.toFixed(2)).toString();
+      deliverySubText  = "Distance: " + km.toFixed(1) + " km • Est. round-trip travel: " + fmtHr + " hr";
+    }
+
+    // ── Combined display ──────────────────────────────────────────
+    if (!deliveryState.isPending) {
+      if (deliveryManual) {
+        if (sandbags > 0) {
+          setupEl.textContent = formatMoney(sandbags) + " anchoring est. + delivery (manual review)";
+        } else if (sandbagManual) {
+          setupEl.textContent = "Delivery & anchoring — manual review after address and setup details";
+        } else {
+          const suffix = sandbagNote ? " • " + sandbagNote : "";
+          setupEl.textContent = "Quoted manually after address review" + suffix;
+        }
       } else {
-        sandbagText = "Enter surface below";
+        const combined     = deliveryCost + sandbags;
+        const deliveryText = deliveryCost === 0 ? "Free delivery (within 15 km)" : "$" + deliveryCost.toFixed(2) + " delivery";
+        let mainText, subText;
+        if (sandbags > 0) {
+          mainText = "$" + combined.toFixed(2) + " est.";
+          const parts = [deliveryText, formatMoney(sandbags) + " anchoring (" + sandbagNote + ")"];
+          if (deliverySubText) parts.push(deliverySubText);
+          subText = parts.join(" • ");
+        } else if (sandbagManual) {
+          mainText = deliveryText + " est. + anchoring (manual review)";
+          subText  = deliverySubText;
+        } else {
+          mainText = deliveryCost === 0 ? "Free (within 15 km)" : "$" + deliveryCost.toFixed(2) + " est.";
+          subText  = deliverySubText || sandbagNote;
+        }
+        setupEl.innerHTML = escHtml(mainText) +
+          (subText ? "<br><small class='nk-delivery-sub'>" + escHtml(subText) + "</small>" : "");
       }
     }
 
@@ -873,14 +886,16 @@ function makeFormSection(items, stats) {
       attendantCost = count * hours * ATTENDANT_RATE;
       attendantText = count + " attendant" + (count !== 1 ? "s" : "") + " \xd7 " + hours + " hr" + (hours !== 1 ? "s" : "") + " \xd7 $35 = " + formatMoney(attendantCost) + " est.";
     }
-
-    sandbagEl.textContent = sandbagText;
     if (attendantEl) attendantEl.textContent = attendantText;
 
     if (deliveryState.isPending) {
       totalEl.textContent = formatMoney(subtotal + sandbags + attendantCost) + " + delivery (pending)";
+    } else if (deliveryManual && sandbagManual) {
+      totalEl.textContent = formatMoney(subtotal + attendantCost) + " + delivery & anchoring (manual)";
     } else if (deliveryManual) {
       totalEl.textContent = formatMoney(subtotal + sandbags + attendantCost) + " + delivery (manual)";
+    } else if (sandbagManual) {
+      totalEl.textContent = formatMoney(subtotal + deliveryCost + attendantCost) + " + anchoring (manual)";
     } else {
       totalEl.textContent = formatMoney(subtotal + deliveryCost + sandbags + attendantCost);
     }
