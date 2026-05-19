@@ -1,30 +1,13 @@
-name            = "estimate-delivery"
-main            = "estimate-delivery.js"
+name               = "nova-delivery-api"
+main               = "estimate-delivery.js"
 compatibility_date = "2024-09-23"
 
-# ── Route configuration ────────────────────────────────────────────────────────
-#
-# OPTION A — Domain on Cloudflare (recommended)
-# Uncomment AFTER you have:
-#   1. Added novakingdomrentals.com to your Cloudflare account
-#   2. Enabled the Cloudflare proxy (orange cloud) on the A/CNAME record
-#   3. Run: wrangler deploy
-#
-# [[routes]]
-# pattern  = "novakingdomrentals.com/api/estimate-delivery"
-# zone_name = "novakingdomrentals.com"
-#
-# OPTION B — Standalone workers.dev URL (no Cloudflare DNS required)
-# Remove the [[routes]] block entirely and deploy with:
-#   wrangler deploy
-# Your worker will be live at:
-#   https://estimate-delivery.<YOUR_ACCOUNT>.workers.dev
-# Then update DELIVERY_API_URL in assets/quote-cart.mjs to that full URL.
-#
+# Route — intercepts /api/estimate-delivery on the Cloudflare-proxied domain.
+# novakingdomrentals.com must have orange-cloud (Proxied) DNS enabled.
+[[routes]]
+pattern   = "novakingdomrentals.com/api/estimate-delivery"
+zone_name = "novakingdomrentals.com"
+
 # ── API key ───────────────────────────────────────────────────────────────────
-#
-# NEVER put the API key here.
-# Set it once with:
-#   wrangler secret put GOOGLE_MAPS_API_KEY
-# Or via Cloudflare Dashboard → Workers & Pages → estimate-delivery
-#          → Settings → Variables and Secrets → Add variable (encrypt it)
+# GOOGLE_MAPS_API_KEY is already stored as a Worker secret in the dashboard.
+# To rotate it later:  wrangler secret put GOOGLE_MAPS_API_KEY
