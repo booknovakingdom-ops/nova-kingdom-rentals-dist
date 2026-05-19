@@ -370,6 +370,44 @@
 .nk-field-note { font-size: 0.75rem; color: #556; margin-top: 0.3rem; line-height: 1.4; }
 .nk-power-flag { font-size: 0.78rem; color: #e0a020; font-weight: 600; margin-top: 0.25rem; }
 
+/* Delivery estimate tooltip */
+.nk-tooltip-wrap {
+  display: inline-block;
+  position: relative;
+}
+.nk-tooltip-icon {
+  background: none;
+  border: none;
+  color: #667;
+  cursor: pointer;
+  font-size: 0.8rem;
+  line-height: 1;
+  padding: 0 0.1rem;
+  vertical-align: middle;
+}
+.nk-tooltip-icon:hover { color: #c9a227; }
+.nk-tooltip-body {
+  background: #131730;
+  border: 1px solid #1e2340;
+  border-radius: 5px;
+  bottom: calc(100% + 6px);
+  color: #aab;
+  display: none;
+  font-size: 0.75rem;
+  left: 50%;
+  line-height: 1.45;
+  padding: 0.5rem 0.7rem;
+  pointer-events: none;
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: normal;
+  width: 220px;
+  z-index: 200;
+}
+.nk-tooltip-icon:hover + .nk-tooltip-body,
+.nk-tooltip-icon:focus + .nk-tooltip-body,
+.nk-tooltip-body.visible { display: block; }
+
 /* Individual lawn game card price */
 .nk-lg-card-price {
   font-size: 1rem;

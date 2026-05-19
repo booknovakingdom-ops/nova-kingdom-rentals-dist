@@ -1,4 +1,4 @@
-/* Nova Kingdom Rentals — Quote Cart v20260518-stafffix
+/* Nova Kingdom Rentals — Quote Cart v20260519-deliveryfix
    Availability request only. No payment. No confirmed booking.
    Changes vs rushfix:
    - effectiveProductSet() expands PKG_INCLUDED_PRODUCTS via PRODUCT_COVERS before
@@ -387,7 +387,6 @@ function renderPanel() {
     const frag = document.createDocumentFragment();
     frag.appendChild(makeItemsSection(items));
     frag.appendChild(makeLawnSection(items));
-    frag.appendChild(makeStaffTravelSection());
     frag.appendChild(makeAttendantSection());
     frag.appendChild(makeEstimateSection(items, stats));
     frag.appendChild(makeFormSection(items, stats));
@@ -556,43 +555,6 @@ function makeLawnSection(items) {
   return sec;
 }
 
-// ── Staff travel section ─────────────────────────────────────────
-function makeStaffTravelSection() {
-  const sec = document.createElement("section");
-  const title = document.createElement("p"); title.className = "nk-qs-title"; title.textContent = "Staff travel time estimate";
-  sec.appendChild(title);
-
-  const grid = document.createElement("div"); grid.className = "nk-lg-grid";
-  TRAVEL_OPTIONS.forEach((opt) => {
-    const btn = document.createElement("button"); btn.type = "button";
-    btn.className = "nk-lg-btn" + (extraState.travelOption === opt.value ? " selected" : "");
-    btn.setAttribute("data-travel-val", opt.value);
-    const n = document.createElement("span"); n.className = "nk-lg-btn-name"; n.textContent = opt.label;
-    const p = document.createElement("span"); p.className = "nk-lg-btn-price";
-    p.textContent = opt.cost === null ? "Manual quote" : (opt.cost === 0 ? "No charge" : formatMoney(opt.cost) + " est.");
-    btn.appendChild(n); btn.appendChild(p);
-    grid.appendChild(btn);
-  });
-
-  grid.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-travel-val]");
-    if (!btn) return;
-    const val = btn.dataset.travelVal;
-    extraState.travelOption = extraState.travelOption === val ? "" : val;
-    grid.querySelectorAll("[data-travel-val]").forEach((b) => {
-      b.classList.toggle("selected", b.dataset.travelVal === extraState.travelOption);
-    });
-    triggerRecalcEstimate();
-  });
-
-  sec.appendChild(grid);
-  const note = document.createElement("p"); note.className = "nk-estimate-note";
-  note.style.marginTop = "0.5rem";
-  note.textContent = "Staff travel time is estimated at $25/hour and confirmed manually after reviewing the event address and staffing needs.";
-  sec.appendChild(note);
-  return sec;
-}
-
 // ── Attendant section ────────────────────────────────────────────
 function makeAttendantSection() {
   const sec = document.createElement("section");
@@ -662,14 +624,26 @@ function makeEstimateSection(items, stats) {
   const tbl = document.createElement("table"); tbl.className = "nk-estimate-table";
   tbl.innerHTML =
     "<tr><td>Subtotal</td><td>" + escHtml(formatMoney(subtotal)) + "</td></tr>" +
-    "<tr><td>Delivery</td><td id='nk-delivery-val'>Enter km below</td></tr>" +
+    "<tr><td>Delivery estimate <span class='nk-tooltip-wrap'>" +
+      "<button class='nk-tooltip-icon' type='button' aria-label='About delivery estimate'>ⓘ</button>" +
+      "<span class='nk-tooltip-body'>Delivery estimate may include distance-based travel and staff travel time. Final delivery and travel costs are confirmed manually after reviewing the event address.</span>" +
+    "</span></td><td id='nk-delivery-val'>Enter km or select travel time below</td></tr>" +
     "<tr><td>Sandbag anchoring estimate</td><td id='nk-sandbag-val'>" + (lawnsOnly ? "N/A" : "Enter surface below") + "</td></tr>" +
-    "<tr><td>Staff travel estimate</td><td id='nk-travel-val'>Select option above</td></tr>" +
     "<tr><td>Event attendant estimate</td><td id='nk-attendant-val'>—</td></tr>" +
     "<tr class='total'><td>Estimated total</td><td id='nk-total-val'>" + escHtml(formatMoney(subtotal)) + "</td></tr>";
+  // Tooltip toggle for tap/click on mobile
+  const tooltipIcon = tbl.querySelector(".nk-tooltip-icon");
+  const tooltipBody = tbl.querySelector(".nk-tooltip-body");
+  if (tooltipIcon && tooltipBody) {
+    tooltipIcon.addEventListener("click", (e) => {
+      e.stopPropagation();
+      tooltipBody.classList.toggle("visible");
+    });
+    document.addEventListener("click", () => tooltipBody.classList.remove("visible"));
+  }
   sec.appendChild(tbl);
   const note = document.createElement("p"); note.className = "nk-estimate-note";
-  note.textContent = "Final anchoring requirements confirmed after setup review. Delivery: $0.72/km after the first 15 km from Bridgewater. Sandbag fee applies to inflatables on non-grass surfaces.";
+  note.textContent = "Final costs confirmed after address and setup review. Sandbag fee applies to inflatables on non-grass surfaces. Attendant needs confirmed based on event type and equipment.";
   sec.appendChild(note);
   return sec;
 }
@@ -708,6 +682,7 @@ function makeFormSection(items, stats) {
       <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-postal">Postal code</label><input id="nkf-postal" name="postalCode" type="text" placeholder="B4V ___"></div>
       <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-km">Approx. km from Bridgewater</label><input id="nkf-km" name="kmFromBridgewater" type="number" min="0" step="1" placeholder="blank = quoted manually"></div>
     </div>
+    <div id="nk-travel-slot" style="margin-top:0.75rem;margin-bottom:0.75rem;"></div>
     <div class="nk-qf-field">
       <label class="nk-qf-label" for="nkf-surface">Setup surface <span class="nk-req">*</span></label>
       <select id="nkf-surface" name="setupSurface" required>
@@ -753,6 +728,44 @@ function makeFormSection(items, stats) {
   restoreFormState(form);
   updatePowerFlag(form);
 
+  // ── Travel selector (inside Delivery section) ─────────────────
+  const travelSlot = form.querySelector("#nk-travel-slot");
+  if (travelSlot) {
+    const travelLabel = document.createElement("p");
+    travelLabel.className = "nk-qf-label";
+    travelLabel.style.cssText = "margin:0 0 0.4rem;";
+    travelLabel.textContent = "Staff round-trip travel time";
+    travelSlot.appendChild(travelLabel);
+
+    const travelGrid = document.createElement("div"); travelGrid.className = "nk-lg-grid";
+    TRAVEL_OPTIONS.forEach((opt) => {
+      const btn = document.createElement("button"); btn.type = "button";
+      btn.className = "nk-lg-btn" + (extraState.travelOption === opt.value ? " selected" : "");
+      btn.setAttribute("data-travel-val", opt.value);
+      const n = document.createElement("span"); n.className = "nk-lg-btn-name"; n.textContent = opt.label;
+      const p = document.createElement("span"); p.className = "nk-lg-btn-price";
+      p.textContent = opt.cost === null ? "Manual quote" : (opt.cost === 0 ? "No charge" : formatMoney(opt.cost) + " est.");
+      btn.appendChild(n); btn.appendChild(p);
+      travelGrid.appendChild(btn);
+    });
+    travelGrid.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-travel-val]");
+      if (!btn) return;
+      const val = btn.dataset.travelVal;
+      extraState.travelOption = extraState.travelOption === val ? "" : val;
+      travelGrid.querySelectorAll("[data-travel-val]").forEach((b) => {
+        b.classList.toggle("selected", b.dataset.travelVal === extraState.travelOption);
+      });
+      triggerRecalcEstimate();
+    });
+    travelSlot.appendChild(travelGrid);
+
+    const travelNote = document.createElement("p"); travelNote.className = "nk-estimate-note";
+    travelNote.style.marginTop = "0.4rem";
+    travelNote.textContent = "Staff travel is estimated at $25/hour and confirmed manually after reviewing the event address.";
+    travelSlot.appendChild(travelNote);
+  }
+
   // ── Persist state on every input/change ──────────────────────
   form.addEventListener("input",  () => { captureFormState(form); updatePowerFlag(form); });
   form.addEventListener("change", () => { captureFormState(form); updatePowerFlag(form); });
@@ -764,7 +777,6 @@ function makeFormSection(items, stats) {
   function recalcEstimate() {
     const deliveryEl  = eid("nk-delivery-val");
     const sandbagEl   = eid("nk-sandbag-val");
-    const travelEl    = eid("nk-travel-val");
     const attendantEl = eid("nk-attendant-val");
     const totalEl     = eid("nk-total-val");
     if (!deliveryEl || !sandbagEl || !totalEl) return;
@@ -772,39 +784,48 @@ function makeFormSection(items, stats) {
     const km      = parseFloat(kmInput?.value) || null;
     const surface = surfaceSelect?.value || "";
 
-    let delivery = 0;
-    let deliveryText = "Delivery quoted manually";
-    if (km !== null) {
-      if (km <= FREE_KM) { deliveryText = "Free (within 15 km)"; }
-      else { delivery = Math.round((km - FREE_KM) * RATE_PER_KM); deliveryText = formatMoney(delivery) + " est."; }
-    }
+    // Distance component
+    const distCost = km !== null ? (km <= FREE_KM ? 0 : Math.round((km - FREE_KM) * RATE_PER_KM)) : null;
 
-    let sandbags = 0;
-    let sandbagText = "N/A";
-    if (!lawnsOnly && inflatableCount > 0) {
-      if      (surface === "Grass")                            { sandbagText = "$0 (grass — no sandbags)"; }
-      else if (surface === "Indoor gym" ||
-               surface === "Concrete or asphalt")             { sandbags = inflatableCount * SANDBAG_FEE; sandbagText = formatMoney(sandbags) + " est. (" + inflatableCount + " unit" + (inflatableCount !== 1 ? "s" : "") + " \xd7 $25)"; }
-      else if (surface === "Artificial turf")                  { sandbagText = "May be required — manual review"; }
-      else if (surface === "Gravel")                           { sandbagText = "Manual review — setup may not be approved"; }
-      else if (surface === "Other")                            { sandbagText = "Manual review required"; }
-      else                                                     { sandbagText = "Enter surface above"; }
-    }
+    // Travel component
+    const travelOpt    = extraState.travelOption ? TRAVEL_OPTIONS.find((o) => o.value === extraState.travelOption) : null;
+    const travelCostVal = travelOpt ? travelOpt.cost : null; // null = manual quote selected
 
-    // Staff travel
-    let travelCost = 0;
-    let travelManual = false;
-    let travelText = "Select option above";
-    if (extraState.travelOption) {
-      const opt = TRAVEL_OPTIONS.find((o) => o.value === extraState.travelOption);
-      if (opt) {
-        if (opt.cost === null) { travelManual = true; travelText = "Manual quote — confirmed after address review"; }
-        else if (opt.cost === 0) { travelText = "$0 (local — no charge)"; }
-        else { travelCost = opt.cost; travelText = formatMoney(opt.cost) + " est."; }
+    // Combined delivery
+    let deliveryCost = 0;
+    let deliveryText;
+    let deliveryManual = false;
+
+    if (travelOpt && travelCostVal === null) {
+      deliveryManual = true;
+      deliveryText   = "Quoted manually after address review";
+      deliveryCost   = distCost ?? 0;
+    } else if (distCost === null && !travelOpt) {
+      deliveryText = "Enter km or select travel time below";
+    } else {
+      deliveryCost = (distCost ?? 0) + (travelCostVal ?? 0);
+      if (deliveryCost === 0) {
+        if (distCost === 0 && travelCostVal === 0) deliveryText = "Free (within 15 km, local travel)";
+        else if (distCost === 0)                  deliveryText = "Free (within 15 km)";
+        else                                      deliveryText = "$0 (local — no travel charge)";
+      } else {
+        deliveryText = formatMoney(deliveryCost) + " est.";
       }
     }
 
-    // Event attendants
+    // Sandbag
+    let sandbags = 0;
+    let sandbagText = "N/A";
+    if (!lawnsOnly && inflatableCount > 0) {
+      if      (surface === "Grass")                                        { sandbagText = "$0 (grass — no sandbags)"; }
+      else if (surface === "Indoor gym" || surface === "Concrete or asphalt") { sandbags = inflatableCount * SANDBAG_FEE; sandbagText = formatMoney(sandbags) + " est. (" + inflatableCount + " unit" + (inflatableCount !== 1 ? "s" : "") + " \xd7 $25)"; }
+      else if (surface === "Artificial turf")                               { sandbagText = "May be required — manual review"; }
+      else if (surface === "Gravel")                                        { sandbagText = "Manual review — setup may not be approved"; }
+      else if (surface === "Other")                                         { sandbagText = "Manual review required"; }
+      else                                                                  { sandbagText = "Enter surface above"; }
+    }
+
+    // Attendants
     let attendantCost = 0;
     let attendantText = "—";
     if (extraState.attendantsWanted) {
@@ -816,11 +837,10 @@ function makeFormSection(items, stats) {
 
     deliveryEl.textContent  = deliveryText;
     sandbagEl.textContent   = sandbagText;
-    if (travelEl)    travelEl.textContent    = travelText;
     if (attendantEl) attendantEl.textContent = attendantText;
-    totalEl.textContent = travelManual
-      ? formatMoney(subtotal + delivery + sandbags + attendantCost) + " + travel (manual)"
-      : formatMoney(subtotal + delivery + sandbags + travelCost + attendantCost);
+    totalEl.textContent = deliveryManual
+      ? formatMoney(subtotal + deliveryCost + sandbags + attendantCost) + " + delivery (manual)"
+      : formatMoney(subtotal + deliveryCost + sandbags + attendantCost);
   }
 
   _recalcEstimate = recalcEstimate;
@@ -837,21 +857,22 @@ function makeFormSection(items, stats) {
     if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending…"; }
     if (msgEl)     { msgEl.hidden = true; msgEl.className = "nk-form-msg"; }
 
-    const km      = parseFloat(formState.kmFromBridgewater) || null;
-    const surface = formState.setupSurface || "";
-    const delivery = km === null ? null : (km <= FREE_KM ? 0 : Math.round((km - FREE_KM) * RATE_PER_KM));
+    const kmVal    = parseFloat(formState.kmFromBridgewater) || null;
+    const surface  = formState.setupSurface || "";
+    const distDeliveryCost = kmVal === null ? null : (kmVal <= FREE_KM ? 0 : Math.round((kmVal - FREE_KM) * RATE_PER_KM));
     let sandbags = 0;
     if (!lawnsOnly && inflatableCount > 0 && (surface === "Indoor gym" || surface === "Concrete or asphalt")) {
       sandbags = inflatableCount * SANDBAG_FEE;
     }
 
-    const travelOpt      = TRAVEL_OPTIONS.find((o) => o.value === extraState.travelOption);
-    const travelCostFinal = travelOpt?.cost ?? null;
+    const travelOptFinal  = extraState.travelOption ? TRAVEL_OPTIONS.find((o) => o.value === extraState.travelOption) : null;
+    const isManualTravel  = travelOptFinal !== null && travelOptFinal.cost === null;
+    const travelCostFinal = isManualTravel ? 0 : (travelOptFinal?.cost ?? 0);
+    const combinedDeliveryCost = (distDeliveryCost ?? 0) + travelCostFinal;
     const attendantCostFinal = extraState.attendantsWanted
       ? Math.max(1, extraState.attendantCount || 1) * Math.max(1, extraState.attendantHours || 1) * ATTENDANT_RATE
       : 0;
-    const isManualTravel = travelCostFinal === null;
-    const totalFinal = subtotal + (delivery || 0) + sandbags + (travelCostFinal || 0) + attendantCostFinal;
+    const totalFinal = subtotal + combinedDeliveryCost + sandbags + attendantCostFinal;
 
     const payload = {
       access_key:            W3F_KEY,
@@ -873,19 +894,20 @@ function makeFormSection(items, stats) {
       powerNeedsReview:      POWER_REVIEW_VALUES.has(formState.powerAccess) ? "Yes — requires manual review" : "No",
       waterAccess:           formState.waterAccess,
       guests:                formState.guests,
-      kmFromBridgewater:     km !== null ? km + " km" : "Not provided — quoted manually",
+      kmFromBridgewater:     kmVal !== null ? kmVal + " km" : "Not provided — quoted manually",
       notes:                 formState.notes,
       selectedItems:         selectedSummary,
       subtotal:              formatMoney(subtotal),
-      deliveryEstimate:      delivery === null ? "Quoted manually" : formatMoney(delivery),
-      sandbagEstimate:       sandbags > 0 ? formatMoney(sandbags) : (lawnsOnly ? "N/A (lawn games only)" : "Depends on surface"),
-      staffTravelOption:     travelOpt ? travelOpt.label : "Not selected — quoted manually",
-      staffTravelEstimate:   isManualTravel ? "Manual quote — confirmed after address review" : (travelCostFinal === 0 ? "$0 (local)" : formatMoney(travelCostFinal) + " est."),
-      attendantsRequired:    extraState.attendantsWanted ? "Yes" : "No / not sure",
-      attendantCount:        extraState.attendantsWanted ? String(extraState.attendantCount) : "N/A",
-      attendantHours:        extraState.attendantsWanted ? String(extraState.attendantHours) : "N/A",
-      attendantEstimate:     extraState.attendantsWanted ? formatMoney(attendantCostFinal) + " est." : "N/A",
-      estimatedTotal:        isManualTravel ? formatMoney(totalFinal) + " + staff travel (quoted manually)" : formatMoney(totalFinal),
+      distanceDeliveryEstimate: distDeliveryCost === null ? "Not provided — quoted manually" : (distDeliveryCost === 0 ? "Free (within 15 km)" : formatMoney(distDeliveryCost) + " est."),
+      staffTravelOption:        travelOptFinal ? travelOptFinal.label : "Not selected",
+      staffTravelEstimate:      isManualTravel ? "Manual quote — confirmed after address review" : (travelCostFinal === 0 ? (travelOptFinal ? "$0 (local)" : "Not selected") : formatMoney(travelCostFinal) + " est."),
+      combinedDeliveryEstimate: isManualTravel ? "Quoted manually after address review" : (combinedDeliveryCost === 0 ? "Free" : formatMoney(combinedDeliveryCost) + " est."),
+      sandbagEstimate:          sandbags > 0 ? formatMoney(sandbags) : (lawnsOnly ? "N/A (lawn games only)" : "Depends on surface"),
+      attendantsRequired:       extraState.attendantsWanted ? "Yes" : "No / not sure",
+      attendantCount:           extraState.attendantsWanted ? String(extraState.attendantCount) : "N/A",
+      attendantHours:           extraState.attendantsWanted ? String(extraState.attendantHours) : "N/A",
+      attendantEstimate:        extraState.attendantsWanted ? formatMoney(attendantCostFinal) + " est." : "N/A",
+      estimatedTotal:           isManualTravel ? formatMoney(totalFinal) + " + delivery (manual)" : formatMoney(totalFinal),
       disclaimer:            DISCLAIMER,
     };
 
