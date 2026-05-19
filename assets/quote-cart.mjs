@@ -1,4 +1,4 @@
-/* Nova Kingdom Rentals — Quote Cart v20260519-deliverysandbagfix
+/* Nova Kingdom Rentals — Quote Cart v20260519-deliveryrtfix
    Availability request only. No payment. No confirmed booking.
    Changes vs deliveryfix:
    - Staff travel selector moved into estimate section (delivery context)
@@ -730,7 +730,7 @@ function makeFormSection(items, stats) {
     </div>
     <div class="nk-qf-row">
       <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-postal">Postal code</label><input id="nkf-postal" name="postalCode" type="text" placeholder="B4V ___"></div>
-      <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-km">Approx. km from Bridgewater</label><input id="nkf-km" name="kmFromBridgewater" type="number" min="0" step="1" placeholder="blank = quoted manually"></div>
+      <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-km">One-way distance from Bridgewater (km)</label><input id="nkf-km" name="kmFromBridgewater" type="number" min="0" step="1" placeholder="blank = quoted manually"></div>
     </div>
     <div class="nk-qf-field">
       <label class="nk-qf-label" for="nkf-surface">Setup surface <span class="nk-req">*</span></label>
@@ -795,8 +795,8 @@ function makeFormSection(items, stats) {
     const km      = parseFloat(kmInput?.value) || null;
     const surface = surfaceSelect?.value || "";
 
-    // Distance component
-    const distCost = km !== null ? (km <= FREE_KM ? 0 : Math.round((km - FREE_KM) * RATE_PER_KM)) : null;
+    // Distance component — round-trip: first 15 km one-way free, then $0.72/km each way × 2
+    const distCost = km !== null ? (km <= FREE_KM ? 0 : Math.round((km - FREE_KM) * 2 * RATE_PER_KM * 100) / 100) : null;
 
     // Travel component
     const travelOpt    = extraState.travelOption ? TRAVEL_OPTIONS.find((o) => o.value === extraState.travelOption) : null;
@@ -820,7 +820,14 @@ function makeFormSection(items, stats) {
         else if (distCost === 0)                  deliveryText = "Free (within 15 km)";
         else                                      deliveryText = "$0 (local — no travel charge)";
       } else {
-        deliveryText = formatMoney(deliveryCost) + " est.";
+        const effTravel = travelCostVal ?? 0;
+        if (distCost > 0 && effTravel === 0) {
+          deliveryText = (km - FREE_KM) + " km each way \xd7 2 \xd7 $0.72 = $" + distCost.toFixed(2) + " est.";
+        } else if (distCost > 0 && effTravel > 0) {
+          deliveryText = (km - FREE_KM) + " km \xd7 2 \xd7 $0.72 + $" + effTravel + " staff = $" + deliveryCost.toFixed(2) + " est.";
+        } else {
+          deliveryText = "$" + deliveryCost.toFixed(2) + " est.";
+        }
       }
     }
 
@@ -870,7 +877,8 @@ function makeFormSection(items, stats) {
 
     const kmVal    = parseFloat(formState.kmFromBridgewater) || null;
     const surface  = formState.setupSurface || "";
-    const distDeliveryCost = kmVal === null ? null : (kmVal <= FREE_KM ? 0 : Math.round((kmVal - FREE_KM) * RATE_PER_KM));
+    // Round-trip: first 15 km one-way free, then (km - 15) × 2 × $0.72
+    const distDeliveryCost = kmVal === null ? null : (kmVal <= FREE_KM ? 0 : Math.round((kmVal - FREE_KM) * 2 * RATE_PER_KM * 100) / 100);
     let sandbags = 0;
     if (!lawnsOnly && inflatableCount > 0 && (surface === "Indoor gym" || surface === "Concrete or asphalt")) {
       sandbags = inflatableCount * SANDBAG_FEE;
@@ -909,10 +917,10 @@ function makeFormSection(items, stats) {
       notes:                 formState.notes,
       selectedItems:         selectedSummary,
       subtotal:              formatMoney(subtotal),
-      distanceDeliveryEstimate: distDeliveryCost === null ? "Not provided — quoted manually" : (distDeliveryCost === 0 ? "Free (within 15 km)" : formatMoney(distDeliveryCost) + " est."),
+      distanceDeliveryEstimate: distDeliveryCost === null ? "Not provided — quoted manually" : (distDeliveryCost === 0 ? "Free (within 15 km)" : (kmVal - FREE_KM) + " km each way \xd7 2 \xd7 $0.72 = $" + distDeliveryCost.toFixed(2)),
       staffTravelOption:        travelOptFinal ? travelOptFinal.label : "Not selected",
-      staffTravelEstimate:      isManualTravel ? "Manual quote — confirmed after address review" : (travelCostFinal === 0 ? (travelOptFinal ? "$0 (local)" : "Not selected") : formatMoney(travelCostFinal) + " est."),
-      combinedDeliveryEstimate: isManualTravel ? "Quoted manually after address review" : (combinedDeliveryCost === 0 ? "Free" : formatMoney(combinedDeliveryCost) + " est."),
+      staffTravelEstimate:      isManualTravel ? "Manual quote — confirmed after address review" : (travelCostFinal === 0 ? (travelOptFinal ? "$0 (local)" : "Not selected") : "$" + travelCostFinal.toFixed(2) + " est."),
+      combinedDeliveryEstimate: isManualTravel ? "Quoted manually after address review" : (combinedDeliveryCost === 0 ? "Free" : "$" + combinedDeliveryCost.toFixed(2) + " est."),
       sandbagEstimate:          sandbags > 0 ? formatMoney(sandbags) : (lawnsOnly ? "N/A (lawn games only)" : "Depends on surface"),
       attendantsRequired:       extraState.attendantsWanted ? "Yes" : "No / not sure",
       attendantCount:           extraState.attendantsWanted ? String(extraState.attendantCount) : "N/A",
