@@ -1,9 +1,11 @@
-/* Nova Kingdom Rentals — Quote Cart v20260519-deliveryrtfix
+/* Nova Kingdom Rentals — Quote Cart v20260519-mapready
    Availability request only. No payment. No confirmed booking.
-   Changes vs deliveryfix:
-   - Staff travel selector moved into estimate section (delivery context)
-   - Sandbag row gains ⓘ tooltip with anchoring explanation
-   - Sandbag value format: "X units × $25 = $Y est."
+   Changes vs deliveryrtfix:
+   - Address-based delivery: estimateDeliveryFromAddress() calls POST /api/estimate-delivery
+     (graceful fallback to "manual quote" when endpoint is absent/fails/times out)
+   - Staff travel card grid removed; combined fee auto-calculates from API response
+   - Sandbag fee $15/unit (was $25); turf/gravel/other surface → manual review
+   - km manual-entry field removed; address drives delivery estimate
 */
 
 console.info("Nova Quote Cart loaded");
@@ -14,7 +16,12 @@ const CART_KEY    = "nk_quote_v1";
 const W3F_KEY     = "909ed8f7-78ca-494f-b960-1713b60bc012";
 const FREE_KM     = 15;
 const RATE_PER_KM = 0.72;
-const SANDBAG_FEE = 25;
+const SANDBAG_FEE = 15;
+const TRAVEL_RATE = 25; // $25/hr staff travel, used in auto-calculated delivery estimate
+
+// /api/estimate-delivery origin. The backend keeps the exact residential address and
+// the Google Maps API key server-side — do NOT hardcode them here.
+const NOVA_KINGDOM_BASE_ADDRESS = "Bridgewater, NS";
 
 // Crown Carnival Challenge: dynamic pricing based on whether a package is in cart
 const CROWN_CARNIVAL_ID         = "product-crown-carnival-challenge";
@@ -84,47 +91,115 @@ const DISCLAIMER =
 const WAIVER_NOTE =
   "Agreement and waiver will be sent after availability is confirmed and deposit/payment details are reviewed.";
 
-// Staff travel estimate: $25/hr round-trip, confirmed manually
-const TRAVEL_RATE = 25;
-const TRAVEL_OPTIONS = [
-  { value: "local",  label: "Local / under 30 min",    cost: 0    },
-  { value: "1hr",    label: "1 hour round trip",        cost: 25   },
-  { value: "2hr",    label: "2 hours round trip",       cost: 50   },
-  { value: "3hr",    label: "3 hours round trip",       cost: 75   },
-  { value: "manual", label: "4+ hours — manual quote",  cost: null },
-];
-
 // Event attendants: $35/hr per person, confirmed manually
 const ATTENDANT_RATE = 35;
 
-// Extra estimate state — persists across renderPanel calls like formState
+// ── Delivery estimate state ──────────────────────────────────────
+// Populated by estimateDeliveryFromAddress() via POST /api/estimate-delivery.
+// Falls back to isManual=true whenever the endpoint is unavailable or address incomplete.
+const deliveryState = {
+  distanceKm:      null,
+  durationMinutes: null,
+  isManual:        true,
+  isPending:       false,
+  lastAddress:     "",
+};
+
+function resetDeliveryState() {
+  deliveryState.distanceKm      = null;
+  deliveryState.durationMinutes = null;
+  deliveryState.isManual        = true;
+  deliveryState.isPending       = false;
+  deliveryState.lastAddress     = "";
+}
+
+// ── Extra UI state (persists across renderPanel calls) ───────────
 const extraState = {
-  travelOption:     "",    // one of TRAVEL_OPTIONS values or ""
   attendantsWanted: false,
   attendantCount:   1,
   attendantHours:   4,
 };
 
 function clearExtraState() {
-  extraState.travelOption     = "";
   extraState.attendantsWanted = false;
   extraState.attendantCount   = 1;
   extraState.attendantHours   = 4;
+  resetDeliveryState();
 }
 
-// Live reference to the active recalcEstimate closure so staff/attendant sections
-// can trigger a recalc without being inside makeFormSection.
+// Live reference to the active recalcEstimate closure so the async delivery
+// callback can trigger a recalc without being inside makeFormSection.
 let _recalcEstimate = null;
 function triggerRecalcEstimate() { if (_recalcEstimate) _recalcEstimate(); }
 
 const WATER_RE = /water|cascade|island combo|rush|splash/i;
+
+// ── Address-based delivery estimate ─────────────────────────────
+// BACKEND REQUIRED: POST /api/estimate-delivery must be implemented server-side
+// (serverless function, Next.js API route, Express handler, etc.).
+// The Google Maps API key MUST remain server-side only — never in this file.
+//
+// Expected request body:  { origin: string, destination: string }
+// Expected response:       { ok: true, distanceKm: number, durationMinutes: number }
+//
+// The frontend falls back gracefully to "manual quote" when the endpoint is absent,
+// returns a non-2xx status, times out, or returns an unexpected shape.
+
+async function estimateDeliveryFromAddress(address) {
+  const trimmed = (address || "").trim();
+  if (trimmed.length < 5 || trimmed === deliveryState.lastAddress) return;
+  deliveryState.lastAddress = trimmed;
+  deliveryState.isPending   = true;
+  deliveryState.isManual    = false;
+
+  const deliveryEl = eid("nk-delivery-val");
+  if (deliveryEl) deliveryEl.textContent = "Looking up delivery estimate…";
+
+  try {
+    const controller = new AbortController();
+    const timeoutId  = setTimeout(() => controller.abort(), 8000);
+    const res = await fetch("/api/estimate-delivery", {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ origin: NOVA_KINGDOM_BASE_ADDRESS, destination: trimmed }),
+      signal:  controller.signal,
+    });
+    clearTimeout(timeoutId);
+    if (!res.ok) throw new Error("API " + res.status);
+    const data = await res.json();
+    if (!data.ok || typeof data.distanceKm !== "number" || typeof data.durationMinutes !== "number") {
+      throw new Error("Invalid response shape");
+    }
+    deliveryState.distanceKm      = data.distanceKm;
+    deliveryState.durationMinutes = data.durationMinutes;
+    deliveryState.isManual        = false;
+  } catch {
+    deliveryState.distanceKm      = null;
+    deliveryState.durationMinutes = null;
+    deliveryState.isManual        = true;
+  }
+  deliveryState.isPending = false;
+  triggerRecalcEstimate();
+}
+
+let _deliveryDebounceTimer = null;
+function scheduleDeliveryEstimate(form) {
+  clearTimeout(_deliveryDebounceTimer);
+  const addr = (form.querySelector("#nkf-addr")?.value || "").trim();
+  const city  = (form.querySelector("#nkf-city")?.value || "").trim();
+  if (!addr || !city) return;
+  _deliveryDebounceTimer = setTimeout(
+    () => estimateDeliveryFromAddress(addr + ", " + city + ", NS"),
+    800
+  );
+}
 
 // ── Form state (persists across renderPanel calls) ───────────────
 const formState = {
   name: "", email: "", phone: "",
   eventDate: "", startTime: "", endTime: "",
   eventAddress: "", city: "", province: "Nova Scotia",
-  postalCode: "", kmFromBridgewater: "", setupSurface: "",
+  postalCode: "", setupSurface: "",
   powerAccess: "", waterAccess: "", guests: "", notes: "",
 };
 
@@ -171,17 +246,14 @@ const formatMoney = (n) => "$" + Number(n).toFixed(0).replace(/\B(?=(\d{3})+(?!\
 function getIncludedProductIds(cart) {
   const map = {};
   for (const item of cart) {
-    // Products included in a package
     const pkgSet = PKG_INCLUDED_PRODUCTS[item.id];
     if (pkgSet) {
       pkgSet.forEach((pid) => {
         map[pid] = item.name;
-        // Transitive: if this included product functionally covers others, block those too
         const transitive = PRODUCT_COVERS[pid];
         if (transitive) transitive.forEach((tpid) => { if (!map[tpid]) map[tpid] = item.name; });
       });
     }
-    // Standalone product that functionally covers others (e.g. Rush 42 → Cascade + Quest)
     const covers = PRODUCT_COVERS[item.id];
     if (covers) covers.forEach((pid) => { if (!map[pid]) map[pid] = item.name; });
   }
@@ -199,7 +271,6 @@ function normalizeCarnivalPrice(cart) {
 }
 
 // Expands a package's product set by applying PRODUCT_COVERS.
-// e.g. Royal All-Star includes Rush 42, so its effective set also includes Cascade + Quest.
 // Used only for package overlap comparison — NOT for sandbag unit counting.
 function effectiveProductSet(pkgId) {
   const base = PKG_INCLUDED_PRODUCTS[pkgId];
@@ -221,16 +292,13 @@ function isPkgCoveredBy(pkgBId, pkgAId) {
   return true;
 }
 
-// Returns name of first cart item (package or standalone product) that fully covers pkgId, or null.
-// Standalone products: checked via PRODUCT_COVERS (e.g. Rush 42 standalone covers Cascade Starter pkg).
+// Returns name of first cart item that fully covers pkgId, or null.
 function getCoveringPackage(pkgId, cart) {
   const pkgEff = effectiveProductSet(pkgId);
   if (!pkgEff || pkgEff.size === 0) return null;
   for (const item of cart) {
     if (item.id === pkgId) continue;
-    // Larger package covering this one
     if (item.id.startsWith("pkg-") && isPkgCoveredBy(pkgId, item.id)) return item.name;
-    // Standalone product whose PRODUCT_COVERS set covers all products in this package
     const productCovers = PRODUCT_COVERS[item.id];
     if (productCovers) {
       const coveringSet = new Set([item.id, ...productCovers]);
@@ -300,7 +368,6 @@ function updateBar() {
   const count = eid("nk-bar-count");
   if (!bar) return;
 
-  // Normalize carnival price whenever cart changes, even if panel is closed
   const rawItems = loadCart();
   const items    = normalizeCarnivalPrice(rawItems);
   if (JSON.stringify(items) !== JSON.stringify(rawItems)) saveCart(items);
@@ -375,7 +442,6 @@ function renderPanel() {
   try {
     captureFormState(body.querySelector("#nk-quote-form"));
 
-    // Normalize carnival price and persist if needed
     const rawItems = loadCart();
     const items    = normalizeCarnivalPrice(rawItems);
     if (JSON.stringify(items) !== JSON.stringify(rawItems)) saveCart(items);
@@ -401,7 +467,6 @@ function makeItemsSection(items) {
   const sec = document.createElement("section");
   sec.innerHTML = '<p class="nk-qs-title">Selected items</p>';
 
-  // One-time note after an overlapping package was auto-removed
   const removedNote = popRemovedNote();
   if (removedNote) {
     const noteEl = document.createElement("p");
@@ -438,7 +503,7 @@ function makeItemsSection(items) {
     info.appendChild(nameSpan);
     if (meta?.subtitle) {
       const sub = document.createElement("small"); sub.className = "nk-item-sub";
-      sub.textContent = (hasPkg && meta.addonLabel ? meta.addonLabel + " · " : "") + meta.subtitle;
+      sub.textContent = (hasPkg && meta.addonLabel ? meta.addonLabel + " \xb7 " : "") + meta.subtitle;
       info.appendChild(sub);
     }
     li.appendChild(info);
@@ -468,11 +533,9 @@ function makeLawnSection(items) {
   const hasPkgWith5LG    = items.some((i) => i.includesLawnGames === true);
   const options          = hasPkgWith5LG ? UPGRADE_OPTIONS : LAWN_GAME_PACKAGES;
   const selectedOpt      = options.find((p) => cartIds.has(p.id));
-  const hasCornholeAddon = cartIds.has("lg-cornhole-addon");
 
   const sec = document.createElement("section");
 
-  // ── Main package grid title ──────────────────────────────────
   const titleP = document.createElement("p");
   titleP.className = "nk-qs-title";
   titleP.textContent = hasPkgWith5LG
@@ -488,7 +551,6 @@ function makeLawnSection(items) {
     sec.appendChild(note);
   }
 
-  // ── Package buttons ──────────────────────────────────────────
   const grid = document.createElement("div");
   grid.className = "nk-lg-grid";
   options.forEach((opt) => {
@@ -510,7 +572,6 @@ function makeLawnSection(items) {
     const optDef = options.find((p) => p.id === optId);
     if (!optDef) return;
     let cart = loadCart().filter((i) => !ALL_LG_IDS.has(i.id));
-    // 12-game package covers all individual games — remove them to avoid double-charging
     if (optId === "lg-12" || optId === "lg-upgrade-12") {
       cart = cart.filter((i) => !i.id.startsWith(LG_GAME_ID_PREFIX));
     }
@@ -523,7 +584,6 @@ function makeLawnSection(items) {
   });
   sec.appendChild(grid);
 
-  // ── Cornhole add-on (+$25) for 5- or 10-game package ────────
   const canAddCornhole = selectedOpt?.cornholeEligible === true;
   const cornholeInCart = cartIds.has("lg-cornhole-addon");
 
@@ -624,15 +684,15 @@ function makeEstimateSection(items, stats) {
     "<tr><td>Subtotal</td><td>" + escHtml(formatMoney(subtotal)) + "</td></tr>" +
     "<tr><td>Delivery Estimate <span class='nk-tooltip-wrap'>" +
       "<button class='nk-tooltip-icon nk-tip-delivery' type='button' aria-label='About delivery estimate'>ⓘ</button>" +
-      "<span class='nk-tooltip-body nk-tip-body-delivery'>Delivery estimate may include distance-based travel and staff travel time. Final delivery and travel costs are confirmed manually after reviewing the event address.</span>" +
-    "</span></td><td id='nk-delivery-val'>Enter km below or select travel time</td></tr>" +
+      "<span class='nk-tooltip-body nk-tip-body-delivery'>Delivery estimate may include distance-based travel and required staff travel time. Final delivery/travel cost is confirmed manually after address review.</span>" +
+    "</span></td><td id='nk-delivery-val'>Enter event address below</td></tr>" +
     "<tr><td>Sandbag anchoring estimate <span class='nk-tooltip-wrap'>" +
       "<button class='nk-tooltip-icon nk-tip-sandbag' type='button' aria-label='About sandbag anchoring'>ⓘ</button>" +
-      "<span class='nk-tooltip-body nk-tip-body-sandbag'>Sandbags may be required for indoor, concrete, asphalt, turf, or other non-grass setups. Final anchoring requirements are confirmed manually after setup review.</span>" +
+      "<span class='nk-tooltip-body nk-tip-body-sandbag'>Sandbags may be required for indoor, concrete, asphalt, turf, gravel, or other non-grass setups. Final anchoring requirements are confirmed manually after setup review.</span>" +
     "</span></td><td id='nk-sandbag-val'>" + (lawnsOnly ? "N/A" : "Enter surface below") + "</td></tr>" +
     "<tr><td>Event attendant estimate</td><td id='nk-attendant-val'>—</td></tr>" +
     "<tr class='total'><td>Estimated total</td><td id='nk-total-val'>" + escHtml(formatMoney(subtotal)) + "</td></tr>";
-  // Tooltip toggle for tap/click on mobile — handle both delivery and sandbag tooltips
+
   const deliveryTipIcon = tbl.querySelector(".nk-tip-delivery");
   const deliveryTipBody = tbl.querySelector(".nk-tip-body-delivery");
   const sandbagTipIcon  = tbl.querySelector(".nk-tip-sandbag");
@@ -657,43 +717,8 @@ function makeEstimateSection(items, stats) {
   });
   sec.appendChild(tbl);
 
-  // Travel time selector — lives inside the delivery/estimate section
-  const travelLabel = document.createElement("p");
-  travelLabel.className = "nk-qf-label";
-  travelLabel.style.cssText = "margin:0.75rem 0 0.4rem;";
-  travelLabel.textContent = "Staff round-trip travel time";
-  sec.appendChild(travelLabel);
-
-  const travelGrid = document.createElement("div"); travelGrid.className = "nk-lg-grid";
-  TRAVEL_OPTIONS.forEach((opt) => {
-    const btn = document.createElement("button"); btn.type = "button";
-    btn.className = "nk-lg-btn" + (extraState.travelOption === opt.value ? " selected" : "");
-    btn.setAttribute("data-travel-val", opt.value);
-    const n = document.createElement("span"); n.className = "nk-lg-btn-name"; n.textContent = opt.label;
-    const p = document.createElement("span"); p.className = "nk-lg-btn-price";
-    p.textContent = opt.cost === null ? "Manual quote" : (opt.cost === 0 ? "No charge" : formatMoney(opt.cost) + " est.");
-    btn.appendChild(n); btn.appendChild(p);
-    travelGrid.appendChild(btn);
-  });
-  travelGrid.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-travel-val]");
-    if (!btn) return;
-    const val = btn.dataset.travelVal;
-    extraState.travelOption = extraState.travelOption === val ? "" : val;
-    travelGrid.querySelectorAll("[data-travel-val]").forEach((b) => {
-      b.classList.toggle("selected", b.dataset.travelVal === extraState.travelOption);
-    });
-    triggerRecalcEstimate();
-  });
-  sec.appendChild(travelGrid);
-
-  const travelNote = document.createElement("p"); travelNote.className = "nk-estimate-note";
-  travelNote.style.marginTop = "0.4rem";
-  travelNote.textContent = "Staff travel is estimated at $25/hour and confirmed manually after reviewing the event address.";
-  sec.appendChild(travelNote);
-
   const note = document.createElement("p"); note.className = "nk-estimate-note";
-  note.textContent = "Final costs confirmed after address and setup review. Sandbag fee applies to inflatables on non-grass surfaces. Attendant needs confirmed based on event type and equipment.";
+  note.textContent = "Estimates are preliminary and confirmed manually after address and setup review.";
   sec.appendChild(note);
   return sec;
 }
@@ -728,10 +753,7 @@ function makeFormSection(items, stats) {
       <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-city">City / town <span class="nk-req">*</span></label><input id="nkf-city" name="city" type="text" required placeholder="e.g. Bridgewater"></div>
       <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-prov">Province</label><input id="nkf-prov" name="province" type="text"></div>
     </div>
-    <div class="nk-qf-row">
-      <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-postal">Postal code</label><input id="nkf-postal" name="postalCode" type="text" placeholder="B4V ___"></div>
-      <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-km">One-way distance from Bridgewater (km)</label><input id="nkf-km" name="kmFromBridgewater" type="number" min="0" step="1" placeholder="blank = quoted manually"></div>
-    </div>
+    <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-postal">Postal code</label><input id="nkf-postal" name="postalCode" type="text" placeholder="B4V ___"></div>
     <div class="nk-qf-field">
       <label class="nk-qf-label" for="nkf-surface">Setup surface <span class="nk-req">*</span></label>
       <select id="nkf-surface" name="setupSurface" required>
@@ -777,12 +799,20 @@ function makeFormSection(items, stats) {
   restoreFormState(form);
   updatePowerFlag(form);
 
+  // ── Address-based delivery estimate ──────────────────────────
+  // Fires debounced lookup when address or city changes.
+  const addrInput = form.querySelector("#nkf-addr");
+  const cityInput = form.querySelector("#nkf-city");
+  addrInput?.addEventListener("input", () => scheduleDeliveryEstimate(form));
+  cityInput?.addEventListener("input",  () => scheduleDeliveryEstimate(form));
+  // Re-trigger if address already filled in (panel reopened with saved state)
+  if (formState.eventAddress && formState.city) scheduleDeliveryEstimate(form);
+
   // ── Persist state on every input/change ──────────────────────
   form.addEventListener("input",  () => { captureFormState(form); updatePowerFlag(form); });
   form.addEventListener("change", () => { captureFormState(form); updatePowerFlag(form); });
 
   // ── Live estimate recalculation ───────────────────────────────
-  const kmInput       = form.querySelector("#nkf-km");
   const surfaceSelect = form.querySelector("#nkf-surface");
 
   function recalcEstimate() {
@@ -792,58 +822,49 @@ function makeFormSection(items, stats) {
     const totalEl     = eid("nk-total-val");
     if (!deliveryEl || !sandbagEl || !totalEl) return;
 
-    const km      = parseFloat(kmInput?.value) || null;
     const surface = surfaceSelect?.value || "";
 
-    // Distance component — round-trip: first 15 km one-way free, then $0.72/km each way × 2
-    const distCost = km !== null ? (km <= FREE_KM ? 0 : Math.round((km - FREE_KM) * 2 * RATE_PER_KM * 100) / 100) : null;
-
-    // Travel component
-    const travelOpt    = extraState.travelOption ? TRAVEL_OPTIONS.find((o) => o.value === extraState.travelOption) : null;
-    const travelCostVal = travelOpt ? travelOpt.cost : null; // null = manual quote selected
-
-    // Combined delivery
-    let deliveryCost = 0;
-    let deliveryText;
+    // ── Delivery ─────────────────────────────────────────────────
+    let deliveryCost   = 0;
     let deliveryManual = false;
 
-    if (travelOpt && travelCostVal === null) {
-      deliveryManual = true;
-      deliveryText   = "Quoted manually after address review";
-      deliveryCost   = distCost ?? 0;
-    } else if (distCost === null && !travelOpt) {
-      deliveryText = "Enter km or select travel time below";
-    } else {
-      deliveryCost = (distCost ?? 0) + (travelCostVal ?? 0);
-      if (deliveryCost === 0) {
-        if (distCost === 0 && travelCostVal === 0) deliveryText = "Free (within 15 km, local travel)";
-        else if (distCost === 0)                  deliveryText = "Free (within 15 km)";
-        else                                      deliveryText = "$0 (local — no travel charge)";
+    if (!deliveryState.isPending) {
+      if (deliveryState.isManual || deliveryState.distanceKm === null) {
+        deliveryManual = true;
+        deliveryEl.textContent = "Delivery estimate — quoted manually after address review";
       } else {
-        const effTravel = travelCostVal ?? 0;
-        if (distCost > 0 && effTravel === 0) {
-          deliveryText = (km - FREE_KM) + " km each way \xd7 2 \xd7 $0.72 = $" + distCost.toFixed(2) + " est.";
-        } else if (distCost > 0 && effTravel > 0) {
-          deliveryText = (km - FREE_KM) + " km \xd7 2 \xd7 $0.72 + $" + effTravel + " staff = $" + deliveryCost.toFixed(2) + " est.";
-        } else {
-          deliveryText = "$" + deliveryCost.toFixed(2) + " est.";
-        }
+        const km         = deliveryState.distanceKm;
+        const billableKm = Math.max(km - FREE_KM, 0);
+        const distFee    = Math.round(billableKm * 2 * RATE_PER_KM * 100) / 100;
+        const rtHr       = (deliveryState.durationMinutes * 2) / 60;
+        const billableHr = Math.ceil(rtHr / 0.25) * 0.25;
+        const staffFee   = Math.round(billableHr * TRAVEL_RATE * 100) / 100;
+        deliveryCost     = Math.round((distFee + staffFee) * 100) / 100;
+        const mainText   = deliveryCost === 0 ? "Free (within 15 km)" : "$" + deliveryCost.toFixed(2) + " est.";
+        const fmtHr      = parseFloat(billableHr.toFixed(2)).toString();
+        const subText    = "Distance: " + km.toFixed(1) + " km • Estimated round-trip staff travel: " + fmtHr + " hr";
+        deliveryEl.innerHTML = escHtml(mainText) + "<br><small class='nk-delivery-sub'>" + escHtml(subText) + "</small>";
+      }
+    }
+    // If isPending: "Looking up…" is already set by estimateDeliveryFromAddress — don't overwrite.
+
+    // ── Sandbag — $15/unit for hard surfaces ─────────────────────
+    let sandbags    = 0;
+    let sandbagText = "N/A";
+    if (!lawnsOnly && inflatableCount > 0) {
+      if (surface === "Grass") {
+        sandbagText = "$0 (grass — no sandbags)";
+      } else if (surface === "Indoor gym" || surface === "Concrete or asphalt") {
+        sandbags    = inflatableCount * SANDBAG_FEE;
+        sandbagText = inflatableCount + " unit" + (inflatableCount !== 1 ? "s" : "") + " \xd7 $15 = " + formatMoney(sandbags) + " est.";
+      } else if (surface === "Artificial turf" || surface === "Gravel" || surface === "Other") {
+        sandbagText = "Manual review after setup details";
+      } else {
+        sandbagText = "Enter surface below";
       }
     }
 
-    // Sandbag
-    let sandbags = 0;
-    let sandbagText = "N/A";
-    if (!lawnsOnly && inflatableCount > 0) {
-      if      (surface === "Grass")                                        { sandbagText = "$0 (grass — no sandbags)"; }
-      else if (surface === "Indoor gym" || surface === "Concrete or asphalt") { sandbags = inflatableCount * SANDBAG_FEE; sandbagText = inflatableCount + " unit" + (inflatableCount !== 1 ? "s" : "") + " \xd7 $25 = " + formatMoney(sandbags) + " est."; }
-      else if (surface === "Artificial turf")                               { sandbagText = "May be required — manual review"; }
-      else if (surface === "Gravel")                                        { sandbagText = "Manual review — setup may not be approved"; }
-      else if (surface === "Other")                                         { sandbagText = "Manual review required"; }
-      else                                                                  { sandbagText = "Enter surface above"; }
-    }
-
-    // Attendants
+    // ── Attendants ────────────────────────────────────────────────
     let attendantCost = 0;
     let attendantText = "—";
     if (extraState.attendantsWanted) {
@@ -853,17 +874,19 @@ function makeFormSection(items, stats) {
       attendantText = count + " attendant" + (count !== 1 ? "s" : "") + " \xd7 " + hours + " hr" + (hours !== 1 ? "s" : "") + " \xd7 $35 = " + formatMoney(attendantCost) + " est.";
     }
 
-    deliveryEl.textContent  = deliveryText;
-    sandbagEl.textContent   = sandbagText;
+    sandbagEl.textContent = sandbagText;
     if (attendantEl) attendantEl.textContent = attendantText;
-    totalEl.textContent = deliveryManual
-      ? formatMoney(subtotal + deliveryCost + sandbags + attendantCost) + " + delivery (manual)"
-      : formatMoney(subtotal + deliveryCost + sandbags + attendantCost);
+
+    if (deliveryState.isPending) {
+      totalEl.textContent = formatMoney(subtotal + sandbags + attendantCost) + " + delivery (pending)";
+    } else if (deliveryManual) {
+      totalEl.textContent = formatMoney(subtotal + sandbags + attendantCost) + " + delivery (manual)";
+    } else {
+      totalEl.textContent = formatMoney(subtotal + deliveryCost + sandbags + attendantCost);
+    }
   }
 
   _recalcEstimate = recalcEstimate;
-
-  kmInput?.addEventListener("input",  recalcEstimate);
   surfaceSelect?.addEventListener("change", recalcEstimate);
   recalcEstimate();
 
@@ -875,23 +898,35 @@ function makeFormSection(items, stats) {
     if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending…"; }
     if (msgEl)     { msgEl.hidden = true; msgEl.className = "nk-form-msg"; }
 
-    const kmVal    = parseFloat(formState.kmFromBridgewater) || null;
-    const surface  = formState.setupSurface || "";
-    // Round-trip: first 15 km one-way free, then (km - 15) × 2 × $0.72
-    const distDeliveryCost = kmVal === null ? null : (kmVal <= FREE_KM ? 0 : Math.round((kmVal - FREE_KM) * 2 * RATE_PER_KM * 100) / 100);
-    let sandbags = 0;
-    if (!lawnsOnly && inflatableCount > 0 && (surface === "Indoor gym" || surface === "Concrete or asphalt")) {
-      sandbags = inflatableCount * SANDBAG_FEE;
+    const surface = formState.setupSurface || "";
+
+    // Delivery payload
+    const hasDeliveryData = !deliveryState.isManual && !deliveryState.isPending && deliveryState.distanceKm !== null;
+    let distFeePayload = 0, staffFeePayload = 0, combinedFeePayload = 0, billableHrPayload = 0;
+    if (hasDeliveryData) {
+      const billableKm   = Math.max(deliveryState.distanceKm - FREE_KM, 0);
+      distFeePayload     = Math.round(billableKm * 2 * RATE_PER_KM * 100) / 100;
+      const rtHr         = (deliveryState.durationMinutes * 2) / 60;
+      billableHrPayload  = Math.ceil(rtHr / 0.25) * 0.25;
+      staffFeePayload    = Math.round(billableHrPayload * TRAVEL_RATE * 100) / 100;
+      combinedFeePayload = Math.round((distFeePayload + staffFeePayload) * 100) / 100;
     }
 
-    const travelOptFinal  = extraState.travelOption ? TRAVEL_OPTIONS.find((o) => o.value === extraState.travelOption) : null;
-    const isManualTravel  = travelOptFinal !== null && travelOptFinal.cost === null;
-    const travelCostFinal = isManualTravel ? 0 : (travelOptFinal?.cost ?? 0);
-    const combinedDeliveryCost = (distDeliveryCost ?? 0) + travelCostFinal;
+    // Sandbag payload
+    let sandbags = 0;
+    let sandbagManualPayload = false;
+    if (!lawnsOnly && inflatableCount > 0) {
+      if (surface === "Indoor gym" || surface === "Concrete or asphalt") {
+        sandbags = inflatableCount * SANDBAG_FEE;
+      } else if (surface === "Artificial turf" || surface === "Gravel" || surface === "Other") {
+        sandbagManualPayload = true;
+      }
+    }
+
     const attendantCostFinal = extraState.attendantsWanted
       ? Math.max(1, extraState.attendantCount || 1) * Math.max(1, extraState.attendantHours || 1) * ATTENDANT_RATE
       : 0;
-    const totalFinal = subtotal + combinedDeliveryCost + sandbags + attendantCostFinal;
+    const totalFinal = subtotal + combinedFeePayload + sandbags + attendantCostFinal;
 
     const payload = {
       access_key:            W3F_KEY,
@@ -913,21 +948,31 @@ function makeFormSection(items, stats) {
       powerNeedsReview:      POWER_REVIEW_VALUES.has(formState.powerAccess) ? "Yes — requires manual review" : "No",
       waterAccess:           formState.waterAccess,
       guests:                formState.guests,
-      kmFromBridgewater:     kmVal !== null ? kmVal + " km" : "Not provided — quoted manually",
       notes:                 formState.notes,
       selectedItems:         selectedSummary,
       subtotal:              formatMoney(subtotal),
-      distanceDeliveryEstimate: distDeliveryCost === null ? "Not provided — quoted manually" : (distDeliveryCost === 0 ? "Free (within 15 km)" : (kmVal - FREE_KM) + " km each way \xd7 2 \xd7 $0.72 = $" + distDeliveryCost.toFixed(2)),
-      staffTravelOption:        travelOptFinal ? travelOptFinal.label : "Not selected",
-      staffTravelEstimate:      isManualTravel ? "Manual quote — confirmed after address review" : (travelCostFinal === 0 ? (travelOptFinal ? "$0 (local)" : "Not selected") : "$" + travelCostFinal.toFixed(2) + " est."),
-      combinedDeliveryEstimate: isManualTravel ? "Quoted manually after address review" : (combinedDeliveryCost === 0 ? "Free" : "$" + combinedDeliveryCost.toFixed(2) + " est."),
-      sandbagEstimate:          sandbags > 0 ? formatMoney(sandbags) : (lawnsOnly ? "N/A (lawn games only)" : "Depends on surface"),
-      attendantsRequired:       extraState.attendantsWanted ? "Yes" : "No / not sure",
-      attendantCount:           extraState.attendantsWanted ? String(extraState.attendantCount) : "N/A",
-      attendantHours:           extraState.attendantsWanted ? String(extraState.attendantHours) : "N/A",
-      attendantEstimate:        extraState.attendantsWanted ? formatMoney(attendantCostFinal) + " est." : "N/A",
-      estimatedTotal:           isManualTravel ? formatMoney(totalFinal) + " + delivery (manual)" : formatMoney(totalFinal),
-      disclaimer:            DISCLAIMER,
+      // Delivery
+      deliveryLookupSource:    hasDeliveryData ? "api" : "manual — api unavailable or address not entered",
+      deliveryDistanceKm:      hasDeliveryData ? deliveryState.distanceKm.toFixed(1) + " km" : "Not available",
+      deliveryDurationOneWay:  hasDeliveryData ? deliveryState.durationMinutes + " min" : "Not available",
+      distanceFeeEstimate:     hasDeliveryData ? (distFeePayload === 0 ? "Free (within 15 km)" : "$" + distFeePayload.toFixed(2)) : "Manual",
+      staffTravelFeeEstimate:  hasDeliveryData ? "$" + staffFeePayload.toFixed(2) + " (" + parseFloat(billableHrPayload.toFixed(2)) + " hr round trip \xd7 $25)" : "Manual",
+      combinedDeliveryEstimate: hasDeliveryData ? (combinedFeePayload === 0 ? "Free" : "$" + combinedFeePayload.toFixed(2) + " est.") : "Quoted manually after address review",
+      // Sandbag
+      sandbagUnitCount:    (!lawnsOnly && inflatableCount > 0) ? String(inflatableCount) : "N/A",
+      sandbagEstimate:     sandbags > 0
+        ? "$" + sandbags.toFixed(2) + " est. (" + inflatableCount + " unit" + (inflatableCount !== 1 ? "s" : "") + " \xd7 $15)"
+        : (sandbagManualPayload ? "Manual review required" : (lawnsOnly ? "N/A (lawn games only)" : "Not required (grass)")),
+      sandbagManualReview: sandbagManualPayload ? "Yes" : "No",
+      // Attendants
+      attendantsRequired: extraState.attendantsWanted ? "Yes" : "No / not sure",
+      attendantCount:     extraState.attendantsWanted ? String(extraState.attendantCount) : "N/A",
+      attendantHours:     extraState.attendantsWanted ? String(extraState.attendantHours) : "N/A",
+      attendantEstimate:  extraState.attendantsWanted ? formatMoney(attendantCostFinal) + " est." : "N/A",
+      estimatedTotal:     hasDeliveryData
+        ? formatMoney(totalFinal)
+        : formatMoney(subtotal + sandbags + attendantCostFinal) + (deliveryState.isPending ? " + delivery (pending)" : " + delivery (manual)"),
+      disclaimer: DISCLAIMER,
     };
 
     try {
@@ -937,7 +982,7 @@ function makeFormSection(items, stats) {
       });
       const data = await res.json();
       if (!res.ok || !data.success) throw new Error("Submission failed");
-      if (msgEl) { msgEl.hidden = false; msgEl.className = "nk-form-msg success"; msgEl.textContent = "Quote request sent! We’ll confirm availability, delivery cost, and next steps soon."; }
+      if (msgEl) { msgEl.hidden = false; msgEl.className = "nk-form-msg success"; msgEl.textContent = "Quote request sent! We'll confirm availability, delivery cost, and next steps soon."; }
       if (submitBtn) submitBtn.textContent = "Sent!";
       form.reset();
       clearFormState();
@@ -1073,34 +1118,28 @@ function injectAddBtn(container, id, name, price, isInflatable, insertBefore, me
   btn.addEventListener("click", () => {
     let currentCart   = loadCart();
     const currIncluded = getIncludedProductIds(currentCart);
-    if (currIncluded[id]) return; // product already in a package
-    if (id.startsWith("pkg-") && getCoveringPackage(id, currentCart)) return; // package already covered
+    if (currIncluded[id]) return;
+    if (id.startsWith("pkg-") && getCoveringPackage(id, currentCart)) return;
 
     const nowIn = currentCart.some((i) => i.id === id);
     if (nowIn) {
       saveCart(currentCart.filter((i) => i.id !== id));
     } else {
-      // Package with 5 LG: remove standalone LG selections
       if (meta?.includesLawnGames) {
         currentCart = currentCart.filter((i) => i.id !== "lg-5" && i.id !== "lg-10" && i.id !== "lg-12");
       }
-      // Remove individual products already included in this package
       const pkgIncluded = PKG_INCLUDED_PRODUCTS[id];
       if (pkgIncluded) {
         currentCart = currentCart.filter((i) => !pkgIncluded.has(i.id));
-        // Also remove products transitively covered (e.g. Rush 42 in a package covers Cascade + Quest)
         pkgIncluded.forEach((pid) => {
           const transitive = PRODUCT_COVERS[pid];
           if (transitive) currentCart = currentCart.filter((i) => !transitive.has(i.id));
         });
       }
-      // For standalone products that functionally cover others (Rush 42 → Cascade + Quest)
       const productCovers = PRODUCT_COVERS[id];
       if (productCovers) {
         const coveringSet = new Set([id, ...productCovers]);
-        // Remove individual products covered by this standalone item
         const coveredItems = currentCart.filter((i) => productCovers.has(i.id));
-        // Also remove packages whose entire effective product set is covered by this standalone item
         const coveredPkgs = currentCart.filter((i) => {
           if (!i.id.startsWith("pkg-")) return false;
           const eff = effectiveProductSet(i.id);
@@ -1114,7 +1153,6 @@ function injectAddBtn(container, id, name, price, isInflatable, insertBefore, me
           currentCart = currentCart.filter((i) => !coveredIds.has(i.id));
         }
       }
-      // Auto-remove smaller packages whose core products are now covered by this one
       if (id.startsWith("pkg-")) {
         const covered = getCoveredPackages(id, currentCart);
         if (covered.length > 0) {
@@ -1124,7 +1162,6 @@ function injectAddBtn(container, id, name, price, isInflatable, insertBefore, me
           currentCart = currentCart.filter((i) => !coveredIds.has(i.id));
         }
       }
-      // Crown Carnival Challenge: $200 add-on when any package is in cart
       let actualPrice = price;
       if (id === CROWN_CARNIVAL_ID) {
         actualPrice = currentCart.some((i) => i.id.startsWith("pkg-")) ? CROWN_CARNIVAL_ADDON : CROWN_CARNIVAL_STANDALONE;
