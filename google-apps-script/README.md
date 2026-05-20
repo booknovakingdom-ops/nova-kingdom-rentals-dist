@@ -118,14 +118,24 @@ the script maps by header name — any column name it doesn't recognise will rec
 a blank value. Adjust the column names in the sheet or in `LEADS_COLUMNS_` /
 `QUEUE_COLUMNS_` at the bottom of the script to match before proceeding.
 
-**Booking ID sequence — verify extra tab names:**
+**Booking ID sequence — verify fallback and tab names:**
 
-The script scans four tabs to find the highest existing `NK-2026-NNN` before
-assigning the next ID: `Leads`, `Automation Queue`, `Booked Customers`, and
-`Payment Tracker`. If your sheet uses different names for the booked customers
-or payment tabs, update `CONFIG.EXTRA_ID_TABS` at the top of the script before
-running `testQuoteIntake()`. Tab names that don't exist are silently skipped —
-no error, they just won't be scanned.
+The script scans four tabs (`Leads`, `Automation Queue`, `Booked Customers`,
+`Payment Tracker`) for the highest existing `NK-YYYY-NNN` before assigning the
+next ID.
+
+If your existing bookings use a **different format** (e.g. `B001`, `B002`) the
+scanner will find no matches and fall back to `CONFIG.NEXT_BOOKING_NUMBER_FALLBACK`.
+This is set to `14` by default — meaning the first new booking ID will be
+`NK-2026-014`. Adjust this number before going live if your sequence is already
+past 14.
+
+The fallback only applies when the scanner finds zero NK-format IDs. Once real
+`NK-2026-NNN` IDs exist in the sheet, the scanner takes over automatically and
+the fallback has no effect.
+
+If your sheet uses different tab names for booked customers or payments, update
+`CONFIG.EXTRA_ID_TABS`. Tabs that don't exist are silently skipped.
 
 ### Step 5 — Run testQuoteIntake() and Verify
 

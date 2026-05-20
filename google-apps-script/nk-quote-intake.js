@@ -30,6 +30,10 @@ const CONFIG = {
   // Additional tabs scanned when generating the next booking ID.
   // Add or rename to match your actual sheet tab names.
   EXTRA_ID_TABS:    ["Booked Customers", "Payment Tracker"],
+  // If no NK-YYYY-### IDs are found in any tab (e.g. existing bookings use a
+  // different format like B001/B002), the next ID starts from this number.
+  // Set this to the next number you want to use before going live.
+  NEXT_BOOKING_NUMBER_FALLBACK: 14,
   FROM_NAME:        "Nova Kingdom Rentals",
   FROM_EMAIL:       "booknovakingdom@gmail.com",
   BUSINESS_PHONE:   "902-990-0005",
@@ -608,7 +612,8 @@ function generateBookingId_(ss) {
     });
   });
 
-  return CONFIG.BOOKING_ID_PREFIX + "-" + year + "-" + String(maxNum + 1).padStart(3, "0");
+  const next = Math.max(maxNum, (CONFIG.NEXT_BOOKING_NUMBER_FALLBACK || 1) - 1) + 1;
+  return CONFIG.BOOKING_ID_PREFIX + "-" + year + "-" + String(next).padStart(3, "0");
 }
 
 function calcDeposit_(estimatedTotalStr) {
