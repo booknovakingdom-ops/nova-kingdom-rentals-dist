@@ -80,7 +80,7 @@ by searching Drive for the sheet's name — no binding needed.
 
 ### Step 3 — Authorize Scopes
 
-1. Select `testQuoteIntake` from the function dropdown at the top.
+1. Select `verifyIntakeSystem` from the function dropdown at the top.
 2. Click **Run**.
 3. Click **Review permissions** when prompted.
 4. Sign in with `booknovakingdom@gmail.com`.
@@ -92,6 +92,24 @@ Required scopes (all requested automatically):
 - Google Sheets — read and write CRM spreadsheet
 - Google Calendar — create tentative events
 - Google Drive — locate the CRM spreadsheet by name
+
+### Step 3b — Run verifyIntakeSystem() First
+
+After authorizing scopes, run `verifyIntakeSystem()` **before** `testQuoteIntake()`.
+This function checks everything is wired up correctly and prints results to the
+Execution Log. All lines should show ✓.
+
+| Check | What it verifies |
+|-------|-----------------|
+| CRM spreadsheet | Can be found by name in Drive |
+| Leads tab | Exists and has required headers |
+| Automation Queue tab | Exists and has required headers |
+| System tab | Exists and counter cell B2 is readable |
+| Gmail label | `NK/Intake-Processed` label exists |
+| Extra ID tabs | `Booked Customers`, `Payment Tracker` exist (non-fatal) |
+
+If any check shows ✗, resolve the issue before proceeding. Common fixes are in
+the [Troubleshooting](#troubleshooting) section below.
 
 ### Step 4 — Verify Column Alignment and Booking ID Tabs
 
@@ -275,6 +293,92 @@ update non-empty fields in place without creating a second row.
 - No customer data leaves Google's infrastructure
 - Gmail drafts are visible only to the Gmail account holder
 - Web3Forms API key lives in the Web3Forms dashboard, not in this script
+
+---
+
+---
+
+## Troubleshooting
+
+All sheet writes now produce detailed output in the **Execution Log**
+(Apps Script editor → Executions, or the log panel after a manual run).
+Each email processed ends with a ── Run summary ── block. Check this first.
+
+### Lead row not appearing in Leads tab
+
+**Most likely cause: column header mismatch.**
+
+The script maps values to columns by header name. If the Leads tab has different
+column names or a different column order than `LEADS_COLUMNS_` in the script, the
+affected fields write blank.
+
+1. Open the Leads tab and compare row 1 against the expected headers in Step 4.
+2. Run `verifyIntakeSystem()` — it prints each required header and its column number.
+   Any ✗ line identifies the mismatch.
+3. Either rename the column in the sheet to match the script, or update `LEADS_COLUMNS_`
+   in the script to match the sheet, then re-run `testQuoteIntake()`.
+
+**If the row is completely absent** (not just missing fields):
+
+- Check the Execution Log for "ERROR writing to Leads" messages.
+- Check the **Error Log** tab in the CRM sheet — the script writes a row there for
+  every Leads write failure, including the error message, timestamp, and customer data.
+- A "column mismatch" error means `emailCol`, `dateCol`, or `idCol` returned -1.
+  The error message will show which column was not found.
+
+### Duplicate booking IDs
+
+**This should not happen** with the System tab counter in place. If it does:
+
+1. Check `System!B2` — it should hold a value like `NK-2026:016`. If it is blank,
+   the counter was never written. Re-run `verifyIntakeSystem()` to diagnose.
+2. If two runs executed simultaneously (unlikely with a 5-minute trigger), both may
+   have read the same counter before either wrote back. The System tab write happens
+   immediately after reading — if you see duplicates in the logs, check whether two
+   trigger instances overlapped.
+3. To manually advance the counter: set `System!B2` to `NK-2026:NNN` where NNN is
+   the number you want the *next* booking to receive minus 1.
+
+### Automation Queue row missing
+
+If the Lead row was written (Booking ID generated) but the Queue row is absent:
+
+1. Check the Execution Log for "ERROR writing to Automation Queue".
+2. Check the Error Log tab for a "Queue write failed" entry.
+3. Common cause: Automation Queue tab was renamed. Update `CONFIG.QUEUE_TAB` in the
+   script and re-run `setupTriggers()`.
+
+### Gmail draft not created
+
+1. Check the Execution Log for "ERROR creating draft".
+2. Most common cause: `data.email` was blank — the draft is created with an empty
+   To: field and Gmail may reject it. Verify the Web3Forms email contains an `Email:`
+   field in the body.
+3. Check that the account has Gmail draft creation permission (authorized in Step 3).
+
+### Calendar hold missing
+
+1. Check the Execution Log for "ERROR creating calendar hold" or "could not parse
+   start/end times".
+2. If `eventDate` was blank in the submission, the calendar step is skipped by design.
+3. If `CONFIG.CALENDAR_ID` is set to a specific calendar ID, confirm that calendar
+   is accessible to the `booknovakingdom@gmail.com` account.
+
+### Viewing the Error Log tab
+
+After any live run, check the **Error Log** tab in the CRM sheet. Each row contains:
+
+| Column | Content |
+|--------|---------|
+| Timestamp | When the error occurred |
+| Booking ID | If one was generated before the failure |
+| Customer | Parsed name (if available) |
+| Email | Parsed email (if available) |
+| Event Date | Parsed event date (if available) |
+| Error | Full error message |
+
+The Error Log tab is created automatically on first error. It is never written to
+on a clean run — if it stays empty, the system is working correctly.
 
 ---
 
