@@ -2,23 +2,21 @@
  * ExecutionEnv — RentalOps Core Library
  *
  * Single routing layer for ALL operational side effects.
- * In simulation mode: intercepts every write and logs to Sim_Actions.
+ * In simulation mode: intercepts every write and logs to Sim_* tabs.
  * In live mode: executes real Gmail, Sheets, Calendar, notification actions.
  *
  * Rule: worker scripts call ExecutionEnv.* for every write.
  * Nothing writes directly to Gmail, live CRM tabs, or Calendar.
  *
- * Allowed real writes during simulation:
- *   Ops_IdempotencyLog — written by Idempotency module (always real)
- *   Ops_Metrics        — written by MetricsLogger module (always real)
- *   Everything else    — routes to Sim_* tabs or Sim_Actions during simulation
+ * Allowed real writes during simulation (exactly two):
+ *   Ops_IdempotencyLog — Idempotency module (always real)
+ *   Ops_Metrics        — MetricsLogger module (always real)
  *
- * What does NOT route through here:
- *   Ops_IdempotencyLog — Idempotency module handles it directly
- *   Config_* tabs      — read-only at runtime
+ * All simulation artifacts are stamped with:
+ *   trace_id, simulation_run_id, tenant_id, environment = SIMULATION
  *
- * Initialization: call ExecutionEnv.init(spreadsheetId, controls) once
- * at the start of each worker run before calling any other method.
+ * Initialization: call ExecutionEnv.init(spreadsheetId, controls, tenantId)
+ * once at the start of each worker run before calling any other method.
  */
 
 var ExecutionEnv = (function () {
@@ -27,25 +25,51 @@ var ExecutionEnv = (function () {
   var _autoDraftEnabled = false;
   var _spreadsheetId   = '';
   var _tenantId        = '';
+  var _simRunId        = '';
   var _initialized     = false;
+
+  // Sim_ tabs that clearSimTabs() is permitted to reset (whitelist — never wildcard)
+  var SIM_TABS = ['Sim_Actions', 'Sim_Drafts', 'Sim_AutomationQueue', 'Sim_ManualReview'];
 
   // ─── Initialization ───────────────────────────────────────────────────────
 
   /**
    * Must be called once at the start of every worker run.
-   * Reads simulation_mode and auto_draft_enabled from ops controls.
+   * Generates a unique simulation_run_id when simulation_mode = true.
    */
   function init(spreadsheetId, controls, tenantId) {
     _spreadsheetId    = spreadsheetId;
     _tenantId         = tenantId || '';
     _simulation       = !!controls.simulation_mode;
     _autoDraftEnabled = !!controls.auto_draft_enabled;
+    _simRunId         = _simulation ? ('SIM-RUN-' + Date.now() + '-' + _rand4()) : '';
     _initialized      = true;
   }
 
   function isSimulation() {
     _assertInit();
     return _simulation;
+  }
+
+  function getSimRunId() {
+    _assertInit();
+    return _simRunId;
+  }
+
+  /**
+   * Returns simulation context object for merging into MetricsLogger metadata.
+   * In live mode returns empty object (no stamps needed on real metrics).
+   * Usage: MetricsLogger.log(id, { ..., metadata: ExecutionEnv.stampMetadata({...}) })
+   */
+  function stampMetadata(existingMetadata) {
+    _assertInit();
+    var base = existingMetadata || {};
+    if (!_simulation) return base;
+    return Object.assign({}, base, {
+      simulation_run_id: _simRunId,
+      tenant_id:         _tenantId,
+      environment:       'SIMULATION'
+    });
   }
 
   function _assertInit() {
@@ -56,7 +80,7 @@ var ExecutionEnv = (function () {
 
   /**
    * Apply a Gmail label to a thread.
-   * In simulation mode: logs the action, does not touch Gmail.
+   * In simulation: logs to Sim_Actions, does not touch Gmail.
    */
   function applyGmailLabel(thread, labelName, traceId) {
     _assertInit();
@@ -74,11 +98,11 @@ var ExecutionEnv = (function () {
 
   /**
    * Create a Gmail draft reply.
-   * In simulation mode: logs action + full body to Sim_Drafts, returns fake ID.
-   * In live mode with auto_draft_enabled = false: suppresses draft, logs reason.
-   * In live mode with auto_draft_enabled = true: creates real Gmail draft.
+   * Simulation: logs to Sim_Actions + full body to Sim_Drafts.
+   * Live + auto_draft_enabled=false: suppresses, logs to Sim_Actions.
+   * Live + auto_draft_enabled=true: creates real Gmail draft.
    *
-   * @returns {string}  Draft ID (real or simulated), or '' if suppressed.
+   * @returns {string}  Draft ID or '' if suppressed.
    */
   function createDraft(toEmail, subject, body, traceId) {
     _assertInit();
@@ -103,18 +127,20 @@ var ExecutionEnv = (function () {
 
   /**
    * Upsert a customer record.
-   * In simulation mode: logs action to Sim_Actions only.
-   * In live mode: re-reads inside script lock then upserts via DataProvider.
+   * Simulation: logs to Sim_Actions only.
+   * Live: re-reads inside script lock then upserts via DataProvider.
    *
-   * @param {Object} data  Customer fields; must include email, tenant_id, customer_id
    * @returns {{ customer_id: string, isNew: boolean }}
    */
   function upsertCustomer(data, traceId) {
     _assertInit();
     if (_simulation) {
       _simLog('UPSERT_CUSTOMER', {
-        email: data.email, name: data.name, phone: data.phone || '',
-        readiness: data.readiness, tenantId: data.tenant_id
+        email:     data.email,
+        name:      data.name,
+        phone:     data.phone    || '',
+        readiness: data.readiness,
+        tenantId:  data.tenant_id
       }, traceId);
       return { customer_id: data.customer_id, isNew: false };
     }
@@ -125,84 +151,80 @@ var ExecutionEnv = (function () {
 
   /**
    * Write a queue task row.
-   * In simulation mode: writes to Sim_AutomationQueue.
-   * In live mode: writes to Automation Queue.
-   *
-   * @param {Object} data  Queue task fields
+   * Simulation: writes to Sim_AutomationQueue with simulation stamps.
+   * Live: writes to Automation Queue.
    */
   function writeQueueTask(data, traceId) {
     _assertInit();
     var tabName = _simulation ? 'Sim_AutomationQueue' : 'Automation Queue';
-    var sheet   = _getOrCreateSheet(tabName, [
+    var headers = [
       'timestamp', 'task_id', 'message_id', 'customer_id', 'email',
       'intent', 'readiness', 'decision', 'mode', 'confidence',
       'event_date', 'rental_item', 'status', 'trace_id'
-    ]);
-    sheet.appendRow([
+    ];
+    if (_simulation) headers = headers.concat(['simulation_run_id', 'tenant_id', 'environment']);
+    var sheet = _getOrCreateSheet(tabName, headers);
+    var row = [
       new Date().toISOString(),
-      data.task_id      || '',
-      data.message_id   || '',
-      data.customer_id  || '',
-      data.email        || '',
-      data.intent       || '',
-      data.readiness    || '',
-      data.decision     || '',
-      data.mode         || '',
-      data.confidence   !== undefined ? data.confidence : '',
-      data.event_date   || '',
-      data.rental_item  || '',
-      data.status       || 'PENDING',
-      traceId           || ''
-    ]);
+      data.task_id     || '',
+      data.message_id  || '',
+      data.customer_id || '',
+      data.email       || '',
+      data.intent      || '',
+      data.readiness   || '',
+      data.decision    || '',
+      data.mode        || '',
+      data.confidence  !== undefined ? data.confidence : '',
+      data.event_date  || '',
+      data.rental_item || '',
+      data.status      || 'PENDING',
+      traceId          || ''
+    ];
+    if (_simulation) row = row.concat([_simRunId, _tenantId, 'SIMULATION']);
+    sheet.appendRow(row);
   }
-
-  // ─── Observability (always real, not simulation-gated) ───────────────────
 
   /**
    * Write a manual review row.
-   * In simulation mode: writes to Sim_ManualReview (never touches real Manual_Review).
-   * In live mode: writes to real Manual_Review.
-   * In both modes: logs MANUAL_REVIEW_FLAGGED event to Ops_Metrics (always real).
-   *
-   * Allowed real writes in simulation: Ops_IdempotencyLog, Ops_Metrics only.
-   * Sim_ManualReview is the simulation equivalent of Manual_Review.
-   *
-   * @param {Object} data  { email, threadLink, reason, severity }
+   * Simulation: writes to Sim_ManualReview with simulation stamps.
+   * Live: writes to real Manual_Review.
+   * Both modes: logs MANUAL_REVIEW_FLAGGED to Ops_Metrics with simulation stamps.
    */
   function writeManualReview(data, traceId) {
     _assertInit();
     var tabName = _simulation ? 'Sim_ManualReview' : 'Manual_Review';
-    var sheet   = _getOrCreateSheet(tabName, [
+    var headers = [
       'manual_review_id', 'timestamp', 'customer_email', 'thread_link',
-      'risk_reason', 'severity', 'recommended_owner_action', 'urgency',
-      'simulation_mode', 'trace_id'
-    ]);
+      'risk_reason', 'severity', 'recommended_owner_action', 'urgency', 'trace_id'
+    ];
+    if (_simulation) headers = headers.concat(['simulation_run_id', 'tenant_id', 'environment']);
+    var sheet   = _getOrCreateSheet(tabName, headers);
     var urgency = (data.severity === 'critical' || data.severity === 'high') ? 'TODAY' : 'THIS_WEEK';
     var action  = data.severity === 'critical' ? 'Call customer immediately' : 'Review and reply manually';
-    sheet.appendRow([
+    var row = [
       'MR-' + Date.now(),
       new Date().toISOString(),
-      data.email     || '',
+      data.email      || '',
       data.threadLink || '',
-      data.reason    || '',
-      data.severity  || 'medium',
+      data.reason     || '',
+      data.severity   || 'medium',
       action,
       urgency,
-      _simulation ? 'YES' : 'NO',
-      traceId        || ''
-    ]);
+      traceId         || ''
+    ];
+    if (_simulation) row = row.concat([_simRunId, _tenantId, 'SIMULATION']);
+    sheet.appendRow(row);
 
-    // Always log to Ops_Metrics — metrics are real in both modes
+    // Always log to Ops_Metrics — real in both modes, includes simulation stamps
     MetricsLogger.log(_spreadsheetId, {
       tenantId:     _tenantId,
       eventType:    'MANUAL_REVIEW_FLAGGED',
       workerScript: 'ExecutionEnv',
-      metadata:     { email: data.email, reason: data.reason, severity: data.severity,
-                      simulation: _simulation },
+      metadata:     stampMetadata({ email: data.email, reason: data.reason, severity: data.severity }),
       traceId:      traceId || ''
     });
 
-    // In simulation mode, also record in Sim_Actions for the unified side-effect log
+    // In simulation, also record in Sim_Actions for the unified side-effect log
     if (_simulation) {
       _simLog('WRITE_MANUAL_REVIEW', {
         tab: tabName, email: data.email, reason: data.reason, severity: data.severity
@@ -211,8 +233,6 @@ var ExecutionEnv = (function () {
   }
 
   // ─── Future stubs (Calendar, Notifications) ───────────────────────────────
-  // These are not used by Contact Intake. Stubbed here so the interface is
-  // complete and worker scripts never call Calendar/notifications directly.
 
   function createCalendarEvent(eventData, traceId) {
     _assertInit();
@@ -220,7 +240,6 @@ var ExecutionEnv = (function () {
       _simLog('CREATE_CALENDAR_EVENT', eventData, traceId);
       return 'SIM-CAL-' + Date.now();
     }
-    // Live implementation added in Phase 1b when Calendar integration is enabled
     throw new Error('ExecutionEnv.createCalendarEvent: live implementation not yet deployed');
   }
 
@@ -230,50 +249,82 @@ var ExecutionEnv = (function () {
       _simLog('SEND_NOTIFICATION', data, traceId);
       return;
     }
-    // Future: push notification, SMS, or Slack integration
     console.log('ExecutionEnv.sendNotification: not yet implemented in live mode');
   }
 
-  // ─── Simulation output ───────────────────────────────────────────────────
+  // ─── Simulation reset ─────────────────────────────────────────────────────
 
   /**
-   * Append a row to Sim_Actions — the single record of all intercepted side effects.
-   * Readable summary for reviewing what WOULD have happened in live mode.
+   * Purge all data rows from Sim_* tabs, preserving header rows.
+   * Whitelist-based — only clears the four tabs listed in SIM_TABS.
+   * Never touches any real operational tab.
+   * Safe to call between test runs.
+   *
+   * @returns {Array<string>}  Names of tabs that were cleared.
    */
+  function clearSimTabs() {
+    _assertInit();
+    var ss      = SpreadsheetApp.openById(_spreadsheetId);
+    var cleared = [];
+    SIM_TABS.forEach(function (tabName) {
+      var sheet = ss.getSheetByName(tabName);
+      if (sheet && sheet.getLastRow() > 1) {
+        sheet.deleteRows(2, sheet.getLastRow() - 1);
+        cleared.push(tabName);
+      }
+    });
+    console.log('ExecutionEnv.clearSimTabs: cleared [' + cleared.join(', ') + ']');
+    // Log the purge to Ops_Metrics so there's always a record
+    MetricsLogger.log(_spreadsheetId, {
+      tenantId:     _tenantId,
+      eventType:    'SIMULATION_RUN',
+      workerScript: 'ExecutionEnv',
+      metadata:     { action: 'CLEAR_SIM_TABS', tabsCleared: cleared },
+      traceId:      ''
+    });
+    return cleared;
+  }
+
+  // ─── Simulation output helpers ────────────────────────────────────────────
+
   function _simLog(actionType, payload, traceId) {
     var sheet = _getOrCreateSheet('Sim_Actions', [
-      'timestamp', 'action_type', 'summary', 'payload_json', 'trace_id'
+      'timestamp', 'action_type', 'summary', 'payload_json',
+      'trace_id', 'simulation_run_id', 'tenant_id', 'environment'
     ]);
-    var summary = _summarize(actionType, payload);
     sheet.appendRow([
       new Date().toISOString(),
       actionType,
-      summary,
+      _summarize(actionType, payload),
       JSON.stringify(payload),
-      traceId || ''
+      traceId   || '',
+      _simRunId,
+      _tenantId,
+      'SIMULATION'
     ]);
   }
 
-  /**
-   * Write full draft body to Sim_Drafts for human review.
-   * Sim_Actions contains only a preview; this tab has the complete text.
-   */
   function _simDraftFull(toEmail, subject, body, traceId) {
     var sheet = _getOrCreateSheet('Sim_Drafts', [
-      'timestamp', 'to_email', 'subject', 'full_body', 'trace_id'
+      'timestamp', 'to_email', 'subject', 'full_body',
+      'trace_id', 'simulation_run_id', 'tenant_id', 'environment'
     ]);
-    sheet.appendRow([new Date().toISOString(), toEmail, subject, body, traceId || '']);
+    sheet.appendRow([
+      new Date().toISOString(), toEmail, subject, body,
+      traceId || '', _simRunId, _tenantId, 'SIMULATION'
+    ]);
   }
 
   function _summarize(actionType, payload) {
     switch (actionType) {
-      case 'APPLY_LABEL':      return 'Label "' + payload.labelName + '" on thread ' + payload.threadId;
-      case 'CREATE_DRAFT':     return 'Draft to ' + payload.toEmail + ' — ' + payload.subject;
-      case 'DRAFT_SUPPRESSED': return 'Draft suppressed (' + payload.reason + ') for ' + payload.toEmail;
-      case 'UPSERT_CUSTOMER':  return (payload.email || '') + ' — readiness: ' + (payload.readiness || '?');
+      case 'APPLY_LABEL':           return 'Label "' + payload.labelName + '" → thread ' + payload.threadId;
+      case 'CREATE_DRAFT':          return 'Draft → ' + payload.toEmail + ' | ' + payload.subject;
+      case 'DRAFT_SUPPRESSED':      return 'Draft suppressed (' + payload.reason + ') for ' + payload.toEmail;
+      case 'UPSERT_CUSTOMER':       return payload.email + ' | readiness: ' + (payload.readiness || '?');
+      case 'WRITE_MANUAL_REVIEW':   return payload.email + ' | ' + payload.severity + ' | ' + (payload.reason || '').slice(0, 60);
       case 'CREATE_CALENDAR_EVENT': return 'Calendar: ' + (payload.title || '') + ' on ' + (payload.date || '');
-      case 'SEND_NOTIFICATION': return 'Notify: ' + (payload.type || '') + ' to ' + (payload.recipient || '');
-      default:                 return JSON.stringify(payload).slice(0, 80);
+      case 'SEND_NOTIFICATION':     return 'Notify: ' + (payload.type || '') + ' → ' + (payload.recipient || '');
+      default:                      return JSON.stringify(payload).slice(0, 80);
     }
   }
 
@@ -287,17 +338,24 @@ var ExecutionEnv = (function () {
     return sheet;
   }
 
+  function _rand4() {
+    return Math.floor(Math.random() * 9000 + 1000).toString();
+  }
+
   // ─── Public API ───────────────────────────────────────────────────────────
 
   return {
     init:               init,
     isSimulation:       isSimulation,
+    getSimRunId:        getSimRunId,
+    stampMetadata:      stampMetadata,
     applyGmailLabel:    applyGmailLabel,
     createDraft:        createDraft,
     upsertCustomer:     upsertCustomer,
     writeQueueTask:     writeQueueTask,
     writeManualReview:  writeManualReview,
     createCalendarEvent: createCalendarEvent,
-    sendNotification:   sendNotification
+    sendNotification:   sendNotification,
+    clearSimTabs:       clearSimTabs
   };
 })();

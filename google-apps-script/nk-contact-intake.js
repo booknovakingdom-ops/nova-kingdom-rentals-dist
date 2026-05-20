@@ -138,7 +138,7 @@ function _processThread(thread, controls, profile, traceId) {
     MetricsLogger.log(TENANT.SPREADSHEET_ID, {
       tenantId: TENANT.TENANT_ID, eventType: 'RISK_RULE_TRIGGERED',
       workerScript: TENANT.WORKER_SCRIPT,
-      metadata: { messageId: messageId, action: preGate.worstAction, reason: gateReason },
+      metadata: ExecutionEnv.stampMetadata({ messageId: messageId, action: preGate.worstAction, reason: gateReason }),
       traceId: traceId
     });
     if (preGate.worstAction === 'escalate') {
@@ -269,8 +269,7 @@ function _processThread(thread, controls, profile, traceId) {
     MetricsLogger.log(TENANT.SPREADSHEET_ID, {
       tenantId: TENANT.TENANT_ID, eventType: 'DRAFT_CREATED',
       workerScript: TENANT.WORKER_SCRIPT,
-      metadata: { messageId: messageId, intent: aiDecision.intent, mode: aiDecision.mode,
-                  simulation: ExecutionEnv.isSimulation() },
+      metadata: ExecutionEnv.stampMetadata({ messageId: messageId, intent: aiDecision.intent, mode: aiDecision.mode }),
       traceId: traceId
     });
   }
@@ -286,7 +285,9 @@ function _processThread(thread, controls, profile, traceId) {
 function _classifyWithFallback(contextBundle, controls, traceId) {
   MetricsLogger.log(TENANT.SPREADSHEET_ID, {
     tenantId: TENANT.TENANT_ID, eventType: 'AI_CALL_CLASSIFY',
-    workerScript: TENANT.WORKER_SCRIPT, traceId: traceId
+    workerScript: TENANT.WORKER_SCRIPT,
+    metadata: ExecutionEnv.stampMetadata({}),
+    traceId: traceId
   });
 
   try {
@@ -408,7 +409,9 @@ function _buildAndCreateDraft(parsed, senderEmail, firstName, aiDecision, contex
 function _polishWithFallback(scaffold, contextBundle, controls, traceId) {
   MetricsLogger.log(TENANT.SPREADSHEET_ID, {
     tenantId: TENANT.TENANT_ID, eventType: 'AI_CALL_DRAFT',
-    workerScript: TENANT.WORKER_SCRIPT, traceId: traceId
+    workerScript: TENANT.WORKER_SCRIPT,
+    metadata: ExecutionEnv.stampMetadata({}),
+    traceId: traceId
   });
   try {
     return AiClient.draftReply(scaffold, contextBundle, controls.ai_model_draft, TENANT.ANTHROPIC_KEY_PROP);
@@ -429,14 +432,14 @@ function _finalizeThread(thread, messageId, senderEmail, parsed, aiDecision, res
     tenantId:     TENANT.TENANT_ID,
     eventType:    'INQUIRY_RECEIVED',
     workerScript: TENANT.WORKER_SCRIPT,
-    metadata: {
+    metadata: ExecutionEnv.stampMetadata({
       messageId:  messageId,
       email:      senderEmail,
       intent:     aiDecision.intent,
       mode:       aiDecision.mode,
       outcome:    resultType,
       eventDate:  parsed ? (parsed.event_date || '') : ''
-    },
+    }),
     traceId: traceId
   });
 }
