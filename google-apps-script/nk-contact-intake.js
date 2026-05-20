@@ -51,7 +51,7 @@ function processContactIntake() {
   }
 
   // Initialize environment ONCE for the entire run
-  ExecutionEnv.init(TENANT.SPREADSHEET_ID, controls);
+  ExecutionEnv.init(TENANT.SPREADSHEET_ID, controls, TENANT.TENANT_ID);
 
   var threads = _fetchUnprocessedThreads();
   console.log('Contact Intake: ' + threads.length + ' unprocessed thread(s)');
@@ -504,7 +504,7 @@ function runSimulationTest() {
   var controls = ConfigLoader.getOpsControls(TENANT.SPREADSHEET_ID, TENANT.TENANT_ID);
   var profile  = ConfigLoader.getBusinessProfile(TENANT.SPREADSHEET_ID, TENANT.TENANT_ID);
 
-  ExecutionEnv.init(TENANT.SPREADSHEET_ID, controls);
+  ExecutionEnv.init(TENANT.SPREADSHEET_ID, controls, TENANT.TENANT_ID);
 
   var traceId = Identifiers.traceId();
   try {

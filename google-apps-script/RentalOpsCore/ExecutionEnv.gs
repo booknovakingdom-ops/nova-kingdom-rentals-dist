@@ -8,10 +8,13 @@
  * Rule: worker scripts call ExecutionEnv.* for every write.
  * Nothing writes directly to Gmail, live CRM tabs, or Calendar.
  *
- * What does NOT route through here (always real, always written):
- *   Ops_IdempotencyLog — written by Idempotency module
- *   Ops_Metrics        — written by MetricsLogger module
- *   Manual_Review      — always written (observability, needed in both modes)
+ * Allowed real writes during simulation:
+ *   Ops_IdempotencyLog — written by Idempotency module (always real)
+ *   Ops_Metrics        — written by MetricsLogger module (always real)
+ *   Everything else    — routes to Sim_* tabs or Sim_Actions during simulation
+ *
+ * What does NOT route through here:
+ *   Ops_IdempotencyLog — Idempotency module handles it directly
  *   Config_* tabs      — read-only at runtime
  *
  * Initialization: call ExecutionEnv.init(spreadsheetId, controls) once
@@ -23,6 +26,7 @@ var ExecutionEnv = (function () {
   var _simulation      = true;
   var _autoDraftEnabled = false;
   var _spreadsheetId   = '';
+  var _tenantId        = '';
   var _initialized     = false;
 
   // ─── Initialization ───────────────────────────────────────────────────────
@@ -31,8 +35,9 @@ var ExecutionEnv = (function () {
    * Must be called once at the start of every worker run.
    * Reads simulation_mode and auto_draft_enabled from ops controls.
    */
-  function init(spreadsheetId, controls) {
+  function init(spreadsheetId, controls, tenantId) {
     _spreadsheetId    = spreadsheetId;
+    _tenantId         = tenantId || '';
     _simulation       = !!controls.simulation_mode;
     _autoDraftEnabled = !!controls.auto_draft_enabled;
     _initialized      = true;
@@ -154,14 +159,20 @@ var ExecutionEnv = (function () {
   // ─── Observability (always real, not simulation-gated) ───────────────────
 
   /**
-   * Write a manual review row. Always writes to the real Manual_Review tab
-   * in both simulation and live mode — escalations must always be visible.
+   * Write a manual review row.
+   * In simulation mode: writes to Sim_ManualReview (never touches real Manual_Review).
+   * In live mode: writes to real Manual_Review.
+   * In both modes: logs MANUAL_REVIEW_FLAGGED event to Ops_Metrics (always real).
+   *
+   * Allowed real writes in simulation: Ops_IdempotencyLog, Ops_Metrics only.
+   * Sim_ManualReview is the simulation equivalent of Manual_Review.
    *
    * @param {Object} data  { email, threadLink, reason, severity }
    */
   function writeManualReview(data, traceId) {
     _assertInit();
-    var sheet = _getOrCreateSheet('Manual_Review', [
+    var tabName = _simulation ? 'Sim_ManualReview' : 'Manual_Review';
+    var sheet   = _getOrCreateSheet(tabName, [
       'manual_review_id', 'timestamp', 'customer_email', 'thread_link',
       'risk_reason', 'severity', 'recommended_owner_action', 'urgency',
       'simulation_mode', 'trace_id'
@@ -171,15 +182,32 @@ var ExecutionEnv = (function () {
     sheet.appendRow([
       'MR-' + Date.now(),
       new Date().toISOString(),
-      data.email        || '',
-      data.threadLink   || '',
-      data.reason       || '',
-      data.severity     || 'medium',
+      data.email     || '',
+      data.threadLink || '',
+      data.reason    || '',
+      data.severity  || 'medium',
       action,
       urgency,
       _simulation ? 'YES' : 'NO',
-      traceId           || ''
+      traceId        || ''
     ]);
+
+    // Always log to Ops_Metrics — metrics are real in both modes
+    MetricsLogger.log(_spreadsheetId, {
+      tenantId:     _tenantId,
+      eventType:    'MANUAL_REVIEW_FLAGGED',
+      workerScript: 'ExecutionEnv',
+      metadata:     { email: data.email, reason: data.reason, severity: data.severity,
+                      simulation: _simulation },
+      traceId:      traceId || ''
+    });
+
+    // In simulation mode, also record in Sim_Actions for the unified side-effect log
+    if (_simulation) {
+      _simLog('WRITE_MANUAL_REVIEW', {
+        tab: tabName, email: data.email, reason: data.reason, severity: data.severity
+      }, traceId);
+    }
   }
 
   // ─── Future stubs (Calendar, Notifications) ───────────────────────────────
