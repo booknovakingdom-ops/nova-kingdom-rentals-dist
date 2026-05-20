@@ -118,24 +118,31 @@ the script maps by header name — any column name it doesn't recognise will rec
 a blank value. Adjust the column names in the sheet or in `LEADS_COLUMNS_` /
 `QUEUE_COLUMNS_` at the bottom of the script to match before proceeding.
 
-**Booking ID sequence — verify fallback and tab names:**
+**Booking ID sequence — persistent counter + fallback:**
 
-The script scans four tabs (`Leads`, `Automation Queue`, `Booked Customers`,
-`Payment Tracker`) for the highest existing `NK-YYYY-NNN` before assigning the
-next ID.
+The script uses a three-source sequence strategy so the counter is permanent
+and survives test cleanups, deleted rows, and deleted drafts:
 
-If your existing bookings use a **different format** (e.g. `B001`, `B002`) the
-scanner will find no matches and fall back to `CONFIG.NEXT_BOOKING_NUMBER_FALLBACK`.
-This is set to `14` by default — meaning the first new booking ID will be
-`NK-2026-014`. Adjust this number before going live if your sequence is already
-past 14.
+1. **System tab counter** (`System!B2`) — written immediately every time a
+   booking ID is generated. This is the primary source of truth.
+2. **Tab scanner** — reads all NK-YYYY-### IDs from Leads, Automation Queue,
+   Booked Customers, and Payment Tracker as a secondary cross-check.
+3. **Fallback constant** (`NEXT_BOOKING_NUMBER_FALLBACK: 14`) — used only if
+   both of the above return 0 (i.e. first ever run with no prior NK-format IDs).
 
-The fallback only applies when the scanner finds zero NK-format IDs. Once real
-`NK-2026-NNN` IDs exist in the sheet, the scanner takes over automatically and
-the fallback has no effect.
+The next number is `max(counter, scanner, fallback) + 1`. Once the System tab
+exists and holds a value, the fallback has no effect.
 
-If your sheet uses different tab names for booked customers or payments, update
-`CONFIG.EXTRA_ID_TABS`. Tabs that don't exist are silently skipped.
+**System tab** is created automatically on first run if it doesn't exist. It
+will appear as a new tab named `System` in your CRM sheet with:
+- `A2`: "Booking ID sequence (do not edit)"
+- `B2`: current counter value in format `NK-2026:014`
+- `A3 / B3`: "Last updated" timestamp
+
+**Do not manually edit B2** unless you need to reset the counter deliberately.
+
+If your booked customers or payment tabs have different names, update
+`CONFIG.EXTRA_ID_TABS`. Missing tabs are silently skipped.
 
 ### Step 5 — Run testQuoteIntake() and Verify
 

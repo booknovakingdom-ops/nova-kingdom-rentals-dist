@@ -27,12 +27,13 @@ const CONFIG = {
   CRM_SHEET_NAME:   "AI Lead Engine CRM — Nova Kingdom Rentals",
   LEADS_TAB:        "Leads",
   QUEUE_TAB:        "Automation Queue",
-  // Additional tabs scanned when generating the next booking ID.
-  // Add or rename to match your actual sheet tab names.
+  // Additional tabs scanned as a secondary validation when generating booking IDs.
   EXTRA_ID_TABS:    ["Booked Customers", "Payment Tracker"],
-  // If no NK-YYYY-### IDs are found in any tab (e.g. existing bookings use a
-  // different format like B001/B002), the next ID starts from this number.
-  // Set this to the next number you want to use before going live.
+  // Persistent counter tab. The script reads/writes B2 on this tab to maintain
+  // booking ID sequence across deletions, test cleanups, and CRM resets.
+  SEQUENCE_SHEET:   "System",
+  // Fallback starting number when the System tab counter is 0 or missing.
+  // Set to the next number you want to use before first live run.
   NEXT_BOOKING_NUMBER_FALLBACK: 14,
   FROM_NAME:        "Nova Kingdom Rentals",
   FROM_EMAIL:       "booknovakingdom@gmail.com",
@@ -586,34 +587,90 @@ function getOrCreateHeaders_(sheet, expectedHeaders) {
 }
 
 /**
- * Generates the next booking ID by scanning ALL configured CRM tabs for existing
- * NK-YYYY-NNN IDs and returning the next number in sequence.
- * Tabs scanned: Leads, Automation Queue, and any names listed in CONFIG.EXTRA_ID_TABS.
- * Cells are matched against the pattern in every column to handle varying column layouts.
+ * Generates the next booking ID with a three-source sequence strategy:
+ *   1. Persistent counter  — System tab B2 (survives deletions and cleanups)
+ *   2. Tab scanner         — highest NK-YYYY-### found across all CRM tabs
+ *   3. Fallback constant   — NEXT_BOOKING_NUMBER_FALLBACK (used only when both above are 0)
+ *
+ * Takes the maximum of all three, increments by 1, writes back to System!B2
+ * immediately so the next call always sees the updated value.
  */
 function generateBookingId_(ss) {
   const year    = new Date().getFullYear();
-  const pattern = new RegExp("^" + CONFIG.BOOKING_ID_PREFIX + "-" + year + "-(\\d+)$");
+
+  // ── 1. Read persistent counter ──────────────────────────────────
+  const persistedNum = readSequenceCounter_(ss, year);
+
+  // ── 2. Scan CRM tabs as secondary validation ─────────────────────
+  const pattern  = new RegExp("^" + CONFIG.BOOKING_ID_PREFIX + "-" + year + "-(\\d+)$");
   const tabNames = [CONFIG.LEADS_TAB, CONFIG.QUEUE_TAB].concat(CONFIG.EXTRA_ID_TABS || []);
-  let maxNum = 0;
+  let scannedMax = 0;
 
   tabNames.forEach(tabName => {
     const sheet = ss.getSheetByName(tabName);
     if (!sheet) return;
     const lastRow = sheet.getLastRow();
-    const lastCol = Math.min(sheet.getLastColumn(), 5); // check first 5 columns — IDs are always near the left
+    const lastCol = Math.min(sheet.getLastColumn(), 5);
     if (lastRow < 2 || lastCol < 1) return;
     const values = sheet.getRange(2, 1, lastRow - 1, lastCol).getValues();
     values.forEach(row => {
       row.forEach(cell => {
         const m = String(cell || "").match(pattern);
-        if (m) maxNum = Math.max(maxNum, parseInt(m[1], 10));
+        if (m) scannedMax = Math.max(scannedMax, parseInt(m[1], 10));
       });
     });
   });
 
-  const next = Math.max(maxNum, (CONFIG.NEXT_BOOKING_NUMBER_FALLBACK || 1) - 1) + 1;
+  // ── 3. Determine next number ─────────────────────────────────────
+  const fallback = (CONFIG.NEXT_BOOKING_NUMBER_FALLBACK || 1) - 1;
+  const next     = Math.max(persistedNum, scannedMax, fallback) + 1;
+
+  // ── 4. Persist immediately before returning ───────────────────────
+  writeSequenceCounter_(ss, year, next);
+
   return CONFIG.BOOKING_ID_PREFIX + "-" + year + "-" + String(next).padStart(3, "0");
+}
+
+/**
+ * Reads the persisted booking sequence number from the System tab.
+ * Returns the stored number for the current year, or 0 if not found.
+ * Creates the System tab with labels if it does not exist.
+ */
+function readSequenceCounter_(ss, year) {
+  const sheet = getOrCreateSystemSheet_(ss);
+  const stored = sheet.getRange("B2").getValue();
+  // B2 format: "NK-YYYY:NNN" — allows the cell to be human-readable
+  const m = String(stored || "").match(new RegExp("^" + CONFIG.BOOKING_ID_PREFIX + "-" + year + ":(\\d+)$"));
+  return m ? parseInt(m[1], 10) : 0;
+}
+
+/**
+ * Writes the latest booking number back to System!B2 immediately.
+ * Format: "NK-YYYY:NNN" (colon separator so it's visually distinct from a booking ID).
+ */
+function writeSequenceCounter_(ss, year, num) {
+  const sheet = getOrCreateSystemSheet_(ss);
+  sheet.getRange("B2").setValue(CONFIG.BOOKING_ID_PREFIX + "-" + year + ":" + String(num).padStart(3, "0"));
+  sheet.getRange("B3").setValue(new Date());  // timestamp so Harkirat can see last run
+}
+
+/**
+ * Returns the System sheet, creating it with labelled headers if absent.
+ */
+function getOrCreateSystemSheet_(ss) {
+  let sheet = ss.getSheetByName(CONFIG.SEQUENCE_SHEET);
+  if (!sheet) {
+    sheet = ss.insertSheet(CONFIG.SEQUENCE_SHEET);
+    sheet.getRange("A1").setValue("Nova Kingdom Rentals — Automation Settings");
+    sheet.getRange("A1").setFontWeight("bold");
+    sheet.getRange("A2").setValue("Booking ID sequence (do not edit)");
+    sheet.getRange("B2").setValue(CONFIG.BOOKING_ID_PREFIX + "-" + new Date().getFullYear() + ":000");
+    sheet.getRange("A3").setValue("Last updated");
+    sheet.setColumnWidth(1, 260);
+    sheet.setColumnWidth(2, 160);
+    console.log("Created System tab for booking ID persistence.");
+  }
+  return sheet;
 }
 
 function calcDeposit_(estimatedTotalStr) {
