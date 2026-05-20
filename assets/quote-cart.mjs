@@ -1,9 +1,7 @@
-/* Nova Kingdom Rentals — Quote Cart v20260519-mapsapi
+/* Nova Kingdom Rentals — Quote Cart v20260520-worker
    Availability request only. No payment. No confirmed booking.
-   Changes vs finalaudit:
-   - NOVA_KINGDOM_BASE_ADDRESS updated to full street address (backend validates it)
-   - DELIVERY_API_URL constant: swap to workers.dev URL if domain is not on Cloudflare
-   - Loading pulse class (.nk-loading) added while delivery API is in flight
+   Changes vs mapsapi:
+   - DELIVERY_API_URL set to workers.dev absolute URL (Worker is live and tested)
 */
 
 console.info("Nova Quote Cart loaded");
@@ -21,12 +19,7 @@ const TRAVEL_RATE = 25; // $25/hr staff travel, used in auto-calculated delivery
 // the Google Maps API key server-side — do NOT hardcode the key here.
 const NOVA_KINGDOM_BASE_ADDRESS = "598 Upper Branch Rd, Wileville, NS B4V 5M7, Canada";
 
-// Delivery API endpoint.
-// • If novakingdomrentals.com is on Cloudflare with the worker route configured,
-//   the relative "/api/estimate-delivery" is intercepted by the Worker automatically.
-// • If using a standalone workers.dev URL (no Cloudflare DNS proxy), replace with:
-//   "https://estimate-delivery.<YOUR_ACCOUNT>.workers.dev"
-const DELIVERY_API_URL = "/api/estimate-delivery";
+const DELIVERY_API_URL = "https://nova-delivery-api.booknovakingdom.workers.dev/api/estimate-delivery";
 
 // Crown Carnival Challenge: dynamic pricing based on whether a package is in cart
 const CROWN_CARNIVAL_ID         = "product-crown-carnival-challenge";
