@@ -27,9 +27,13 @@ const CONFIG = {
   CRM_SHEET_NAME:   "AI Lead Engine CRM — Nova Kingdom Rentals",
   LEADS_TAB:        "Leads",
   QUEUE_TAB:        "Automation Queue",
+  // Additional tabs scanned when generating the next booking ID.
+  // Add or rename to match your actual sheet tab names.
+  EXTRA_ID_TABS:    ["Booked Customers", "Payment Tracker"],
   FROM_NAME:        "Nova Kingdom Rentals",
   FROM_EMAIL:       "booknovakingdom@gmail.com",
   BUSINESS_PHONE:   "902-990-0005",
+  WEBSITE:          "https://novakingdomrentals.com",
   DEPOSIT_RATE:     0.30,
   BOOKING_ID_PREFIX: "NK",
   CALENDAR_ID:      "primary",  // change to a specific calendar ID if preferred
@@ -63,7 +67,7 @@ function processNewQuoteEmails() {
       data._messageId = message.getId();
       data._received  = message.getDate();
 
-      const bookingId = writeToLeads_(leadsSheet, data);
+      const bookingId = writeToLeads_(leadsSheet, data, ss);
       writeToAutomationQueue_(queueSheet, data, bookingId);
       createQuoteDraft_(data, bookingId);
       if (data.eventDate) createCalendarHold_(data, bookingId);
@@ -151,8 +155,9 @@ function parseEmailBody_(plainBody) {
  * Upserts a lead row in the Leads tab.
  * Upsert key: email (lowercase) + eventDate.
  * Returns the booking ID (existing or newly generated).
+ * ss — the full SpreadsheetApp spreadsheet, used to scan all tabs for the next booking ID.
  */
-function writeToLeads_(sheet, data) {
+function writeToLeads_(sheet, data, ss) {
   const headers   = getOrCreateHeaders_(sheet, LEADS_COLUMNS_);
   const allValues = sheet.getDataRange().getValues();
   const emailCol  = headers.indexOf("Email");
@@ -169,12 +174,12 @@ function writeToLeads_(sheet, data) {
     if (rowEmail === emailKey && rowDate === dateKey && emailKey !== "") {
       const existingId = String(allValues[r][idCol] || "").trim();
       updateLeadRow_(sheet, r + 1, headers, data);
-      return existingId || generateBookingId_(sheet, idCol);
+      return existingId || generateBookingId_(ss);
     }
   }
 
   // New row
-  const bookingId = generateBookingId_(sheet, idCol);
+  const bookingId = generateBookingId_(ss);
   appendLeadRow_(sheet, headers, data, bookingId);
   return bookingId;
 }
@@ -301,90 +306,81 @@ function createQuoteDraft_(data, bookingId) {
 
   GmailApp.createDraft(
     data.email || "",
-    "Re: Nova Kingdom Rentals Quote — " + bookingId,
+    "Nova Kingdom Rentals Quote — " + bookingId,
     body
   );
 }
 
 function buildFullQuoteDraft_(firstName, bookingId, data, depositFmt) {
-  const lines = [
-    "DRAFT — REVIEW BEFORE SENDING",
-    "─────────────────────────────────────────────",
-    "",
-    "Hi " + firstName + ",",
-    "",
-    "Thanks so much for reaching out to Nova Kingdom Rentals! We'd love to make your event amazing.",
-    "",
-    "Here's a summary of your quote request:",
-    "",
-    "  Booking Reference: " + bookingId,
-    "  Event Date:        " + (data.eventDate  || "—"),
-    "  Event Time:        " + ([data.startTime, data.endTime].filter(Boolean).join(" – ") || "—"),
-    "  Event Address:     " + ([data.eventAddress, data.city, data.province].filter(Boolean).join(", ") || "—"),
-    "  Setup Surface:     " + (data.setupSurface || "—"),
-    "  Guests:            " + (data.guests       || "—"),
-    "",
-    "── Items Requested ──────────────────────────",
-    (data.selectedItems || "—"),
-    "",
-    "── Estimate Breakdown ───────────────────────",
-  ];
+  const eventDate  = data.eventDate || "—";
+  const timeRange  = [data.startTime, data.endTime].filter(Boolean).join(" – ") || "—";
+  const address    = [data.eventAddress, data.city, data.province].filter(Boolean).join(", ") || "—";
+  const items      = data.selectedItems || "—";
 
   const subtotal  = parseMoney_(data.subtotal);
   const delivery  = parseMoney_(data.combinedDeliveryEstimate);
   const attendant = parseMoney_(data.attendantEstimate);
   const total     = parseMoney_(data.estimatedTotal);
 
-  lines.push("  Rental subtotal:  $" + fmtAmt_(subtotal));
+  const lines = [
+    "Hi " + firstName + ",",
+    "",
+    "Thanks for reaching out to Nova Kingdom Rentals! Here is your preliminary quote estimate.",
+    "",
+    "Booking reference: " + bookingId,
+    "",
+    "Event details",
+    "  Date:     " + eventDate,
+    "  Time:     " + timeRange,
+    "  Location: " + address,
+  ];
+
+  if (data.guests) lines.push("  Guests:   " + data.guests);
+  lines.push("");
+
+  lines.push("Items requested");
+  lines.push("  " + items);
+  lines.push("");
+
+  lines.push("Estimate");
+  lines.push("  Rentals:   $" + fmtAmt_(subtotal));
+
   if (delivery > 0) {
-    lines.push("  Delivery & setup: $" + fmtAmt_(delivery));
-    if (data.deliveryDistanceKm) lines.push("    (" + data.deliveryDistanceKm + " km one-way)");
+    lines.push("  Delivery:  $" + fmtAmt_(delivery));
   } else if (data.combinedDeliveryEstimate && data.combinedDeliveryEstimate.toLowerCase().includes("manual")) {
-    lines.push("  Delivery & setup: To be confirmed after address review");
+    lines.push("  Delivery:  To be confirmed after address review");
+  }
+  if (parseMoney_(data.sandbagEstimate) > 0) {
+    lines.push("  Anchoring: $" + fmtAmt_(parseMoney_(data.sandbagEstimate)));
+  } else if (data.sandbagManualReview === "true") {
+    lines.push("  Anchoring: To be confirmed after setup review");
   }
   if (attendant > 0) {
-    lines.push("  Event attendants: $" + fmtAmt_(attendant) +
-      (data.attendantCount ? " (" + data.attendantCount + " staff × " + (data.attendantHours || "?") + " hr)" : ""));
+    lines.push("  Attendants: $" + fmtAmt_(attendant));
   }
-  if (data.sandbagManualReview === "true") {
-    lines.push("  Anchoring:        To be confirmed after surface review");
-  } else if (parseMoney_(data.sandbagEstimate) > 0) {
-    lines.push("  Anchoring:        $" + fmtAmt_(parseMoney_(data.sandbagEstimate)));
-  }
-  lines.push("  ──────────────────────────────────────");
-  lines.push("  Estimated Total:  $" + fmtAmt_(total));
+  lines.push("  Total est: $" + fmtAmt_(total));
   lines.push("");
 
   const manualItems = [];
-  if (data.sandbagManualReview === "true")   manualItems.push("anchoring (surface review)");
-  if (data.powerNeedsReview    === "true")   manualItems.push("power outlet distance");
+  if (data.sandbagManualReview === "true")   manualItems.push("Anchoring (surface review required)");
+  if (data.powerNeedsReview    === "true")   manualItems.push("Power outlet distance");
   if (data.deliveryLookupSource === "manual" ||
-      data.deliveryLookupSource === "fallback") manualItems.push("delivery (address review)");
+      data.deliveryLookupSource === "fallback") manualItems.push("Delivery (address review required)");
   if (manualItems.length > 0) {
-    lines.push("⚠ The following items need manual confirmation before your final quote is locked in:");
-    manualItems.forEach(item => lines.push("   • " + item.charAt(0).toUpperCase() + item.slice(1)));
+    lines.push("Please note — the following need a quick confirmation before your quote is finalized:");
+    manualItems.forEach(item => lines.push("  • " + item));
     lines.push("");
   }
 
   lines.push(
-    "── Next Steps ───────────────────────────────",
+    "Next step",
+    "  We'll review availability and reach out with deposit and payment details.",
+    "  A " + depositFmt + " deposit is required to hold your date.",
     "",
-    "To hold this date we require a " + depositFmt + " deposit.",
-    "We accept e-transfer to " + CONFIG.FROM_EMAIL + ".",
+    "Questions? Reply here or call/text us at " + CONFIG.BUSINESS_PHONE + ".",
     "",
-    "Once we confirm availability and finalize the quote, we'll send over the rental agreement",
-    "and a deposit link. Your booking is not confirmed until the deposit is received.",
-    "",
-    "Feel free to reply to this email or call/text us at " + CONFIG.BUSINESS_PHONE + " with any questions!",
-    "",
-    "We look forward to hearing from you,",
-    "",
-    CONFIG.FROM_NAME,
-    CONFIG.BUSINESS_PHONE,
-    CONFIG.FROM_EMAIL,
-    "",
-    "─────────────────────────────────────────────",
-    "DRAFT — REVIEW BEFORE SENDING",
+    "Nova Kingdom Rentals",
+    CONFIG.WEBSITE,
   );
 
   return lines.join("\n");
@@ -392,32 +388,26 @@ function buildFullQuoteDraft_(firstName, bookingId, data, depositFmt) {
 
 function buildMissingInfoDraft_(firstName, bookingId, data, missingInfo) {
   const lines = [
-    "DRAFT — REVIEW BEFORE SENDING",
-    "─────────────────────────────────────────────",
-    "",
     "Hi " + firstName + ",",
     "",
-    "Thanks for your quote request! We just need a couple more details to put together an accurate estimate for you.",
+    "Thanks for reaching out to Nova Kingdom Rentals! We just need a couple more details to get your quote ready.",
     "",
-    "  Booking Reference: " + bookingId,
-    "  Event Date:        " + (data.eventDate || "—"),
-    "",
-    "To complete your quote, could you please provide:",
-    "",
+    "Booking reference: " + bookingId,
   ];
-  missingInfo.forEach(item => lines.push("   • " + item));
+  if (data.eventDate) lines.push("Event date: " + data.eventDate);
   lines.push(
     "",
-    "Once we have those details we'll send over a full estimate right away!",
+    "Could you please confirm:",
+  );
+  missingInfo.forEach(item => lines.push("  • " + item));
+  lines.push(
     "",
-    "You can reply here or reach us at " + CONFIG.BUSINESS_PHONE + ".",
+    "Once we have those details we'll send over a full estimate right away.",
     "",
-    CONFIG.FROM_NAME,
-    CONFIG.BUSINESS_PHONE,
-    CONFIG.FROM_EMAIL,
+    "Reply here or call/text us at " + CONFIG.BUSINESS_PHONE + ".",
     "",
-    "─────────────────────────────────────────────",
-    "DRAFT — REVIEW BEFORE SENDING",
+    "Nova Kingdom Rentals",
+    CONFIG.WEBSITE,
   );
   return lines.join("\n");
 }
@@ -540,7 +530,7 @@ function testQuoteIntake() {
     return;
   }
 
-  const bookingId = writeToLeads_(leadsSheet, data);
+  const bookingId = writeToLeads_(leadsSheet, data, ss);
   writeToAutomationQueue_(queueSheet, data, bookingId);
   createQuoteDraft_(data, bookingId);
   if (data.eventDate) createCalendarHold_(data, bookingId);
@@ -591,15 +581,33 @@ function getOrCreateHeaders_(sheet, expectedHeaders) {
   return existing;
 }
 
-function generateBookingId_(sheet, idColIndex) {
-  const year      = new Date().getFullYear();
-  const allValues = sheet.getDataRange().getValues();
-  let   maxNum    = 0;
-  for (let r = 1; r < allValues.length; r++) {
-    const id = String(allValues[r][idColIndex] || "");
-    const m  = id.match(new RegExp("^" + CONFIG.BOOKING_ID_PREFIX + "-" + year + "-(\\d+)$"));
-    if (m) maxNum = Math.max(maxNum, parseInt(m[1], 10));
-  }
+/**
+ * Generates the next booking ID by scanning ALL configured CRM tabs for existing
+ * NK-YYYY-NNN IDs and returning the next number in sequence.
+ * Tabs scanned: Leads, Automation Queue, and any names listed in CONFIG.EXTRA_ID_TABS.
+ * Cells are matched against the pattern in every column to handle varying column layouts.
+ */
+function generateBookingId_(ss) {
+  const year    = new Date().getFullYear();
+  const pattern = new RegExp("^" + CONFIG.BOOKING_ID_PREFIX + "-" + year + "-(\\d+)$");
+  const tabNames = [CONFIG.LEADS_TAB, CONFIG.QUEUE_TAB].concat(CONFIG.EXTRA_ID_TABS || []);
+  let maxNum = 0;
+
+  tabNames.forEach(tabName => {
+    const sheet = ss.getSheetByName(tabName);
+    if (!sheet) return;
+    const lastRow = sheet.getLastRow();
+    const lastCol = Math.min(sheet.getLastColumn(), 5); // check first 5 columns — IDs are always near the left
+    if (lastRow < 2 || lastCol < 1) return;
+    const values = sheet.getRange(2, 1, lastRow - 1, lastCol).getValues();
+    values.forEach(row => {
+      row.forEach(cell => {
+        const m = String(cell || "").match(pattern);
+        if (m) maxNum = Math.max(maxNum, parseInt(m[1], 10));
+      });
+    });
+  });
+
   return CONFIG.BOOKING_ID_PREFIX + "-" + year + "-" + String(maxNum + 1).padStart(3, "0");
 }
 

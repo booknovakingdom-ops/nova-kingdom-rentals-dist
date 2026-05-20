@@ -93,7 +93,7 @@ Required scopes (all requested automatically):
 - Google Calendar — create tentative events
 - Google Drive — locate the CRM spreadsheet by name
 
-### Step 4 — Verify Column Alignment
+### Step 4 — Verify Column Alignment and Booking ID Tabs
 
 Before running any test, open the CRM sheet and check these two tabs:
 
@@ -118,6 +118,15 @@ the script maps by header name — any column name it doesn't recognise will rec
 a blank value. Adjust the column names in the sheet or in `LEADS_COLUMNS_` /
 `QUEUE_COLUMNS_` at the bottom of the script to match before proceeding.
 
+**Booking ID sequence — verify extra tab names:**
+
+The script scans four tabs to find the highest existing `NK-2026-NNN` before
+assigning the next ID: `Leads`, `Automation Queue`, `Booked Customers`, and
+`Payment Tracker`. If your sheet uses different names for the booked customers
+or payment tabs, update `CONFIG.EXTRA_ID_TABS` at the top of the script before
+running `testQuoteIntake()`. Tab names that don't exist are silently skipped —
+no error, they just won't be scanned.
+
 ### Step 5 — Run testQuoteIntake() and Verify
 
 With `testQuoteIntake` selected in the dropdown, click **Run**.
@@ -126,13 +135,22 @@ Check all four outputs:
 
 | Output | What to look for |
 |--------|-----------------|
-| **Leads tab** | New row, Booking ID `NK-2026-001` (or next in sequence), customer *Sarah MacLean*, event date *June 28, 2026*, quote total `$662.50`, deposit `$198.75` |
+| **Leads tab** | New row, Booking ID continues from your highest existing ID (e.g. if NK-2026-013 exists, new row gets NK-2026-014), customer *Sarah MacLean*, event date *June 28, 2026*, quote total `$662.50` |
 | **Automation Queue tab** | New row, Task Type *New Quote Review*, Status *Pending Review*, Priority *High*, Assigned To *Harkirat* |
-| **Gmail → Drafts** | Email to `sarah.test@example.com`, subject `Re: Nova Kingdom Rentals Quote — NK-2026-NNN`, body starts and ends with `DRAFT — REVIEW BEFORE SENDING` |
+| **Gmail → Drafts** | Email to `sarah.test@example.com`, subject `Nova Kingdom Rentals Quote — NK-2026-NNN`, clean body with no DRAFT warning, ends with `Nova Kingdom Rentals` and `https://novakingdomrentals.com` |
 | **Google Calendar** | Tentative event on June 28, 2026 titled `🎪 TENTATIVE — NK-2026-NNN — Sarah MacLean` |
 
 If any output is missing or wrong, fix the issue (usually column alignment) before
 installing the trigger. Do not proceed to Step 6 until all four pass.
+
+**After the test — clean up test data before going live:**
+
+1. **Leads tab**: delete the Sarah MacLean row
+2. **Automation Queue tab**: delete the corresponding test task row
+3. **Gmail Drafts**: delete the draft to `sarah.test@example.com`
+4. **Google Calendar**: delete the tentative `🎪 TENTATIVE — NK-2026-NNN — Sarah MacLean` event
+
+This prevents the test row from permanently occupying a booking ID slot and keeps the CRM clean for real bookings.
 
 ### Step 6 — Install the Trigger
 
