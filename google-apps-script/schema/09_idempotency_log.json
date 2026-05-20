@@ -1,0 +1,23 @@
+{
+  "tab_name": "Ops_IdempotencyLog",
+  "description": "Written FIRST (inside LockService lock) before any processing begins. Prevents duplicate email handling on concurrent or retry runs. Key = Gmail message ID. Idempotency check: if key exists with status COMPLETED, skip entirely. If PROCESSING, check age — if > 10 min, treat as abandoned and reprocess.",
+  "version_controlled": false,
+  "locking_requirement": "All reads and writes to this tab MUST be inside LockService.getScriptLock(). Never read-then-write outside a lock.",
+  "columns": [
+    { "name": "idempotency_key",  "type": "STRING",  "required": true,  "description": "Gmail message ID or other unique event identifier. Primary key." },
+    { "name": "tenant_id",        "type": "STRING",  "required": true,  "description": "Tenant this record belongs to" },
+    { "name": "status",           "type": "ENUM",    "required": true,  "description": "PROCESSING | COMPLETED | FAILED | SKIPPED", "enum": ["PROCESSING", "COMPLETED", "FAILED", "SKIPPED"] },
+    { "name": "worker_script",    "type": "STRING",  "required": true,  "description": "Which worker script processed this (e.g. 'nk-quote-intake', 'nk-inbox-ai')" },
+    { "name": "started_at",       "type": "DATETIME","required": true,  "description": "When PROCESSING status was written (used for abandoned lock detection)" },
+    { "name": "completed_at",     "type": "DATETIME","required": false, "description": "When COMPLETED, FAILED, or SKIPPED status was written" },
+    { "name": "result_type",      "type": "ENUM",    "required": false, "description": "DRAFT_CREATED | STATUS_ONLY | NO_DRAFT | MANUAL_REVIEW | ERROR", "enum": ["DRAFT_CREATED", "STATUS_ONLY", "NO_DRAFT", "MANUAL_REVIEW", "ERROR"] },
+    { "name": "booking_id",       "type": "STRING",  "required": false, "description": "Booking ID if one was created or matched during processing" },
+    { "name": "customer_id",      "type": "STRING",  "required": false, "description": "Customer ID matched during processing" },
+    { "name": "draft_id",         "type": "STRING",  "required": false, "description": "Gmail draft ID if a draft was created" },
+    { "name": "skip_reason",      "type": "STRING",  "required": false, "description": "Why this message was skipped (e.g. 'duplicate', 'blocklist', 'no_reply_needed')" },
+    { "name": "error_message",    "type": "STRING",  "required": false, "description": "Error details if status = FAILED" },
+    { "name": "trace_id",         "type": "STRING",  "required": false, "description": "Unique trace ID linking this record to Ops_Metrics rows for this run" }
+  ],
+  "nkr_seed_data": [],
+  "setup_notes": "Tab starts empty. Rows are appended by worker scripts at runtime. Do not manually edit rows — status is managed by code. Old Processing Log (from prior automation) is NOT migrated here; historical entries are preserved as-is in the legacy tab."
+}

@@ -1,0 +1,33 @@
+{
+  "tab_name": "Config_PhysicalAssets",
+  "description": "Individual physical copies of inventory units. Enables multi-copy tracking and per-asset maintenance history. Required for double-booking prevention when fleet expands.",
+  "version_controlled": false,
+  "notes": "Not version-controlled via effective_from/to because condition and status change frequently. All changes are appended as audit events in the Ops_BookingLifecycleLog instead.",
+  "columns": [
+    { "name": "asset_id",             "type": "STRING",  "required": true,  "description": "Unique physical asset ID. Format: {tenant_id}-A-{NNN}" },
+    { "name": "tenant_id",            "type": "STRING",  "required": true,  "description": "Tenant this asset belongs to" },
+    { "name": "unit_id",              "type": "STRING",  "required": true,  "description": "Foreign key → Config_InventoryUnits.unit_id" },
+    { "name": "unit_name",            "type": "STRING",  "required": true,  "description": "Denormalized name for readability" },
+    { "name": "serial_number",        "type": "STRING",  "required": false, "description": "Manufacturer serial number if available" },
+    { "name": "purchase_date",        "type": "DATE",    "required": false, "description": "Date acquired (YYYY-MM-DD)" },
+    { "name": "condition",            "type": "ENUM",    "required": true,  "description": "excellent | good | fair | needs_repair | retired", "enum": ["excellent", "good", "fair", "needs_repair", "retired"] },
+    { "name": "last_inspection_date", "type": "DATE",    "required": false, "description": "Date of last formal inspection" },
+    { "name": "next_inspection_date", "type": "DATE",    "required": false, "description": "Date next inspection is due" },
+    { "name": "storage_location",     "type": "STRING",  "required": false, "description": "Where unit is stored when not deployed" },
+    { "name": "notes",                "type": "STRING",  "required": false, "description": "Maintenance notes, known issues, repair history summary" },
+    { "name": "status",               "type": "ENUM",    "required": true,  "description": "available | deployed | in_repair | retired", "enum": ["available", "deployed", "in_repair", "retired"] },
+    { "name": "changed_by",           "type": "STRING",  "required": true,  "description": "Who last updated this row" },
+    { "name": "changed_at",           "type": "DATETIME","required": true,  "description": "ISO timestamp of last change" }
+  ],
+  "nkr_seed_data": [
+    { "asset_id": "nkr-A-001", "tenant_id": "nkr", "unit_id": "nkr-U-001", "unit_name": "Crown Rush 42",   "serial_number": null, "purchase_date": null, "condition": "excellent", "last_inspection_date": null, "next_inspection_date": "2026-06-01", "storage_location": "Garage", "notes": "Arriving June 2026", "status": "available",    "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00" },
+    { "asset_id": "nkr-A-002", "tenant_id": "nkr", "unit_id": "nkr-U-002", "unit_name": "Crown Quest",     "serial_number": null, "purchase_date": null, "condition": "good",      "last_inspection_date": "2026-04-01", "next_inspection_date": "2026-09-30", "storage_location": "Garage", "notes": null, "status": "available",    "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00" },
+    { "asset_id": "nkr-A-003", "tenant_id": "nkr", "unit_id": "nkr-U-003", "unit_name": "Crown Cascade",   "serial_number": null, "purchase_date": null, "condition": "good",      "last_inspection_date": "2026-04-01", "next_inspection_date": "2026-09-30", "storage_location": "Garage", "notes": null, "status": "available",    "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00" },
+    { "asset_id": "nkr-A-004", "tenant_id": "nkr", "unit_id": "nkr-U-004", "unit_name": "Crown Climber",   "serial_number": null, "purchase_date": null, "condition": "good",      "last_inspection_date": "2026-04-01", "next_inspection_date": "2026-09-30", "storage_location": "Garage", "notes": null, "status": "available",    "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00" },
+    { "asset_id": "nkr-A-005", "tenant_id": "nkr", "unit_id": "nkr-U-005", "unit_name": "Crown Dino Combo","serial_number": null, "purchase_date": null, "condition": "good",      "last_inspection_date": "2026-04-01", "next_inspection_date": "2026-09-30", "storage_location": "Garage", "notes": null, "status": "available",    "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00" },
+    { "asset_id": "nkr-A-006", "tenant_id": "nkr", "unit_id": "nkr-U-006", "unit_name": "Crown Island Combo","serial_number": null, "purchase_date": null, "condition": "good",    "last_inspection_date": "2026-04-01", "next_inspection_date": "2026-09-30", "storage_location": "Garage", "notes": null, "status": "available",    "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00" },
+    { "asset_id": "nkr-A-007", "tenant_id": "nkr", "unit_id": "nkr-U-007", "unit_name": "Crown Axe Challenge","serial_number": null, "purchase_date": null, "condition": "good",  "last_inspection_date": "2026-04-01", "next_inspection_date": "2026-09-30", "storage_location": "Garage", "notes": null, "status": "available",    "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00" },
+    { "asset_id": "nkr-A-008", "tenant_id": "nkr", "unit_id": "nkr-U-008", "unit_name": "Crown Kick Darts","serial_number": null, "purchase_date": null, "condition": "good",      "last_inspection_date": "2026-04-01", "next_inspection_date": "2026-09-30", "storage_location": "Garage", "notes": null, "status": "available",    "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00" },
+    { "asset_id": "nkr-A-009", "tenant_id": "nkr", "unit_id": "nkr-U-009", "unit_name": "Lawn Games Full Set","serial_number": null, "purchase_date": null, "condition": "good",  "last_inspection_date": "2026-04-01", "next_inspection_date": "2026-09-30", "storage_location": "Garage", "notes": "12 games in set", "status": "available", "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00" }
+  ]
+}

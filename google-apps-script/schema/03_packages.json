@@ -1,0 +1,53 @@
+{
+  "tab_name": "Config_Packages",
+  "description": "Named bundles of units sold at a package price. Components defined in Config_PackageComponents. Packages can be priced independently of the sum of their unit prices.",
+  "version_controlled": true,
+  "columns": [
+    { "name": "package_id",     "type": "STRING",  "required": true,  "description": "Unique package ID. Format: {tenant_id}-PKG-{NNN}" },
+    { "name": "tenant_id",      "type": "STRING",  "required": true,  "description": "Tenant this package belongs to" },
+    { "name": "package_name",   "type": "STRING",  "required": true,  "description": "Display name shown in quotes" },
+    { "name": "package_type",   "type": "ENUM",    "required": true,  "description": "bundle | school | community | custom", "enum": ["bundle", "school", "community", "custom"] },
+    { "name": "base_price",     "type": "NUMBER",  "required": true,  "description": "Package price (may differ from sum of component unit prices)" },
+    { "name": "default_hours",  "type": "NUMBER",  "required": true,  "description": "Duration included in base_price" },
+    { "name": "description",    "type": "STRING",  "required": false, "description": "Customer-facing description" },
+    { "name": "tags",           "type": "STRING",  "required": false, "description": "Comma-separated tags" },
+    { "name": "status",         "type": "ENUM",    "required": true,  "description": "active | draft | archived", "enum": ["active", "draft", "archived"] },
+    { "name": "version",        "type": "INTEGER", "required": true,  "description": "Row version number" },
+    { "name": "effective_from", "type": "DATE",    "required": true,  "description": "Date this version became effective (YYYY-MM-DD)" },
+    { "name": "effective_to",   "type": "DATE",    "required": false, "description": "Null = currently active" },
+    { "name": "changed_by",     "type": "STRING",  "required": true,  "description": "Who made this change" },
+    { "name": "changed_at",     "type": "DATETIME","required": true,  "description": "ISO timestamp of change" }
+  ],
+  "nkr_seed_data": [
+    {
+      "package_id": "nkr-PKG-001", "tenant_id": "nkr",
+      "package_name": "Field Day Bundle — Standard",
+      "package_type": "school",
+      "base_price": 880, "default_hours": 5,
+      "description": "Crown Rush 42 + Crown Axe Challenge + Lawn Games Full Set. Ideal for school field days 150–300 students.",
+      "tags": "school,field-day,large",
+      "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "package_id": "nkr-PKG-002", "tenant_id": "nkr",
+      "package_name": "Birthday Starter",
+      "package_type": "bundle",
+      "base_price": 210, "default_hours": 4,
+      "description": "Crown Dino Combo — perfect starter for birthday parties with younger kids.",
+      "tags": "birthday,toddler,starter",
+      "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "package_id": "nkr-PKG-003", "tenant_id": "nkr",
+      "package_name": "Ultimate Party Bundle",
+      "package_type": "bundle",
+      "base_price": 620, "default_hours": 4,
+      "description": "Crown Island Combo + Crown Axe Challenge + Crown Kick Darts. Mix of inflatables and games for mixed-age crowds.",
+      "tags": "birthday,mixed-age,bundle",
+      "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    }
+  ]
+}

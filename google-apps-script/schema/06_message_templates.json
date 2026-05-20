@@ -1,0 +1,95 @@
+{
+  "tab_name": "Config_MessageTemplates",
+  "description": "Message templates for each reply mode and trigger event. TemplateRenderer populates {{placeholder}} variables from the Context Bundle. AI draft call receives the rendered scaffold, not a blank prompt.",
+  "version_controlled": true,
+  "placeholder_syntax": "{{variable_name}} — replaced by TemplateRenderer with values from Context Bundle",
+  "columns": [
+    { "name": "template_id",     "type": "STRING",  "required": true,  "description": "Unique template ID. Format: {tenant_id}-MT-{NNN}" },
+    { "name": "tenant_id",       "type": "STRING",  "required": true,  "description": "Tenant this template belongs to" },
+    { "name": "template_name",   "type": "STRING",  "required": true,  "description": "Internal name describing this template" },
+    { "name": "trigger_event",   "type": "STRING",  "required": true,  "description": "When this template is used. Maps to intent or lifecycle event." },
+    { "name": "reply_mode",      "type": "ENUM",    "required": true,  "description": "acknowledge | quote | logistics | ask_once | escalate | post_event | deposit_chase | none", "enum": ["acknowledge", "quote", "logistics", "ask_once", "escalate", "post_event", "deposit_chase", "none"] },
+    { "name": "channel",         "type": "ENUM",    "required": true,  "description": "email | sms | none", "enum": ["email", "sms", "none"] },
+    { "name": "subject_template","type": "STRING",  "required": false, "description": "Email subject line with placeholders. Null for SMS." },
+    { "name": "body_template",   "type": "STRING",  "required": true,  "description": "Full message body with {{placeholders}}. AI polishes tone but must not change facts." },
+    { "name": "tags",            "type": "STRING",  "required": false, "description": "Comma-separated tags" },
+    { "name": "status",          "type": "ENUM",    "required": true,  "description": "active | draft | archived", "enum": ["active", "draft", "archived"] },
+    { "name": "version",         "type": "INTEGER", "required": true,  "description": "Row version number" },
+    { "name": "effective_from",  "type": "DATE",    "required": true,  "description": "Date this version became effective (YYYY-MM-DD)" },
+    { "name": "effective_to",    "type": "DATE",    "required": false, "description": "Null = currently active" },
+    { "name": "changed_by",      "type": "STRING",  "required": true,  "description": "Who made this change" },
+    { "name": "changed_at",      "type": "DATETIME","required": true,  "description": "ISO timestamp of change" }
+  ],
+  "nkr_seed_data": [
+    {
+      "template_id": "nkr-MT-001", "tenant_id": "nkr",
+      "template_name": "Quote — Full Quote Response",
+      "trigger_event": "quote_or_availability",
+      "reply_mode": "quote", "channel": "email",
+      "subject_template": "Nova Kingdom Rentals Quote — {{booking_id}}",
+      "body_template": "Hi {{first_name}},\n\nThanks for reaching out — happy to put this together for you.\n\nHere's your quote for {{event_date}}:\n\n{{quote_line_items}}\n\nTravel fee: {{travel_fee}}\n{{attendant_line}}\nSubtotal: {{subtotal}}\n{{card_surcharge_line}}\nTotal: {{quote_total}}\nDeposit to confirm (30%): {{deposit_amount}}\n\nTo lock in your date, I just need the deposit — {{payment_instructions}}.\n\nLet me know if you have any questions.\n— Harkirat | Nova Kingdom Rentals | 902-990-0005",
+      "tags": "quote,email", "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "template_id": "nkr-MT-002", "tenant_id": "nkr",
+      "template_name": "Acknowledge — Missing Info, Single Question",
+      "trigger_event": "quote_or_availability",
+      "reply_mode": "ask_once", "channel": "email",
+      "subject_template": "Re: Nova Kingdom Rentals",
+      "body_template": "Hi {{first_name}},\n\nThanks for reaching out!\n\nTo get you an accurate quote, I just need one thing: {{missing_field_question}}\n\nOnce I have that I'll get your quote over right away.\n— Harkirat | Nova Kingdom Rentals | 902-990-0005",
+      "tags": "ask,missing-info", "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "template_id": "nkr-MT-003", "tenant_id": "nkr",
+      "template_name": "Acknowledge — General Inquiry",
+      "trigger_event": "customer_inquiry",
+      "reply_mode": "acknowledge", "channel": "email",
+      "subject_template": "Re: Nova Kingdom Rentals",
+      "body_template": "Hi {{first_name}},\n\nThanks for getting in touch! I got your message and will follow up shortly.\n\nIf you need anything urgently, feel free to call or text: 902-990-0005.\n— Harkirat | Nova Kingdom Rentals",
+      "tags": "acknowledge", "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "template_id": "nkr-MT-004", "tenant_id": "nkr",
+      "template_name": "Deposit Chase — Follow-Up",
+      "trigger_event": "deposit_overdue",
+      "reply_mode": "deposit_chase", "channel": "email",
+      "subject_template": "Your Nova Kingdom Booking — Deposit Needed to Confirm",
+      "body_template": "Hi {{first_name}},\n\nJust following up on your booking for {{event_date}} — I still have your date held but need the deposit to lock it in.\n\nDeposit amount: {{deposit_amount}}\n{{payment_instructions}}\n\nIf your plans have changed, no worries — just let me know so I can release the date.\n— Harkirat | Nova Kingdom Rentals | 902-990-0005",
+      "tags": "deposit,follow-up", "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "template_id": "nkr-MT-005", "tenant_id": "nkr",
+      "template_name": "Post-Event — Satisfaction + Google Review Request",
+      "trigger_event": "event_completed",
+      "reply_mode": "post_event", "channel": "email",
+      "subject_template": "Thanks for booking with Nova Kingdom Rentals!",
+      "body_template": "Hi {{first_name}},\n\nHope {{event_date}} was a fantastic time! It was great being part of it.\n\nIf you have a moment, a Google review would mean a lot — it's the best way to help other families find us:\n{{google_review_url}}\n\nHope to see you again next season!\n— Harkirat | Nova Kingdom Rentals | 902-990-0005",
+      "tags": "post-event,review", "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "template_id": "nkr-MT-006", "tenant_id": "nkr",
+      "template_name": "School — Field Day Quote Email",
+      "trigger_event": "school_or_community_event",
+      "reply_mode": "quote", "channel": "email",
+      "subject_template": "Nova Kingdom Rentals — Inflatables for {{school_name}} Field Day",
+      "body_template": "Dear {{first_name}},\n\nI'm Harkirat with Nova Kingdom Rentals in Bridgewater — we provide inflatable entertainment and lawn games for school events across the South Shore, with full delivery, setup, and teardown. We carry commercial general liability insurance ($2M) and can provide a COI listing {{school_name}}.\n\nPROPOSED SETUP — {{event_date}}\n{{quote_line_items}}\nTravel fee: {{travel_fee}}\nTOTAL: {{quote_total}}\n\nDeposit to confirm: {{deposit_amount}}\nDuration: {{duration_hours}} hours\n\nHappy to adjust based on student count or budget. COI and rental agreement available on request.\n— Harkirat Singh | Nova Kingdom Rentals | 902-990-0005 | booknovakingdom@gmail.com",
+      "tags": "school,coi,email", "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "template_id": "nkr-MT-007", "tenant_id": "nkr",
+      "template_name": "Mass Cancellation — Weather or Safety",
+      "trigger_event": "mass_cancellation",
+      "reply_mode": "none", "channel": "sms",
+      "subject_template": null,
+      "body_template": "{{first_name}}, Harkirat here. Due to {{cancellation_reason}}, I can't safely deliver this weekend. Your deposit carries forward to any new date — priority pick guaranteed. I'll reach out personally to reschedule. — 902-990-0005",
+      "tags": "cancellation,weather,sms", "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    }
+  ]
+}

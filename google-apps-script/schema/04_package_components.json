@@ -1,0 +1,23 @@
+{
+  "tab_name": "Config_PackageComponents",
+  "description": "Join table: which unit_ids are included in each package. Multiple rows per package. Not version-controlled individually — package version covers this.",
+  "version_controlled": false,
+  "columns": [
+    { "name": "component_id",  "type": "STRING",  "required": true,  "description": "Unique row ID. Format: {package_id}-C-{NNN}" },
+    { "name": "package_id",    "type": "STRING",  "required": true,  "description": "Foreign key → Config_Packages.package_id" },
+    { "name": "tenant_id",     "type": "STRING",  "required": true,  "description": "Tenant (denormalized for query convenience)" },
+    { "name": "unit_id",       "type": "STRING",  "required": true,  "description": "Foreign key → Config_InventoryUnits.unit_id" },
+    { "name": "unit_name",     "type": "STRING",  "required": true,  "description": "Denormalized unit name for readability" },
+    { "name": "quantity",      "type": "INTEGER", "required": true,  "description": "How many of this unit type are included (usually 1)" },
+    { "name": "notes",         "type": "STRING",  "required": false, "description": "Any per-component notes (e.g. 'optional add-on')" }
+  ],
+  "nkr_seed_data": [
+    { "component_id": "nkr-PKG-001-C-001", "package_id": "nkr-PKG-001", "tenant_id": "nkr", "unit_id": "nkr-U-001", "unit_name": "Crown Rush 42",      "quantity": 1, "notes": null },
+    { "component_id": "nkr-PKG-001-C-002", "package_id": "nkr-PKG-001", "tenant_id": "nkr", "unit_id": "nkr-U-007", "unit_name": "Crown Axe Challenge", "quantity": 1, "notes": null },
+    { "component_id": "nkr-PKG-001-C-003", "package_id": "nkr-PKG-001", "tenant_id": "nkr", "unit_id": "nkr-U-009", "unit_name": "Lawn Games Full Set", "quantity": 1, "notes": null },
+    { "component_id": "nkr-PKG-002-C-001", "package_id": "nkr-PKG-002", "tenant_id": "nkr", "unit_id": "nkr-U-005", "unit_name": "Crown Dino Combo",    "quantity": 1, "notes": null },
+    { "component_id": "nkr-PKG-003-C-001", "package_id": "nkr-PKG-003", "tenant_id": "nkr", "unit_id": "nkr-U-006", "unit_name": "Crown Island Combo",  "quantity": 1, "notes": null },
+    { "component_id": "nkr-PKG-003-C-002", "package_id": "nkr-PKG-003", "tenant_id": "nkr", "unit_id": "nkr-U-007", "unit_name": "Crown Axe Challenge", "quantity": 1, "notes": null },
+    { "component_id": "nkr-PKG-003-C-003", "package_id": "nkr-PKG-003", "tenant_id": "nkr", "unit_id": "nkr-U-008", "unit_name": "Crown Kick Darts",    "quantity": 1, "notes": null }
+  ]
+}
