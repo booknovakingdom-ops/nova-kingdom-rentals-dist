@@ -199,6 +199,93 @@ var TestHarness = (function () {
     assert('Lifecycle: null from is valid (creation)', BookingLifecycle.isValidTransition(null, 'new'));
   }
 
+  // ─── ContactFormParser Tests ──────────────────────────────────────────────
+
+  function testContactFormParser_bookingInquiry() {
+    var body = [
+      'Name : Jane Smith',
+      'Email : jane.smith@example.com',
+      'Phone : 902-555-0123',
+      'Event Date : July 19, 2026',
+      'Event Address : 45 Maple Street, Bridgewater NS',
+      'Rental Items : Crown Quest',
+      'Duration : 4 hours',
+      'Guest Count : 25 kids',
+      'Message : Birthday party fun!'
+    ].join('\n');
+    var result = ContactFormParser.parse(body, 'Booking Inquiry');
+    assertEqual('ContactFormParser: form_type = booking_inquiry', result.form_type, 'booking_inquiry');
+    assertEqual('ContactFormParser: name parsed', result.name, 'Jane Smith');
+    assertEqual('ContactFormParser: email parsed', result.email, 'jane.smith@example.com');
+    assertEqual('ContactFormParser: phone parsed', result.phone, '902-555-0123');
+    assertEqual('ContactFormParser: event_date parsed', result.event_date, 'July 19, 2026');
+    assertEqual('ContactFormParser: rental_item parsed', result.rental_item, 'Crown Quest');
+  }
+
+  function testContactFormParser_assistantInquiry() {
+    var body = [
+      'Name : Bob Jones',
+      'Email : bob@example.com',
+      'Event Type : Birthday Party',
+      'Event Date : August 10, 2026',
+      'Location : 12 Oak Ave, Lunenburg NS',
+      'Number of Guests : 40',
+      'Budget : $500',
+      'Message : Looking for something big'
+    ].join('\n');
+    var result = ContactFormParser.parse(body, 'Quick Event Assistant Inquiry');
+    assertEqual('ContactFormParser: assistant form_type', result.form_type, 'assistant_inquiry');
+    assertEqual('ContactFormParser: event_type parsed', result.event_type, 'Birthday Party');
+    assertEqual('ContactFormParser: budget parsed', result.budget, '$500');
+    assertEqual('ContactFormParser: event_address from location', result.event_address, '12 Oak Ave, Lunenburg NS');
+  }
+
+  function testContactFormParser_unknownSubject() {
+    var result = ContactFormParser.parse('Name : Test', 'Some Other Form');
+    assert('ContactFormParser: unknown subject returns null', result === null);
+  }
+
+  function testContactFormParser_firstName() {
+    assertEqual('ContactFormParser: firstName extracts first word', ContactFormParser.firstName('Jane Smith'), 'Jane');
+    assertEqual('ContactFormParser: firstName handles single name', ContactFormParser.firstName('Harkirat'), 'Harkirat');
+    assertEqual('ContactFormParser: firstName handles empty', ContactFormParser.firstName(''), '');
+  }
+
+  // ─── TemplateRenderer Tests ───────────────────────────────────────────────
+
+  function testTemplateRenderer_render() {
+    var template = 'Hi {{first_name}}, your quote total is {{quote_total}}.';
+    var vars = { first_name: 'Jane', quote_total: '$240.00' };
+    var result = TemplateRenderer.render(template, vars);
+    assertEqual('TemplateRenderer: substitutes known placeholders', result,
+      'Hi Jane, your quote total is $240.00.');
+  }
+
+  function testTemplateRenderer_missingPlaceholder() {
+    var template = 'Hi {{first_name}}, date: {{event_date}}.';
+    var result = TemplateRenderer.render(template, { first_name: 'Jane' });
+    assert('TemplateRenderer: missing placeholder renders as [EVENT_DATE]',
+      result.indexOf('[EVENT_DATE]') !== -1);
+  }
+
+  function testTemplateRenderer_forbiddenPhrases() {
+    var clean = 'Thanks for your interest in our inflatables!';
+    var bad   = 'As an AI language model, I cannot confirm availability.';
+    assertEqual('TemplateRenderer: clean draft has no forbidden phrases',
+      TemplateRenderer.checkForbiddenPhrases(clean).length, 0);
+    assert('TemplateRenderer: AI disclosure phrase detected',
+      TemplateRenderer.checkForbiddenPhrases(bad).length > 0);
+  }
+
+  // ─── Validators — AI output ───────────────────────────────────────────────
+
+  function testValidators_contextBundle() {
+    var good = { tenant_id: 'nkr', message_id: 'MSG-001', sender_email: 'a@b.com', thread_summary: 'test' };
+    var bad  = { tenant_id: 'nkr', message_id: 'MSG-001' };
+    assert('Validators: complete context bundle passes', Validators.validateContextBundle(good).valid);
+    assert('Validators: incomplete bundle fails', !Validators.validateContextBundle(bad).valid);
+  }
+
   // ─── Runner ───────────────────────────────────────────────────────────────
 
   function testAll() {
@@ -216,6 +303,14 @@ var TestHarness = (function () {
     testValidators_quoteReadiness();
     testValidators_aiOutputValidation();
     testBookingLifecycle_validTransitions();
+    testContactFormParser_bookingInquiry();
+    testContactFormParser_assistantInquiry();
+    testContactFormParser_unknownSubject();
+    testContactFormParser_firstName();
+    testTemplateRenderer_render();
+    testTemplateRenderer_missingPlaceholder();
+    testTemplateRenderer_forbiddenPhrases();
+    testValidators_contextBundle();
 
     var passed = _results.filter(function (r) { return r.passed; }).length;
     var total  = _results.length;
