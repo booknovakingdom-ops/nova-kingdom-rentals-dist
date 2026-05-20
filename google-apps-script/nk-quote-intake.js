@@ -2,9 +2,16 @@
  * Nova Kingdom Rentals — Quote Intake Automation
  *
  * Triggered every 5 minutes. Reads unread "New Nova Kingdom Rentals Quote Request"
- * emails from Web3Forms, writes leads to the CRM, queues a review task, creates a
- * Gmail DRAFT (never auto-sends), and creates a tentative Calendar hold when an
- * event date is present.
+ * emails from Web3Forms, writes leads to "Website Quote Leads" (inbound intake tab),
+ * queues a review task in "Automation Queue", creates a Gmail DRAFT (never auto-sends),
+ * and creates a tentative Calendar hold when an event date is present.
+ *
+ * TAB ROUTING:
+ *   "Website Quote Leads" — inbound quote submissions from the website cart.
+ *                           Created automatically if absent. Never touches the "Leads"
+ *                           tab, which is the outbound cold-lead CRM.
+ *   "Automation Queue"    — shared task queue (existing). Script appends one task row
+ *                           per new submission and maps to actual queue column names.
  *
  * IMPORTANT:
  *   - This script NEVER auto-sends email. It creates drafts only.
@@ -26,23 +33,31 @@ const CONFIG = {
   GMAIL_SUBJECT:    "New Nova Kingdom Rentals Quote Request",
   PROCESSED_LABEL:  "NK/Intake-Processed",
   CRM_SHEET_NAME:   "AI Lead Engine CRM — Nova Kingdom Rentals",
-  LEADS_TAB:        "Leads",
+
+  // Inbound website quote submissions — SEPARATE from the outbound "Leads" tab.
+  // This tab is auto-created with WEB_QUOTE_COLUMNS_ if it does not exist.
+  WEB_QUOTE_TAB:    "Website Quote Leads",
+
+  // Shared task queue (existing tab — do not rename).
   QUEUE_TAB:        "Automation Queue",
-  // Additional tabs scanned as a secondary validation when generating booking IDs.
-  EXTRA_ID_TABS:    ["Booked Customers", "Payment Tracker"],
-  // Persistent counter tab. The script reads/writes B2 on this tab to maintain
-  // booking ID sequence across deletions, test cleanups, and CRM resets.
+
+  // Persistent booking ID counter. Script reads/writes System!B2.
   SEQUENCE_SHEET:   "System",
-  // Fallback starting number when the System tab counter is 0 or missing.
-  // Set to the next number you want to use before first live run.
-  NEXT_BOOKING_NUMBER_FALLBACK: 14,
+
+  // Additional tabs scanned as cross-check when generating booking IDs.
+  EXTRA_ID_TABS:    ["Booked Customers", "Payment Tracker"],
+
+  // Fallback starting number when System!B2 is 0 or missing on the very first run.
+  // Set this to the next number you want before first live run.
+  NEXT_BOOKING_NUMBER_FALLBACK: 16,
+
   FROM_NAME:        "Nova Kingdom Rentals",
   FROM_EMAIL:       "booknovakingdom@gmail.com",
   BUSINESS_PHONE:   "902-990-0005",
   WEBSITE:          "https://novakingdomrentals.com",
   DEPOSIT_RATE:     0.30,
   BOOKING_ID_PREFIX: "NK",
-  CALENDAR_ID:      "primary",  // change to a specific calendar ID if preferred
+  CALENDAR_ID:      "primary",
   TRIGGER_MINUTES:  5,
 };
 
@@ -65,12 +80,12 @@ function processNewQuoteEmails() {
     return;
   }
 
-  const leadsSheet = ss.getSheetByName(CONFIG.LEADS_TAB);
-  const queueSheet = ss.getSheetByName(CONFIG.QUEUE_TAB);
+  const webQuoteSheet = getOrCreateWebQuoteTab_(ss);
+  const queueSheet    = ss.getSheetByName(CONFIG.QUEUE_TAB);
 
-  if (!leadsSheet) {
-    Logger.log("FATAL: Tab \"" + CONFIG.LEADS_TAB + "\" not found in CRM. Aborting run.");
-    writeToErrorLog_(ss, null, null, "Required tab missing: " + CONFIG.LEADS_TAB);
+  if (!webQuoteSheet) {
+    Logger.log("FATAL: Could not create or find tab \"" + CONFIG.WEB_QUOTE_TAB + "\". Aborting run.");
+    writeToErrorLog_(ss, null, null, "Required tab unavailable: " + CONFIG.WEB_QUOTE_TAB);
     return;
   }
   if (!queueSheet) {
@@ -100,22 +115,22 @@ function processNewQuoteEmails() {
         writeToErrorLog_(ss, null, data, "No email address in parsed data — upsert key unavailable");
       }
 
-      // ── Lead write ────────────────────────────────────────────────
+      // ── Website Quote Leads write ──────────────────────────────────────
       let bookingId;
       try {
-        bookingId = writeToLeads_(leadsSheet, data, ss);
+        bookingId = writeToWebQuoteLeads_(webQuoteSheet, data, ss);
         result.bookingId  = bookingId;
         result.leadWritten = true;
-        Logger.log("Lead written. Booking ID: " + bookingId);
+        Logger.log("Website Quote Leads written. Booking ID: " + bookingId);
       } catch (lErr) {
-        Logger.log("ERROR writing to Leads for thread " + thread.getId() + ": " + lErr.message);
-        writeToErrorLog_(ss, null, data, "Leads write failed: " + lErr.message);
+        Logger.log("ERROR writing to Website Quote Leads for thread " + thread.getId() + ": " + lErr.message);
+        writeToErrorLog_(ss, null, data, "Website Quote Leads write failed: " + lErr.message);
       }
 
       if (!bookingId) {
         Logger.log("ERROR: No booking ID obtained. Skipping queue, draft, and calendar for thread " + thread.getId() + ".");
       } else {
-        // ── Queue write ───────────────────────────────────────────────
+        // ── Automation Queue write ─────────────────────────────────────
         try {
           writeToAutomationQueue_(queueSheet, data, bookingId);
           result.queueWritten = true;
@@ -125,7 +140,7 @@ function processNewQuoteEmails() {
           writeToErrorLog_(ss, bookingId, data, "Queue write failed: " + qErr.message);
         }
 
-        // ── Draft ─────────────────────────────────────────────────────
+        // ── Gmail draft ────────────────────────────────────────────────
         try {
           createQuoteDraft_(data, bookingId);
           result.draftCreated = true;
@@ -135,7 +150,7 @@ function processNewQuoteEmails() {
           writeToErrorLog_(ss, bookingId, data, "Draft creation failed: " + dErr.message);
         }
 
-        // ── Calendar hold ─────────────────────────────────────────────
+        // ── Calendar hold ──────────────────────────────────────────────
         if (data.eventDate) {
           try {
             createCalendarHold_(data, bookingId);
@@ -150,7 +165,7 @@ function processNewQuoteEmails() {
         }
       }
 
-      // Mark processed only when lead was written
+      // Mark thread processed only when the lead row was successfully written
       if (result.leadWritten) {
         thread.addLabel(label);
         message.markRead();
@@ -208,7 +223,7 @@ function parseEmailBody_(plainBody) {
     "combineddeliveryestimate":"combinedDeliveryEstimate",
     "sandbagunitcount":        "sandbagUnitCount",
     "sanbagestimate":          "sandbagEstimate",
-    "sandbagestimates":        "sandbagEstimate",   // tolerates typo variant
+    "sandbagestimates":        "sandbagEstimate",
     "sandbagmanualreview":     "sandbagManualReview",
     "attendantsrequired":      "attendantsRequired",
     "attendantcount":          "attendantCount",
@@ -231,32 +246,56 @@ function parseEmailBody_(plainBody) {
   collapsed.forEach(line => {
     const idx = line.indexOf(":");
     if (idx < 1) return;
-    const rawKey  = line.slice(0, idx).trim().toLowerCase().replace(/\s+/g, "");
-    const rawVal  = line.slice(idx + 1).trim();
-    const mapped  = keyMap[rawKey];
+    const rawKey = line.slice(0, idx).trim().toLowerCase().replace(/\s+/g, "");
+    const rawVal = line.slice(idx + 1).trim();
+    const mapped = keyMap[rawKey];
     if (mapped) data[mapped] = rawVal;
   });
 
   return data;
 }
 
-// ─── Leads Tab Writer ─────────────────────────────────────────────────────────
+// ─── Website Quote Leads Tab Writer ──────────────────────────────────────────
 
 /**
- * Upserts a lead row in the Leads tab.
- * Upsert key: email (lowercase) + eventDate.
- * Returns the booking ID (existing or newly generated).
- * Throws on column mismatch so the caller can log to Error Log.
+ * Returns the "Website Quote Leads" sheet, creating it with WEB_QUOTE_COLUMNS_
+ * if it does not exist. Never throws — returns null on failure.
  */
-function writeToLeads_(sheet, data, ss) {
-  const headers  = getOrCreateHeaders_(sheet, LEADS_COLUMNS_);
+function getOrCreateWebQuoteTab_(ss) {
+  let sheet = ss.getSheetByName(CONFIG.WEB_QUOTE_TAB);
+  if (!sheet) {
+    try {
+      sheet = ss.insertSheet(CONFIG.WEB_QUOTE_TAB);
+      sheet.getRange(1, 1, 1, WEB_QUOTE_COLUMNS_.length).setValues([WEB_QUOTE_COLUMNS_]);
+      sheet.setFrozenRows(1);
+      // Widen key columns for readability
+      const widths = { "Selected Items": 300, "Notes": 300, "Manual Review Flags": 220, "Event Address": 220 };
+      WEB_QUOTE_COLUMNS_.forEach((col, i) => {
+        if (widths[col]) sheet.setColumnWidth(i + 1, widths[col]);
+      });
+      Logger.log("Created \"" + CONFIG.WEB_QUOTE_TAB + "\" tab with " + WEB_QUOTE_COLUMNS_.length + " columns.");
+    } catch (e) {
+      Logger.log("ERROR creating \"" + CONFIG.WEB_QUOTE_TAB + "\" tab: " + e.message);
+      return null;
+    }
+  }
+  return sheet;
+}
+
+/**
+ * Upserts a row in the Website Quote Leads tab.
+ * Upsert key: email (lowercase) + eventDate. If both match an existing row, updates it.
+ * Returns the booking ID (existing or newly generated). Throws on column mismatch.
+ */
+function writeToWebQuoteLeads_(sheet, data, ss) {
+  const headers  = getOrCreateHeaders_(sheet, WEB_QUOTE_COLUMNS_);
   const emailCol = headers.indexOf("Email");
   const dateCol  = headers.indexOf("Event Date");
   const idCol    = headers.indexOf("Booking ID");
 
   if (emailCol < 0 || dateCol < 0 || idCol < 0) {
     throw new Error(
-      "Leads tab column mismatch — Email:" + emailCol +
+      "Website Quote Leads column mismatch — Email:" + emailCol +
       " EventDate:" + dateCol +
       " BookingID:" + idCol +
       ". Actual headers: [" + headers.join(", ") + "]"
@@ -273,8 +312,8 @@ function writeToLeads_(sheet, data, ss) {
     const rowDate  = normalizeDate_(String(allValues[r][dateCol] || ""));
     if (rowEmail === emailKey && rowDate === dateKey && emailKey !== "") {
       const existingId = String(allValues[r][idCol] || "").trim();
-      Logger.log("Leads upsert: match at row " + (r + 1) + " — existing ID: " + (existingId || "(none)"));
-      updateLeadRow_(sheet, r + 1, headers, data);
+      Logger.log("Website Quote Leads upsert: match at row " + (r + 1) + " — existing ID: " + (existingId || "(none)"));
+      updateWebQuoteRow_(sheet, r + 1, headers, data);
       return existingId || generateBookingId_(ss);
     }
   }
@@ -282,13 +321,13 @@ function writeToLeads_(sheet, data, ss) {
   // New row
   const bookingId = generateBookingId_(ss);
   Logger.log(
-    "Leads: appending new row — ID: " + bookingId +
+    "Website Quote Leads: appending new row — ID: " + bookingId +
     " | Customer: " + (data.name  || "") +
     " | Email: "    + (data.email || "")
   );
-  appendLeadRow_(sheet, headers, data, bookingId);
+  appendWebQuoteRow_(sheet, headers, data, bookingId);
 
-  // Post-write verification: confirm the booking ID landed in the correct cell
+  // Post-write verification
   const newLastRow = sheet.getLastRow();
   try {
     const writtenId = String(sheet.getRange(newLastRow, idCol + 1).getValue()).trim();
@@ -308,69 +347,75 @@ function writeToLeads_(sheet, data, ss) {
   return bookingId;
 }
 
-function appendLeadRow_(sheet, headers, data, bookingId) {
-  const deposit = calcDeposit_(data.estimatedTotal);
-  const row     = buildLeadRow_(headers, data, bookingId, deposit);
+function appendWebQuoteRow_(sheet, headers, data, bookingId) {
+  const row = buildWebQuoteRow_(headers, data, bookingId);
   sheet.appendRow(row);
 }
 
-function updateLeadRow_(sheet, rowNum, headers, data) {
+function updateWebQuoteRow_(sheet, rowNum, headers, data) {
   const currentRow = sheet.getRange(rowNum, 1, 1, headers.length).getValues()[0];
-  const deposit    = calcDeposit_(data.estimatedTotal);
-  const updated    = buildLeadRow_(headers, data, currentRow[headers.indexOf("Booking ID")], deposit);
+  const existing   = currentRow[headers.indexOf("Booking ID")];
+  const updated    = buildWebQuoteRow_(headers, data, existing);
   updated.forEach((val, i) => {
     if (val !== "" && val !== null) {
       sheet.getRange(rowNum, i + 1).setValue(val);
     }
   });
-  Logger.log("Leads: updated existing row " + rowNum);
+  Logger.log("Website Quote Leads: updated existing row " + rowNum);
 }
 
-function buildLeadRow_(headers, data, bookingId, deposit) {
-  const fullAddress = [data.eventAddress, data.city, data.province, data.postalCode]
-    .filter(Boolean).join(", ");
-  const timeRange   = [data.startTime, data.endTime].filter(Boolean).join(" – ");
-  const map         = {
+function buildWebQuoteRow_(headers, data, bookingId) {
+  const flags = buildManualReviewFlags_(data);
+  const map   = {
     "Booking ID":           bookingId,
-    "Customer":             data.name       || "",
-    "Phone":                data.phone      || "",
-    "Email":                data.email      || "",
-    "Address":              fullAddress     || "",
-    "Event Date":           data.eventDate  || "",
-    "Event Time":           timeRange       || "",
-    "Rental Item":          data.selectedItems || "",
-    "Quote Total":          parseMoney_(data.estimatedTotal),
-    "Deposit Required":     deposit,
-    "Deposit Received":     "",
-    "Balance":              "",
-    "Payment Method":       "",
-    "Status":               "1 - New Lead",
-    "Next Action":          "Review quote, send deposit link",
-    "Next Action Date":     formatDate_(new Date()),
-    "Agreement Sent":       "No",
-    "Waiver Signed":        "No",
-    "Insurance Requested":  "No",
-    "Staff Needed":         data.attendantsRequired === "true" ? (data.attendantCount || "") : "No",
-    "Lead Source":          "Website Quote Cart",
-    "Notes":                buildLeadNotes_(data),
+    "Submitted At":         formatDate_(data._received || new Date()),
+    "Customer Name":        data.name          || "",
+    "Email":                data.email         || "",
+    "Phone":                data.phone         || "",
+    "Event Date":           data.eventDate     || "",
+    "Start Time":           data.startTime     || "",
+    "End Time":             data.endTime       || "",
+    "Event Address":        data.eventAddress  || "",
+    "City":                 data.city          || "",
+    "Province":             data.province      || "",
+    "Postal Code":          data.postalCode    || "",
+    "Setup Surface":        data.setupSurface  || "",
+    "Power Distance":       data.powerDistanceToOutlet || "",
+    "Water Access":         data.waterAccess   || "",
+    "Guests":               data.guests        || "",
+    "Selected Items":       data.selectedItems || "",
+    "Subtotal":             parseMoney_(data.subtotal),
+    "Delivery Estimate":    parseMoney_(data.combinedDeliveryEstimate),
+    "Sandbag Estimate":     parseMoney_(data.sandbagEstimate),
+    "Attendant Estimate":   parseMoney_(data.attendantEstimate),
+    "Estimated Total":      parseMoney_(data.estimatedTotal),
+    "Deposit Required":     calcDeposit_(data.estimatedTotal),
+    "Manual Review Flags":  flags,
+    "Notes":                data.notes         || "",
+    "Source Message ID":    data._messageId    || "",
+    "Status":               "New — Pending Review",
   };
   return headers.map(h => (h in map ? map[h] : ""));
 }
 
-function buildLeadNotes_(data) {
-  const parts = [];
-  if (data.setupSurface)                parts.push("Surface: " + data.setupSurface);
-  if (data.guests)                      parts.push("Guests: " + data.guests);
-  if (data.waterAccess)                 parts.push("Water: " + data.waterAccess);
-  if (data.powerNeedsReview === "true") parts.push("⚠ Power outlet review needed");
-  if (data.sandbagManualReview === "true") parts.push("⚠ Anchoring manual review needed");
-  if (data.notes)                       parts.push("Notes: " + data.notes);
-  if (data.deliveryLookupSource)        parts.push("Delivery source: " + data.deliveryLookupSource);
-  return parts.join(" | ");
+function buildManualReviewFlags_(data) {
+  const flags = [];
+  if (data.sandbagManualReview === "true")    flags.push("Anchoring review needed");
+  if (data.powerNeedsReview    === "true")    flags.push("Power outlet review needed");
+  if (data.deliveryLookupSource === "manual" ||
+      data.deliveryLookupSource === "fallback") flags.push("Delivery address review needed");
+  return flags.join("; ");
 }
 
 // ─── Automation Queue Writer ──────────────────────────────────────────────────
 
+/**
+ * Appends one task row to the Automation Queue.
+ * Maps to the actual column names in the existing queue tab:
+ *   Task ID | Related ID | Customer / Business | Task Type | Due Date | Due Time |
+ *   Channel | Action Needed | Status | Priority | To Email | Notes |
+ *   Scheduled Rule | Completed Date | Due Now | Created At
+ */
 function writeToAutomationQueue_(sheet, data, bookingId) {
   if (!bookingId) {
     throw new Error("writeToAutomationQueue_ called with empty bookingId — cannot write.");
@@ -379,41 +424,48 @@ function writeToAutomationQueue_(sheet, data, bookingId) {
     Logger.log("WARNING: writeToAutomationQueue_ — no customer email for booking " + bookingId);
   }
   const headers = getOrCreateHeaders_(sheet, QUEUE_COLUMNS_);
-  Logger.log("Queue: appending row for " + bookingId + " | Task: New Quote Review | Customer: " + (data.name || ""));
+  Logger.log(
+    "Queue: appending row for " + bookingId +
+    " | Task: New Quote Review | Customer: " + (data.name || "") +
+    " | To Email: " + (data.email || "")
+  );
   const row = buildQueueRow_(headers, data, bookingId);
   sheet.appendRow(row);
 }
 
 function buildQueueRow_(headers, data, bookingId) {
+  const flags      = buildManualReviewFlags_(data);
+  const actionNote = buildQueueActionNote_(data);
   const map = {
-    "Task ID":        bookingId + "-Q" + Date.now().toString().slice(-4),
-    "Booking ID":     bookingId,
-    "Task Type":      "New Quote Review",
-    "Status":         "Pending Review",
-    "Priority":       "High",
-    "Channel":        "Email",
-    "Action":         "Create Gmail draft reply",
-    "Customer":       data.name  || "",
-    "Email":          data.email || "",
-    "Phone":          data.phone || "",
-    "Event Date":     data.eventDate || "",
-    "Quote Total":    parseMoney_(data.estimatedTotal),
-    "Notes":          buildQueueNotes_(data),
-    "Created":        formatDate_(new Date()),
-    "Assigned To":    "Harkirat",
-    "Completed":      "",
+    "Task ID":            "AQ-" + bookingId,
+    "Related ID":         bookingId,
+    "Customer / Business": (data.name || "(Unknown)"),
+    "Task Type":          "New Quote Review",
+    "Due Date":           formatDate_(new Date()),
+    "Due Time":           "9:00 AM",
+    "Channel":            "Gmail Draft",
+    "Action Needed":      actionNote,
+    "Status":             "Pending Review",
+    "Priority":           "High",
+    "To Email":           data.email || "",
+    "Notes":              flags || "Standard review",
+    "Scheduled Rule":     "",
+    "Completed Date":     "",
+    "Due Now":            "",
+    "Created At":         formatDate_(new Date()),
   };
   return headers.map(h => (h in map ? map[h] : ""));
 }
 
-function buildQueueNotes_(data) {
-  const flags = [];
-  if (data.sandbagManualReview === "true")    flags.push("Anchoring review needed");
-  if (data.powerNeedsReview    === "true")    flags.push("Power outlet review needed");
+function buildQueueActionNote_(data) {
+  const parts = ["Review website quote submission."];
+  if (data.sandbagManualReview === "true")    parts.push("Confirm anchoring method.");
+  if (data.powerNeedsReview    === "true")    parts.push("Verify power outlet distance.");
   if (data.deliveryLookupSource === "manual" ||
-      data.deliveryLookupSource === "fallback") flags.push("Delivery quote manual");
-  if (data.attendantsRequired  === "true")    flags.push("Attendants required");
-  return flags.length ? flags.join("; ") : "Standard review";
+      data.deliveryLookupSource === "fallback") parts.push("Confirm delivery fee manually.");
+  if (data.attendantsRequired  === "true")    parts.push("Assign attendant(s).");
+  parts.push("Send deposit link once confirmed.");
+  return parts.join(" ");
 }
 
 // ─── Gmail Draft Creator ──────────────────────────────────────────────────────
@@ -426,17 +478,14 @@ function createQuoteDraft_(data, bookingId) {
   if (!data.email) {
     Logger.log("WARNING: createQuoteDraft_ — no customer email for " + bookingId + ". Draft To: field will be blank.");
   }
-  const firstName  = (data.name || "there").split(/\s+/)[0];
-  const deposit    = calcDeposit_(data.estimatedTotal);
-  const depositFmt = deposit > 0 ? "$" + deposit.toFixed(2) : "30% of quoted total";
+  const firstName   = (data.name || "there").split(/\s+/)[0];
+  const deposit     = calcDeposit_(data.estimatedTotal);
+  const depositFmt  = deposit > 0 ? "$" + deposit.toFixed(2) : "30% of quoted total";
   const missingInfo = detectMissingInfo_(data);
 
-  let body;
-  if (missingInfo.length > 0) {
-    body = buildMissingInfoDraft_(firstName, bookingId, data, missingInfo);
-  } else {
-    body = buildFullQuoteDraft_(firstName, bookingId, data, depositFmt);
-  }
+  const body = missingInfo.length > 0
+    ? buildMissingInfoDraft_(firstName, bookingId, data, missingInfo)
+    : buildFullQuoteDraft_(firstName, bookingId, data, depositFmt);
 
   GmailApp.createDraft(
     data.email || "",
@@ -450,7 +499,6 @@ function buildFullQuoteDraft_(firstName, bookingId, data, depositFmt) {
   const timeRange = [data.startTime, data.endTime].filter(Boolean).join(" – ") || "—";
   const address   = [data.eventAddress, data.city, data.province].filter(Boolean).join(", ") || "—";
   const items     = data.selectedItems || "—";
-
   const subtotal  = parseMoney_(data.subtotal);
   const delivery  = parseMoney_(data.combinedDeliveryEstimate);
   const attendant = parseMoney_(data.attendantEstimate);
@@ -470,18 +518,17 @@ function buildFullQuoteDraft_(firstName, bookingId, data, depositFmt) {
   ];
 
   if (data.guests) lines.push("  Guests:   " + data.guests);
-  lines.push("");
-
-  lines.push("Items requested");
-  lines.push("  " + items);
-  lines.push("");
+  lines.push("", "Items requested", "  " + items, "");
 
   lines.push("Estimate");
   lines.push("  Rentals:   $" + fmtAmt_(subtotal));
 
   if (delivery > 0) {
     lines.push("  Delivery:  $" + fmtAmt_(delivery));
-  } else if (data.combinedDeliveryEstimate && data.combinedDeliveryEstimate.toLowerCase().includes("manual")) {
+  } else if (data.combinedDeliveryEstimate &&
+             (data.combinedDeliveryEstimate.toLowerCase().includes("manual") ||
+              data.deliveryLookupSource === "manual" ||
+              data.deliveryLookupSource === "fallback")) {
     lines.push("  Delivery:  To be confirmed after address review");
   }
   if (parseMoney_(data.sandbagEstimate) > 0) {
@@ -492,8 +539,7 @@ function buildFullQuoteDraft_(firstName, bookingId, data, depositFmt) {
   if (attendant > 0) {
     lines.push("  Attendants: $" + fmtAmt_(attendant));
   }
-  lines.push("  Total est: $" + fmtAmt_(total));
-  lines.push("");
+  lines.push("  Total est: $" + fmtAmt_(total), "");
 
   const manualItems = [];
   if (data.sandbagManualReview === "true")   manualItems.push("Anchoring (surface review required)");
@@ -596,8 +642,7 @@ function createCalendarHold_(data, bookingId) {
 // ─── Error Log ────────────────────────────────────────────────────────────────
 
 /**
- * Appends a row to the "Error Log" tab in the CRM sheet.
- * Creates the tab if it does not exist. Never throws — errors here are logged only.
+ * Appends a row to the "Error Log" tab. Creates the tab if absent. Never throws.
  */
 function writeToErrorLog_(ss, bookingId, data, reason) {
   try {
@@ -612,11 +657,11 @@ function writeToErrorLog_(ss, bookingId, data, reason) {
     }
     sheet.appendRow([
       new Date(),
-      bookingId           || "",
+      bookingId                || "",
       (data && data.name)      || "",
       (data && data.email)     || "",
       (data && data.eventDate) || "",
-      reason              || "",
+      reason                   || "",
     ]);
   } catch (e) {
     Logger.log("writeToErrorLog_ itself failed: " + e.message);
@@ -627,10 +672,9 @@ function writeToErrorLog_(ss, bookingId, data, reason) {
 
 /**
  * Run manually before going live to verify all required tabs, headers, counters,
- * and Gmail labels are in place. Results are printed to the Execution Log.
+ * and Gmail labels are in place.
  *
- * Expected output: all lines show ✓. Any ✗ line must be resolved before using
- * the script in production.
+ * All lines should show ✓. Fix any ✗ before running testQuoteIntake().
  */
 function verifyIntakeSystem() {
   const results = [];
@@ -654,32 +698,38 @@ function verifyIntakeSystem() {
   }
 
   // 2. Required tabs
-  [CONFIG.LEADS_TAB, CONFIG.QUEUE_TAB, CONFIG.SEQUENCE_SHEET].forEach(tabName => {
-    ss.getSheetByName(tabName)
-      ? pass("Tab exists: \"" + tabName + "\"")
-      : fail("Tab MISSING: \"" + tabName + "\" — script will fail or auto-create on first run");
+  const requiredTabs = [CONFIG.WEB_QUOTE_TAB, CONFIG.QUEUE_TAB, CONFIG.SEQUENCE_SHEET];
+  requiredTabs.forEach(tabName => {
+    const sheet = ss.getSheetByName(tabName);
+    if (sheet) {
+      pass("Tab exists: \"" + tabName + "\"");
+    } else if (tabName === CONFIG.WEB_QUOTE_TAB) {
+      fail("Tab MISSING: \"" + tabName + "\" — will be auto-created on first run (non-fatal)");
+    } else {
+      fail("Tab MISSING: \"" + tabName + "\" — script will abort on first run");
+    }
   });
 
-  // 3. Leads headers
-  const leadsSheet = ss.getSheetByName(CONFIG.LEADS_TAB);
-  if (leadsSheet) {
-    const lastCol = leadsSheet.getLastColumn();
+  // 3. Website Quote Leads headers
+  const webSheet = ss.getSheetByName(CONFIG.WEB_QUOTE_TAB);
+  if (webSheet) {
+    const lastCol = webSheet.getLastColumn();
     const headers = lastCol > 0
-      ? leadsSheet.getRange(1, 1, 1, lastCol).getValues()[0].filter(String)
+      ? webSheet.getRange(1, 1, 1, lastCol).getValues()[0].filter(String)
       : [];
     if (headers.length === 0) {
-      fail("Leads tab has no headers in row 1 — will be auto-written on first run");
+      fail("Website Quote Leads tab has no headers — will be auto-written on first run");
     } else {
-      ["Booking ID", "Customer", "Email", "Event Date", "Quote Total", "Status"].forEach(col => {
+      ["Booking ID", "Customer Name", "Email", "Event Date", "Estimated Total", "Status"].forEach(col => {
         const idx = headers.indexOf(col);
         idx >= 0
-          ? pass("Leads header \"" + col + "\" at col " + (idx + 1))
-          : fail("Leads header MISSING: \"" + col + "\"");
+          ? pass("Website Quote Leads header \"" + col + "\" at col " + (idx + 1))
+          : fail("Website Quote Leads header MISSING: \"" + col + "\"");
       });
     }
   }
 
-  // 4. Automation Queue headers
+  // 4. Automation Queue headers (required columns only)
   const queueSheet = ss.getSheetByName(CONFIG.QUEUE_TAB);
   if (queueSheet) {
     const lastCol = queueSheet.getLastColumn();
@@ -687,13 +737,13 @@ function verifyIntakeSystem() {
       ? queueSheet.getRange(1, 1, 1, lastCol).getValues()[0].filter(String)
       : [];
     if (headers.length === 0) {
-      fail("Automation Queue tab has no headers in row 1 — will be auto-written on first run");
+      fail("Automation Queue tab has no headers");
     } else {
-      ["Task ID", "Booking ID", "Task Type", "Status", "Customer", "Email"].forEach(col => {
+      ["Task ID", "Related ID", "Customer / Business", "Task Type", "Status", "Priority", "To Email", "Action Needed"].forEach(col => {
         const idx = headers.indexOf(col);
         idx >= 0
-          ? pass("Queue header \"" + col + "\" at col " + (idx + 1))
-          : fail("Queue header MISSING: \"" + col + "\"");
+          ? pass("Automation Queue header \"" + col + "\" at col " + (idx + 1))
+          : fail("Automation Queue header MISSING: \"" + col + "\" — queue rows will have blank values for this column");
       });
     }
   }
@@ -713,12 +763,22 @@ function verifyIntakeSystem() {
     ? pass("Gmail label exists: \"" + CONFIG.PROCESSED_LABEL + "\"")
     : fail("Gmail label \"" + CONFIG.PROCESSED_LABEL + "\" not found — will be auto-created on first run");
 
-  // 7. EXTRA_ID_TABS (non-fatal)
+  // 7. Extra ID tabs (non-fatal)
   (CONFIG.EXTRA_ID_TABS || []).forEach(tabName => {
     ss.getSheetByName(tabName)
       ? pass("Extra ID tab exists: \"" + tabName + "\"")
       : fail("Extra ID tab \"" + tabName + "\" not found — will be skipped in ID scan (non-critical)");
   });
+
+  // 8. Confirm old Leads tab is NOT being used
+  const oldLeads = ss.getSheetByName("Leads");
+  if (oldLeads) {
+    const lastCol  = oldLeads.getLastColumn();
+    const h1       = lastCol > 0 ? String(oldLeads.getRange(1, 1).getValue()).trim() : "";
+    if (h1 === "Lead ID" || h1 === "Business Name") {
+      pass("Old \"Leads\" tab is outbound CRM — script routes inbound quotes to \"" + CONFIG.WEB_QUOTE_TAB + "\" instead");
+    }
+  }
 
   Logger.log("\n=== Summary ===");
   const failures = results.filter(r => r.startsWith("FAIL:"));
@@ -754,14 +814,15 @@ function setupTriggers() {
 
 /**
  * Run manually to verify the full pipeline without waiting for a real email.
- * Creates one Leads row, one Queue row, one Gmail draft, one Calendar hold.
+ * Creates one Website Quote Leads row, one Automation Queue row, one Gmail draft,
+ * one Calendar hold (if event date parses).
  *
  * AFTER the test — clean up before going live:
- *   1. Delete the Sarah MacLean row from the Leads tab.
- *   2. Delete the corresponding row from the Automation Queue tab.
+ *   1. Delete the Sarah MacLean row from "Website Quote Leads" tab.
+ *   2. Delete the AQ-NK-YYYY-NNN row from "Automation Queue" tab.
  *   3. Delete the draft to sarah.test@example.com from Gmail Drafts.
  *   4. Delete the tentative calendar event.
- * The System tab counter is intentionally NOT rolled back — this is correct behaviour.
+ *   (The System tab counter is NOT rolled back — this is correct behaviour.)
  */
 function testQuoteIntake() {
   const sampleBody = [
@@ -780,7 +841,7 @@ function testQuoteIntake() {
     "Power Needs Review: false",
     "Water Access: Yes",
     "Guests: 75",
-    "Notes: Birthday party for my daughter. Please bring the big castle!",
+    "Notes: Birthday party for my daughter.",
     "Selected Items: Ultimate Kingdom Combo (Crown Rush 42 + Cascade Splash + Quest Tower) — $650",
     "Subtotal: $650.00",
     "Delivery Lookup Source: api",
@@ -801,7 +862,8 @@ function testQuoteIntake() {
   ].join("\n");
 
   const data = parseEmailBody_(sampleBody);
-  data._received = new Date();
+  data._received  = new Date();
+  data._messageId = "TEST-" + Date.now();
 
   const ss = getCrmSpreadsheet_();
   if (!ss) {
@@ -809,18 +871,22 @@ function testQuoteIntake() {
     return;
   }
 
-  const leadsSheet = ss.getSheetByName(CONFIG.LEADS_TAB);
-  const queueSheet = ss.getSheetByName(CONFIG.QUEUE_TAB);
+  const webQuoteSheet = getOrCreateWebQuoteTab_(ss);
+  const queueSheet    = ss.getSheetByName(CONFIG.QUEUE_TAB);
 
-  if (!leadsSheet || !queueSheet) {
-    Logger.log("FATAL: Cannot find Leads or Automation Queue tab. Check CRM sheet name and tab names.");
+  if (!webQuoteSheet) {
+    Logger.log("FATAL: Cannot create/find \"" + CONFIG.WEB_QUOTE_TAB + "\" tab. Check CRM sheet name.");
+    return;
+  }
+  if (!queueSheet) {
+    Logger.log("FATAL: Cannot find \"" + CONFIG.QUEUE_TAB + "\" tab. Check CRM sheet name and tab name.");
     return;
   }
 
   const result = { leadWritten: false, queueWritten: false, draftCreated: false, calendarHeld: false, bookingId: null };
 
   try {
-    const bookingId = writeToLeads_(leadsSheet, data, ss);
+    const bookingId = writeToWebQuoteLeads_(webQuoteSheet, data, ss);
     result.bookingId  = bookingId;
     result.leadWritten = true;
 
@@ -846,8 +912,8 @@ function testQuoteIntake() {
     "  Draft created: " + (result.draftCreated ? "YES" : "NO") + "\n" +
     "  Calendar hold: " + (result.calendarHeld ? "YES" : "NO") + "\n" +
     "\nVerify in:\n" +
-    "  • Leads tab — row for Sarah MacLean with Booking ID " + (result.bookingId || "?") + "\n" +
-    "  • Automation Queue tab — Task Type: New Quote Review\n" +
+    "  • \"" + CONFIG.WEB_QUOTE_TAB + "\" tab — row for Sarah MacLean, Booking ID " + (result.bookingId || "?") + "\n" +
+    "  • \"" + CONFIG.QUEUE_TAB + "\" tab — Task ID AQ-" + (result.bookingId || "?") + ", Task Type: New Quote Review\n" +
     "  • Gmail Drafts — email to sarah.test@example.com\n" +
     "  • Google Calendar — 🎪 TENTATIVE event on June 28, 2026"
   );
@@ -855,19 +921,62 @@ function testQuoteIntake() {
 
 // ─── Column Schemas ───────────────────────────────────────────────────────────
 
-const LEADS_COLUMNS_ = [
-  "Booking ID", "Customer", "Phone", "Email", "Address",
-  "Event Date", "Event Time", "Rental Item", "Quote Total",
-  "Deposit Required", "Deposit Received", "Balance", "Payment Method",
-  "Status", "Next Action", "Next Action Date",
-  "Agreement Sent", "Waiver Signed", "Insurance Requested",
-  "Staff Needed", "Lead Source", "Notes",
+/**
+ * Inbound website quote intake tab — created automatically if absent.
+ * Separate from the outbound "Leads" tab (cold-lead CRM).
+ */
+const WEB_QUOTE_COLUMNS_ = [
+  "Booking ID",
+  "Submitted At",
+  "Customer Name",
+  "Email",
+  "Phone",
+  "Event Date",
+  "Start Time",
+  "End Time",
+  "Event Address",
+  "City",
+  "Province",
+  "Postal Code",
+  "Setup Surface",
+  "Power Distance",
+  "Water Access",
+  "Guests",
+  "Selected Items",
+  "Subtotal",
+  "Delivery Estimate",
+  "Sandbag Estimate",
+  "Attendant Estimate",
+  "Estimated Total",
+  "Deposit Required",
+  "Manual Review Flags",
+  "Notes",
+  "Source Message ID",
+  "Status",
 ];
 
+/**
+ * Automation Queue column names — must exactly match the existing tab's row 1.
+ * Verified against the live CRM on 2026-05-20.
+ * If the queue tab gains new columns, add them here at the end.
+ */
 const QUEUE_COLUMNS_ = [
-  "Task ID", "Booking ID", "Task Type", "Status", "Priority",
-  "Channel", "Action", "Customer", "Email", "Phone",
-  "Event Date", "Quote Total", "Notes", "Created", "Assigned To", "Completed",
+  "Task ID",
+  "Related ID",
+  "Customer / Business",
+  "Task Type",
+  "Due Date",
+  "Due Time",
+  "Channel",
+  "Action Needed",
+  "Status",
+  "Priority",
+  "To Email",
+  "Notes",
+  "Scheduled Rule",
+  "Completed Date",
+  "Due Now",
+  "Created At",
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -885,9 +994,7 @@ function getCrmUrl_() {
   );
 }
 
-/**
- * Returns the CRM SpreadsheetApp object, or null on failure.
- */
+/** Returns the CRM SpreadsheetApp object, or null on failure. */
 function getCrmSpreadsheet_() {
   try {
     return SpreadsheetApp.openByUrl(getCrmUrl_());
@@ -903,7 +1010,7 @@ function getOrCreateLabel_(name) {
 
 /**
  * Returns existing headers from row 1 of the sheet, or writes expectedHeaders
- * if row 1 is blank. Handles the case where getLastColumn() returns 0 (empty sheet).
+ * if row 1 is blank. Handles the case where getLastColumn() returns 0.
  */
 function getOrCreateHeaders_(sheet, expectedHeaders) {
   const lastCol = sheet.getLastColumn();
@@ -923,24 +1030,21 @@ function getOrCreateHeaders_(sheet, expectedHeaders) {
 }
 
 /**
- * Generates the next booking ID with a three-source sequence strategy:
- *   1. Persistent counter  — System tab B2 (survives deletions and cleanups)
- *   2. Tab scanner         — highest NK-YYYY-### found across all CRM tabs
- *   3. Fallback constant   — NEXT_BOOKING_NUMBER_FALLBACK (only when both above are 0)
+ * Generates the next booking ID using a three-source sequence strategy:
+ *   1. Persistent counter — System!B2 (primary — survives deletions and cleanups)
+ *   2. Tab scanner        — highest NK-YYYY-### found across all CRM tabs
+ *   3. Fallback constant  — NEXT_BOOKING_NUMBER_FALLBACK (first-ever run only)
  *
- * Takes the maximum of all three, increments by 1, writes back to System!B2
- * immediately so the next call always sees the updated value.
+ * Takes max of all three, increments by 1, writes back to System!B2 immediately.
  */
 function generateBookingId_(ss) {
   const year = new Date().getFullYear();
 
-  // 1. Read persistent counter
   const persistedNum = readSequenceCounter_(ss, year);
   Logger.log("generateBookingId_: persistedNum=" + persistedNum);
 
-  // 2. Scan CRM tabs as secondary validation
   const pattern  = new RegExp("^" + CONFIG.BOOKING_ID_PREFIX + "-" + year + "-(\\d+)$");
-  const tabNames = [CONFIG.LEADS_TAB, CONFIG.QUEUE_TAB].concat(CONFIG.EXTRA_ID_TABS || []);
+  const tabNames = [CONFIG.WEB_QUOTE_TAB, CONFIG.QUEUE_TAB].concat(CONFIG.EXTRA_ID_TABS || []);
   let scannedMax = 0;
 
   tabNames.forEach(tabName => {
@@ -962,13 +1066,11 @@ function generateBookingId_(ss) {
   });
   Logger.log("generateBookingId_: scannedMax=" + scannedMax);
 
-  // 3. Determine next number
   const fallback = (CONFIG.NEXT_BOOKING_NUMBER_FALLBACK || 1) - 1;
   Logger.log("generateBookingId_: fallback=" + fallback);
   const next = Math.max(persistedNum, scannedMax, fallback) + 1;
   Logger.log("generateBookingId_: next=" + next);
 
-  // 4. Persist immediately before returning
   writeSequenceCounter_(ss, year, next);
 
   const id = CONFIG.BOOKING_ID_PREFIX + "-" + year + "-" + String(next).padStart(3, "0");
@@ -976,11 +1078,6 @@ function generateBookingId_(ss) {
   return id;
 }
 
-/**
- * Reads the persisted booking sequence number from the System tab.
- * Returns the stored number for the current year, or 0 if not found.
- * Creates the System tab with labels if it does not exist.
- */
 function readSequenceCounter_(ss, year) {
   const sheet  = getOrCreateSystemSheet_(ss);
   const stored = sheet.getRange("B2").getValue();
@@ -988,19 +1085,12 @@ function readSequenceCounter_(ss, year) {
   return m ? parseInt(m[1], 10) : 0;
 }
 
-/**
- * Writes the latest booking number back to System!B2 immediately.
- * Format: "NK-YYYY:NNN" (colon separator so it's visually distinct from a booking ID).
- */
 function writeSequenceCounter_(ss, year, num) {
   const sheet = getOrCreateSystemSheet_(ss);
   sheet.getRange("B2").setValue(CONFIG.BOOKING_ID_PREFIX + "-" + year + ":" + String(num).padStart(3, "0"));
   sheet.getRange("B3").setValue(new Date());
 }
 
-/**
- * Returns the System sheet, creating it with labelled rows if absent.
- */
 function getOrCreateSystemSheet_(ss) {
   let sheet = ss.getSheetByName(CONFIG.SEQUENCE_SHEET);
   if (!sheet) {
@@ -1053,9 +1143,9 @@ function parseDateTime_(dateStr, timeStr) {
     if (timeStr) {
       const m = timeStr.match(/(\d{1,2}):(\d{2})\s*(am|pm)?/i);
       if (m) {
-        let h      = parseInt(m[1], 10);
-        const min  = parseInt(m[2], 10);
-        const mer  = (m[3] || "").toLowerCase();
+        let h     = parseInt(m[1], 10);
+        const min = parseInt(m[2], 10);
+        const mer = (m[3] || "").toLowerCase();
         if (mer === "pm" && h < 12) h += 12;
         if (mer === "am" && h === 12) h = 0;
         base.setHours(h, min, 0, 0);

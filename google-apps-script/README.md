@@ -1,9 +1,10 @@
 # Nova Kingdom Rentals — Quote Intake Automation (Google Apps Script)
 
-Processes Web3Forms quote-request emails from the website cart, writes leads to
-the Google Sheet CRM, queues a review task, creates a Gmail draft, and blocks a
-tentative Calendar hold — **fully automated, never auto-sends, never confirms a
-booking without a deposit**.
+Processes Web3Forms quote-request emails from the website cart, writes submissions
+to a dedicated **"Website Quote Leads"** inbound tab, queues a review task in the
+shared Automation Queue, creates a Gmail draft, and blocks a tentative Calendar
+hold — **fully automated, never auto-sends, never confirms a booking without a
+deposit**.
 
 ---
 
@@ -12,11 +13,15 @@ booking without a deposit**.
 | Trigger | Every 5 minutes |
 |---------|----------------|
 | Searches Gmail for | Unread emails with subject: *"New Nova Kingdom Rentals Quote Request"* |
-| Writes to | **Leads** tab (upsert by email + event date) |
-| Writes to | **Automation Queue** tab (Task Type: New Quote Review) |
+| Writes to | **Website Quote Leads** tab — inbound intake (upsert by email + event date) |
+| Writes to | **Automation Queue** tab — Task Type: New Quote Review |
 | Creates | Gmail **draft** to the customer — Harkirat reviews and sends manually |
 | Creates | **Tentative** Google Calendar hold (never confirmed, never blocks other bookings) |
 | Labels email | `NK/Intake-Processed` and marks it read |
+
+> **Tab routing:** The existing **"Leads"** tab is the outbound cold-lead CRM (Lead ID,
+> Business Name, Campaign, etc.). This script never touches it. Website quote submissions
+> go to **"Website Quote Leads"**, which is auto-created on first run if absent.
 
 ---
 
@@ -102,64 +107,71 @@ Execution Log. All lines should show ✓.
 | Check | What it verifies |
 |-------|-----------------|
 | CRM spreadsheet | Can be found by name in Drive |
-| Leads tab | Exists and has required headers |
-| Automation Queue tab | Exists and has required headers |
+| Website Quote Leads tab | Exists (or will be auto-created on first run — non-fatal) |
+| Automation Queue tab | Exists and has required column names in row 1 |
 | System tab | Exists and counter cell B2 is readable |
 | Gmail label | `NK/Intake-Processed` label exists |
+| Old Leads tab | Confirms it's the outbound CRM — script will NOT write there |
 | Extra ID tabs | `Booked Customers`, `Payment Tracker` exist (non-fatal) |
 
 If any check shows ✗, resolve the issue before proceeding. Common fixes are in
 the [Troubleshooting](#troubleshooting) section below.
 
-### Step 4 — Verify Column Alignment and Booking ID Tabs
+### Step 4 — Verify Tab Routing and Column Alignment
 
-Before running any test, open the CRM sheet and check these two tabs:
+**Two separate tabs — understand the difference:**
 
-**Leads tab — expected headers (row 1):**
+| Tab | Purpose | Who writes to it |
+|-----|---------|-----------------|
+| **Leads** | Outbound cold-lead CRM (school boards, festivals, etc.) | Harkirat / outbound agents only |
+| **Website Quote Leads** | Inbound website quote submissions | This script only |
+| **Automation Queue** | Shared task queue for all follow-up tasks | This script + other automations |
+
+The script never writes to the old "Leads" tab. If `verifyIntakeSystem()` reports it
+can't find "Website Quote Leads", that is expected — the tab is created automatically
+on first run.
+
+**Website Quote Leads tab — auto-created headers (row 1):**
 ```
-Booking ID | Customer | Phone | Email | Address | Event Date | Event Time |
-Rental Item | Quote Total | Deposit Required | Deposit Received | Balance |
-Payment Method | Status | Next Action | Next Action Date | Agreement Sent |
-Waiver Signed | Insurance Requested | Staff Needed | Lead Source | Notes
+Booking ID | Submitted At | Customer Name | Email | Phone | Event Date | Start Time |
+End Time | Event Address | City | Province | Postal Code | Setup Surface | Power Distance |
+Water Access | Guests | Selected Items | Subtotal | Delivery Estimate | Sandbag Estimate |
+Attendant Estimate | Estimated Total | Deposit Required | Manual Review Flags | Notes |
+Source Message ID | Status
 ```
 
-**Automation Queue tab — expected headers (row 1):**
+**Automation Queue tab — actual live headers (row 1, verified 2026-05-20):**
 ```
-Task ID | Booking ID | Task Type | Status | Priority | Channel | Action |
-Customer | Email | Phone | Event Date | Quote Total | Notes | Created |
-Assigned To | Completed
+Task ID | Related ID | Customer / Business | Task Type | Due Date | Due Time |
+Channel | Action Needed | Status | Priority | To Email | Notes |
+Scheduled Rule | Completed Date | Due Now | Created At
 ```
 
-If row 1 of either tab is blank, the script will write these headers automatically
-on first run. If headers already exist but differ (different column names or order),
-the script maps by header name — any column name it doesn't recognise will receive
-a blank value. Adjust the column names in the sheet or in `LEADS_COLUMNS_` /
-`QUEUE_COLUMNS_` at the bottom of the script to match before proceeding.
+The script maps by header name. If the Automation Queue tab gains extra columns,
+they receive blank values and do not cause errors. `QUEUE_COLUMNS_` in the script
+lists the columns the script writes to — keep this list in sync with the actual
+tab if column names ever change.
 
 **Booking ID sequence — persistent counter + fallback:**
 
-The script uses a three-source sequence strategy so the counter is permanent
-and survives test cleanups, deleted rows, and deleted drafts:
+The script uses a three-source sequence strategy so the counter survives test
+cleanups, deleted rows, and CRM resets:
 
 1. **System tab counter** (`System!B2`) — written immediately every time a
    booking ID is generated. This is the primary source of truth.
-2. **Tab scanner** — reads all NK-YYYY-### IDs from Leads, Automation Queue,
-   Booked Customers, and Payment Tracker as a secondary cross-check.
-3. **Fallback constant** (`NEXT_BOOKING_NUMBER_FALLBACK: 14`) — used only if
-   both of the above return 0 (i.e. first ever run with no prior NK-format IDs).
+2. **Tab scanner** — reads all NK-YYYY-### IDs from Website Quote Leads,
+   Automation Queue, Booked Customers, and Payment Tracker as a secondary check.
+3. **Fallback constant** (`NEXT_BOOKING_NUMBER_FALLBACK: 16`) — used only if
+   both of the above return 0 (first-ever run).
 
 The next number is `max(counter, scanner, fallback) + 1`. Once the System tab
-exists and holds a value, the fallback has no effect.
+holds a value, the fallback has no effect.
 
-**System tab** is created automatically on first run if it doesn't exist. It
-will appear as a new tab named `System` in your CRM sheet with:
-- `A2`: "Booking ID sequence (do not edit)"
-- `B2`: current counter value in format `NK-2026:014`
-- `A3 / B3`: "Last updated" timestamp
+**System tab** already exists in the CRM (`System!B2 = NK-2026:015` as of
+2026-05-20). Do not manually edit B2 unless you need to deliberately advance
+or reset the counter.
 
-**Do not manually edit B2** unless you need to reset the counter deliberately.
-
-If your booked customers or payment tabs have different names, update
+If your booked-customers or payment tabs have different names, update
 `CONFIG.EXTRA_ID_TABS`. Missing tabs are silently skipped.
 
 ### Step 5 — Run testQuoteIntake() and Verify
@@ -170,22 +182,23 @@ Check all four outputs:
 
 | Output | What to look for |
 |--------|-----------------|
-| **Leads tab** | New row, Booking ID continues from your highest existing ID (e.g. if NK-2026-013 exists, new row gets NK-2026-014), customer *Sarah MacLean*, event date *June 28, 2026*, quote total `$662.50` |
-| **Automation Queue tab** | New row, Task Type *New Quote Review*, Status *Pending Review*, Priority *High*, Assigned To *Harkirat* |
-| **Gmail → Drafts** | Email to `sarah.test@example.com`, subject `Nova Kingdom Rentals Quote — NK-2026-NNN`, clean body with no DRAFT warning, ends with `Nova Kingdom Rentals` and `https://novakingdomrentals.com` |
+| **Website Quote Leads tab** | New row with Booking ID (e.g. `NK-2026-016`), Customer Name *Sarah MacLean*, Event Date *June 28, 2026*, Estimated Total `662.5`, Status *New — Pending Review* |
+| **Automation Queue tab** | New row, Task ID `AQ-NK-2026-016`, Related ID `NK-2026-016`, Customer / Business *Sarah MacLean*, Task Type *New Quote Review*, Status *Pending Review*, Priority *High*, To Email *sarah.test@example.com* |
+| **Gmail → Drafts** | Email to `sarah.test@example.com`, subject `Nova Kingdom Rentals Quote — NK-2026-NNN`, body with itemized estimate, ends with `Nova Kingdom Rentals` and `https://novakingdomrentals.com` |
 | **Google Calendar** | Tentative event on June 28, 2026 titled `🎪 TENTATIVE — NK-2026-NNN — Sarah MacLean` |
 
-If any output is missing or wrong, fix the issue (usually column alignment) before
-installing the trigger. Do not proceed to Step 6 until all four pass.
+If any output is missing or wrong, check the Execution Log and the Troubleshooting
+section. Do not install the trigger (Step 6) until all four pass.
 
 **After the test — clean up test data before going live:**
 
-1. **Leads tab**: delete the Sarah MacLean row
-2. **Automation Queue tab**: delete the corresponding test task row
+1. **Website Quote Leads tab**: delete the Sarah MacLean row
+2. **Automation Queue tab**: delete the `AQ-NK-2026-NNN` test task row
 3. **Gmail Drafts**: delete the draft to `sarah.test@example.com`
 4. **Google Calendar**: delete the tentative `🎪 TENTATIVE — NK-2026-NNN — Sarah MacLean` event
 
-This prevents the test row from permanently occupying a booking ID slot and keeps the CRM clean for real bookings.
+The System tab counter (`System!B2`) is NOT rolled back — this is correct; the
+booking ID is permanently consumed even for test rows.
 
 ### Step 6 — Install the Trigger
 
@@ -229,49 +242,68 @@ Edit `CONFIG.DEPOSIT_RATE` (default: `0.30` = 30%).
 
 ## Column Reference
 
-### Leads Tab
+### Website Quote Leads Tab (Inbound Intake)
+
+This tab is **separate** from the outbound "Leads" tab. It captures every website
+quote submission as a distinct inbound record.
 
 | Column | Source |
 |--------|--------|
 | Booking ID | Auto-generated (`NK-YYYY-NNN`) |
-| Customer | `name` field from Web3Forms |
-| Phone | `phone` |
+| Submitted At | Email received date |
+| Customer Name | `name` field from Web3Forms |
 | Email | `email` |
-| Address | `eventAddress`, `city`, `province`, `postalCode` joined |
+| Phone | `phone` |
 | Event Date | `eventDate` |
-| Event Time | `startTime – endTime` |
-| Rental Item | `selectedItems` |
-| Quote Total | `estimatedTotal` (numeric) |
-| Deposit Required | 30% of Quote Total |
-| Status | `1 - New Lead` |
-| Lead Source | `Website Quote Cart` |
-| Notes | Surface, guests, water access, power/anchoring flags, delivery source |
+| Start Time / End Time | `startTime`, `endTime` |
+| Event Address | `eventAddress` |
+| City / Province / Postal Code | `city`, `province`, `postalCode` |
+| Setup Surface | `setupSurface` |
+| Power Distance | `powerDistanceToOutlet` |
+| Water Access | `waterAccess` |
+| Guests | `guests` |
+| Selected Items | `selectedItems` |
+| Subtotal | `subtotal` (numeric) |
+| Delivery / Sandbag / Attendant Estimate | From Web3Forms calculator fields |
+| Estimated Total | `estimatedTotal` (numeric) |
+| Deposit Required | 30% of Estimated Total |
+| Manual Review Flags | Auto-populated: "Anchoring review needed", "Power outlet review needed", "Delivery address review needed" |
+| Notes | Customer freetext notes |
+| Source Message ID | Gmail message ID — links record to the original email |
+| Status | `New — Pending Review` |
 
-Rows are matched by **email + event date** to prevent duplicates. Re-submissions
-update non-empty fields in place without creating a second row.
+Rows are matched by **email + event date** to prevent duplicates on re-submission.
 
-### Automation Queue Tab
+### Automation Queue Tab (Shared — Existing)
 
-| Column | Value |
-|--------|-------|
-| Task Type | New Quote Review |
-| Status | Pending Review |
-| Priority | High |
-| Channel | Email |
-| Action | Create Gmail draft reply |
-| Notes | Flags: anchoring review, power outlet review, delivery manual, attendants |
+The script appends to the existing Automation Queue using its live column names.
+
+| Column written | Value |
+|----------------|-------|
+| Task ID | `AQ-NK-YYYY-NNN` |
+| Related ID | Booking ID (e.g. `NK-2026-016`) |
+| Customer / Business | Customer name from Web3Forms |
+| Task Type | `New Quote Review` |
+| Due Date | Today |
+| Due Time | `9:00 AM` |
+| Channel | `Gmail Draft` |
+| Action Needed | "Review website quote submission. Confirm anchoring / power / delivery if flagged. Send deposit link once confirmed." |
+| Status | `Pending Review` |
+| Priority | `High` |
+| To Email | Customer email address |
+| Notes | Manual-review flags (anchoring, power, delivery, attendants) |
+| Created At | Today |
 
 ---
 
 ## Draft Email Rules
 
-- Always starts **and** ends with `DRAFT — REVIEW BEFORE SENDING`
-- Subject: `Re: Nova Kingdom Rentals Quote — NK-YYYY-NNN`
+- Subject: `Nova Kingdom Rentals Quote — NK-YYYY-NNN`
 - Addressed to the customer's email
-- Includes: full quote breakdown, manual-review flags, deposit amount,
-  e-transfer address, phone number
-- If key info is missing (no event date, no address, no items): sends a short
-  "we need a few more details" draft instead
+- Full quote body includes: itemized estimate (rentals, delivery, anchoring,
+  attendants, total), manual-review flags, deposit amount, business phone
+- If key info is missing (no event date, no address, no items): a short
+  "we need a few more details" draft is created instead of the full quote
 - **Never calls `GmailApp.sendEmail()`** — draft only, always
 
 ---
@@ -304,27 +336,25 @@ All sheet writes now produce detailed output in the **Execution Log**
 (Apps Script editor → Executions, or the log panel after a manual run).
 Each email processed ends with a ── Run summary ── block. Check this first.
 
-### Lead row not appearing in Leads tab
+### Row not appearing in Website Quote Leads tab
 
-**Most likely cause: column header mismatch.**
+**Most likely cause: the tab didn't exist and auto-creation failed** (permission
+issue or sheet quota), or a column header mismatch if you manually edited row 1.
 
-The script maps values to columns by header name. If the Leads tab has different
-column names or a different column order than `LEADS_COLUMNS_` in the script, the
-affected fields write blank.
+1. Check the Execution Log for "ERROR writing to Website Quote Leads" or
+   "ERROR creating ... tab" messages.
+2. Run `verifyIntakeSystem()` — it confirms whether the tab exists and lists any
+   missing required headers.
+3. If the tab exists but fields are blank: the script maps by header name. Any header
+   in row 1 that doesn't exactly match `WEB_QUOTE_COLUMNS_` in the script will receive
+   a blank value. Compare your row 1 against the list in Step 4 and fix mismatches
+   in either the sheet or the `WEB_QUOTE_COLUMNS_` constant in the script.
+4. Check the **Error Log** tab — a "column mismatch" error will name which column
+   (`Email`, `Event Date`, or `Booking ID`) returned index -1.
 
-1. Open the Leads tab and compare row 1 against the expected headers in Step 4.
-2. Run `verifyIntakeSystem()` — it prints each required header and its column number.
-   Any ✗ line identifies the mismatch.
-3. Either rename the column in the sheet to match the script, or update `LEADS_COLUMNS_`
-   in the script to match the sheet, then re-run `testQuoteIntake()`.
-
-**If the row is completely absent** (not just missing fields):
-
-- Check the Execution Log for "ERROR writing to Leads" messages.
-- Check the **Error Log** tab in the CRM sheet — the script writes a row there for
-  every Leads write failure, including the error message, timestamp, and customer data.
-- A "column mismatch" error means `emailCol`, `dateCol`, or `idCol` returned -1.
-  The error message will show which column was not found.
+**Important:** Do not confuse this tab with the old "Leads" tab. If you see rows
+in "Leads" but not in "Website Quote Leads", the script was incorrectly pointed at
+the old tab. `CONFIG.WEB_QUOTE_TAB` must equal `"Website Quote Leads"` exactly.
 
 ### Duplicate booking IDs
 
@@ -339,14 +369,20 @@ affected fields write blank.
 3. To manually advance the counter: set `System!B2` to `NK-2026:NNN` where NNN is
    the number you want the *next* booking to receive minus 1.
 
-### Automation Queue row missing
+### Automation Queue row missing or has blank fields
 
-If the Lead row was written (Booking ID generated) but the Queue row is absent:
+If the Website Quote Leads row was written but the Queue row is absent:
 
 1. Check the Execution Log for "ERROR writing to Automation Queue".
 2. Check the Error Log tab for a "Queue write failed" entry.
-3. Common cause: Automation Queue tab was renamed. Update `CONFIG.QUEUE_TAB` in the
-   script and re-run `setupTriggers()`.
+3. Common cause: Automation Queue tab was renamed. `CONFIG.QUEUE_TAB` must equal
+   the tab's exact name — update the constant and re-run `setupTriggers()`.
+
+If the row exists but key fields are blank (e.g., `To Email`, `Customer / Business`,
+`Action Needed`): the actual Automation Queue column name differs from what's in
+`QUEUE_COLUMNS_`. Run `verifyIntakeSystem()` — it prints each required queue column
+name and its column number. Fix any ✗ by updating `QUEUE_COLUMNS_` to match the
+live tab header exactly.
 
 ### Gmail draft not created
 
