@@ -1,10 +1,13 @@
-/* Nova Kingdom Rentals — Quote Cart (pre-booking, availability request only) */
+/* Nova Kingdom Rentals — Quote Cart v20260520-worker */
 
 const CART_KEY = "nk_quote_v1";
 const W3F_KEY = "909ed8f7-78ca-494f-b960-1713b60bc012";
 const FREE_KM = 15;
 const RATE_PER_KM = 0.72;
 const SANDBAG_FEE = 25;
+const TRAVEL_RATE = 25; // $25/hr staff travel, included in delivery estimate from Worker
+const DELIVERY_API_URL = "https://nova-delivery-api.booknovakingdom.workers.dev/api/estimate-delivery";
+const NOVA_KINGDOM_ORIGIN = "Bridgewater, NS";
 
 const LAWN_GAME_PACKAGES = [
   {
@@ -37,6 +40,62 @@ const DISCLAIMER =
   "This is an availability request, not a confirmed booking. Nova Kingdom Rentals will manually confirm availability, delivery cost, setup suitability, staffing needs, and deposit/payment details.";
 
 const WATER_KEYWORDS = /water|cascade|island combo|rush|splash/i;
+
+// ── Delivery estimate state ──────────────────────────────────────
+const deliveryState = {
+  distanceKm:      null,
+  durationMinutes: null,
+  isManual:        true,
+  isPending:       false,
+  lastAddress:     "",
+};
+
+function resetDeliveryState() {
+  deliveryState.distanceKm      = null;
+  deliveryState.durationMinutes = null;
+  deliveryState.isManual        = true;
+  deliveryState.isPending       = false;
+  deliveryState.lastAddress     = "";
+}
+
+// Updated by makeFormSection; lets async delivery callback trigger recalc.
+let _recalcEstimate = null;
+function triggerRecalcEstimate() { if (_recalcEstimate) _recalcEstimate(); }
+
+async function estimateDeliveryFromAddress(address) {
+  const trimmed = (address || "").trim();
+  if (trimmed.length < 5 || trimmed === deliveryState.lastAddress) return;
+  deliveryState.lastAddress = trimmed;
+  deliveryState.isPending   = true;
+  deliveryState.isManual    = false;
+
+  const deliveryEl = eid("nk-delivery-val");
+  if (deliveryEl) deliveryEl.textContent = "Looking up…";
+
+  try {
+    const controller = new AbortController();
+    const timeoutId  = setTimeout(() => controller.abort(), 8000);
+    const res = await fetch(DELIVERY_API_URL, {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:    JSON.stringify({ origin: NOVA_KINGDOM_ORIGIN, destination: trimmed }),
+      signal:  controller.signal,
+    });
+    clearTimeout(timeoutId);
+    if (!res.ok) throw new Error("status " + res.status);
+    const data = await res.json();
+    if (!data.ok) throw new Error("api ok=false");
+    deliveryState.distanceKm      = data.distanceKm;
+    deliveryState.durationMinutes = data.durationMinutes;
+    deliveryState.isManual        = false;
+  } catch (_) {
+    deliveryState.distanceKm      = null;
+    deliveryState.durationMinutes = null;
+    deliveryState.isManual        = true;
+  }
+  deliveryState.isPending = false;
+  triggerRecalcEstimate();
+}
 
 function loadCart() {
   try {
@@ -264,12 +323,12 @@ function renderEstimateSection(items) {
   sec.insertAdjacentHTML("beforeend", `
     <table class="nk-estimate-table">
       <tr><td>Subtotal</td><td>${formatMoney(subtotal)}</td></tr>
-      <tr id="nk-delivery-row"><td>Delivery</td><td id="nk-delivery-val">Enter km below</td></tr>
+      <tr id="nk-delivery-row"><td>Delivery & setup</td><td id="nk-delivery-val">Enter address below</td></tr>
       <tr id="nk-sandbag-row"><td>Sandbag anchoring estimate</td><td id="nk-sandbag-val">${lawnsOnly ? "N/A" : "Enter surface below"}</td></tr>
       <tr class="total"><td>Estimated total</td><td id="nk-total-val">${formatMoney(subtotal)}</td></tr>
     </table>
     <p class="nk-estimate-note">
-      Final anchoring requirements confirmed after setup review. Delivery is estimated at $0.72/km after the first 15 km from Bridgewater. Sandbag fee applies to inflatables on non-grass surfaces.
+      Delivery is estimated automatically from your address ($0.72/km round-trip after the first 15 km). Final anchoring confirmed after setup review. Sandbag fee applies to inflatables on non-grass surfaces.
     </p>
   `);
   return sec;
@@ -338,15 +397,9 @@ function renderFormSection(items) {
         <input id="nkf-province" name="province" type="text" value="Nova Scotia">
       </div>
     </div>
-    <div class="nk-qf-row">
-      <div class="nk-qf-field">
-        <label class="nk-qf-label" for="nkf-postal">Postal code</label>
-        <input id="nkf-postal" name="postalCode" type="text" placeholder="B4V ___">
-      </div>
-      <div class="nk-qf-field">
-        <label class="nk-qf-label" for="nkf-km">Approx. km from Bridgewater</label>
-        <input id="nkf-km" name="kmFromBridgewater" type="number" min="0" step="1" placeholder="blank = quoted manually">
-      </div>
+    <div class="nk-qf-field">
+      <label class="nk-qf-label" for="nkf-postal">Postal code</label>
+      <input id="nkf-postal" name="postalCode" type="text" placeholder="B4V ___">
     </div>
     <div class="nk-qf-field">
       <label class="nk-qf-label" for="nkf-surface">Setup surface <span class="nk-req">*</span></label>
@@ -391,25 +444,36 @@ function renderFormSection(items) {
   `;
   sec.appendChild(form);
 
-  // Live estimate update
-  const kmInput = form.querySelector("#nkf-km");
+  // Live estimate update — delivery comes from Worker via deliveryState
+  const addressInput  = form.querySelector("#nkf-address");
+  const cityInput     = form.querySelector("#nkf-city");
   const surfaceSelect = form.querySelector("#nkf-surface");
 
+  resetDeliveryState();
+  _recalcEstimate = updateEstimate;
+
   function updateEstimate() {
-    const km = parseFloat(kmInput?.value) || null;
-    const surface = surfaceSelect?.value || "";
+    const surface   = surfaceSelect?.value || "";
     const deliveryEl = eid("nk-delivery-val");
-    const sandbagEl = eid("nk-sandbag-val");
-    const totalEl = eid("nk-total-val");
+    const sandbagEl  = eid("nk-sandbag-val");
+    const totalEl    = eid("nk-total-val");
 
     let delivery = 0;
-    let deliveryText = "Delivery quoted manually";
-    if (km !== null) {
+    let deliveryText;
+    if (deliveryState.isPending) {
+      deliveryText = "Looking up…";
+    } else if (deliveryState.isManual || deliveryState.distanceKm === null) {
+      deliveryText = "Delivery quoted manually";
+    } else {
+      const km = deliveryState.distanceKm;
       if (km <= FREE_KM) {
         deliveryText = "Free (within 15 km)";
       } else {
-        delivery = Math.round((km - FREE_KM) * RATE_PER_KM);
-        deliveryText = formatMoney(delivery) + " est.";
+        const distFee  = Math.round((km - FREE_KM) * 2 * RATE_PER_KM); // round-trip
+        const rtHr     = (deliveryState.durationMinutes * 2) / 60;
+        const staffFee = Math.ceil(rtHr * 4) / 4 * TRAVEL_RATE;        // rounded up to nearest 0.25 hr
+        delivery       = distFee + staffFee;
+        deliveryText   = formatMoney(delivery) + " est. (" + km + " km)";
       }
     }
 
@@ -437,7 +501,15 @@ function renderFormSection(items) {
     if (totalEl) totalEl.textContent = formatMoney(subtotal + delivery + sandbags);
   }
 
-  kmInput?.addEventListener("input", updateEstimate);
+  function triggerAddressLookup() {
+    const addr = (addressInput?.value || "").trim();
+    const city = (cityInput?.value || "").trim();
+    if (addr.length > 3) estimateDeliveryFromAddress(addr + (city ? ", " + city : "") + ", NS");
+  }
+
+  let _addressDebounce;
+  addressInput?.addEventListener("input", () => { clearTimeout(_addressDebounce); _addressDebounce = setTimeout(triggerAddressLookup, 800); });
+  cityInput?.addEventListener("input",    () => { clearTimeout(_addressDebounce); _addressDebounce = setTimeout(triggerAddressLookup, 800); });
   surfaceSelect?.addEventListener("change", updateEstimate);
 
   // Form submission
@@ -451,10 +523,19 @@ function renderFormSection(items) {
     if (msgEl) { msgEl.hidden = true; msgEl.className = "nk-form-msg"; }
 
     const fd = new FormData(form);
-    const km = parseFloat(fd.get("kmFromBridgewater") || "") || null;
     const surface = fd.get("setupSurface") || "";
 
-    let delivery = km === null ? null : (km <= FREE_KM ? 0 : Math.round((km - FREE_KM) * RATE_PER_KM));
+    // Delivery from Worker lookup (deliveryState populated on address input)
+    const km = deliveryState.distanceKm;
+    let distFee  = 0;
+    let staffFee = 0;
+    if (!deliveryState.isManual && km !== null && km > FREE_KM) {
+      distFee  = Math.round((km - FREE_KM) * 2 * RATE_PER_KM);
+      const rtHr = (deliveryState.durationMinutes * 2) / 60;
+      staffFee   = Math.ceil(rtHr * 4) / 4 * TRAVEL_RATE;
+    }
+    const delivery = distFee + staffFee;
+
     let sandbags = 0;
     if (!lawnsOnly && inflatableCount > 0 && (surface === "Indoor gym" || surface === "Concrete or asphalt")) {
       sandbags = inflatableCount * SANDBAG_FEE;
@@ -479,13 +560,18 @@ function renderFormSection(items) {
       powerAccess: fd.get("powerAccess"),
       waterAccess: fd.get("waterAccess"),
       guests: fd.get("guests"),
-      kmFromBridgewater: km !== null ? String(km) + " km" : "Not provided — delivery quoted manually",
       notes: fd.get("notes"),
       selectedItems: selectedSummary,
       subtotal: formatMoney(subtotal),
-      deliveryEstimate: delivery === null ? "Quoted manually" : formatMoney(delivery),
-      sandbagEstimate: sandbags > 0 ? formatMoney(sandbags) : (lawnsOnly ? "N/A (lawn games only)" : "Depends on surface"),
-      estimatedTotal: formatMoney(subtotal + (delivery || 0) + sandbags),
+      deliveryLookupSource:    deliveryState.isManual ? "manual" : "api",
+      deliveryDistanceKm:      km !== null ? String(km) : "",
+      deliveryDurationOneWay:  deliveryState.durationMinutes !== null ? String(deliveryState.durationMinutes) : "",
+      distanceFeeEstimate:     formatMoney(distFee),
+      staffTravelFeeEstimate:  formatMoney(staffFee),
+      combinedDeliveryEstimate: deliveryState.isManual ? "Quoted manually" : formatMoney(delivery),
+      sandbagUnitCount:        String(lawnsOnly ? 0 : inflatableCount),
+      sandbagEstimate:         sandbags > 0 ? formatMoney(sandbags) : (lawnsOnly ? "N/A (lawn games only)" : "Depends on surface"),
+      estimatedTotal:          formatMoney(subtotal + delivery + sandbags),
       disclaimer: DISCLAIMER,
     };
 
