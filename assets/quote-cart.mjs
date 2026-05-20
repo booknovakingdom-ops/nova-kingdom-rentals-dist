@@ -1,7 +1,9 @@
-/* Nova Kingdom Rentals — Quote Cart v20260520-worker
+/* Nova Kingdom Rentals — Quote Cart v20260520-delivery-ui
    Availability request only. No payment. No confirmed booking.
-   Changes vs mapsapi:
-   - DELIVERY_API_URL set to workers.dev absolute URL (Worker is live and tested)
+   Changes vs worker:
+   - Delivery sub-line simplified to "Includes delivery, setup, and staff travel."
+   - Operational detail (km, travel hours, rates) moved to tooltip only
+   - Tooltip copy rewritten: concise, premium
 */
 
 console.info("Nova Quote Cart loaded");
@@ -687,7 +689,7 @@ function makeEstimateSection(items, stats) {
     "<tr><td>Subtotal</td><td>" + escHtml(formatMoney(subtotal)) + "</td></tr>" +
     "<tr><td>Delivery &amp; setup estimate <span class='nk-tooltip-wrap'>" +
       "<button class='nk-tooltip-icon nk-tip-setup' type='button' aria-label='About delivery and setup estimate'>ⓘ</button>" +
-      "<span class='nk-tooltip-body nk-tip-body-setup'>Delivery &amp; setup estimate may include distance-based travel, required staff travel time, and sandbag anchoring for non-grass setups. Final delivery, travel, and anchoring costs are confirmed manually after address and setup review.</span>" +
+      "<span class='nk-tooltip-body nk-tip-body-setup'>First 15 km is free. Beyond that, distance is charged round-trip at $0.72/km. Staff travel time is included. Anchoring for non-grass surfaces confirmed after setup review. Final logistics reviewed after booking.</span>" +
     "</span></td><td id='nk-setup-val'>Enter event address below</td></tr>" +
     "<tr><td>Event attendant estimate</td><td id='nk-attendant-val'>—</td></tr>" +
     "<tr class='total'><td>Estimated total</td><td id='nk-total-val'>" + escHtml(formatMoney(subtotal)) + "</td></tr>";
@@ -847,7 +849,7 @@ function makeFormSection(items, stats) {
       const staffFee   = Math.round(billableHr * TRAVEL_RATE * 100) / 100;
       deliveryCost     = Math.round((distFee + staffFee) * 100) / 100;
       const fmtHr      = parseFloat(billableHr.toFixed(2)).toString();
-      deliverySubText  = "Distance: " + km.toFixed(1) + " km • Est. round-trip travel: " + fmtHr + " hr";
+      deliverySubText  = "Includes delivery, setup, and staff travel.";
     }
 
     // ── Combined display ──────────────────────────────────────────
@@ -867,12 +869,10 @@ function makeFormSection(items, stats) {
         let mainText, subText;
         if (sandbags > 0) {
           mainText = "$" + combined.toFixed(2) + " est.";
-          const parts = [deliveryText, formatMoney(sandbags) + " anchoring (" + sandbagNote + ")"];
-          if (deliverySubText) parts.push(deliverySubText);
-          subText = parts.join(" • ");
+          subText  = deliveryText + " • " + formatMoney(sandbags) + " anchoring (" + sandbagNote + ")";
         } else if (sandbagManual) {
-          mainText = deliveryText + " est. + anchoring (manual review)";
-          subText  = deliverySubText;
+          mainText = deliveryCost === 0 ? "Free (within 15 km)" : "$" + deliveryCost.toFixed(2) + " est.";
+          subText  = (deliverySubText ? deliverySubText + " " : "") + "Anchoring confirmed after setup review.";
         } else {
           mainText = deliveryCost === 0 ? "Free (within 15 km)" : "$" + deliveryCost.toFixed(2) + " est.";
           subText  = deliverySubText || sandbagNote;
