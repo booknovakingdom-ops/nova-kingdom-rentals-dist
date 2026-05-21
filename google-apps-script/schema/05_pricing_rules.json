@@ -1,0 +1,94 @@
+{
+  "tab_name": "Config_PricingRules",
+  "description": "All fee and discount rules evaluated by QuoteEngine. Rules are ordered by priority — lower number = evaluated first. QuoteEngine applies ALL matching rules in priority order.",
+  "version_controlled": true,
+  "columns": [
+    { "name": "rule_id",           "type": "STRING",  "required": true,  "description": "Unique rule ID. Format: {tenant_id}-PR-{NNN}" },
+    { "name": "tenant_id",         "type": "STRING",  "required": true,  "description": "Tenant this rule applies to" },
+    { "name": "rule_type",         "type": "ENUM",    "required": true,  "description": "travel | extension | surcharge | deposit | attendant | damage | discount", "enum": ["travel", "extension", "surcharge", "deposit", "attendant", "damage", "discount"] },
+    { "name": "rule_name",         "type": "STRING",  "required": true,  "description": "Human-readable rule name" },
+    { "name": "trigger_field",     "type": "STRING",  "required": false, "description": "Quote field that triggers this rule (e.g. 'distance_km', 'payment_method', 'discount_pct')" },
+    { "name": "trigger_operator",  "type": "ENUM",    "required": false, "description": "gt | gte | lt | lte | eq | in | always", "enum": ["gt", "gte", "lt", "lte", "eq", "in", "always"] },
+    { "name": "trigger_value",     "type": "STRING",  "required": false, "description": "Value to compare against. Comma-separated for 'in' operator. Null for 'always'" },
+    { "name": "calc_type",         "type": "ENUM",    "required": true,  "description": "flat | percent | per_unit_over_threshold", "enum": ["flat", "percent", "per_unit_over_threshold"] },
+    { "name": "calc_value",        "type": "NUMBER",  "required": true,  "description": "Amount or rate. For percent: decimal (0.05 = 5%). For per_unit_over_threshold: fee per unit" },
+    { "name": "calc_basis",        "type": "STRING",  "required": false, "description": "What the calc_value is applied to. E.g. 'quote_total', 'chargeable_km', 'hours'" },
+    { "name": "threshold_value",   "type": "NUMBER",  "required": false, "description": "For per_unit_over_threshold: the threshold. E.g. 15 for free_km" },
+    { "name": "applies_to",        "type": "STRING",  "required": false, "description": "Null = all units. Comma-separated unit_ids or package_ids to restrict" },
+    { "name": "requires_approval", "type": "BOOLEAN", "required": true,  "description": "If true, applying this rule requires owner approval" },
+    { "name": "priority",          "type": "INTEGER", "required": true,  "description": "Evaluation order. Lower = evaluated first" },
+    { "name": "status",            "type": "ENUM",    "required": true,  "description": "active | archived", "enum": ["active", "archived"] },
+    { "name": "version",           "type": "INTEGER", "required": true,  "description": "Row version number" },
+    { "name": "effective_from",    "type": "DATE",    "required": true,  "description": "Date this version became effective (YYYY-MM-DD)" },
+    { "name": "effective_to",      "type": "DATE",    "required": false, "description": "Null = currently active" },
+    { "name": "changed_by",        "type": "STRING",  "required": true,  "description": "Who made this change" },
+    { "name": "changed_at",        "type": "DATETIME","required": true,  "description": "ISO timestamp of change" }
+  ],
+  "nkr_seed_data": [
+    {
+      "rule_id": "nkr-PR-001", "tenant_id": "nkr",
+      "rule_type": "travel", "rule_name": "Travel Fee — Per km over 15",
+      "trigger_field": "distance_km", "trigger_operator": "gt", "trigger_value": "15",
+      "calc_type": "per_unit_over_threshold", "calc_value": 0.72, "calc_basis": "chargeable_km", "threshold_value": 15,
+      "applies_to": null, "requires_approval": false, "priority": 10,
+      "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "rule_id": "nkr-PR-002", "tenant_id": "nkr",
+      "rule_type": "extension", "rule_name": "Booking Extension Fee",
+      "trigger_field": "extension_requested", "trigger_operator": "eq", "trigger_value": "true",
+      "calc_type": "flat", "calc_value": 60, "calc_basis": null, "threshold_value": null,
+      "applies_to": null, "requires_approval": false, "priority": 20,
+      "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "rule_id": "nkr-PR-003", "tenant_id": "nkr",
+      "rule_type": "surcharge", "rule_name": "Credit Card Processing Surcharge",
+      "trigger_field": "payment_method", "trigger_operator": "in", "trigger_value": "credit_card,card",
+      "calc_type": "percent", "calc_value": 0.05, "calc_basis": "quote_total", "threshold_value": null,
+      "applies_to": null, "requires_approval": false, "priority": 30,
+      "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "rule_id": "nkr-PR-004", "tenant_id": "nkr",
+      "rule_type": "deposit", "rule_name": "Standard Deposit — 30%",
+      "trigger_field": null, "trigger_operator": "always", "trigger_value": null,
+      "calc_type": "percent", "calc_value": 0.30, "calc_basis": "quote_total_with_fees", "threshold_value": null,
+      "applies_to": null, "requires_approval": false, "priority": 40,
+      "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "rule_id": "nkr-PR-005", "tenant_id": "nkr",
+      "rule_type": "attendant", "rule_name": "Event Attendant — Per Hour",
+      "trigger_field": "attendant_hours", "trigger_operator": "gt", "trigger_value": "0",
+      "calc_type": "per_unit_over_threshold", "calc_value": 35, "calc_basis": "attendant_hours", "threshold_value": 0,
+      "applies_to": null, "requires_approval": false, "priority": 50,
+      "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "rule_id": "nkr-PR-006", "tenant_id": "nkr",
+      "rule_type": "damage", "rule_name": "Silly String Damage Fee",
+      "trigger_field": "silly_string_damage", "trigger_operator": "eq", "trigger_value": "true",
+      "calc_type": "flat", "calc_value": 500, "calc_basis": null, "threshold_value": null,
+      "applies_to": null, "requires_approval": false, "priority": 60,
+      "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "rule_id": "nkr-PR-007", "tenant_id": "nkr",
+      "rule_type": "discount", "rule_name": "Owner-Approved Discount — Max 10% Before Approval",
+      "trigger_field": "discount_pct", "trigger_operator": "gt", "trigger_value": "0",
+      "calc_type": "percent", "calc_value": null, "calc_basis": "quote_subtotal", "threshold_value": null,
+      "applies_to": null, "requires_approval": true,
+      "priority": 70,
+      "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00",
+      "_note": "calc_value is null because discount_pct is passed at runtime. Any discount > 0.10 sets requires_approval=true and blocks draft until owner approves."
+    }
+  ]
+}

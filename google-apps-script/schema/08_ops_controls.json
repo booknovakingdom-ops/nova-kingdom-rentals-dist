@@ -1,0 +1,115 @@
+{
+  "tab_name": "Config_OpsControls",
+  "description": "Runtime control flags for each tenant. Read at the start of every worker script execution. Change here to enable/disable features without code deployment.",
+  "version_controlled": false,
+  "notes": "Not version-controlled via effective_from/to — these are live operational toggles. Full change history is preserved in Ops_BookingLifecycleLog event type CONTROL_CHANGED.",
+  "columns": [
+    { "name": "control_id",    "type": "STRING",  "required": true,  "description": "Unique control ID. Format: {tenant_id}-OC-{NNN}" },
+    { "name": "tenant_id",     "type": "STRING",  "required": true,  "description": "Tenant this control applies to" },
+    { "name": "control_key",   "type": "STRING",  "required": true,  "description": "Machine-readable key used in code (e.g. 'simulation_mode')" },
+    { "name": "control_value", "type": "STRING",  "required": true,  "description": "String value. Code parses to correct type per data_type." },
+    { "name": "data_type",     "type": "ENUM",    "required": true,  "description": "boolean | string | number | json", "enum": ["boolean", "string", "number", "json"] },
+    { "name": "description",   "type": "STRING",  "required": true,  "description": "What this control does and when to change it" },
+    { "name": "status",        "type": "ENUM",    "required": true,  "description": "active | disabled", "enum": ["active", "disabled"] },
+    { "name": "changed_by",    "type": "STRING",  "required": true,  "description": "Who last changed this value" },
+    { "name": "changed_at",    "type": "DATETIME","required": true,  "description": "ISO timestamp of last change" }
+  ],
+  "nkr_seed_data": [
+    {
+      "control_id": "nkr-OC-001", "tenant_id": "nkr",
+      "control_key": "simulation_mode",
+      "control_value": "true",
+      "data_type": "boolean",
+      "description": "When true: all writes go to Sim_ prefixed tabs, no Gmail drafts created, no Calendar events. Set to false only after full simulation testing passes.",
+      "status": "active", "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "control_id": "nkr-OC-002", "tenant_id": "nkr",
+      "control_key": "auto_draft_enabled",
+      "control_value": "false",
+      "data_type": "boolean",
+      "description": "Master switch for AI draft creation. false = system classifies and logs only, no drafts created. NEVER set auto_send_enabled — drafts only.",
+      "status": "active", "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "control_id": "nkr-OC-003", "tenant_id": "nkr",
+      "control_key": "ai_provider",
+      "control_value": "anthropic",
+      "data_type": "string",
+      "description": "AI provider used by worker scripts. Only 'anthropic' is supported. Never 'openai' — old system broke due to OpenAI JSON output failures.",
+      "status": "active", "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "control_id": "nkr-OC-004", "tenant_id": "nkr",
+      "control_key": "ai_model_classify",
+      "control_value": "claude-haiku-4-5-20251001",
+      "data_type": "string",
+      "description": "Claude model for AI Call #1 (intent classification + readiness). Use Haiku for speed and cost.",
+      "status": "active", "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "control_id": "nkr-OC-005", "tenant_id": "nkr",
+      "control_key": "ai_model_draft",
+      "control_value": "claude-sonnet-4-6",
+      "data_type": "string",
+      "description": "Claude model for AI Call #2 (reply draft generation). Use Sonnet for quality.",
+      "status": "active", "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "control_id": "nkr-OC-006", "tenant_id": "nkr",
+      "control_key": "confidence_threshold",
+      "control_value": "0.75",
+      "data_type": "number",
+      "description": "Minimum AI confidence score to allow draft creation. Below this → MANUAL_REVIEW. Adjust up if too many incorrect drafts.",
+      "status": "active", "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "control_id": "nkr-OC-007", "tenant_id": "nkr",
+      "control_key": "max_drafts_per_thread_per_day",
+      "control_value": "1",
+      "data_type": "number",
+      "description": "Maximum number of drafts the system will create for a single thread within a 24-hour window. Prevents reply storms.",
+      "status": "active", "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "control_id": "nkr-OC-008", "tenant_id": "nkr",
+      "control_key": "blocklist_enforced",
+      "control_value": "true",
+      "data_type": "boolean",
+      "description": "When true, Config_RiskRules blocklist rule (nkr-RR-007) is enforced. Never set to false.",
+      "status": "active", "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "control_id": "nkr-OC-009", "tenant_id": "nkr",
+      "control_key": "intake_script_enabled",
+      "control_value": "true",
+      "data_type": "boolean",
+      "description": "NK Quote Intake (Web3Forms processing) is live. Do not disable unless instructed by Harkirat.",
+      "status": "active", "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "control_id": "nkr-OC-010", "tenant_id": "nkr",
+      "control_key": "inbox_ai_enabled",
+      "control_value": "false",
+      "data_type": "boolean",
+      "description": "AI inbox processing (old bound script replacement). false = not yet deployed. Set true only after Phase 1b testing complete.",
+      "status": "active", "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "control_id": "nkr-OC-011", "tenant_id": "nkr",
+      "control_key": "booking_id_counter_tab",
+      "control_value": "System",
+      "data_type": "string",
+      "description": "Tab name where booking ID counter is stored (cell B2). Default: System. Must match live CRM.",
+      "status": "active", "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "control_id": "nkr-OC-012", "tenant_id": "nkr",
+      "control_key": "booking_id_prefix",
+      "control_value": "NK",
+      "data_type": "string",
+      "description": "Prefix for booking IDs (e.g. NK → NK-2026-016). Format: {prefix}-{YYYY}-{NNN}.",
+      "status": "active", "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    }
+  ]
+}

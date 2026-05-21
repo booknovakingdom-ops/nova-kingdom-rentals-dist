@@ -1,0 +1,113 @@
+{
+  "tab_name": "Config_RiskRules",
+  "description": "Rules evaluated post-AI-classification. Any matching rule can override the AI decision to MANUAL_REVIEW or ESCALATE. RiskEvaluator runs all active rules against the Context Bundle after AI Call #1.",
+  "version_controlled": true,
+  "columns": [
+    { "name": "rule_id",            "type": "STRING",  "required": true,  "description": "Unique rule ID. Format: {tenant_id}-RR-{NNN}" },
+    { "name": "tenant_id",          "type": "STRING",  "required": true,  "description": "Tenant this rule applies to" },
+    { "name": "rule_name",          "type": "STRING",  "required": true,  "description": "Short descriptive rule name" },
+    { "name": "condition_field",    "type": "STRING",  "required": true,  "description": "Field in Context Bundle or AI output to check (e.g. 'intent', 'email_body_contains', 'confidence')" },
+    { "name": "condition_operator", "type": "ENUM",    "required": true,  "description": "eq | in | contains | lt | lte | is_true | is_false", "enum": ["eq", "in", "contains", "lt", "lte", "is_true", "is_false"] },
+    { "name": "condition_value",    "type": "STRING",  "required": false, "description": "Value to match. Comma-separated for 'in'. Null for is_true/is_false." },
+    { "name": "risk_action",        "type": "ENUM",    "required": true,  "description": "manual_review | escalate | no_draft | flag_only", "enum": ["manual_review", "escalate", "no_draft", "flag_only"] },
+    { "name": "severity",           "type": "ENUM",    "required": true,  "description": "low | medium | high | critical", "enum": ["low", "medium", "high", "critical"] },
+    { "name": "reason",             "type": "STRING",  "required": true,  "description": "Explanation written to Manual Review log and trace" },
+    { "name": "notify_owner",       "type": "BOOLEAN", "required": true,  "description": "If true, owner is notified immediately (future: push notification or email)" },
+    { "name": "status",             "type": "ENUM",    "required": true,  "description": "active | archived", "enum": ["active", "archived"] },
+    { "name": "version",            "type": "INTEGER", "required": true,  "description": "Row version number" },
+    { "name": "effective_from",     "type": "DATE",    "required": true,  "description": "Date this version became effective (YYYY-MM-DD)" },
+    { "name": "effective_to",       "type": "DATE",    "required": false, "description": "Null = currently active" },
+    { "name": "changed_by",         "type": "STRING",  "required": true,  "description": "Who made this change" },
+    { "name": "changed_at",         "type": "DATETIME","required": true,  "description": "ISO timestamp of change" }
+  ],
+  "nkr_seed_data": [
+    {
+      "rule_id": "nkr-RR-001", "tenant_id": "nkr",
+      "rule_name": "Injury Incident Detected",
+      "condition_field": "intent", "condition_operator": "eq", "condition_value": "injury_incident",
+      "risk_action": "escalate", "severity": "critical", "reason": "Injury incident — Harkirat must respond personally. Insurance must be notified within 24 hrs.",
+      "notify_owner": true, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "rule_id": "nkr-RR-002", "tenant_id": "nkr",
+      "rule_name": "Legal Threat Detected",
+      "condition_field": "intent", "condition_operator": "eq", "condition_value": "legal_threat",
+      "risk_action": "escalate", "severity": "critical", "reason": "Legal language detected — no automated response. Harkirat only. Do not admit fault in writing.",
+      "notify_owner": true, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "rule_id": "nkr-RR-003", "tenant_id": "nkr",
+      "rule_name": "Abusive Message",
+      "condition_field": "intent", "condition_operator": "eq", "condition_value": "abusive",
+      "risk_action": "manual_review", "severity": "high", "reason": "Abusive language — Harkirat reviews before any response.",
+      "notify_owner": true, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "rule_id": "nkr-RR-004", "tenant_id": "nkr",
+      "rule_name": "Cancellation Request",
+      "condition_field": "intent", "condition_operator": "eq", "condition_value": "cancellation_request",
+      "risk_action": "manual_review", "severity": "high", "reason": "Cancellation — deposit policy and owner decision required before responding.",
+      "notify_owner": true, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "rule_id": "nkr-RR-005", "tenant_id": "nkr",
+      "rule_name": "Discount Negotiation",
+      "condition_field": "intent", "condition_operator": "eq", "condition_value": "negotiation_or_discount",
+      "risk_action": "manual_review", "severity": "medium", "reason": "Discount request — any discount over 10% requires owner approval.",
+      "notify_owner": false, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "rule_id": "nkr-RR-006", "tenant_id": "nkr",
+      "rule_name": "Low AI Confidence",
+      "condition_field": "confidence", "condition_operator": "lt", "condition_value": "0.75",
+      "risk_action": "manual_review", "severity": "medium", "reason": "AI classification confidence below threshold — human review required.",
+      "notify_owner": false, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "rule_id": "nkr-RR-007", "tenant_id": "nkr",
+      "rule_name": "Blocklisted Sender",
+      "condition_field": "sender_email", "condition_operator": "in", "condition_value": "smilesandchucklesbrookfield@gmail.com",
+      "risk_action": "no_draft", "severity": "critical", "reason": "Sender is on permanent blocklist — no contact, no draft, no response.",
+      "notify_owner": false, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "rule_id": "nkr-RR-008", "tenant_id": "nkr",
+      "rule_name": "Out-of-Office Autoreply",
+      "condition_field": "intent", "condition_operator": "eq", "condition_value": "out_of_office_autoreply",
+      "risk_action": "no_draft", "severity": "low", "reason": "Autoreply detected — no response needed.",
+      "notify_owner": false, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "rule_id": "nkr-RR-009", "tenant_id": "nkr",
+      "rule_name": "Last Sender Is Business",
+      "condition_field": "last_sender_is_business", "condition_operator": "is_true", "condition_value": null,
+      "risk_action": "no_draft", "severity": "low", "reason": "Last message in thread was sent by Harkirat — no reply needed.",
+      "notify_owner": false, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "rule_id": "nkr-RR-010", "tenant_id": "nkr",
+      "rule_name": "Draft Contains Ungrounded Price",
+      "condition_field": "draft_contains_unlisted_price", "condition_operator": "is_true", "condition_value": null,
+      "risk_action": "manual_review", "severity": "high", "reason": "Draft contains a $ amount not in the approved Price Block — possible AI price hallucination.",
+      "notify_owner": false, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "rule_id": "nkr-RR-011", "tenant_id": "nkr",
+      "rule_name": "Do Not Contact Flag",
+      "condition_field": "customer_do_not_contact", "condition_operator": "is_true", "condition_value": null,
+      "risk_action": "no_draft", "severity": "critical", "reason": "Customer is marked Do Not Contact in CRM — no response of any kind.",
+      "notify_owner": false, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "tab_name": "Ops_BookingLifecycleLog",
+  "description": "Append-only state transition log for every booking. One row per state change. Enables full audit trail of how each booking progressed. Also captures asset status changes and config control changes.",
+  "version_controlled": false,
+  "state_machine": {
+    "states": ["new", "engaged", "quoted", "negotiating", "booked", "paid", "completed", "dormant", "dnc", "cancelled"],
+    "valid_transitions": {
+      "new":         ["engaged", "dormant", "dnc"],
+      "engaged":     ["quoted", "dormant", "dnc"],
+      "quoted":      ["negotiating", "booked", "dormant", "dnc"],
+      "negotiating": ["booked", "dormant", "dnc"],
+      "booked":      ["paid", "cancelled"],
+      "paid":        ["completed", "cancelled"],
+      "completed":   [],
+      "dormant":     ["engaged"],
+      "dnc":         [],
+      "cancelled":   []
+    },
+    "guards": {
+      "booked":    "deposit_received must be true",
+      "paid":      "balance_received must be true",
+      "completed": "event_date must be in the past",
+      "dnc":       "requires Harkirat approval or blocklist match"
+    }
+  },
+  "columns": [
+    { "name": "log_id",           "type": "STRING",  "required": true,  "description": "Unique log row ID. Format: BLL-{timestamp_ms}-{random_4}" },
+    { "name": "tenant_id",        "type": "STRING",  "required": true,  "description": "Tenant" },
+    { "name": "booking_id",       "type": "STRING",  "required": false, "description": "Booking ID if transition is booking-related. Null for customer-only or asset events." },
+    { "name": "customer_id",      "type": "STRING",  "required": false, "description": "Customer ID" },
+    { "name": "entity_type",      "type": "ENUM",    "required": true,  "description": "booking | customer | asset | config", "enum": ["booking", "customer", "asset", "config"] },
+    { "name": "entity_id",        "type": "STRING",  "required": true,  "description": "ID of the entity that transitioned (booking_id, customer_id, asset_id, or control_id)" },
+    { "name": "from_state",       "type": "STRING",  "required": false, "description": "Previous state. Null for initial creation event." },
+    { "name": "to_state",         "type": "STRING",  "required": true,  "description": "New state after transition" },
+    { "name": "transition_event", "type": "STRING",  "required": true,  "description": "What triggered the transition (e.g. 'DEPOSIT_RECEIVED', 'MANUAL_OVERRIDE', 'AI_CLASSIFICATION')" },
+    { "name": "triggered_by",     "type": "STRING",  "required": true,  "description": "Who/what triggered it: 'system', 'harkirat', worker script name, or 'ai'" },
+    { "name": "notes",            "type": "STRING",  "required": false, "description": "Optional context about why this transition occurred" },
+    { "name": "trace_id",         "type": "STRING",  "required": false, "description": "Links to Ops_IdempotencyLog.trace_id for the same processing run" },
+    { "name": "timestamp",        "type": "DATETIME","required": true,  "description": "ISO timestamp when transition occurred" }
+  ],
+  "nkr_seed_data": [],
+  "setup_notes": "Tab starts empty. Rows appended by BookingLifecycle module. Never manually edit. Human overrides should still be logged with triggered_by = 'harkirat' and a note."
+}

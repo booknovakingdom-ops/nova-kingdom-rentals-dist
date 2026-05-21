@@ -1,0 +1,114 @@
+{
+  "tab_name": "Config_InventoryUnits",
+  "description": "Catalogue of rentable unit types. One row per unit type. Does not track individual physical copies (see Config_PhysicalAssets).",
+  "version_controlled": true,
+  "columns": [
+    { "name": "unit_id",           "type": "STRING",  "required": true,  "description": "Unique unit type ID. Format: {tenant_id}-U-{NNN}" },
+    { "name": "tenant_id",         "type": "STRING",  "required": true,  "description": "Tenant this unit belongs to" },
+    { "name": "unit_name",         "type": "STRING",  "required": true,  "description": "Display name shown in quotes and comms" },
+    { "name": "unit_type",         "type": "ENUM",    "required": true,  "description": "combo | slide | obstacle | axe | game | other", "enum": ["combo", "slide", "obstacle", "axe", "game", "other"] },
+    { "name": "base_price",        "type": "NUMBER",  "required": true,  "description": "Standard rental price for default duration" },
+    { "name": "default_hours",     "type": "NUMBER",  "required": true,  "description": "Duration included in base_price" },
+    { "name": "min_age",           "type": "INTEGER", "required": false, "description": "Minimum recommended rider age" },
+    { "name": "max_age",           "type": "INTEGER", "required": false, "description": "Maximum recommended rider age" },
+    { "name": "space_length_ft",   "type": "NUMBER",  "required": false, "description": "Required setup space length in feet" },
+    { "name": "space_width_ft",    "type": "NUMBER",  "required": false, "description": "Required setup space width in feet" },
+    { "name": "space_height_ft",   "type": "NUMBER",  "required": false, "description": "Required clearance height in feet" },
+    { "name": "power_required",    "type": "BOOLEAN", "required": true,  "description": "Whether blower/power outlet is required" },
+    { "name": "setup_time_min",    "type": "INTEGER", "required": false, "description": "Estimated setup time in minutes" },
+    { "name": "teardown_time_min", "type": "INTEGER", "required": false, "description": "Estimated teardown time in minutes" },
+    { "name": "description",       "type": "STRING",  "required": false, "description": "Short customer-facing description" },
+    { "name": "tags",              "type": "STRING",  "required": false, "description": "Comma-separated tags (e.g. toddler,combo,slide)" },
+    { "name": "availability_note", "type": "STRING",  "required": false, "description": "Freeform note on availability (e.g. 'Arriving June 2026')" },
+    { "name": "status",            "type": "ENUM",    "required": true,  "description": "active | coming_soon | retired", "enum": ["active", "coming_soon", "retired"] },
+    { "name": "version",           "type": "INTEGER", "required": true,  "description": "Row version number" },
+    { "name": "effective_from",    "type": "DATE",    "required": true,  "description": "Date this version became effective (YYYY-MM-DD)" },
+    { "name": "effective_to",      "type": "DATE",    "required": false, "description": "Date this version expired. Null = currently active" },
+    { "name": "changed_by",        "type": "STRING",  "required": true,  "description": "Who made this change" },
+    { "name": "changed_at",        "type": "DATETIME","required": true,  "description": "ISO timestamp of change" }
+  ],
+  "nkr_seed_data": [
+    {
+      "unit_id": "nkr-U-001", "tenant_id": "nkr", "unit_name": "Crown Rush 42",
+      "unit_type": "combo", "base_price": 450, "default_hours": 4,
+      "min_age": 3, "max_age": 15, "space_length_ft": 42, "space_width_ft": 18, "space_height_ft": 20,
+      "power_required": true, "setup_time_min": 20, "teardown_time_min": 15,
+      "description": "42 ft combo with slide and bounce area — biggest unit in the fleet",
+      "tags": "combo,slide,large", "availability_note": "Arriving June 2026",
+      "status": "coming_soon", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "unit_id": "nkr-U-002", "tenant_id": "nkr", "unit_name": "Crown Quest",
+      "unit_type": "combo", "base_price": 240, "default_hours": 4,
+      "min_age": 3, "max_age": 12, "space_length_ft": null, "space_width_ft": null, "space_height_ft": null,
+      "power_required": true, "setup_time_min": 20, "teardown_time_min": 15,
+      "description": "Classic combo bouncer with slide", "tags": "combo,slide",
+      "availability_note": null, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "unit_id": "nkr-U-003", "tenant_id": "nkr", "unit_name": "Crown Cascade",
+      "unit_type": "slide", "base_price": 260, "default_hours": 4,
+      "min_age": 4, "max_age": 15, "space_length_ft": null, "space_width_ft": null, "space_height_ft": null,
+      "power_required": true, "setup_time_min": 20, "teardown_time_min": 15,
+      "description": "Large water or dry slide", "tags": "slide,water",
+      "availability_note": null, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "unit_id": "nkr-U-004", "tenant_id": "nkr", "unit_name": "Crown Climber",
+      "unit_type": "obstacle", "base_price": 280, "default_hours": 4,
+      "min_age": 4, "max_age": 15, "space_length_ft": null, "space_width_ft": null, "space_height_ft": null,
+      "power_required": true, "setup_time_min": 20, "teardown_time_min": 15,
+      "description": "Obstacle course with climbing elements", "tags": "obstacle,climbing",
+      "availability_note": null, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "unit_id": "nkr-U-005", "tenant_id": "nkr", "unit_name": "Crown Dino Combo",
+      "unit_type": "combo", "base_price": 210, "default_hours": 4,
+      "min_age": 2, "max_age": 8, "space_length_ft": null, "space_width_ft": null, "space_height_ft": null,
+      "power_required": true, "setup_time_min": 15, "teardown_time_min": 15,
+      "description": "Dinosaur-themed combo — best for toddlers and young kids", "tags": "combo,toddler,dino",
+      "availability_note": null, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "unit_id": "nkr-U-006", "tenant_id": "nkr", "unit_name": "Crown Island Combo",
+      "unit_type": "combo", "base_price": 310, "default_hours": 4,
+      "min_age": 3, "max_age": 12, "space_length_ft": null, "space_width_ft": null, "space_height_ft": null,
+      "power_required": true, "setup_time_min": 20, "teardown_time_min": 15,
+      "description": "Tropical island theme combo with slide", "tags": "combo,slide,tropical",
+      "availability_note": null, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "unit_id": "nkr-U-007", "tenant_id": "nkr", "unit_name": "Crown Axe Challenge",
+      "unit_type": "axe", "base_price": 180, "default_hours": 4,
+      "min_age": 10, "max_age": null, "space_length_ft": null, "space_width_ft": null, "space_height_ft": null,
+      "power_required": false, "setup_time_min": 10, "teardown_time_min": 10,
+      "description": "Inflatable axe throwing game — adult and teen events", "tags": "axe,teen,adult,game",
+      "availability_note": null, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "unit_id": "nkr-U-008", "tenant_id": "nkr", "unit_name": "Crown Kick Darts",
+      "unit_type": "game", "base_price": 160, "default_hours": 4,
+      "min_age": 5, "max_age": null, "space_length_ft": null, "space_width_ft": null, "space_height_ft": null,
+      "power_required": false, "setup_time_min": 10, "teardown_time_min": 10,
+      "description": "Inflatable kick darts game — all ages", "tags": "game,soccer,darts",
+      "availability_note": null, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    },
+    {
+      "unit_id": "nkr-U-009", "tenant_id": "nkr", "unit_name": "Lawn Games Full Set",
+      "unit_type": "game", "base_price": 250, "default_hours": 4,
+      "min_age": null, "max_age": null, "space_length_ft": null, "space_width_ft": null, "space_height_ft": null,
+      "power_required": false, "setup_time_min": 20, "teardown_time_min": 20,
+      "description": "Full set of 12 lawn games — cornhole, bocce, giant Jenga, and more", "tags": "lawn,games,all-ages,set",
+      "availability_note": null, "status": "active", "version": 1, "effective_from": "2026-05-20", "effective_to": null,
+      "changed_by": "Harkirat Singh", "changed_at": "2026-05-20T00:00:00"
+    }
+  ]
+}

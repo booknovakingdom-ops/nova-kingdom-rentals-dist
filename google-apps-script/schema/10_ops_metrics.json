@@ -1,0 +1,41 @@
+{
+  "tab_name": "Ops_Metrics",
+  "description": "Append-only event log for all measurable system events. Powers weekly business intelligence reports. Never update or delete rows — append only.",
+  "version_controlled": false,
+  "columns": [
+    { "name": "metric_id",      "type": "STRING",  "required": true,  "description": "Unique metric row ID. Format: MET-{timestamp_ms}-{random_4}" },
+    { "name": "tenant_id",      "type": "STRING",  "required": true,  "description": "Tenant" },
+    { "name": "event_type",     "type": "STRING",  "required": true,  "description": "Type of event being logged (see event_type_registry below)" },
+    { "name": "booking_id",     "type": "STRING",  "required": false, "description": "Related booking ID if applicable" },
+    { "name": "customer_id",    "type": "STRING",  "required": false, "description": "Related customer ID if applicable" },
+    { "name": "worker_script",  "type": "STRING",  "required": true,  "description": "Which worker script emitted this event" },
+    { "name": "value",          "type": "NUMBER",  "required": false, "description": "Numeric value associated with event (e.g. quote amount, distance km)" },
+    { "name": "unit",           "type": "STRING",  "required": false, "description": "Unit of value (e.g. 'CAD', 'km', 'hours', 'count')" },
+    { "name": "metadata",       "type": "STRING",  "required": false, "description": "JSON string with additional event context" },
+    { "name": "trace_id",       "type": "STRING",  "required": false, "description": "Links to Ops_IdempotencyLog.trace_id for the same processing run" },
+    { "name": "timestamp",      "type": "DATETIME","required": true,  "description": "ISO timestamp when event occurred" }
+  ],
+  "event_type_registry": [
+    "INQUIRY_RECEIVED",
+    "QUOTE_GENERATED",
+    "DRAFT_CREATED",
+    "DRAFT_SKIPPED",
+    "MANUAL_REVIEW_FLAGGED",
+    "DEPOSIT_RECEIVED",
+    "BOOKING_CONFIRMED",
+    "BOOKING_CANCELLED",
+    "EVENT_COMPLETED",
+    "REVIEW_REQUESTED",
+    "RISK_RULE_TRIGGERED",
+    "IDEMPOTENCY_HIT",
+    "AI_CALL_CLASSIFY",
+    "AI_CALL_DRAFT",
+    "LOCK_ACQUIRED",
+    "LOCK_TIMEOUT",
+    "ERROR",
+    "CONTROL_CHANGED",
+    "SIMULATION_RUN"
+  ],
+  "nkr_seed_data": [],
+  "setup_notes": "Tab starts empty. All rows appended by MetricsLogger module. Never manually edit. For business reports, filter by tenant_id = 'nkr' and date range."
+}
