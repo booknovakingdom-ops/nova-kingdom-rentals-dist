@@ -1,0 +1,179 @@
+/* Nova Kingdom Rentals — Mobile Navigation
+   CSS-only approach. The hamburger button and drawer are injected directly
+   into <body> (outside React's #root) via the HTML template, so React
+   never touches them. A CSS checkbox drives the open/closed state.
+   Desktop (≥980px): existing React nav visible, these elements hidden.
+   Mobile (<980px): React CTA hidden via CSS, checkbox-driven drawer shown.
+*/
+
+/* ── Hidden checkbox state driver ─────────────────────────────── */
+.mobile-menu-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+  margin: 0;
+}
+
+/* ── Hamburger label (the visible button) ──────────────────────── */
+.mobile-menu-label {
+  display: none; /* hidden on desktop; shown on mobile below */
+  position: fixed;
+  top: 9px;
+  right: 12px;
+  z-index: 200;
+  cursor: pointer;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 8px;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  min-height: 42px;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  transition: background 0.15s;
+}
+.mobile-menu-label:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Icon swap: show hamburger by default, X when open */
+.mnav-icon-close { display: none; }
+
+/* ── Mobile nav drawer ─────────────────────────────────────────── */
+.mobile-nav-drawer {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 199;
+  background: #050814;
+  border-bottom: 2px solid rgba(240, 209, 106, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  max-height: 100dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding-top: 62px; /* clears the sticky React header */
+  transform: translateY(-110%);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  visibility: hidden;
+}
+.mobile-nav-drawer a {
+  display: flex;
+  align-items: center;
+  padding: 15px 22px;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  min-height: 52px;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.12s;
+}
+.mobile-nav-drawer a:last-child {
+  border-bottom: none;
+}
+.mobile-nav-drawer a:active {
+  background: rgba(255, 255, 255, 0.07);
+}
+/* Gold CTA row inside drawer */
+.mobile-nav-drawer .mobile-nav-cta {
+  margin: 14px 18px 18px;
+  padding: 14px 22px;
+  border-radius: 999px;
+  border-bottom: none;
+  background: linear-gradient(135deg, #fff0a8, #f0d16a, #c9a227);
+  color: #150f05;
+  font-weight: 900;
+  font-size: 1rem;
+  justify-content: center;
+  text-align: center;
+  min-height: 52px;
+  box-shadow: 0 10px 28px rgba(183, 124, 20, 0.3);
+}
+
+/* ── Backdrop ──────────────────────────────────────────────────── */
+.mobile-nav-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 198;
+  background: rgba(5, 8, 20, 0.5);
+  -webkit-tap-highlight-color: transparent;
+  cursor: default;
+}
+
+/* ── Open state — driven by #nk-mnav:checked ──────────────────── */
+#nk-mnav:checked ~ .mobile-menu-label .mnav-icon-open  { display: none;  }
+#nk-mnav:checked ~ .mobile-menu-label .mnav-icon-close { display: block; }
+
+#nk-mnav:checked ~ .mobile-nav-drawer {
+  transform: translateY(0);
+  pointer-events: auto;
+  visibility: visible;
+}
+
+#nk-mnav:checked ~ .mobile-nav-backdrop {
+  display: block;
+}
+
+/* ── Responsive switches ───────────────────────────────────────── */
+@media (max-width: 979px) {
+  /* Show hamburger label on mobile */
+  .mobile-menu-label {
+    display: flex;
+  }
+
+  /* Hide the React-rendered header CTA — CSS only, React never touches this */
+  .header-inner > .header-cta {
+    display: none !important;
+  }
+
+  /* Tighten header padding on mobile */
+  .site-header {
+    padding-inline: clamp(12px, 3vw, 20px);
+  }
+}
+
+@media (min-width: 980px) {
+  /* Hide all mobile-nav elements on desktop */
+  .mobile-menu-label,
+  .mobile-nav-drawer,
+  .mobile-nav-backdrop {
+    display: none !important;
+  }
+}
+
+/* ── iPhone fine-tuning ────────────────────────────────────────── */
+@media (max-width: 430px) {
+  .mobile-menu-label {
+    top: 8px;
+    right: 10px;
+  }
+  .mobile-nav-drawer a {
+    padding: 14px 18px;
+    font-size: 0.97rem;
+  }
+}
+
+/* ── Safe area / notch support ─────────────────────────────────── */
+@media (max-width: 979px) {
+  .mobile-nav-drawer {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .nk-quote-bar {
+    bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  }
+  .assistant-widget {
+    bottom: calc(1.1rem + env(safe-area-inset-bottom, 0px));
+  }
+}

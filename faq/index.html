@@ -278,8 +278,36 @@
     <link rel="stylesheet" crossorigin href="/assets/index-hs8cTzG-.css?v=20260518-final">
     <link rel="stylesheet" href="/assets/package-details.css?v=20260518-final">
     <link rel="stylesheet" href="/assets/quote-cart.css?v=20260520-delivery-ui">
+    <link rel="stylesheet" href="/assets/mobile-nav.css?v=20260521">
+    <script defer src="/assets/mobile-nav.js?v=20260521"></script>
   </head>
   <body>
+    <!--
+      Mobile navigation — checkbox/CSS-driven, entirely outside React's
+      #root so React never touches these elements. The CSS checkbox
+      (#nk-mnav:checked ~ *) controls open/closed state without JS.
+    -->
+    <input type="checkbox" id="nk-mnav" class="mobile-menu-input" aria-hidden="true">
+    <label for="nk-mnav" class="mobile-menu-label" aria-label="Open navigation menu">
+      <svg class="mnav-icon-open" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <rect y="3"    width="22" height="2.4" rx="1.2" fill="currentColor"/>
+        <rect y="9.8"  width="22" height="2.4" rx="1.2" fill="currentColor"/>
+        <rect y="16.6" width="22" height="2.4" rx="1.2" fill="currentColor"/>
+      </svg>
+      <svg class="mnav-icon-close" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <line x1="3" y1="3" x2="19" y2="19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+        <line x1="19" y1="3" x2="3"  y2="19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      </svg>
+    </label>
+    <nav id="nk-mobile-nav" class="mobile-nav-drawer" aria-label="Mobile navigation">
+      <a href="/">Home</a>
+      <a href="/rentals">Rentals &amp; Inflatables</a>
+      <a href="/packages">Packages</a>
+      <a href="/lawn-games">Lawn Games</a>
+      <a href="/rentals/360-video-booth">360 Video Booth</a>
+      <a href="/contact" class="mobile-nav-cta">Contact / Check Availability</a>
+    </nav>
+    <label for="nk-mnav" class="mobile-nav-backdrop" aria-hidden="true"></label>
     <div id="root"></div>
   </body>
 </html>

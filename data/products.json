@@ -1,5 +1,54 @@
 [
   {
+    "id": "360-video-booth",
+    "slug": "360-video-booth",
+    "name": "360 Video Booth",
+    "tagline": "Spin the Moment, Keep It Forever",
+    "category": "Event Add-On",
+    "price": "From $199",
+    "status": "Available Now",
+    "image": "/images/360-video-booth.jpg",
+    "metaTitle": "360 Video Booth Rental Nova Scotia | Nova Kingdom Rentals",
+    "metaDescription": "Add a 360 Video Booth to your Nova Scotia event with Nova Kingdom Rentals. Available as a standalone rental or discounted add-on with inflatable and event packages.",
+    "shortDescription": "360 Video Booth rental for birthdays, schools, festivals, fundraisers, corporate events, weddings, and community celebrations in Nova Scotia.",
+    "fullDescription": "The 360 Video Booth adds a fun, engaging attraction to any event. Guests step onto the rotating platform, strike a pose, and capture slow-motion video from every angle. Available as a standalone rental or at a discounted rate when added to any inflatable or event package.\n\n360 Video Booth includes booth setup only. Staff/operator, custom editing, and custom theme props are not included unless quoted separately. Custom theme props may be arranged in advance for $10 per theme.",
+    "bestFor": [
+      "Birthdays and milestone celebrations",
+      "School events and fun days",
+      "Festivals and fairs",
+      "Fundraisers",
+      "Corporate events",
+      "Weddings",
+      "Community celebrations"
+    ],
+    "features": [
+      "Standalone or discounted add-on with any package",
+      "Standalone: 1 hour $249 | 2 hours $349 | Extra time $100/hr",
+      "Add-on with any package: 1 hour $199 | 2 hours $269 | Extra time $70/hr",
+      "Basic props may be included when available",
+      "Custom theme props can be arranged in advance for $10 per theme",
+      "Booth setup included — staff/operator quoted separately if available"
+    ],
+    "setupNotes": [
+      "360 Video Booth includes booth setup only",
+      "Staff/operator not included — can be requested separately if available",
+      "Custom editing not included",
+      "Custom theme props not included unless arranged in advance ($10 per theme)",
+      "Clear level setup area required",
+      "Power access required",
+      "Customer must request theme props before the event date"
+    ],
+    "duration": "1 hour minimum",
+    "wetUse": false,
+    "specs": [
+      "Standalone: 1 hour $249 | 2 hours $349 | Extra time $100/hr",
+      "Add-on with any package: 1 hour $199 | 2 hours $269 | Extra time $70/hr",
+      "Custom theme props: $10 per theme (must be requested before event date)",
+      "Includes booth setup only",
+      "Staff/operator and custom editing quoted separately if requested"
+    ]
+  },
+  {
     "id": "crown-island-combo",
     "slug": "crown-island-combo",
     "name": "Crown Island Combo",

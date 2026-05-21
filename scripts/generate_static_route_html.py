@@ -252,8 +252,8 @@ def route_metadata(
     for product in products:
         path = f"/rentals/{product['slug']}"
         routes[path] = {
-            "title": f"{product['name']} | Nova Kingdom Rentals",
-            "description": product.get("shortDescription") or product.get("fullDescription") or f"{product['name']} rental from Nova Kingdom Rentals.",
+            "title": product.get("metaTitle") or f"{product['name']} | Nova Kingdom Rentals",
+            "description": product.get("metaDescription") or product.get("shortDescription") or product.get("fullDescription") or f"{product['name']} rental from Nova Kingdom Rentals.",
             "image": product["image"],
             "schema": [breadcrumb_schema(path, product["name"]), product_schema(product)],
         }
