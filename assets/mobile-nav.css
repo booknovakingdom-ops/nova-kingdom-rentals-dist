@@ -177,3 +177,10 @@
     bottom: calc(1.1rem + env(safe-area-inset-bottom, 0px));
   }
 }
+
+/* ── Mobile bottom bar safe-area fix — ensures fixed bottom buttons never overlap content ── */
+@media (max-width: 979px) {
+  body {
+    padding-bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+  }
+}
