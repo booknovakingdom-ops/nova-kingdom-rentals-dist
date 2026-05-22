@@ -20,10 +20,14 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 BASE_URL = "https://novakingdomrentals.com"
 GENERAL_IMAGE = "/images/packages/kingdom-deluxe-package.jpg"
-RENTALS_IMAGE = "/images/crown island combo.jpeg"
+RENTALS_IMAGE = "/images/crown-island-combo.jpeg"
 LAWN_IMAGE = "/images/lawn-games/cornhole.png"
 LOGO_IMAGE = "/images/nova-kingdom-rentals-logo.png"
 GENERATED_MARKER = "<!-- Generated static route HTML: do not edit by hand. Run scripts/generate_static_route_html.py. -->"
+
+# Bridgewater, Nova Scotia geo coordinates
+GEO_LAT = 44.3737
+GEO_LNG = -64.5207
 
 
 def load_json(path: str) -> Any:
@@ -53,6 +57,27 @@ def money_value(value: str | int | float | None) -> str | None:
     return cleaned or None
 
 
+def website_schema(site_info: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": f"{BASE_URL}/#website",
+        "url": f"{BASE_URL}/",
+        "name": site_info["businessName"],
+        "description": "Bouncy castle and inflatable rentals from Bridgewater, Nova Scotia. Water slides, interactive games, lawn games, 360 Video Booth, and party packages.",
+        "inLanguage": "en-CA",
+        "publisher": {"@id": f"{BASE_URL}/#organization"},
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": f"{BASE_URL}/rentals?q={{search_term_string}}",
+            },
+            "query-input": "required name=search_term_string",
+        },
+    }
+
+
 def business_schema(site_info: dict[str, Any], *, homepage: bool = False) -> dict[str, Any]:
     schema: dict[str, Any] = {
         "@context": "https://schema.org",
@@ -64,25 +89,54 @@ def business_schema(site_info: dict[str, Any], *, homepage: bool = False) -> dic
         "telephone": site_info.get("phone"),
         "email": site_info.get("email"),
         "image": absolute_url(RENTALS_IMAGE),
-        "logo": absolute_url(LOGO_IMAGE),
+        "logo": {
+            "@type": "ImageObject",
+            "@id": f"{BASE_URL}/#logo",
+            "url": absolute_url(LOGO_IMAGE),
+            "contentUrl": absolute_url(LOGO_IMAGE),
+            "caption": site_info["businessName"],
+        },
         "priceRange": "$$",
-        "description": "Bridgewater-based inflatable and party rental business offering bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages across the South Shore and Nova Scotia, with selected larger Maritimes / Atlantic Canada bookings by quote.",
+        "currenciesAccepted": "CAD",
+        "paymentAccepted": "Cash, e-Transfer, Deposit",
+        "description": "Bridgewater-based inflatable and party rental business offering bouncy castle rentals, water slides, interactive games, lawn games, 360 Video Booth, and party packages across the South Shore and Nova Scotia, with selected larger Maritimes / Atlantic Canada bookings by quote.",
         "address": {
             "@type": "PostalAddress",
+            "streetAddress": "Bridgewater",
             "addressLocality": "Bridgewater",
             "addressRegion": "Nova Scotia",
+            "postalCode": "B4V",
             "addressCountry": "CA",
         },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": GEO_LAT,
+            "longitude": GEO_LNG,
+        },
         "areaServed": [
-            {"@type": "Place", "name": name}
-            for name in [
-                "Bridgewater",
-                "South Shore",
-                "Nova Scotia",
-                "Maritimes",
-                "Atlantic Canada",
-            ]
+            {"@type": "City", "name": "Bridgewater", "containedInPlace": {"@type": "State", "name": "Nova Scotia"}},
+            {"@type": "Place", "name": "South Shore Nova Scotia"},
+            {"@type": "State", "name": "Nova Scotia"},
+            {"@type": "Place", "name": "Maritimes"},
+            {"@type": "Place", "name": "Atlantic Canada"},
         ],
+        "knowsAbout": [
+            "bouncy castle rentals",
+            "inflatable rentals",
+            "water slide rentals",
+            "interactive game rentals",
+            "lawn game rentals",
+            "360 video booth rental",
+            "party packages",
+            "school event rentals",
+            "community event rentals",
+            "festival inflatable rentals",
+        ],
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Nova Kingdom Rentals — Event Rental Catalogue",
+            "url": f"{BASE_URL}/rentals",
+        },
     }
     if homepage:
         schema["sameAs"] = [link["href"] for link in site_info.get("socialLinks", [])]
@@ -97,8 +151,21 @@ def organization_schema(site_info: dict[str, Any]) -> dict[str, Any]:
         "name": site_info["businessName"],
         "legalName": site_info.get("legalOwner"),
         "url": f"{BASE_URL}/",
-        "logo": absolute_url(LOGO_IMAGE),
+        "logo": {
+            "@type": "ImageObject",
+            "@id": f"{BASE_URL}/#logo",
+            "url": absolute_url(LOGO_IMAGE),
+            "contentUrl": absolute_url(LOGO_IMAGE),
+            "caption": site_info["businessName"],
+        },
         "email": site_info.get("email"),
+        "telephone": site_info.get("phone"),
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Bridgewater",
+            "addressRegion": "Nova Scotia",
+            "addressCountry": "CA",
+        },
         "sameAs": [link["href"] for link in site_info.get("socialLinks", [])],
     }
 
@@ -130,25 +197,109 @@ def faq_schema(faq_items: list[dict[str, str]] | list[tuple[str, str]]) -> dict[
     return {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": entities}
 
 
+def howto_schema() -> dict[str, Any]:
+    return {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "How to Book an Inflatable Rental from Nova Kingdom Rentals",
+        "description": "Book a bouncy castle, inflatable, lawn game, 360 Video Booth, or party package rental from Nova Kingdom Rentals in Bridgewater, Nova Scotia.",
+        "totalTime": "PT5M",
+        "supply": [
+            {"@type": "HowToSupply", "name": "Event date"},
+            {"@type": "HowToSupply", "name": "Event address"},
+            {"@type": "HowToSupply", "name": "Power access information"},
+        ],
+        "step": [
+            {
+                "@type": "HowToStep",
+                "position": 1,
+                "name": "Choose your rental or package",
+                "text": "Browse the lineup at novakingdomrentals.com/rentals or novakingdomrentals.com/packages. Pick the inflatable, lawn games, 360 Video Booth, or package that fits your event type, crowd size, and space.",
+                "url": f"{BASE_URL}/rentals",
+            },
+            {
+                "@type": "HowToStep",
+                "position": 2,
+                "name": "Send your event details",
+                "text": "Submit your event date, address, event type, product or package choice, number of guests, setup surface, and power or water access through the contact form at novakingdomrentals.com/contact.",
+                "url": f"{BASE_URL}/contact",
+            },
+            {
+                "@type": "HowToStep",
+                "position": 3,
+                "name": "Receive confirmation and pay deposit",
+                "text": "Nova Kingdom Rentals will review your request, confirm availability, travel cost, and setup suitability, then send pricing and deposit details. Your booking is confirmed only after deposit is received.",
+                "url": f"{BASE_URL}/contact",
+            },
+        ],
+    }
+
+
 def product_schema(product: dict[str, Any]) -> dict[str, Any]:
+    availability = (
+        "https://schema.org/InStock"
+        if product.get("status") == "Available Now"
+        else "https://schema.org/PreOrder"
+    )
     offer: dict[str, Any] = {
         "@type": "Offer",
         "priceCurrency": "CAD",
-        "availability": "https://schema.org/InStock" if product.get("status") == "Available Now" else "https://schema.org/PreOrder",
+        "availability": availability,
         "url": route_url(f"/rentals/{product['slug']}"),
+        "seller": {"@id": f"{BASE_URL}/#organization"},
+        "areaServed": [
+            {"@type": "State", "name": "Nova Scotia"},
+            {"@type": "Place", "name": "South Shore Nova Scotia"},
+        ],
     }
     price = money_value(product.get("price"))
     if price:
         offer["price"] = price
-    return {
+
+    schema: dict[str, Any] = {
         "@context": "https://schema.org",
         "@type": "Product",
         "name": product["name"],
-        "image": absolute_url(product["image"]),
+        "image": {
+            "@type": "ImageObject",
+            "url": absolute_url(product["image"]),
+            "contentUrl": absolute_url(product["image"]),
+            "name": f"{product['name']} — Nova Kingdom Rentals",
+        },
         "description": product.get("fullDescription") or product.get("shortDescription"),
-        "brand": {"@type": "Brand", "name": "Nova Kingdom Rentals"},
+        "brand": {
+            "@type": "Brand",
+            "name": "Nova Kingdom Rentals",
+            "@id": f"{BASE_URL}/#organization",
+        },
         "category": product.get("category"),
         "offers": offer,
+        "isRelatedTo": {"@id": f"{BASE_URL}/#localbusiness"},
+    }
+
+    # Add dimensions if available
+    if product.get("dimensions"):
+        schema["depth"] = {"@type": "QuantitativeValue", "description": product["dimensions"]}
+
+    return schema
+
+
+def service_schema(page: dict[str, Any], site_info: dict[str, Any]) -> dict[str, Any]:
+    """Service schema for SEO location/event pages."""
+    return {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": page["title"],
+        "description": page["intro"],
+        "provider": {"@id": f"{BASE_URL}/#localbusiness"},
+        "serviceType": "Event Equipment Rental",
+        "areaServed": {"@type": "Place", "name": page.get("serviceAreaText", "Nova Scotia")[:100]},
+        "url": route_url(f"/{page['slug']}"),
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": f"Nova Kingdom Rentals — {page['title']}",
+            "url": route_url(f"/{page['slug']}"),
+        },
     }
 
 
@@ -188,20 +339,22 @@ def route_metadata(
 
     routes: dict[str, dict[str, Any]] = {
         "/": {
-            "title": "Inflatable & Bouncy Castle Rentals Nova Scotia | Nova Kingdom Rentals",
-            "description": "Bridgewater bouncy castle rentals with inflatables, water slides, combos, lawn games and party packages. Setup included. Larger events available across Nova Scotia and the Maritimes.",
+            "title": "Bouncy Castle & Inflatable Rentals Bridgewater NS | Nova Kingdom Rentals",
+            "description": "Premium bouncy castle and inflatable rentals from Bridgewater NS. Water slides, lawn games, 360 Video Booth, and packages. Setup included. South Shore and Nova Scotia.",
             "image": GENERAL_IMAGE,
             "schema": [
+                website_schema(site_info),
                 organization_schema(site_info),
                 business_schema(site_info, homepage=True),
                 item_list_schema("Nova Kingdom Rentals main rentals", "/", product_items),
+                howto_schema(),
                 faq_schema(all_faqs),
                 breadcrumb_schema("/", "Home"),
             ],
         },
         "/rentals": {
-            "title": "Inflatable Rentals & Bouncy Castles | Nova Kingdom Rentals",
-            "description": "Browse inflatable rentals, bouncy castle rentals, water slides, interactive games, and party rental add-ons from Nova Kingdom Rentals in Bridgewater, the South Shore, and Nova Scotia.",
+            "title": "Inflatable Rentals & Bouncy Castles | Nova Kingdom Rentals NS",
+            "description": "Browse bouncy castles, water slides, inflatable games, and add-ons from Nova Kingdom Rentals. Setup included. Available from Bridgewater across the South Shore and Nova Scotia.",
             "image": RENTALS_IMAGE,
             "schema": [
                 item_list_schema("Nova Kingdom Rentals inflatable rentals", "/rentals", product_items),
@@ -209,8 +362,8 @@ def route_metadata(
             ],
         },
         "/packages": {
-            "title": "Party Rental Packages | Nova Kingdom Rentals",
-            "description": "Party rental packages with inflatables, water slides, interactive games, and lawn games for birthdays, schools, community events, and larger celebrations in Nova Scotia.",
+            "title": "Party Rental Packages from $310 | Nova Kingdom Rentals NS",
+            "description": "Inflatable rental packages for birthdays, schools, and community events in Nova Scotia. Water slides, interactive games, and lawn games bundled. Packages from $310.",
             "image": GENERAL_IMAGE,
             "schema": [
                 item_list_schema("Nova Kingdom Rentals party rental packages", "/packages", package_items),
@@ -218,34 +371,37 @@ def route_metadata(
             ],
         },
         "/lawn-games": {
-            "title": "Lawn Game Rentals | Nova Kingdom Rentals",
-            "description": "Rent lawn games in Bridgewater, the South Shore, and across Nova Scotia. All 12 games available: Cornhole, Giant Connect 4, Giant Jenga, Ladder Toss, Ring Toss, Badminton, Tug of War, Bocce Ball, Spikeball, Giant Tic Tac Toe, Croquet, and Birch Wood Washer Toss. Packages from $175.",
+            "title": "Lawn Game Rentals Bridgewater NS | 12 Games | Nova Kingdom Rentals",
+            "description": "12 lawn games for rent across Nova Scotia. Cornhole, Giant Connect 4, Giant Jenga, Ladder Toss, and more. Packages from $175. Bridgewater-based, South Shore and NS.",
             "image": LAWN_IMAGE,
             "schema": [breadcrumb_schema("/lawn-games", "Lawn Game Rentals")],
         },
         "/about": {
-            "title": "About Nova Kingdom Rentals",
-            "description": "Learn about Nova Kingdom Rentals, a Bridgewater-based bouncy castle and inflatable rental business serving families, schools, community groups, and events across the South Shore and Nova Scotia.",
+            "title": "About Nova Kingdom Rentals | Bridgewater Inflatable Rentals NS",
+            "description": "Nova Kingdom Rentals is a fully insured Bridgewater-based inflatable and party rental company. Serving families, schools, and community events across Nova Scotia.",
             "image": RENTALS_IMAGE,
             "schema": [organization_schema(site_info), breadcrumb_schema("/about", "About Nova Kingdom Rentals")],
         },
         "/service-areas": {
-            "title": "Service Areas | Nova Kingdom Rentals",
-            "description": "Nova Kingdom Rentals is based in Bridgewater, serving the South Shore and Nova Scotia, with larger events and selected bookings available across the Maritimes / Atlantic Canada by quote.",
+            "title": "Service Areas | Inflatable Rentals from Bridgewater NS | Nova Kingdom Rentals",
+            "description": "Nova Kingdom Rentals is based in Bridgewater, serving the South Shore and Nova Scotia. Larger events and selected Maritimes / Atlantic Canada bookings available by quote.",
             "image": RENTALS_IMAGE,
-            "schema": [breadcrumb_schema("/service-areas", "Service Areas")],
+            "schema": [
+                business_schema(site_info),
+                breadcrumb_schema("/service-areas", "Service Areas"),
+            ],
         },
         "/faq": {
-            "title": "FAQ | Nova Kingdom Rentals",
-            "description": "Frequently asked questions about Nova Kingdom Rentals bouncy castle rentals, inflatable rentals, setup, delivery, supervision, weather, and booking requests.",
+            "title": "Bouncy Castle Rental FAQ | Nova Kingdom Rentals Bridgewater NS",
+            "description": "Answers to your questions about booking, delivery, setup, weather, supervision, and safety for inflatable and bouncy castle rentals from Nova Kingdom Rentals.",
             "image": GENERAL_IMAGE,
             "schema": [breadcrumb_schema("/faq", "FAQ"), faq_schema(all_faqs)],
         },
         "/contact": {
-            "title": "Contact Nova Kingdom Rentals | Check Availability",
-            "description": "Contact Nova Kingdom Rentals to request availability for bouncy castle rentals, inflatable rentals, lawn games, water slides, and party packages from Bridgewater, Nova Scotia.",
+            "title": "Check Availability | Nova Kingdom Rentals Bridgewater NS",
+            "description": "Send your event date and details to request availability for inflatable rentals and party packages from Nova Kingdom Rentals in Bridgewater, Nova Scotia.",
             "image": RENTALS_IMAGE,
-            "schema": [breadcrumb_schema("/contact", "Contact")],
+            "schema": [breadcrumb_schema("/contact", "Contact"), business_schema(site_info)],
         },
     }
 
@@ -266,6 +422,8 @@ def route_metadata(
             if first_product:
                 break
         schema = [breadcrumb_schema(path, page["h1"])]
+        # Add service schema for location/event pages
+        schema.append(service_schema(page, site_info))
         page_faq = faq_schema(page.get("faq", []))
         if page_faq:
             schema.append(page_faq)

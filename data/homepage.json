@@ -9,61 +9,66 @@
   },
   "trustBadges": [
     "Fully insured",
-    "Setup included",
+    "Setup & takedown included",
     "Bridgewater-based",
-    "Clean & safe equipment"
+    "Commercial-grade equipment"
   ],
   "intro": {
     "heading": "Premium inflatable rentals for unforgettable events.",
-    "text": "Nova Kingdom Rentals brings premium bouncy castle rentals and inflatable rentals to backyard birthdays, school events, community events, and summer celebrations. We are based in Bridgewater, serving the South Shore and Nova Scotia, with larger events and selected bookings available across the Maritimes / Atlantic Canada. Travel quoted separately."
+    "text": "Nova Kingdom Rentals brings commercial-grade bouncy castle rentals, inflatable rentals, water slides, interactive games, and 360 Video Booth to backyard birthdays, school events, festivals, community events, and summer celebrations across the South Shore and Nova Scotia. We are based in Bridgewater — setup and takedown included with every rental, and fully insured."
   },
   "categories": [
     {
       "title": "Inflatables",
-      "text": "Clean, memorable event rentals.",
+      "text": "Bouncy castles, combos, slides, and obstacle courses.",
       "link": "/rentals"
     },
     {
       "title": "Water Fun",
-      "text": "Splash-ready rentals for summer events.",
+      "text": "Splash-ready water slides and combos for summer events.",
       "link": "/rentals"
     },
     {
+      "title": "360 Video Booth",
+      "text": "Slow-motion video booth with operator — from $199.",
+      "link": "/rentals/360-video-booth"
+    },
+    {
       "title": "Interactive Games",
-      "text": "Competitive add-ons for all ages.",
+      "text": "Axe throw, football darts, and carnival games for all ages.",
       "link": "/rentals"
     },
     {
       "title": "Lawn Games",
-      "text": "Easy add-ons for birthdays, schools, and community events.",
+      "text": "12 games including Cornhole, Giant Jenga, and Connect 4.",
       "link": "/lawn-games"
     },
     {
       "title": "Packages",
-      "text": "Bundled fun with built-in savings.",
+      "text": "Bundled events with built-in savings — from $310.",
       "link": "/packages"
     }
   ],
   "popularProductIds": [
     "crown-island-combo",
-    "crown-rush-42",
-    "crown-axe-challenge"
+    "crown-axe-challenge",
+    "360-video-booth"
   ],
   "howItWorks": [
     {
       "number": "01",
-      "title": "Choose your fun",
-      "text": "Pick a rental or package that fits your event."
+      "title": "Choose your rental or package",
+      "text": "Browse inflatables, water slides, lawn games, 360 Video Booth, or packages. Pick what fits your event type, crowd size, and setup space."
     },
     {
       "number": "02",
-      "title": "Send date and address",
-      "text": "Share the details so availability and travel can be checked."
+      "title": "Send your event details",
+      "text": "Share your event date, address, event type, number of guests, surface type, and power or water access so we can confirm availability and travel."
     },
     {
       "number": "03",
-      "title": "We confirm and deliver",
-      "text": "Booking is confirmed after availability, setup suitability, travel, and deposit details are reviewed."
+      "title": "We confirm, deliver, and set up",
+      "text": "Booking is confirmed after availability, setup suitability, travel cost, and deposit details are reviewed. We handle setup and takedown."
     }
   ]
 }
