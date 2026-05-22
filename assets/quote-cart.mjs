@@ -32,6 +32,16 @@ const BOOTH_360_ID         = "product-360-video-booth";
 const BOOTH_360_STANDALONE = 249;
 const BOOTH_360_ADDON      = 199;
 
+// Time-based 360 booth pricing. Returns {hours, standalone, addon} or null if times invalid.
+function calc360Price(st, et) {
+  if (!st || !et) return null;
+  var a = st.split(":"), b = et.split(":");
+  var d = (parseInt(b[0]) * 60 + parseInt(b[1])) - (parseInt(a[0]) * 60 + parseInt(a[1]));
+  if (d <= 0) return null;
+  var h = Math.ceil(d / 60);
+  return { hours: h, standalone: 249 + (h - 1) * 100, addon: 199 + (h - 1) * 70 };
+}
+
 // Extra display metadata for specific cart items (thumbnail + subtitle in cart panel)
 const CART_ITEM_META = {
   [CROWN_CARNIVAL_ID]: {
@@ -696,7 +706,8 @@ function makeEstimateSection(items, stats) {
   sec.appendChild(title);
   const tbl = document.createElement("table"); tbl.className = "nk-estimate-table";
   tbl.innerHTML =
-    "<tr><td>Subtotal</td><td>" + escHtml(formatMoney(subtotal)) + "</td></tr>" +
+    "<tr><td>Subtotal</td><td id='nk-subtotal-val'>" + escHtml(formatMoney(subtotal)) + "</td></tr>" +
+    "<tr id='nk-booth360-row' hidden><td id='nk-booth360-label' style='font-size:0.82em;color:#888;padding-left:0.8em'></td><td id='nk-booth360-price' style='font-size:0.82em;color:#888'></td></tr>" +
     "<tr><td>Delivery &amp; setup estimate <span class='nk-tooltip-wrap'>" +
       "<button class='nk-tooltip-icon nk-tip-setup' type='button' aria-label='About delivery and setup estimate'>ⓘ</button>" +
       "<span class='nk-tooltip-body nk-tip-body-setup'>First 15 km is free. Beyond that, distance is charged round-trip at $0.72/km. Staff travel time is included. Anchoring for non-grass surfaces confirmed after setup review. Final logistics reviewed after booking.</span>" +
@@ -809,8 +820,8 @@ function makeFormSection(items, stats) {
   if (formState.eventAddress && formState.city) scheduleDeliveryEstimate(form);
 
   // ── Persist state on every input/change ──────────────────────
-  form.addEventListener("input",  () => { captureFormState(form); updatePowerFlag(form); });
-  form.addEventListener("change", () => { captureFormState(form); updatePowerFlag(form); });
+  form.addEventListener("input",  () => { captureFormState(form); updatePowerFlag(form); triggerRecalcEstimate(); });
+  form.addEventListener("change", () => { captureFormState(form); updatePowerFlag(form); triggerRecalcEstimate(); });
 
   // ── Live estimate recalculation ───────────────────────────────
   const surfaceSelect = form.querySelector("#nkf-surface");
@@ -903,16 +914,52 @@ function makeFormSection(items, stats) {
     }
     if (attendantEl) attendantEl.textContent = attendantText;
 
-    if (deliveryState.isPending) {
-      totalEl.textContent = formatMoney(subtotal + sandbags + attendantCost) + " + delivery (pending)";
-    } else if (deliveryManual && sandbagManual) {
-      totalEl.textContent = formatMoney(subtotal + attendantCost) + " + delivery & anchoring (manual)";
-    } else if (deliveryManual) {
-      totalEl.textContent = formatMoney(subtotal + sandbags + attendantCost) + " + delivery (manual)";
-    } else if (sandbagManual) {
-      totalEl.textContent = formatMoney(subtotal + deliveryCost + attendantCost) + " + anchoring (manual)";
+    // ── 360 Video Booth time-based pricing ────────────────────────
+    var booth360Adj = 0;
+    var boothItem = items.find(function(i) { return i.id === BOOTH_360_ID; });
+    var hasUKP = items.some(function(i) { return i.id === "pkg-ultimate-kingdom-plus"; });
+    var rowEl   = eid("nk-booth360-row");
+    var labelEl = eid("nk-booth360-label");
+    var priceEl = eid("nk-booth360-price");
+    if (boothItem) {
+      var startInput = eid("nkf-start"), endInput = eid("nkf-end");
+      var st360 = startInput ? startInput.value : "";
+      var et360 = endInput ? endInput.value : "";
+      var isAddon360 = items.some(function(i) { return i.id !== BOOTH_360_ID && (i.id.startsWith("pkg-") || i.isInflatable !== false); });
+      var p360 = calc360Price(st360, et360);
+      var base360 = isAddon360 ? BOOTH_360_ADDON : BOOTH_360_STANDALONE;
+      if (p360) {
+        var computed360 = isAddon360 ? p360.addon : p360.standalone;
+        booth360Adj = computed360 - base360;
+        if (rowEl)   { rowEl.hidden = false; }
+        if (labelEl) { labelEl.textContent = "↳ 360 Booth · " + p360.hours + " hr" + (p360.hours !== 1 ? "s" : "") + (isAddon360 ? " (add-on rate)" : " (standalone)"); }
+        if (priceEl) { priceEl.textContent = formatMoney(computed360); }
+      } else {
+        if (rowEl)   { rowEl.hidden = false; }
+        if (labelEl) { labelEl.textContent = "↳ 360 Booth · enter start/end time"; }
+        if (priceEl) { priceEl.textContent = "from " + formatMoney(base360) + "/hr"; }
+      }
+    } else if (hasUKP) {
+      if (rowEl)   { rowEl.hidden = false; }
+      if (labelEl) { labelEl.textContent = "↳ 360 Video Booth · 3 hrs included in UKP"; }
+      if (priceEl) { priceEl.textContent = "included"; }
     } else {
-      totalEl.textContent = formatMoney(subtotal + deliveryCost + sandbags + attendantCost);
+      if (rowEl) { rowEl.hidden = true; }
+    }
+    var effectiveSubtotal = subtotal + booth360Adj;
+    var subtotalEl = eid("nk-subtotal-val");
+    if (subtotalEl) { subtotalEl.textContent = formatMoney(effectiveSubtotal); }
+
+    if (deliveryState.isPending) {
+      totalEl.textContent = formatMoney(effectiveSubtotal + sandbags + attendantCost) + " + delivery (pending)";
+    } else if (deliveryManual && sandbagManual) {
+      totalEl.textContent = formatMoney(effectiveSubtotal + attendantCost) + " + delivery & anchoring (manual)";
+    } else if (deliveryManual) {
+      totalEl.textContent = formatMoney(effectiveSubtotal + sandbags + attendantCost) + " + delivery (manual)";
+    } else if (sandbagManual) {
+      totalEl.textContent = formatMoney(effectiveSubtotal + deliveryCost + attendantCost) + " + anchoring (manual)";
+    } else {
+      totalEl.textContent = formatMoney(effectiveSubtotal + deliveryCost + sandbags + attendantCost);
     }
   }
 
