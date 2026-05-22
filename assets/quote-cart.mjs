@@ -1056,11 +1056,13 @@ function makeFormSection(items, stats) {
     };
 
     try {
+      console.log("[NKR quote-cart] submitting to Web3Forms", { hasAccessKey: !!payload.access_key, keys: Object.keys(payload).filter(k => k !== "access_key") });
       const res  = await fetch("https://api.web3forms.com/submit", {
         method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(payload),
       });
       const data = await res.json();
+      console.log("[NKR quote-cart] status", res.status, data);
       if (!res.ok || !data.success) throw new Error(data.message || "Submission failed");
       if (msgEl) { msgEl.hidden = false; msgEl.className = "nk-form-msg success"; msgEl.textContent = "Request sent! We’ll review your details and follow up shortly."; }
       if (submitBtn) submitBtn.textContent = "Sent!";
@@ -1071,7 +1073,7 @@ function makeFormSection(items, stats) {
       updateBar();
     } catch (err) {
       console.error("[NKR quote-cart] Web3Forms submission failed:", err && err.message ? err.message : err);
-      if (msgEl) { msgEl.hidden = false; msgEl.className = "nk-form-msg error"; msgEl.textContent = "Something went wrong. Please call or text 902-990-0005."; }
+      if (msgEl) { msgEl.hidden = false; msgEl.className = "nk-form-msg error"; msgEl.textContent = "Form service error" + (err && err.message ? ": " + err.message : "") + ". Please call/text 902-990-0005."; }
       if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Request Availability"; }
     }
   });
