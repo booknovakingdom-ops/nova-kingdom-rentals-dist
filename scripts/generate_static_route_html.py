@@ -21,8 +21,22 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE_URL = "https://novakingdomrentals.com"
 GENERAL_IMAGE = "/images/packages/kingdom-deluxe-package.jpg"
 RENTALS_IMAGE = "/images/crown-island-combo.jpeg"
+BOOTH_IMAGE = "/images/360-video-booth.jpg"
 LAWN_IMAGE = "/images/lawn-games/cornhole.png"
 LOGO_IMAGE = "/images/nova-kingdom-rentals-logo.png"
+
+BOOTH_SLUGS = {
+    "360-video-booth-rental-nova-scotia",
+    "photo-booth-rental-bridgewater-ns",
+    "360-video-booth-rental-new-brunswick",
+    "360-video-booth-rental-pei",
+    "photo-booth-rental-halifax-ns",
+    "photo-booth-rental-moncton-nb",
+    "photo-booth-rental-charlottetown-pei",
+    "photo-booth-rentals-maritimes",
+    "event-photo-booth-rental-atlantic-canada",
+    "360-video-booth-event-ideas",
+}
 GENERATED_MARKER = "<!-- Generated static route HTML: do not edit by hand. Run scripts/generate_static_route_html.py. -->"
 
 # Bridgewater, Nova Scotia geo coordinates
@@ -427,10 +441,11 @@ def route_metadata(
         page_faq = faq_schema(page.get("faq", []))
         if page_faq:
             schema.append(page_faq)
+        default_image = BOOTH_IMAGE if page["slug"] in BOOTH_SLUGS else RENTALS_IMAGE
         routes[path] = {
             "title": page["metaTitle"],
             "description": page["metaDescription"],
-            "image": first_product.get("image") if first_product else RENTALS_IMAGE,
+            "image": first_product.get("image") if first_product else default_image,
             "schema": schema,
         }
 
