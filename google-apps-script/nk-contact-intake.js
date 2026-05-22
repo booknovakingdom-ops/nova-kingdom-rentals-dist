@@ -123,12 +123,50 @@ function _processThread(thread, controls, profile, traceId) {
 
   firstName = ContactFormParser.firstName(parsed.name) || 'there';
 
-  // ── Customer email from form body (not Gmail sender) ─────────────────────
-  // Web3Forms sends from notify+...@web3forms.com. The customer's real email,
-  // name, and phone are in the parsed form body. Use gmailSender only as last resort.
-  var customerEmail = (parsed.email && parsed.email.indexOf('@') !== -1)
-    ? parsed.email.toLowerCase().trim()
-    : gmailSender;
+  // ── Customer email — MUST come from form body, NEVER from Web3Forms sender ──
+  // Web3Forms sends from notify+...@web3forms.com. That address is NOT the customer.
+  // Hard rule: never use the Gmail sender as a fallback for a Web3Forms notify address.
+  // If no valid customer email is found in the body, route to MANUAL_REVIEW.
+  var customerEmail = '';
+  if (parsed.email && parsed.email.indexOf('@') !== -1) {
+    var candidateEmail = parsed.email.toLowerCase().trim();
+    if (!ContactFormParser.isWeb3FormsNotifySender(candidateEmail)) {
+      customerEmail = candidateEmail;
+    }
+  }
+  // Secondary: only use gmailSender if it is clearly NOT a system/notify address
+  if (!customerEmail && !ContactFormParser.isWeb3FormsNotifySender(gmailSender)) {
+    customerEmail = gmailSender;
+  }
+
+  if (!customerEmail) {
+    // No valid customer email — cannot create draft, must be reviewed by Harkirat
+    var noEmailReason = 'No valid customer email found in form body. Gmail sender was: ' + gmailSender;
+    console.warn('Contact Intake: ' + noEmailReason);
+    ExecutionEnv.writeManualReview({
+      email: 'UNKNOWN', threadLink: thread.getPermalink(),
+      reason: noEmailReason, severity: 'high'
+    }, traceId);
+    ExecutionEnv.writeQueueTask({
+      task_id:     'TASK-' + Date.now(),
+      message_id:  messageId,
+      customer_id: 'UNKNOWN',
+      email:       'UNKNOWN',
+      intent:      'unknown',
+      readiness:   'new',
+      decision:    'manual_review',
+      mode:        'escalate',
+      confidence:  0,
+      event_date:  parsed.event_date  || '',
+      rental_item: parsed.rental_item || '',
+      status:      'NEEDS_REVIEW'
+    }, traceId);
+    _finalizeThread(thread, messageId, 'UNKNOWN', parsed, {
+      decision: 'manual_review', intent: 'unknown', readiness: 'new',
+      mode: 'escalate', confidence: 0
+    }, 'MANUAL_REVIEW', traceId);
+    return;
+  }
 
   // ══ Step 3: Pre-AI code gates (blocklist, DNC, business sender) ═══════════
   var crmCustomerForGate = DataProvider.findCustomerByEmail(TENANT.SPREADSHEET_ID, customerEmail) || {};
@@ -400,7 +438,35 @@ function _buildAndCreateDraft(parsed, customerEmail, firstName, aiDecision, cont
     return '';
   }
 
+  // ── Unresolved placeholder gate ───────────────────────────────────────────
+  // Block draft creation if any [BRACKET_TOKEN], {{mustache}}, undefined, or null
+  // remain unresolved in the subject or body after template rendering and AI polish.
   var finalBody = draftBody + '\n\n⚠ DRAFT — REVIEW BEFORE SENDING ⚠';
+  var allPlaceholders = ContactFormParser.containsUnresolvedPlaceholders(subject)
+    .concat(ContactFormParser.containsUnresolvedPlaceholders(finalBody));
+  if (allPlaceholders.length) {
+    // Deduplicate
+    var uniqueTokens = allPlaceholders.filter(function (v, i, a) { return a.indexOf(v) === i; });
+    console.warn('Contact Intake: draft blocked — unresolved placeholders: ' + uniqueTokens.join(', '));
+    ExecutionEnv.writeManualReview({
+      email: customerEmail, threadLink: '',
+      reason: 'Unresolved template placeholders: ' + uniqueTokens.join(', '), severity: 'high'
+    }, traceId);
+    return '';
+  }
+
+  // ── Recipient safety guard ────────────────────────────────────────────────
+  // Final hard check: never create a draft to a Web3Forms notify address.
+  var recipientCheck = ContactFormParser.validateRequiredForDraft(null, customerEmail);
+  if (!recipientCheck.valid) {
+    console.warn('Contact Intake: draft blocked — invalid recipient: ' + recipientCheck.issues.join(', '));
+    ExecutionEnv.writeManualReview({
+      email: customerEmail, threadLink: '',
+      reason: 'Invalid draft recipient: ' + recipientCheck.issues.join(', '), severity: 'critical'
+    }, traceId);
+    return '';
+  }
+
   return ExecutionEnv.createDraft(customerEmail, subject, finalBody, traceId);
 }
 
@@ -507,47 +573,90 @@ function _missingFieldQ(missingFields) {
   return labels[missingFields[0]] || 'Could you share: ' + missingFields[0].replace(/_/g, ' ') + '?';
 }
 
-// ─── Simulation Test ──────────────────────────────────────────────────────────
+// ─── Simulation Helpers ───────────────────────────────────────────────────────
+//
+// All simulation functions:
+//   - Run inside simulation_mode = true (ExecutionEnv writes to Sim_* tabs only)
+//   - Do NOT create real Gmail drafts
+//   - Do NOT mutate real Customer or Automation Queue tabs
+//   - Use a new trace_id each run
+//   - Do NOT require deleting idempotency rows — simulation uses SIM-MSG- prefixed IDs
+//     that never collide with real Gmail message IDs
+//
+// Idempotency safety note:
+//   Production runs use real Gmail message IDs. Simulation runs use SIM-MSG-<timestamp>
+//   prefixed IDs. These never overlap, so old completed production messages are never
+//   reprocessed and no bulk idempotency clearing is needed for simulation testing.
 
 /**
- * runSimulationTest — run from Apps Script editor to test the real production form path.
- * Uses a mock thread matching the live "New Nova Kingdom Rentals Booking Inquiry" format
- * with a Web3Forms notify sender (as received in production).
- * Check Sim_Actions and Sim_Drafts tabs in the CRM spreadsheet for output.
+ * runSimulationTest — standard simulation with a canned "complete" booking inquiry.
+ * Matches the live "New Nova Kingdom Rentals Booking Inquiry" email format.
+ * Web3Forms notify sender — customer email must come from the form body.
  */
 function runSimulationTest() {
-  // Real production body format: label on one line, value on the next
   var testBody = [
     'Business',
     'Nova Kingdom Rentals',
+    '',
     'InquiryType',
     'Birthday Party',
+    '',
     'Name',
     'Jane Smith',
+    '',
     'EventDate',
     'July 19, 2026',
+    '',
     'EventAddress',
     '45 Maple Street, Bridgewater NS',
+    '',
     'EventType',
     'Kids Birthday',
+    '',
     'Guests',
     '25',
+    '',
     'PackageInterest',
     'Crown Quest',
+    '',
     'Phone',
     '902-555-0123',
+    '',
     'Email',
     'jane.smith@example.com',
+    '',
     'PreferredContact',
     'Email',
+    '',
     'Notes',
     "Looking for something fun for my daughter's 8th birthday!"
   ].join('\n');
 
-  var msgId   = 'SIM-MSG-' + Date.now();
-  // Sender is the Web3Forms notify address — customer email comes from form body
-  var thread  = _mockThread(msgId, testBody, 'New Nova Kingdom Rentals Booking Inquiry',
-                            'Web3Forms <notify+simtest@web3forms.com>');
+  runSimulationFromBody(
+    testBody,
+    'New Nova Kingdom Rentals Booking Inquiry',
+    'Web3Forms <notify+simtest@web3forms.com>'
+  );
+}
+
+/**
+ * runSimulationFromBody(body, subject, from)
+ *
+ * Run the full contact intake pipeline against a pasted email body.
+ * Use this to replay any failed email without touching production idempotency.
+ *
+ * @param {string} body    Plain-text email body (paste from Gmail → "Show original")
+ * @param {string} subject Email subject line
+ * @param {string} from    "From" header value (e.g. "Web3Forms <notify+abc@web3forms.com>")
+ *
+ * Output: Sim_Actions and Sim_Drafts tabs in the CRM spreadsheet.
+ */
+function runSimulationFromBody(body, subject, from) {
+  subject = subject || 'New Nova Kingdom Rentals Booking Inquiry';
+  from    = from    || 'Web3Forms <notify+sim@web3forms.com>';
+
+  var msgId  = 'SIM-MSG-' + Date.now();
+  var thread = _mockThread(msgId, body, subject, from);
 
   var controls = ConfigLoader.getOpsControls(TENANT.SPREADSHEET_ID, TENANT.TENANT_ID);
   var profile  = ConfigLoader.getBusinessProfile(TENANT.SPREADSHEET_ID, TENANT.TENANT_ID);
@@ -556,11 +665,87 @@ function runSimulationTest() {
   var traceId = Identifiers.traceId();
   try {
     _processThread(thread, controls, profile, traceId);
-    console.log('Simulation complete — check Sim_Actions and Sim_Drafts. traceId: ' + traceId);
+    console.log('[SIM] Complete. traceId: ' + traceId + ' — check Sim_Actions + Sim_Drafts tabs.');
   } catch (e) {
-    console.error('Simulation test error: ' + e.message);
+    console.error('[SIM] Error: ' + e.message);
   }
 }
+
+/**
+ * runSimulationFromMessageId(messageId)
+ *
+ * Fetch a real Gmail message by ID and replay it through the intake pipeline
+ * in simulation mode. The real message is read-only — no production writes occur.
+ *
+ * Use this to diagnose why a specific historical email was processed incorrectly.
+ * The real message's idempotency row is NOT reset — this is a safe read-only replay.
+ *
+ * @param {string} messageId  Gmail message ID (from Ops_Log or Gmail URL)
+ */
+function runSimulationFromMessageId(messageId) {
+  if (!messageId) {
+    console.error('[SIM] runSimulationFromMessageId: messageId is required');
+    return;
+  }
+
+  var realMsg;
+  try {
+    realMsg = GmailApp.getMessageById(messageId);
+  } catch (e) {
+    console.error('[SIM] Could not fetch message ' + messageId + ': ' + e.message);
+    return;
+  }
+
+  var body    = realMsg.getPlainBody();
+  var subject = realMsg.getSubject();
+  var from    = realMsg.getFrom();
+
+  console.log('[SIM] Replaying message ' + messageId + ' | subject: ' + subject + ' | from: ' + from);
+  runSimulationFromBody(body, subject, from);
+}
+
+/**
+ * reprocessContactIntakeSimulation(messageId)
+ *
+ * Alias for runSimulationFromMessageId. Use when you want to "reprocess"
+ * a specific email to see what the pipeline would do with the current code
+ * without affecting production state or requiring idempotency row deletion.
+ */
+function reprocessContactIntakeSimulation(messageId) {
+  runSimulationFromMessageId(messageId);
+}
+
+/**
+ * inspectIdempotencyRecord(messageId)
+ *
+ * Diagnostic helper: logs the idempotency record for a given message ID.
+ * Does not modify any data. Use to understand why a message was skipped.
+ */
+function inspectIdempotencyRecord(messageId) {
+  if (!messageId) { console.error('inspectIdempotencyRecord: messageId required'); return; }
+  var record = Idempotency.check(TENANT.SPREADSHEET_ID, messageId);
+  if (record) {
+    console.log('[INSPECT] Idempotency record for ' + messageId + ':\n' + JSON.stringify(record, null, 2));
+  } else {
+    console.log('[INSPECT] No idempotency record found for ' + messageId + ' — message has not been processed.');
+  }
+}
+
+/**
+ * resetIdempotencyForMessage(messageId)
+ *
+ * ADMIN ONLY — Reset the idempotency record for a single message so it will
+ * be reprocessed on the next production run. Use with caution.
+ * Never call this in bulk — only for explicit single-message remediation.
+ */
+function resetIdempotencyForMessage(messageId) {
+  if (!messageId) { console.error('resetIdempotencyForMessage: messageId required'); return; }
+  console.warn('[ADMIN] Resetting idempotency for message: ' + messageId);
+  Idempotency.resetOne(TENANT.SPREADSHEET_ID, messageId);
+  console.log('[ADMIN] Reset complete. Next production run will reprocess this message.');
+}
+
+// ─── Mock thread factory ──────────────────────────────────────────────────────
 
 function _mockThread(msgId, body, subject, from) {
   return {
@@ -573,6 +758,8 @@ function _mockThread(msgId, body, subject, from) {
         getPlainBody: function () { return body; },
         getFrom:      function () { return from; }
       }];
-    }
+    },
+    addLabel:     function () {},
+    removeLabel:  function () {}
   };
 }
