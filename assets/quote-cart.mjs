@@ -1224,6 +1224,39 @@ function injectAddBtn(container, id, name, price, isInflatable, insertBefore, me
   else              { container.appendChild(btn); }
 }
 
+// ── Photo Booth section cleanup on non-rentals routes ───────────
+// React CSR reconciliation does NOT remove externally-injected siblings when
+// the route changes. We must remove #nk-photo-booth-section ourselves whenever
+// the user navigates away from /rentals, so it never persists on FAQ/About/etc.
+function cleanupPhotBoothSection() {
+  if (window.location.pathname.match(/^\/rentals\/?$/)) return;
+  const section = document.getElementById("nk-photo-booth-section");
+  if (section) section.remove();
+  // Clear processed markers so the section can be re-injected on the next /rentals visit
+  document.querySelectorAll("[data-nk-booth-processed]").forEach(function (el) {
+    el.removeAttribute("data-nk-booth-processed");
+  });
+}
+
+// ── Desktop nav — inject Photo Booth link after Lawn Games ───────
+function injectDesktopPhotBoothNav() {
+  const nav = document.querySelector('nav[aria-label="Primary navigation"]');
+  if (!nav || nav.querySelector("[data-nk-pb-nav]")) return;
+  let lawnGamesAnchor = null;
+  nav.querySelectorAll("a").forEach(function (a) {
+    if (a.textContent.trim() === "Lawn Games") lawnGamesAnchor = a;
+  });
+  if (!lawnGamesAnchor) return;
+  const link = document.createElement("a");
+  link.href = "/rentals/360-video-booth";
+  link.textContent = "Photo Booth";
+  link.dataset.nkPbNav = "1";
+  if (window.location.pathname.startsWith("/rentals/360-video-booth")) {
+    link.setAttribute("aria-current", "page");
+  }
+  lawnGamesAnchor.insertAdjacentElement("afterend", link);
+}
+
 // ── 360 Photo Booth section injection ───────────────────────────
 // The compiled React app groups all non-Game products into "All Inflatables".
 // This function moves the 360 booth card out of that grid and into its own
@@ -1356,6 +1389,7 @@ function cleanupBoothDetailPage() {
 }
 
 function enhanceAll() {
+  cleanupPhotBoothSection();
   enhanceProductCards();
   enhancePackageCards();
   enhanceProductDetail();
@@ -1363,6 +1397,7 @@ function enhanceAll() {
   enhanceCarnivalAddonBtns();
   injectPhotBoothSection();
   cleanupBoothDetailPage();
+  injectDesktopPhotBoothNav();
 }
 
 // ── Init (idempotent, runs once) ─────────────────────────────────
