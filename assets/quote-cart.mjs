@@ -1224,12 +1224,113 @@ function injectAddBtn(container, id, name, price, isInflatable, insertBefore, me
   else              { container.appendChild(btn); }
 }
 
+// ── 360 Photo Booth section injection ───────────────────────────
+// The compiled React app groups all non-Game products into "All Inflatables".
+// This function moves the 360 booth card out of that grid and into its own
+// "Photo Booth" section injected after the Interactive Games lineup section.
+
+const BOOTH_IMG_PATH = "/images/360-video-booth.jpg";
+
+function injectPhotBoothSection() {
+  // Only run on pages that have lineup sections (rentals page)
+  const lineupSections = document.querySelectorAll(".lineup-section:not([data-nk-booth-processed])");
+  if (!lineupSections.length) return;
+
+  // Find and hide 360 booth cards inside any lineup section
+  let boothCard = null;
+  document.querySelectorAll(".lineup-section .product-card").forEach((card) => {
+    const img = card.querySelector("img");
+    if (img && img.src.includes("360-video-booth")) {
+      boothCard = card.cloneNode(true);
+      card.closest(".product-card") && (card.style.display = "none");
+    }
+  });
+
+  // Only inject section once
+  if (document.getElementById("nk-photo-booth-section")) return;
+  if (!boothCard) return;
+
+  // Find the last lineup section to insert after it
+  const lastLineup = [...lineupSections].pop();
+  if (!lastLineup) return;
+
+  // Build the Photo Booth section
+  const section = document.createElement("section");
+  section.id = "nk-photo-booth-section";
+  section.className = "page-section lineup-section nk-photo-booth-section";
+  section.innerHTML =
+    '<div class="section-heading">' +
+      '<p class="eyebrow">Photo Booth</p>' +
+      '<h2>360 Video Booth</h2>' +
+    '</div>' +
+    '<div class="nk-photo-booth-inner"></div>';
+
+  const inner = section.querySelector(".nk-photo-booth-inner");
+
+  // Build a dedicated booth card (not relying on React's card markup)
+  const card = document.createElement("article");
+  card.className = "nk-booth-feature-card";
+  card.innerHTML =
+    '<div class="nk-booth-img-wrap">' +
+      '<img src="' + BOOTH_IMG_PATH + '" alt="360 Video Booth rental Nova Scotia" loading="lazy">' +
+    '</div>' +
+    '<div class="nk-booth-info">' +
+      '<p class="eyebrow">Photo Booth · Event Add-On</p>' +
+      '<h3>360 Video Booth</h3>' +
+      '<p class="nk-booth-tagline">Spin the Moment, Keep It Forever</p>' +
+      '<ul class="nk-booth-pricing">' +
+        '<li><strong>Standalone:</strong> 1 hr $249 · each additional hr $100</li>' +
+        '<li><strong>Add-on with any package:</strong> 1 hr $199 · each additional hr $70</li>' +
+        '<li>Operator included · Setup &amp; takedown included</li>' +
+        '<li>Basic props may be included · Custom theme props +$10/theme</li>' +
+      '</ul>' +
+      '<div class="nk-booth-btns">' +
+        '<a class="button button-dark nk-booth-detail-btn" href="/rentals/360-video-booth">View Details</a>' +
+        '<a class="button button-gold" href="/contact?interest=360+Video+Booth">Check Availability</a>' +
+      '</div>' +
+    '</div>';
+
+  // Inject "Add to Quote" button
+  const btnWrap = card.querySelector(".nk-booth-btns");
+  const qtBtn = document.createElement("button");
+  qtBtn.type = "button";
+  qtBtn.dataset.nkId = BOOTH_360_ID;
+  const cartNow = loadCart();
+  const inCart  = cartNow.some((i) => i.id === BOOTH_360_ID);
+  qtBtn.className = "nk-add-to-quote" + (inCart ? " in-cart" : "");
+  qtBtn.textContent = inCart ? "In Quote ✓" : "Add to Quote";
+  qtBtn.addEventListener("click", () => {
+    const current = loadCart();
+    const nowIn   = current.some((i) => i.id === BOOTH_360_ID);
+    if (nowIn) {
+      saveCart(current.filter((i) => i.id !== BOOTH_360_ID));
+    } else {
+      const hasPkg = current.some((i) => i.id.startsWith("pkg-"));
+      const price  = hasPkg ? BOOTH_360_ADDON : BOOTH_360_STANDALONE;
+      current.push({ id: BOOTH_360_ID, name: "360 Video Booth", price, isInflatable: false });
+      saveCart(normalizeCarnivalPrice(current));
+    }
+    const after = loadCart().some((i) => i.id === BOOTH_360_ID);
+    qtBtn.textContent = after ? "In Quote ✓" : "Add to Quote";
+    qtBtn.classList.toggle("in-cart", after);
+    updateBar();
+  });
+  btnWrap.insertAdjacentElement("afterbegin", qtBtn);
+
+  inner.appendChild(card);
+  lastLineup.insertAdjacentElement("afterend", section);
+
+  // Mark processed so we don't run again
+  lineupSections.forEach((s) => s.setAttribute("data-nk-booth-processed", "1"));
+}
+
 function enhanceAll() {
   enhanceProductCards();
   enhancePackageCards();
   enhanceProductDetail();
   enhanceLawnGameCards();
   enhanceCarnivalAddonBtns();
+  injectPhotBoothSection();
 }
 
 // ── Init (idempotent, runs once) ─────────────────────────────────

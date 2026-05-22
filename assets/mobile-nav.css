@@ -184,3 +184,124 @@
     padding-bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
   }
 }
+
+/* ── Photo Booth / 360 Video Booth section ─────────────────────── */
+
+/* Hide 360 booth card from inflatable lineup grids — it has its own section below */
+.lineup-section .product-card:has(img[src*="360-video-booth"]) {
+  display: none !important;
+}
+
+/* Photo Booth feature card layout */
+.nk-photo-booth-section {
+  background: #050814;
+  color: #fff;
+}
+.nk-photo-booth-section .section-heading .eyebrow {
+  color: #f0d16a;
+}
+.nk-photo-booth-section .section-heading h2 {
+  color: #fff;
+}
+
+.nk-photo-booth-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.nk-booth-feature-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(240, 209, 106, 0.18);
+  border-radius: 16px;
+  overflow: hidden;
+  padding: 0;
+}
+
+.nk-booth-img-wrap {
+  overflow: hidden;
+  height: 100%;
+  min-height: 360px;
+}
+.nk-booth-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.nk-booth-info {
+  padding: 2rem 2rem 2rem 0.5rem;
+}
+.nk-booth-info .eyebrow {
+  color: #f0d16a;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+.nk-booth-info h3 {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 0.25rem;
+  line-height: 1.1;
+}
+.nk-booth-tagline {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.95rem;
+  margin: 0 0 1.2rem;
+}
+
+.nk-booth-pricing {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.nk-booth-pricing li {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.4;
+}
+.nk-booth-pricing strong {
+  color: #f0d16a;
+}
+
+.nk-booth-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+/* Mobile: stack the card vertically */
+@media (max-width: 767px) {
+  .nk-booth-feature-card {
+    grid-template-columns: 1fr;
+  }
+  .nk-booth-img-wrap {
+    min-height: 240px;
+    max-height: 300px;
+  }
+  .nk-booth-info {
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+  .nk-booth-info h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Ultimate Kingdom Plus package image sizing */
+.package-card img[src*="ultimate-kingdom-plus"] {
+  object-fit: cover;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
