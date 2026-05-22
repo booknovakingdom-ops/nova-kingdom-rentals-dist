@@ -1232,7 +1232,9 @@ function injectAddBtn(container, id, name, price, isInflatable, insertBefore, me
 const BOOTH_IMG_PATH = "/images/360-video-booth.jpg";
 
 function injectPhotBoothSection() {
-  // Only run on pages that have lineup sections (rentals page)
+  // Only run on the rentals listing page, not detail pages or any other route
+  if (!window.location.pathname.match(/^\/rentals\/?$/)) return;
+
   const lineupSections = document.querySelectorAll(".lineup-section:not([data-nk-booth-processed])");
   if (!lineupSections.length) return;
 
@@ -1260,7 +1262,7 @@ function injectPhotBoothSection() {
   section.className = "page-section lineup-section nk-photo-booth-section";
   section.innerHTML =
     '<div class="section-heading">' +
-      '<p class="eyebrow">Photo Booth</p>' +
+      '<p class="eyebrow">Photo Booth Experiences</p>' +
       '<h2>360 Video Booth</h2>' +
     '</div>' +
     '<div class="nk-photo-booth-inner"></div>';
@@ -1275,7 +1277,7 @@ function injectPhotBoothSection() {
       '<img src="' + BOOTH_IMG_PATH + '" alt="360 Video Booth rental Nova Scotia" loading="lazy">' +
     '</div>' +
     '<div class="nk-booth-info">' +
-      '<p class="eyebrow">Photo Booth · Event Add-On</p>' +
+      '<p class="eyebrow">Photo Booth Experiences</p>' +
       '<h3>360 Video Booth</h3>' +
       '<p class="nk-booth-tagline">Spin the Moment, Keep It Forever</p>' +
       '<ul class="nk-booth-pricing">' +
@@ -1324,6 +1326,35 @@ function injectPhotBoothSection() {
   lineupSections.forEach((s) => s.setAttribute("data-nk-booth-processed", "1"));
 }
 
+// ── 360 Booth detail page — remove hardcoded inflatable template fields ─
+function cleanupBoothDetailPage() {
+  if (!window.location.pathname.match(/^\/rentals\/360-video-booth\/?/)) return;
+
+  // Hide inflatable-specific rows from the facts-grid (Dimensions, Rental duration, Delivery note)
+  const HIDE_LABELS = new Set(["Dimensions", "Rental duration", "Delivery note"]);
+  document.querySelectorAll(".facts-grid article:not([data-nk-hidden])").forEach((article) => {
+    const label = article.querySelector("span")?.textContent?.trim();
+    if (label && HIDE_LABELS.has(label)) {
+      article.style.display = "none";
+      article.dataset.nkHidden = "1";
+    }
+  });
+
+  // Hide hardcoded setup/safety notes appended by the template
+  const HIDE_NOTES = new Set([
+    "Water source required only for wet-use units",
+    "Adult supervision required at all times",
+    "Travel calculated from Bridgewater",
+  ]);
+  document.querySelectorAll(".page-section.cream .notes-grid article:not([data-nk-hidden])").forEach((article) => {
+    const text = article.textContent?.trim();
+    if (text && HIDE_NOTES.has(text)) {
+      article.style.display = "none";
+      article.dataset.nkHidden = "1";
+    }
+  });
+}
+
 function enhanceAll() {
   enhanceProductCards();
   enhancePackageCards();
@@ -1331,6 +1362,7 @@ function enhanceAll() {
   enhanceLawnGameCards();
   enhanceCarnivalAddonBtns();
   injectPhotBoothSection();
+  cleanupBoothDetailPage();
 }
 
 // ── Init (idempotent, runs once) ─────────────────────────────────

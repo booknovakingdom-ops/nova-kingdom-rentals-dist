@@ -192,6 +192,11 @@
   display: none !important;
 }
 
+/* Hide 360 booth from related-rentals feature-grid on other product pages */
+.feature-grid .product-card:has(img[src*="360-video-booth"]) {
+  display: none !important;
+}
+
 /* Photo Booth feature card layout */
 .nk-photo-booth-section {
   background: #050814;
