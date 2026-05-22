@@ -28,11 +28,20 @@ const CROWN_CARNIVAL_ID         = "product-crown-carnival-challenge";
 const CROWN_CARNIVAL_STANDALONE = 270;
 const CROWN_CARNIVAL_ADDON      = 200;
 
+const BOOTH_360_ID         = "product-360-video-booth";
+const BOOTH_360_STANDALONE = 249;
+const BOOTH_360_ADDON      = 199;
+
 // Extra display metadata for specific cart items (thumbnail + subtitle in cart panel)
 const CART_ITEM_META = {
   [CROWN_CARNIVAL_ID]: {
     image:      "/images/crown carnival challenge.jpeg",
     subtitle:   "Basketball shoot · Elephant toss · Tic Tac Toe · On-point target game",
+    addonLabel: "Add-on",
+  },
+  [BOOTH_360_ID]: {
+    image:      "/images/360-video-booth.jpg",
+    subtitle:   "Standalone: $249/hr · Add-on with package: $199/hr · Extra hours available",
     addonLabel: "Add-on",
   },
 };
@@ -49,7 +58,8 @@ const PKG_INCLUDED_PRODUCTS = {
   "pkg-island-royale":    new Set(["product-crown-island-combo", "product-crown-kick-darts", "product-crown-axe-challenge"]),
   "pkg-royal-all-star":   new Set(["product-crown-rush-42", "product-crown-axe-challenge", "product-crown-kick-darts"]),
   "pkg-kingdom-deluxe":   new Set(["product-crown-rush-42", "product-crown-island-combo", "product-crown-axe-challenge", "product-crown-kick-darts"]),
-  "pkg-ultimate-kingdom": new Set(["product-crown-rush-42", "product-crown-climber", "product-crown-island-combo", "product-crown-dino-combo", "product-crown-axe-challenge", "product-crown-kick-darts"]),
+  "pkg-ultimate-kingdom":      new Set(["product-crown-rush-42", "product-crown-climber", "product-crown-island-combo", "product-crown-dino-combo", "product-crown-axe-challenge", "product-crown-kick-darts"]),
+  "pkg-ultimate-kingdom-plus": new Set(["product-crown-rush-42", "product-crown-climber", "product-crown-island-combo", "product-crown-dino-combo", "product-crown-axe-challenge", "product-crown-kick-darts", "product-crown-carnival-challenge", BOOTH_360_ID]),
 };
 
 // Crown Rush 42 is a combined unit — functionally covers Cascade and Quest.
@@ -265,14 +275,14 @@ function getIncludedProductIds(cart) {
   return map;
 }
 
-// Corrects Crown Carnival Challenge price: $200 when any package is in cart, $270 standalone
+// Corrects addon prices: Carnival Challenge and 360 Video Booth are cheaper when a package is in cart
 function normalizeCarnivalPrice(cart) {
   const hasPkg = cart.some((i) => i.id.startsWith("pkg-"));
-  return cart.map((i) =>
-    i.id === CROWN_CARNIVAL_ID
-      ? { ...i, price: hasPkg ? CROWN_CARNIVAL_ADDON : CROWN_CARNIVAL_STANDALONE }
-      : i
-  );
+  return cart.map((i) => {
+    if (i.id === CROWN_CARNIVAL_ID) return { ...i, price: hasPkg ? CROWN_CARNIVAL_ADDON : CROWN_CARNIVAL_STANDALONE };
+    if (i.id === BOOTH_360_ID)      return { ...i, price: hasPkg ? BOOTH_360_ADDON : BOOTH_360_STANDALONE };
+    return i;
+  });
 }
 
 // Expands a package's product set by applying PRODUCT_COVERS.
@@ -1046,7 +1056,7 @@ function enhanceProductCards() {
     if (!name || !priceEl || !id) return;
     const price = parsePrice(priceEl.textContent);
     if (!price) return;
-    injectAddBtn(card, id, name, price, true, card.querySelector(".button, a"), {});
+    injectAddBtn(card, id, name, price, id !== BOOTH_360_ID, card.querySelector(".button, a"), {});
     hideCheckAvailabilityLinks(card);
   });
 }
@@ -1108,7 +1118,7 @@ function enhanceProductDetail() {
   if (!name || !priceEl || !id) return;
   const price = parsePrice(priceEl.textContent);
   if (!price) return;
-  injectAddBtn(hero, id, name, price, true,
+  injectAddBtn(hero, id, name, price, id !== BOOTH_360_ID,
     hero.querySelector(".button-row, .button, a"), {});
   hideCheckAvailabilityLinks(hero);
 }
@@ -1185,8 +1195,11 @@ function injectAddBtn(container, id, name, price, isInflatable, insertBefore, me
       let actualPrice = price;
       if (id === CROWN_CARNIVAL_ID) {
         actualPrice = currentCart.some((i) => i.id.startsWith("pkg-")) ? CROWN_CARNIVAL_ADDON : CROWN_CARNIVAL_STANDALONE;
+      } else if (id === BOOTH_360_ID) {
+        actualPrice = currentCart.some((i) => i.id.startsWith("pkg-")) ? BOOTH_360_ADDON : BOOTH_360_STANDALONE;
       }
-      currentCart.push({ id, name, price: actualPrice, isInflatable, ...meta });
+      const cartIsInflatable = id === BOOTH_360_ID ? false : isInflatable;
+      currentCart.push({ id, name, price: actualPrice, isInflatable: cartIsInflatable, ...meta });
       saveCart(currentCart);
     }
     saveCart(normalizeCarnivalPrice(loadCart()));
