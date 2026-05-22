@@ -40,7 +40,7 @@ const CART_ITEM_META = {
     addonLabel: "Add-on",
   },
   [BOOTH_360_ID]: {
-    image:      "/images/360-video-booth.jpg",
+    image:      "/images/360-video-booth.jpg?v=20260522-2",
     subtitle:   "Standalone: $249/hr · Add-on with package: $199/hr · Extra hours available",
     addonLabel: "Add-on",
   },
@@ -1262,7 +1262,7 @@ function injectDesktopPhotBoothNav() {
 // This function moves the 360 booth card out of that grid and into its own
 // "Photo Booth" section injected after the Interactive Games lineup section.
 
-const BOOTH_IMG_PATH = "/images/360-video-booth.jpg";
+const BOOTH_IMG_PATH = "/images/360-video-booth.jpg?v=20260522-2";
 
 function injectPhotBoothSection() {
   // Only run on the rentals listing page, not detail pages or any other route

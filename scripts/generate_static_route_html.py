@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE_URL = "https://novakingdomrentals.com"
 GENERAL_IMAGE = "/images/packages/kingdom-deluxe-package.jpg"
 RENTALS_IMAGE = "/images/crown-island-combo.jpeg"
-BOOTH_IMAGE = "/images/360-video-booth.jpg"
+BOOTH_IMAGE = "/images/360-video-booth.jpg?v=20260522-2"
 LAWN_IMAGE = "/images/lawn-games/cornhole.png"
 LOGO_IMAGE = "/images/nova-kingdom-rentals-logo.png"
 
