@@ -1007,7 +1007,10 @@ function makeFormSection(items, stats) {
 
     const payload = {
       access_key:            W3F_KEY,
-      subject:               "New Nova Kingdom Rentals Quote Request",
+      botcheck:              "",
+      from_name:             formState.name || "Website Visitor",
+      replyto:               formState.email,
+      subject:               "New Nova Kingdom Rentals Booking Inquiry",
       business:              "Nova Kingdom Rentals",
       inquiryType:           "Availability request — not a confirmed booking",
       name:                  formState.name,
@@ -1058,15 +1061,16 @@ function makeFormSection(items, stats) {
         body: JSON.stringify(payload),
       });
       const data = await res.json();
-      if (!res.ok || !data.success) throw new Error("Submission failed");
-      if (msgEl) { msgEl.hidden = false; msgEl.className = "nk-form-msg success"; msgEl.textContent = "Quote request sent! We'll confirm availability, delivery cost, and next steps soon."; }
+      if (!res.ok || !data.success) throw new Error(data.message || "Submission failed");
+      if (msgEl) { msgEl.hidden = false; msgEl.className = "nk-form-msg success"; msgEl.textContent = "Request sent! We’ll review your details and follow up shortly."; }
       if (submitBtn) submitBtn.textContent = "Sent!";
       form.reset();
       clearFormState();
       clearExtraState();
       saveCart([]);
       updateBar();
-    } catch {
+    } catch (err) {
+      console.error("[NKR quote-cart] Web3Forms submission failed:", err && err.message ? err.message : err);
       if (msgEl) { msgEl.hidden = false; msgEl.className = "nk-form-msg error"; msgEl.textContent = "Something went wrong. Please call or text 902-990-0005."; }
       if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Request Availability"; }
     }
