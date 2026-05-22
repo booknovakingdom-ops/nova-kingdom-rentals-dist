@@ -245,6 +245,61 @@ var TestHarness = (function () {
     assert('ContactFormParser: unknown subject returns null', result === null);
   }
 
+  // Real production form: "New Nova Kingdom Rentals Booking Inquiry"
+  // Body format: label on one line, value on the next line (Web3Forms separate-line format)
+  function testContactFormParser_nkrWebsiteBooking() {
+    var body = [
+      'Business',
+      'Nova Kingdom Rentals',
+      'InquiryType',
+      'Birthday Party',
+      'Name',
+      'Jane Smith',
+      'EventDate',
+      'July 19, 2026',
+      'EventAddress',
+      '45 Maple Street, Bridgewater NS',
+      'EventType',
+      'Kids Birthday',
+      'Guests',
+      '25',
+      'PackageInterest',
+      'Crown Quest',
+      'Phone',
+      '902-555-0123',
+      'Email',
+      'jane.smith@example.com',
+      'PreferredContact',
+      'Email',
+      'Notes',
+      "Looking for something fun!"
+    ].join('\n');
+    var result = ContactFormParser.parse(body, 'New Nova Kingdom Rentals Booking Inquiry');
+    assert('ContactFormParser: nkr website form returns non-null', result !== null);
+    assertEqual('ContactFormParser: nkr form_type', result.form_type, 'nkr_website_booking');
+    assertEqual('ContactFormParser: nkr name', result.name, 'Jane Smith');
+    assertEqual('ContactFormParser: nkr email from body', result.email, 'jane.smith@example.com');
+    assertEqual('ContactFormParser: nkr phone', result.phone, '902-555-0123');
+    assertEqual('ContactFormParser: nkr event_date', result.event_date, 'July 19, 2026');
+    assertEqual('ContactFormParser: nkr event_address', result.event_address, '45 Maple Street, Bridgewater NS');
+    assertEqual('ContactFormParser: nkr rental_item from PackageInterest', result.rental_item, 'Crown Quest');
+    assertEqual('ContactFormParser: nkr guest_count from Guests', result.guest_count, '25');
+    assertEqual('ContactFormParser: nkr message from Notes', result.message, 'Looking for something fun!');
+  }
+
+  // Verify that parsed.email comes from form body — the Gmail sender is Web3Forms notify address
+  function testContactFormParser_nkrWebsiteBooking_emailFromBody() {
+    var body = ['Name', 'Bob Jones', 'Email', 'bob@example.com', 'Phone', '902-555-9999',
+                'EventDate', 'August 10, 2026', 'EventAddress', '12 Oak Ave',
+                'PackageInterest', 'Crown Dino Combo'].join('\n');
+    var result = ContactFormParser.parseNkrWebsiteBooking(body);
+    assertEqual('ContactFormParser: customer email from form body not notify sender',
+      result.email, 'bob@example.com');
+    // Caller must use result.email, not the Gmail sender (notify+...@web3forms.com)
+    assert('ContactFormParser: result.email is not a web3forms address',
+      result.email.indexOf('web3forms.com') === -1);
+  }
+
   function testContactFormParser_firstName() {
     assertEqual('ContactFormParser: firstName extracts first word', ContactFormParser.firstName('Jane Smith'), 'Jane');
     assertEqual('ContactFormParser: firstName handles single name', ContactFormParser.firstName('Harkirat'), 'Harkirat');
@@ -277,6 +332,69 @@ var TestHarness = (function () {
       TemplateRenderer.checkForbiddenPhrases(bad).length > 0);
   }
 
+  // ─── _matchUnit Tests ─────────────────────────────────────────────────────
+  // _matchUnit is defined in nk-contact-intake.js and is global in GAS.
+  // These tests use a mock units map identical to the real inventory.
+
+  function _mockUnits() {
+    return {
+      'nkr-U-001': { unit_id: 'nkr-U-001', unit_name: 'Crown Rush 42',     base_price: 450, default_hours: 4, status: 'coming_soon' },
+      'nkr-U-002': { unit_id: 'nkr-U-002', unit_name: 'Crown Quest',        base_price: 240, default_hours: 4, status: 'active'      },
+      'nkr-U-003': { unit_id: 'nkr-U-003', unit_name: 'Crown Cascade',      base_price: 260, default_hours: 4, status: 'active'      },
+      'nkr-U-005': { unit_id: 'nkr-U-005', unit_name: 'Crown Dino Combo',   base_price: 210, default_hours: 4, status: 'active'      },
+      'nkr-U-007': { unit_id: 'nkr-U-007', unit_name: 'Crown Axe Challenge',base_price: 180, default_hours: 4, status: 'active'      }
+    };
+  }
+
+  function testMatchUnit_exactMatch() {
+    var u = _matchUnit('Crown Quest', _mockUnits());
+    assert('_matchUnit: exact "Crown Quest" returns Crown Quest', u !== null);
+    assertEqual('_matchUnit: exact match unit_id', u && u.unit_id, 'nkr-U-002');
+  }
+
+  function testMatchUnit_crownQuestDoesNotMatchCrownRush42() {
+    // Bug fix: first-word-only matching used to make "Crown Quest" match "Crown Rush 42"
+    // because both start with "Crown". Verify the fix.
+    var u = _matchUnit('Crown Quest', _mockUnits());
+    assert('_matchUnit: Crown Quest does NOT return Crown Rush 42',
+      u === null || u.unit_id !== 'nkr-U-001');
+  }
+
+  function testMatchUnit_comingSoonExcluded() {
+    // Crown Rush 42 is coming_soon — must never be returned
+    var u = _matchUnit('Crown Rush 42', _mockUnits());
+    assert('_matchUnit: coming_soon unit is never returned', u === null);
+  }
+
+  function testMatchUnit_substringInNeedle() {
+    // Needle contains full unit name
+    var u = _matchUnit('Crown Dino Combo for toddlers', _mockUnits());
+    assert('_matchUnit: full unit name substring match returns correct unit', u !== null);
+    assertEqual('_matchUnit: substring match unit_id', u && u.unit_id, 'nkr-U-005');
+  }
+
+  function testMatchUnit_nullOrEmpty() {
+    assert('_matchUnit: null returns null',  _matchUnit(null, _mockUnits())  === null);
+    assert('_matchUnit: empty returns null', _matchUnit('',   _mockUnits()) === null);
+  }
+
+  // ─── Subject placeholder sanitization ────────────────────────────────────
+
+  function testSubjectPlaceholder_bookingIdStripped() {
+    // When no booking_id is in vars, TemplateRenderer.render returns "[BOOKING_ID]"
+    // The worker strips this before creating the draft subject.
+    var template = 'Nova Kingdom Rentals Quote — {{booking_id}}';
+    var rendered = TemplateRenderer.render(template, { booking_id: '' });
+    // Simulate the worker's post-render sanitization
+    var subject = rendered
+      .replace(/\s*[-—]\s*\[[A-Z_]+\]/g, '')
+      .replace(/\[[A-Z_]+\]\s*[-—]?\s*/g, '')
+      .trim();
+    assertEqual('Subject: [BOOKING_ID] stripped leaving clean title',
+      subject, 'Nova Kingdom Rentals Quote');
+    assert('Subject: no bracket tokens remain', subject.indexOf('[') === -1);
+  }
+
   // ─── Validators — AI output ───────────────────────────────────────────────
 
   function testValidators_contextBundle() {
@@ -306,7 +424,15 @@ var TestHarness = (function () {
     testContactFormParser_bookingInquiry();
     testContactFormParser_assistantInquiry();
     testContactFormParser_unknownSubject();
+    testContactFormParser_nkrWebsiteBooking();
+    testContactFormParser_nkrWebsiteBooking_emailFromBody();
     testContactFormParser_firstName();
+    testMatchUnit_exactMatch();
+    testMatchUnit_crownQuestDoesNotMatchCrownRush42();
+    testMatchUnit_comingSoonExcluded();
+    testMatchUnit_substringInNeedle();
+    testMatchUnit_nullOrEmpty();
+    testSubjectPlaceholder_bookingIdStripped();
     testTemplateRenderer_render();
     testTemplateRenderer_missingPlaceholder();
     testTemplateRenderer_forbiddenPhrases();

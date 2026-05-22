@@ -1276,24 +1276,24 @@ var RiskEvaluator = (function () {
  * Parses Web3Forms plain-text email bodies for NKR contact forms.
  * Each form subject has its own parse function.
  *
- * Web3Forms format: "Field Label : Value\nField Label : Value\n..."
- *
- * Returns a normalized object with consistent field names regardless
- * of which form was submitted. Unknown fields are preserved in `extra`.
+ * Supported formats:
+ *   "Label : Value" on a single line  (existing Booking Inquiry / Quick Event Assistant forms)
+ *   Label on one line, value on the next line (New Nova Kingdom Rentals Booking Inquiry)
  *
  * Supported subjects:
- *   "Booking Inquiry"              — contact page booking form
- *   "Quick Event Assistant Inquiry" — chatbot follow-up form
- *   "Quote Request"                — website quote form (handled by nk-quote-intake.js)
+ *   "Booking Inquiry"                          — legacy contact page form
+ *   "Quick Event Assistant Inquiry"            — chatbot follow-up form
+ *   "New Nova Kingdom Rentals Booking Inquiry" — current live website contact form
+ *
+ * NOTE: The email/name/phone in the parsed result are the CUSTOMER's fields
+ * from the form body. The Gmail sender may be notify+...@web3forms.com —
+ * callers must use parsed.email as the customer email, not the Gmail sender.
  */
 
 var ContactFormParser = (function () {
 
-  /**
-   * Parse a Web3Forms email body into a key-value map.
-   * Returns raw map — use parseBookingInquiry() or parseAssistantInquiry()
-   * for normalized output.
-   */
+  // ─── Format A: "Label : Value" on a single line ────────────────────────────
+
   function _rawParse(body) {
     var result = {};
     if (!body) return result;
@@ -1308,10 +1308,34 @@ var ContactFormParser = (function () {
     return result;
   }
 
-  /**
-   * Normalize raw keys — Web3Forms labels can vary slightly between form versions.
-   * Returns the value of the first matching key, or ''.
-   */
+  // ─── Format B: Label on one line, value on the next line ─────────────────
+  // Used by "New Nova Kingdom Rentals Booking Inquiry".
+  // CamelCase labels (e.g. EventDate) are normalised to snake_case (event_date).
+  // Blank lines are removed before pairing. Trailing colons on labels are stripped.
+
+  function _rawParseSeparateLines(body) {
+    var result = {};
+    if (!body) return result;
+    var lines = body.split('\n')
+      .map(function (l) { return l.trim(); })
+      .filter(function (l) { return l.length > 0; });
+    for (var i = 0; i + 1 < lines.length; i += 2) {
+      var rawKey = lines[i].replace(/:$/, '').trim();
+      var key = rawKey
+        .replace(/([A-Z])/g, function (m, p1, offset) {
+          return (offset > 0 ? '_' : '') + p1.toLowerCase();
+        })
+        .toLowerCase()
+        .replace(/\s+/g, '_')
+        .replace(/_+/g, '_');
+      var val = lines[i + 1];
+      if (key && val) result[key] = val;
+    }
+    return result;
+  }
+
+  // ─── Shared key normaliser ────────────────────────────────────────────────
+
   function _pick(raw, candidates) {
     for (var i = 0; i < candidates.length; i++) {
       var k = candidates[i].toLowerCase().replace(/\s+/g, '_');
@@ -1320,12 +1344,8 @@ var ContactFormParser = (function () {
     return '';
   }
 
-  /**
-   * Parse "Booking Inquiry" form body.
-   *
-   * @param {string} body  Plain-text email body from Web3Forms
-   * @returns {Object}     Normalized parsed fields
-   */
+  // ─── Parser A: "Booking Inquiry" (legacy "Label : Value" format) ──────────
+
   function parseBookingInquiry(body) {
     var raw = _rawParse(body);
     var parsed = {
@@ -1357,12 +1377,8 @@ var ContactFormParser = (function () {
     return parsed;
   }
 
-  /**
-   * Parse "Quick Event Assistant Inquiry" form body.
-   *
-   * @param {string} body  Plain-text email body from Web3Forms
-   * @returns {Object}     Normalized parsed fields
-   */
+  // ─── Parser B: "Quick Event Assistant Inquiry" (legacy "Label : Value") ───
+
   function parseAssistantInquiry(body) {
     var raw = _rawParse(body);
     var parsed = {
@@ -1398,30 +1414,65 @@ var ContactFormParser = (function () {
     return parsed;
   }
 
-  /**
-   * Dispatch to the correct parser based on form subject.
-   * Returns null if subject is not handled by this parser.
-   */
-  function parse(body, formSubject) {
-    var subj = String(formSubject || '').trim();
-    if (subj === 'Booking Inquiry')               return parseBookingInquiry(body);
-    if (subj === 'Quick Event Assistant Inquiry')  return parseAssistantInquiry(body);
-    return null; // Caller routes to MANUAL_REVIEW
+  // ─── Parser C: "New Nova Kingdom Rentals Booking Inquiry" ─────────────────
+  // Current live website form. Body uses label-on-one-line / value-on-next-line format.
+  // Fields: Business, InquiryType, Name, EventDate, EventAddress, EventType,
+  //         Guests, PackageInterest, Phone, Email, PreferredContact, Notes
+
+  function parseNkrWebsiteBooking(body) {
+    var raw = _rawParseSeparateLines(body);
+    var parsed = {
+      form_type:     'nkr_website_booking',
+      name:          _pick(raw, ['name', 'full_name', 'your_name']),
+      email:         _pick(raw, ['email', 'email_address', 'your_email']),
+      phone:         _pick(raw, ['phone', 'phone_number', 'mobile', 'your_phone']),
+      event_date:    _pick(raw, ['event_date', 'date', 'preferred_date']),
+      event_address: _pick(raw, ['event_address', 'address', 'location', 'event_location']),
+      event_type:    _pick(raw, ['event_type', 'inquiry_type', 'type_of_event', 'occasion']),
+      guest_count:   _pick(raw, ['guests', 'guest_count', 'number_of_guests', 'attendees']),
+      rental_item:   _pick(raw, ['package_interest', 'rental_item', 'rental_items', 'interested_in', 'unit', 'units']),
+      message:       _pick(raw, ['notes', 'message', 'additional_notes', 'other_info', 'anything_else']),
+      extra:         {}
+    };
+    var known = [
+      'business', 'inquiry_type', 'name', 'full_name', 'your_name',
+      'email', 'email_address', 'your_email',
+      'phone', 'phone_number', 'mobile', 'your_phone',
+      'event_date', 'date', 'preferred_date',
+      'event_address', 'address', 'location', 'event_location',
+      'event_type', 'type_of_event', 'occasion',
+      'guests', 'guest_count', 'number_of_guests', 'attendees',
+      'package_interest', 'rental_item', 'rental_items', 'interested_in', 'unit', 'units',
+      'preferred_contact',
+      'notes', 'message', 'additional_notes', 'other_info', 'anything_else'
+    ];
+    Object.keys(raw).forEach(function (k) {
+      if (known.indexOf(k) === -1) parsed.extra[k] = raw[k];
+    });
+    return parsed;
   }
 
-  /**
-   * Extract first name from a full name string.
-   */
+  // ─── Dispatcher ───────────────────────────────────────────────────────────
+
+  function parse(body, formSubject) {
+    var subj = String(formSubject || '').trim();
+    if (subj === 'Booking Inquiry')                          return parseBookingInquiry(body);
+    if (subj === 'Quick Event Assistant Inquiry')            return parseAssistantInquiry(body);
+    if (subj === 'New Nova Kingdom Rentals Booking Inquiry') return parseNkrWebsiteBooking(body);
+    return null;
+  }
+
   function firstName(fullName) {
     if (!fullName) return '';
     return String(fullName).trim().split(/\s+/)[0];
   }
 
   return {
-    parse:                 parse,
-    parseBookingInquiry:   parseBookingInquiry,
-    parseAssistantInquiry: parseAssistantInquiry,
-    firstName:             firstName
+    parse:                  parse,
+    parseBookingInquiry:    parseBookingInquiry,
+    parseAssistantInquiry:  parseAssistantInquiry,
+    parseNkrWebsiteBooking: parseNkrWebsiteBooking,
+    firstName:              firstName
   };
 })();
 
