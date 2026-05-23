@@ -1429,20 +1429,29 @@ var ContactFormParser = (function () {
     return result;
   }
 
-  // ─── Format B: Label on one line, value on the next ───────────────────────
+  // ─── Format C (Combined): inline "key : value" OR separate-line ─────────────
   //
-  // Algorithm:
-  //   1. Strip body at first footer marker.
-  //   2. Walk lines. If a line normalises to a known label key → it is a label.
-  //      Flush any accumulated value for the previous label, start a new one.
-  //   3. If a line is not a known label and we have a current label → append
-  //      it to the current value (handles multi-line Notes/Message).
-  //   4. Blank lines are skipped but do NOT end a multi-line value.
+  // Handles both formats produced by the live Web3Forms email:
   //
-  // This replaces the fragile i+=2 fixed-step loop that misparses bodies
-  // with blank lines between pairs or multi-line values.
+  //   Inline (current live format):
+  //     "eventDate  : 2026-05-28"   — camelCase key, arbitrary spaces around colon
+  //     "guests  :"                 — blank value; field recorded as empty string
+  //
+  //   Separate-line (older format / quote-cart):
+  //     "EventDate"                 — label alone on its own line
+  //     "2026-05-28"                — value on the next line
+  //
+  // Algorithm (per non-empty, non-footer line):
+  //   1. If the line contains `:` and the text before the first `:` normalises
+  //      to a known label → inline key:value. Value may be empty. Store and continue.
+  //   2. Otherwise, if the whole line normalises to a known label → separate-line
+  //      label. Flush pending accumulation and start a new key.
+  //   3. Otherwise → value continuation for the current separate-line label.
+  //
+  // A blank inline field (e.g. "guests  :") records an empty string so it does
+  // NOT accidentally swallow the next field (packageInterest, phone, email, etc.).
 
-  function _rawParseSeparateLines(body) {
+  function _rawParseCombined(body) {
     var result = {};
     if (!body) return result;
 
@@ -1461,27 +1470,38 @@ var ContactFormParser = (function () {
     for (var i = 0; i < lines.length; i++) {
       var line = lines[i].trim();
 
-      // Stop at Web3Forms footer
       if (_isFooterLine(line)) break;
-
-      // Skip blank lines (they appear between label/value pairs in real emails)
       if (!line) continue;
 
-      var normKey = _normaliseKey(line);
-      if (_labelKeySet[normKey]) {
-        // This line is a known label
+      // ── Inline "key  : value" ────────────────────────────────────────────────
+      var colonIdx = line.indexOf(':');
+      if (colonIdx !== -1) {
+        var keyPart = line.slice(0, colonIdx).trim();
+        if (keyPart) {
+          var normInline = _normaliseKey(keyPart);
+          if (_labelKeySet[normInline]) {
+            _flush();
+            result[normInline] = line.slice(colonIdx + 1).trim(); // may be ''
+            continue;
+          }
+        }
+      }
+
+      // ── Separate-line label ──────────────────────────────────────────────────
+      var normLine = _normaliseKey(line);
+      if (_labelKeySet[normLine]) {
         _flush();
-        currentKey = normKey;
+        currentKey = normLine;
       } else if (currentKey) {
-        // This line is a value (or continuation of a multi-line value)
         currentVals.push(line);
       }
-      // Lines before the first known label are silently ignored
     }
     _flush();
 
     return result;
   }
+
+  var _rawParseSeparateLines = _rawParseCombined;
 
   // ─── Shared field picker ───────────────────────────────────────────────────
 
@@ -1575,7 +1595,7 @@ var ContactFormParser = (function () {
   //   Subtotal, DeliveryLookupSource, DeliveryDistanceKm, ... (see quote-cart.mjs)
 
   function parseNkrWebsiteBooking(body) {
-    var raw = _rawParseSeparateLines(body);
+    var raw = _rawParseCombined(body);
     var parsed = {
       form_type:      'nkr_website_booking',
       name:           _pick(raw, ['name', 'full_name', 'your_name', 'from_name']),
@@ -1720,26 +1740,27 @@ var ContactFormParser = (function () {
   /**
    * parseDebug(body, formSubject)
    *
-   * Runs the same label-detection algorithm as _rawParseSeparateLines but logs
-   * every decision so callers can see exactly what the real Gmail body contains.
+   * Mirrors _rawParseCombined exactly and logs every decision so callers can see
+   * what the real Gmail body contains. Each labelsFound entry includes a `format`
+   * field: 'inline' or 'separate'.
    *
    * Returns:
    *   {
    *     parsed:        full parsed result (same as parseNkrWebsiteBooking()),
    *     rawLines:      first 80 non-empty lines as JSON strings (shows invisible chars),
-   *     labelsFound:   array of { lineIndex, raw, normKey } for every detected label,
+   *     labelsFound:   array of { lineIndex, raw, normKey, format } for every label,
    *     emailDetected: boolean,
    *     emailValue:    string (empty if not found),
    *     raw:           raw key→value map before _pick mapping
    *   }
    */
   function parseDebug(body, formSubject) {
-    var debugLines    = [];
-    var labelsFound   = [];
-    var rawResult     = {};
-    var currentKey    = null;
-    var currentVals   = [];
-    var lineCount     = 0;
+    var debugLines  = [];
+    var labelsFound = [];
+    var rawResult   = {};
+    var currentKey  = null;
+    var currentVals = [];
+    var lineCount   = 0;
 
     function _flush() {
       if (currentKey && currentVals.length) {
@@ -1766,11 +1787,28 @@ var ContactFormParser = (function () {
         }
         if (!line) continue;
 
-        var normKey = _normaliseKey(line);
-        if (_labelKeySet[normKey]) {
-          labelsFound.push({ lineIndex: i, raw: rawLine, normKey: normKey });
+        // Mirror _rawParseCombined exactly.
+        var colonIdx = line.indexOf(':');
+        if (colonIdx !== -1) {
+          var keyPart = line.slice(0, colonIdx).trim();
+          if (keyPart) {
+            var normInline = _normaliseKey(keyPart);
+            if (_labelKeySet[normInline]) {
+              labelsFound.push({ lineIndex: i, raw: rawLine, normKey: normInline, format: 'inline' });
+              _flush();
+              rawResult[normInline] = line.slice(colonIdx + 1).trim();
+              currentKey  = null;
+              currentVals = [];
+              continue;
+            }
+          }
+        }
+
+        var normLine = _normaliseKey(line);
+        if (_labelKeySet[normLine]) {
+          labelsFound.push({ lineIndex: i, raw: rawLine, normKey: normLine, format: 'separate' });
           _flush();
-          currentKey = normKey;
+          currentKey = normLine;
         } else if (currentKey) {
           currentVals.push(line);
         }

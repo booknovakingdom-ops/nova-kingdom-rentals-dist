@@ -328,6 +328,52 @@ var TestHarness = (function () {
     assert('RealBody: draft validation passes for real customer email', check.valid);
   }
 
+  // ─── Test REAL (inline): exact body format confirmed from live Gmail ────────
+  // Web3Forms sends camelCase key  :  value pairs on a single line.
+  // Empty fields (guests  :) must stay blank and must NOT swallow next field.
+
+  function testParser_realGmailBodyInline() {
+    var body = [
+      'business  : Nova Kingdom Rentals',
+      'inquiryType  : Availability request only - booking not guaranteed until manually confirmed',
+      'name  : Nova Kingdom',
+      'eventDate  : 2026-05-28',
+      'eventAddress  : 119 lakeview circle',
+      'eventType  : School event',
+      'guests  :',
+      'packageInterest  : Crown Dino Combo',
+      'phone  : 9023996167',
+      'email  : booknovakingdom@gmail.com',
+      'preferredContact  :',
+      'notes  :'
+    ].join('\n');
+
+    var result = ContactFormParser.parseNkrWebsiteBooking(body);
+    assert('Inline: result is non-null', result !== null);
+    assertEqual('Inline: name',          result.name,          'Nova Kingdom');
+    assertEqual('Inline: email',         result.email,         'booknovakingdom@gmail.com');
+    assertEqual('Inline: phone',         result.phone,         '9023996167');
+    assertEqual('Inline: event_date',    result.event_date,    '2026-05-28');
+    assertEqual('Inline: event_address', result.event_address, '119 lakeview circle');
+    assertEqual('Inline: event_type',    result.event_type,    'School event');
+    assertEqual('Inline: rental_item',   result.rental_item,   'Crown Dino Combo');
+    assertEqual('Inline: guest_count blank',   result.guest_count, '');
+    assertEqual('Inline: message blank',       result.message,     '');
+
+    // parseDebug must detect email label and report inline format
+    var dbg = ContactFormParser.parseDebug(body, 'New Nova Kingdom Rentals Booking Inquiry');
+    assert('Inline: emailDetected by parseDebug',     dbg.emailDetected);
+    assertEqual('Inline: emailValue from parseDebug', dbg.emailValue, 'booknovakingdom@gmail.com');
+    var emailEntry = dbg.labelsFound.filter(function(l){ return l.normKey === 'email'; })[0];
+    assert('Inline: email label detected as inline format', emailEntry && emailEntry.format === 'inline');
+
+    // Safety checks
+    assert('Inline: email is not web3forms sender',
+      !ContactFormParser.isWeb3FormsNotifySender(result.email));
+    var check = ContactFormParser.validateRequiredForDraft(result, result.email);
+    assert('Inline: draft validation passes', check.valid);
+  }
+
   // ─── Test A: Separate-line format with blank lines between pairs ──────────
   // This is the real production format sent by Web3Forms.
 
@@ -930,8 +976,9 @@ var TestHarness = (function () {
     // BookingLifecycle
     testBookingLifecycle_validTransitions();
 
-    // ContactFormParser — real Gmail body (production regression test)
+    // ContactFormParser — real Gmail body (production regression tests)
     testParser_realGmailBody();
+    testParser_realGmailBodyInline();
 
     // ContactFormParser — legacy
     testContactFormParser_bookingInquiry();

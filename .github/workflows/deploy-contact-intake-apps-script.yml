@@ -95,11 +95,64 @@ jobs:
         working-directory: google-apps-script/contact-intake-app
         run: clasp push --force
 
+      - name: Verify remote Apps Script — pull and grep deployed files
+        working-directory: google-apps-script/contact-intake-app
+        run: |
+          # Pull the live remote into a fresh temp dir so we read what Apps Script
+          # actually stored — not just what we pushed. This proves the deploy target
+          # is the project we intended and the placeholder is gone.
+          VERIFY_DIR=$(mktemp -d)
+          printf '{"scriptId": "%s", "rootDir": "."}\n' "$CONTACT_INTAKE_SCRIPT_ID" \
+            > "$VERIFY_DIR/.clasp.json"
+          cd "$VERIFY_DIR"
+          clasp pull
+
+          echo ""
+          echo "── Remote project info ─────────────────────────────────────────────"
+          clasp status || true
+          echo ""
+          echo "── Files pulled from remote ────────────────────────────────────────"
+          ls -lh
+          echo ""
+
+          # Confirm the correct spreadsheet ID is present in Code.gs
+          echo "── SPREADSHEET_ID in remote Code.gs ────────────────────────────────"
+          grep "SPREADSHEET_ID" Code.gs || echo "(not found)"
+
+          # Fail if any placeholder token remains in the pulled remote files
+          echo ""
+          echo "── Placeholder check on remote files ───────────────────────────────"
+          BAD_PATTERNS="YOUR_CRM_SPREADSHEET_ID YOUR_ PASTE_ TODO_REPLACE"
+          FAIL=0
+          for FILE in Code.gs CoreBundle.gs; do
+            if [ ! -f "$FILE" ]; then
+              echo "WARNING: $FILE not found in pulled remote — skipping"
+              continue
+            fi
+            for PAT in $BAD_PATTERNS; do
+              if grep -q "$PAT" "$FILE"; then
+                echo "REMOTE FAIL: $FILE still contains '$PAT'"
+                grep -n "$PAT" "$FILE"
+                FAIL=1
+              fi
+            done
+          done
+
+          if [ "$FAIL" -eq 1 ]; then
+            echo ""
+            echo "ERROR: Remote Apps Script project still contains placeholder values."
+            echo "Check that CONTACT_INTAKE_SCRIPT_ID points to the correct project."
+            echo "Script ID in use: $CONTACT_INTAKE_SCRIPT_ID"
+            exit 1
+          fi
+
+          echo "✅ Remote Apps Script project verified — no placeholders found."
+
       - name: Deploy complete
         run: |
-          echo "✅ NK Contact Intake deployed to Apps Script."
-          echo "   Open script.google.com to verify Code.gs and CoreBundle.gs."
-          echo "   Run TestHarness.testAll() in the editor to confirm all tests pass."
+          echo "✅ NK Contact Intake deployed and verified."
+          echo "   Remote Code.gs confirmed: no placeholder values."
+          echo "   Run TestHarness.testAll() in the Apps Script editor to validate."
           echo ""
           echo "⚠  This deploy pushes code only."
           echo "   It does not run processContactIntake() and does not create Gmail drafts."
