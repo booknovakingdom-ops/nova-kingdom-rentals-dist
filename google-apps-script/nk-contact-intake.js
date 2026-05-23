@@ -774,6 +774,19 @@ function runDebugReprocess() {
 }
 
 /**
+ * resetAndDebugLatestTest()
+ *
+ * Temporary helper. Resets idempotency for message 19e56c90ecb94875 then
+ * replays it through the simulation pipeline with full parseDebug logging.
+ * Simulation mode only — does not call processContactIntake, does not
+ * search Gmail for new emails, does not create real drafts.
+ */
+function resetAndDebugLatestTest() {
+  resetIdempotencyForMessage('19e56c90ecb94875');
+  reprocessContactIntakeSimulation('19e56c90ecb94875');
+}
+
+/**
  * inspectIdempotencyRecord(messageId)
  *
  * Diagnostic helper: logs the idempotency record for a given message ID.
