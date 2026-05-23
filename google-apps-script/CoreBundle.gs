@@ -788,12 +788,34 @@ var Idempotency = (function () {
     if (fields.traceId) sheet.getRange(r, COL.TRACE_ID + 1).setValue(fields.traceId);
   }
 
+  /**
+   * Delete the idempotency row for a single message ID so the next production
+   * run will reprocess it. Admin-only — never call in bulk.
+   *
+   * Returns true if the row was found and deleted, false if no row existed.
+   */
+  function resetOne(spreadsheetId, key) {
+    if (!key || typeof key !== 'string' || !key.trim()) {
+      throw new Error('Idempotency.resetOne: key must be a non-empty string');
+    }
+    var sheet = _getSheet(spreadsheetId);
+    var found = _findRow(sheet, key.trim());
+    if (!found) {
+      console.log('Idempotency.resetOne: no row found for key ' + key);
+      return false;
+    }
+    sheet.deleteRow(found.rowIndex);
+    console.log('Idempotency.resetOne: deleted row ' + found.rowIndex + ' for key ' + key);
+    return true;
+  }
+
   return {
     check:          check,
     markProcessing: markProcessing,
     markCompleted:  markCompleted,
     markFailed:     markFailed,
-    markSkipped:    markSkipped
+    markSkipped:    markSkipped,
+    resetOne:       resetOne
   };
 })();
 
