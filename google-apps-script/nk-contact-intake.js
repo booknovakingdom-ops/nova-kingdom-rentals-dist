@@ -24,7 +24,7 @@
 // Only NKR-specific IDs and labels. All business values live in Config_* tabs.
 
 var TENANT = {
-  SPREADSHEET_ID:     'YOUR_CRM_SPREADSHEET_ID', // ← fill in before deploying
+  SPREADSHEET_ID:     '1zJCGaO8nUSC4sYD75Nw5ZKcc4W8EGdMncpdmfehrgOI',
   TENANT_ID:          'nkr',
   ANTHROPIC_KEY_PROP: 'ANTHROPIC_API_KEY',        // Script Properties key name
   PROCESSED_LABEL:    'NK/Contact-Processed',
@@ -37,9 +37,34 @@ var TENANT = {
   MAX_THREADS_PER_RUN: 20
 };
 
+// ─── Startup Validation ───────────────────────────────────────────────────────
+
+/**
+ * Throws a clear error if SPREADSHEET_ID is missing or still a placeholder.
+ * Call this at the top of processContactIntake() and all simulation helpers.
+ *
+ * Placeholder detection uses runtime prefix construction so the CI deploy guard
+ * does not false-positive on this function itself.
+ */
+function _assertSpreadsheetId() {
+  var id = TENANT.SPREADSHEET_ID;
+  // Build the sentinel prefixes at runtime to avoid embedding them as literals.
+  var badPrefixes = ['YOUR', 'PASTE', 'TODO'].map(function(p) { return p + '_'; });
+  var isPlaceholder = !id || badPrefixes.some(function(prefix) {
+    return id.slice(0, prefix.length) === prefix;
+  });
+  if (isPlaceholder) {
+    throw new Error(
+      'TENANT.SPREADSHEET_ID is not configured. ' +
+      'Set it to the NKR CRM spreadsheet ID in nk-contact-intake.js.'
+    );
+  }
+}
+
 // ─── Main Entry Point ─────────────────────────────────────────────────────────
 
 function processContactIntake() {
+  _assertSpreadsheetId();
   var controls, profile;
   try {
     controls = ConfigLoader.getOpsControls(TENANT.SPREADSHEET_ID, TENANT.TENANT_ID);
@@ -652,6 +677,7 @@ function runSimulationTest() {
  * Output: Sim_Actions and Sim_Drafts tabs in the CRM spreadsheet.
  */
 function runSimulationFromBody(body, subject, from) {
+  _assertSpreadsheetId();
   subject = subject || 'New Nova Kingdom Rentals Booking Inquiry';
   from    = from    || 'Web3Forms <notify+sim@web3forms.com>';
 

@@ -67,6 +67,26 @@ jobs:
           echo "Files staged for deploy:"
           ls -lh google-apps-script/contact-intake-app/
 
+      - name: Guard against placeholder values in deploy files
+        run: |
+          BAD_PATTERNS="YOUR_CRM_SPREADSHEET_ID YOUR_ PASTE_ TODO_REPLACE"
+          FAIL=0
+          for FILE in \
+            google-apps-script/contact-intake-app/Code.gs \
+            google-apps-script/contact-intake-app/CoreBundle.gs; do
+            for PAT in $BAD_PATTERNS; do
+              if grep -q "$PAT" "$FILE"; then
+                echo "ERROR: $FILE contains placeholder '$PAT' — deploy blocked."
+                FAIL=1
+              fi
+            done
+          done
+          if [ "$FAIL" -eq 1 ]; then
+            echo "Fix all placeholders in the canonical source files before deploying."
+            exit 1
+          fi
+          echo "✅ No placeholder values detected in deploy files."
+
       - name: clasp status (verify project connection)
         working-directory: google-apps-script/contact-intake-app
         run: clasp status
