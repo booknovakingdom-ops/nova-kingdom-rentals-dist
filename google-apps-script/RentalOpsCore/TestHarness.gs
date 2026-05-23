@@ -244,6 +244,90 @@ var TestHarness = (function () {
     assert('Parser: unknown subject returns null', result === null);
   }
 
+  // ─── Test REAL: Exact Gmail body from message 19e52011aa6334c4 ───────────
+  // This is the verbatim production body that exposed the parser failure.
+  // Web3Forms sender: notify+yqgbgi@web3forms.com
+  // Includes: intro text before first label, blank optional fields (Guests,
+  // PreferredContact, Notes), Web3Forms footer line.
+
+  function testParser_realGmailBody() {
+    var body = [
+      'Hello,',
+      '',
+      'A new form has been submitted on your website. Details below.',
+      '',
+      'Business',
+      '',
+      'Nova Kingdom Rentals',
+      '',
+      'InquiryType',
+      '',
+      'Availability request only - booking not guaranteed until manually confirmed',
+      '',
+      'Name',
+      '',
+      'Nova Kingdom',
+      '',
+      'EventDate',
+      '',
+      '2026-05-28',
+      '',
+      'EventAddress',
+      '',
+      '119 lakeview circle',
+      '',
+      'EventType',
+      '',
+      'School event',
+      '',
+      'Guests',
+      '',
+      'PackageInterest',
+      '',
+      'Crown Dino Combo',
+      '',
+      'Phone',
+      '',
+      '9023996167',
+      '',
+      'Email',
+      '',
+      'booknovakingdom@gmail.com',
+      '',
+      'PreferredContact',
+      '',
+      'Notes',
+      '',
+      'Visitor IP: 1.2.3.4'
+    ].join('\n');
+
+    var result = ContactFormParser.parseNkrWebsiteBooking(body);
+    assert('RealBody: result is non-null', result !== null);
+    assertEqual('RealBody: name',          result.name,          'Nova Kingdom');
+    assertEqual('RealBody: email',         result.email,         'booknovakingdom@gmail.com');
+    assertEqual('RealBody: phone',         result.phone,         '9023996167');
+    assertEqual('RealBody: event_date',    result.event_date,    '2026-05-28');
+    assertEqual('RealBody: event_address', result.event_address, '119 lakeview circle');
+    assertEqual('RealBody: event_type',    result.event_type,    'School event');
+    assertEqual('RealBody: rental_item',   result.rental_item,   'Crown Dino Combo');
+    assertEqual('RealBody: guest_count blank', result.guest_count,       '');
+    assertEqual('RealBody: preferred_contact blank', result.extra && result.extra['preferred_contact'], undefined);
+    assertEqual('RealBody: message blank', result.message, '');
+
+    // parseDebug must show email label was detected
+    var dbg = ContactFormParser.parseDebug(body, 'New Nova Kingdom Rentals Booking Inquiry');
+    assert('RealBody: email label detected by parseDebug', dbg.emailDetected);
+    assertEqual('RealBody: email value from parseDebug', dbg.emailValue, 'booknovakingdom@gmail.com');
+
+    // Safety: customer email must NOT be a web3forms address
+    assert('RealBody: extracted email is not web3forms sender',
+      !ContactFormParser.isWeb3FormsNotifySender(result.email));
+
+    // Validate draft recipient is safe
+    var check = ContactFormParser.validateRequiredForDraft(result, result.email);
+    assert('RealBody: draft validation passes for real customer email', check.valid);
+  }
+
   // ─── Test A: Separate-line format with blank lines between pairs ──────────
   // This is the real production format sent by Web3Forms.
 
@@ -845,6 +929,9 @@ var TestHarness = (function () {
 
     // BookingLifecycle
     testBookingLifecycle_validTransitions();
+
+    // ContactFormParser — real Gmail body (production regression test)
+    testParser_realGmailBody();
 
     // ContactFormParser — legacy
     testContactFormParser_bookingInquiry();

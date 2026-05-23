@@ -1716,11 +1716,86 @@ var ContactFormParser = (function () {
     return { valid: issues.length === 0, issues: issues };
   }
 
+  // ─── Debug parser ────────────────────────────────────────────────────────────
+  /**
+   * parseDebug(body, formSubject)
+   *
+   * Runs the same label-detection algorithm as _rawParseSeparateLines but logs
+   * every decision so callers can see exactly what the real Gmail body contains.
+   *
+   * Returns:
+   *   {
+   *     parsed:        full parsed result (same as parseNkrWebsiteBooking()),
+   *     rawLines:      first 80 non-empty lines as JSON strings (shows invisible chars),
+   *     labelsFound:   array of { lineIndex, raw, normKey } for every detected label,
+   *     emailDetected: boolean,
+   *     emailValue:    string (empty if not found),
+   *     raw:           raw key→value map before _pick mapping
+   *   }
+   */
+  function parseDebug(body, formSubject) {
+    var debugLines    = [];
+    var labelsFound   = [];
+    var rawResult     = {};
+    var currentKey    = null;
+    var currentVals   = [];
+    var lineCount     = 0;
+
+    function _flush() {
+      if (currentKey && currentVals.length) {
+        rawResult[currentKey] = currentVals.join(' ').trim();
+      }
+      currentKey  = null;
+      currentVals = [];
+    }
+
+    if (body) {
+      var lines = body.split('\n');
+      for (var i = 0; i < lines.length; i++) {
+        var rawLine = lines[i];
+        var line    = rawLine.trim();
+
+        if (line && lineCount < 80) {
+          debugLines.push('[' + i + '] raw=' + JSON.stringify(rawLine) + ' trimmed=' + JSON.stringify(line));
+          lineCount++;
+        }
+
+        if (_isFooterLine(line)) {
+          debugLines.push('[' + i + '] FOOTER STOP');
+          break;
+        }
+        if (!line) continue;
+
+        var normKey = _normaliseKey(line);
+        if (_labelKeySet[normKey]) {
+          labelsFound.push({ lineIndex: i, raw: rawLine, normKey: normKey });
+          _flush();
+          currentKey = normKey;
+        } else if (currentKey) {
+          currentVals.push(line);
+        }
+      }
+      _flush();
+    }
+
+    var parsed = parseNkrWebsiteBooking(body);
+
+    return {
+      parsed:        parsed,
+      rawLines:      debugLines,
+      labelsFound:   labelsFound,
+      emailDetected: labelsFound.some(function (l) { return l.normKey === 'email'; }),
+      emailValue:    parsed.email,
+      raw:           rawResult
+    };
+  }
+
   return {
     parse:                        parse,
     parseBookingInquiry:          parseBookingInquiry,
     parseAssistantInquiry:        parseAssistantInquiry,
     parseNkrWebsiteBooking:       parseNkrWebsiteBooking,
+    parseDebug:                   parseDebug,
     firstName:                    firstName,
     isWeb3FormsNotifySender:      isWeb3FormsNotifySender,
     containsUnresolvedPlaceholders: containsUnresolvedPlaceholders,

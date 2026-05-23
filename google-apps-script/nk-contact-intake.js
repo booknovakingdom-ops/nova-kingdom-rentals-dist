@@ -701,6 +701,23 @@ function runSimulationFromMessageId(messageId) {
   var from    = realMsg.getFrom();
 
   console.log('[SIM] Replaying message ' + messageId + ' | subject: ' + subject + ' | from: ' + from);
+
+  // ── Parser debug: log every line decision so we can see the real body format ──
+  var dbg = ContactFormParser.parseDebug(body, subject);
+
+  console.log('[SIM-DEBUG] Body length (chars): ' + (body ? body.length : 0));
+  console.log('[SIM-DEBUG] First 80 non-empty body lines:');
+  dbg.rawLines.forEach(function (l) { console.log('  ' + l); });
+
+  console.log('[SIM-DEBUG] Labels detected (' + dbg.labelsFound.length + '):');
+  dbg.labelsFound.forEach(function (l) {
+    console.log('  line ' + l.lineIndex + ': raw=' + JSON.stringify(l.raw) + ' → normKey=' + l.normKey);
+  });
+
+  console.log('[SIM-DEBUG] Email label detected: ' + dbg.emailDetected);
+  console.log('[SIM-DEBUG] Email value captured: ' + JSON.stringify(dbg.emailValue));
+  console.log('[SIM-DEBUG] Full parsed object: ' + JSON.stringify(dbg.parsed));
+
   runSimulationFromBody(body, subject, from);
 }
 
