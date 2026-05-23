@@ -759,6 +759,21 @@ function reprocessContactIntakeSimulation(messageId) {
 }
 
 /**
+ * runDebugReprocess()
+ *
+ * Zero-argument wrapper for the Apps Script function dropdown.
+ * Replays message 19e52011aa6334c4 through the simulation pipeline
+ * with full parseDebug logging so you can see exactly what the parser
+ * does with the real Gmail body.
+ *
+ * Safe: simulation mode only. Does NOT call processContactIntake(),
+ * does NOT search Gmail for new emails, does NOT create real drafts.
+ */
+function runDebugReprocess() {
+  reprocessContactIntakeSimulation('19e52011aa6334c4');
+}
+
+/**
  * inspectIdempotencyRecord(messageId)
  *
  * Diagnostic helper: logs the idempotency record for a given message ID.
