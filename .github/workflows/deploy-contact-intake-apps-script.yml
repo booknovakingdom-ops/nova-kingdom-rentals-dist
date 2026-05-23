@@ -98,9 +98,6 @@ jobs:
       - name: Verify remote Apps Script — pull and grep deployed files
         working-directory: google-apps-script/contact-intake-app
         run: |
-          # Pull the live remote into a fresh temp dir so we read what Apps Script
-          # actually stored — not just what we pushed. This proves the deploy target
-          # is the project we intended and the placeholder is gone.
           VERIFY_DIR=$(mktemp -d)
           printf '{"scriptId": "%s", "rootDir": "."}\n' "$CONTACT_INTAKE_SCRIPT_ID" \
             > "$VERIFY_DIR/.clasp.json"
@@ -108,27 +105,59 @@ jobs:
           clasp pull
 
           echo ""
-          echo "── Remote project info ─────────────────────────────────────────────"
-          clasp status || true
-          echo ""
           echo "── Files pulled from remote ────────────────────────────────────────"
           ls -lh
           echo ""
 
-          # Confirm the correct spreadsheet ID is present in Code.gs
-          echo "── SPREADSHEET_ID in remote Code.gs ────────────────────────────────"
-          grep "SPREADSHEET_ID" Code.gs || echo "(not found)"
+          # Apps Script may return files as .js or .gs depending on project type.
+          # Detect whichever extension was actually pulled.
+          CODE_FILE=""
+          for CANDIDATE in Code.js Code.gs; do
+            if [ -f "$CANDIDATE" ]; then CODE_FILE="$CANDIDATE"; break; fi
+          done
+          CORE_FILE=""
+          for CANDIDATE in CoreBundle.js CoreBundle.gs; do
+            if [ -f "$CANDIDATE" ]; then CORE_FILE="$CANDIDATE"; break; fi
+          done
 
-          # Fail if any placeholder token remains in the pulled remote files
+          FAIL=0
+
+          if [ -z "$CODE_FILE" ]; then
+            echo "ERROR: Neither Code.js nor Code.gs found in pulled remote."
+            FAIL=1
+          else
+            echo "── Detected remote Code file: $CODE_FILE"
+          fi
+
+          if [ -z "$CORE_FILE" ]; then
+            echo "ERROR: Neither CoreBundle.js nor CoreBundle.gs found in pulled remote."
+            FAIL=1
+          else
+            echo "── Detected remote CoreBundle file: $CORE_FILE"
+          fi
+
+          if [ "$FAIL" -eq 1 ]; then
+            echo "Script ID in use: $CONTACT_INTAKE_SCRIPT_ID"
+            exit 1
+          fi
+
           echo ""
+          echo "── SPREADSHEET_ID in remote $CODE_FILE ─────────────────────────────"
+          grep "SPREADSHEET_ID" "$CODE_FILE" || echo "(SPREADSHEET_ID line not found)"
+          echo ""
+
+          # Fail if the real CRM spreadsheet ID is absent from Code file
+          REAL_ID="1zJCGaO8nUSC4sYD75Nw5ZKcc4W8EGdMncpdmfehrgOI"
+          if ! grep -q "$REAL_ID" "$CODE_FILE"; then
+            echo "ERROR: Real CRM spreadsheet ID not found in remote $CODE_FILE."
+            echo "Expected: $REAL_ID"
+            FAIL=1
+          fi
+
+          # Fail if any placeholder token remains in either remote file
           echo "── Placeholder check on remote files ───────────────────────────────"
           BAD_PATTERNS="YOUR_CRM_SPREADSHEET_ID YOUR_ PASTE_ TODO_REPLACE"
-          FAIL=0
-          for FILE in Code.gs CoreBundle.gs; do
-            if [ ! -f "$FILE" ]; then
-              echo "WARNING: $FILE not found in pulled remote — skipping"
-              continue
-            fi
+          for FILE in "$CODE_FILE" "$CORE_FILE"; do
             for PAT in $BAD_PATTERNS; do
               if grep -q "$PAT" "$FILE"; then
                 echo "REMOTE FAIL: $FILE still contains '$PAT'"
@@ -140,18 +169,18 @@ jobs:
 
           if [ "$FAIL" -eq 1 ]; then
             echo ""
-            echo "ERROR: Remote Apps Script project still contains placeholder values."
+            echo "ERROR: Remote verification failed."
             echo "Check that CONTACT_INTAKE_SCRIPT_ID points to the correct project."
             echo "Script ID in use: $CONTACT_INTAKE_SCRIPT_ID"
             exit 1
           fi
 
-          echo "✅ Remote Apps Script project verified — no placeholders found."
+          echo "✅ Remote $CODE_FILE verified — correct spreadsheet ID, no placeholders."
 
       - name: Deploy complete
         run: |
           echo "✅ NK Contact Intake deployed and verified."
-          echo "   Remote Code.gs confirmed: no placeholder values."
+          echo "   Remote Code file confirmed: correct spreadsheet ID, no placeholders."
           echo "   Run TestHarness.testAll() in the Apps Script editor to validate."
           echo ""
           echo "⚠  This deploy pushes code only."
