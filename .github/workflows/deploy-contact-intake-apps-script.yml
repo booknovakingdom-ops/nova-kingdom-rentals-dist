@@ -16,6 +16,10 @@ jobs:
     name: clasp push to Apps Script
     runs-on: ubuntu-latest
 
+    env:
+      CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
+      CONTACT_INTAKE_SCRIPT_ID: ${{ secrets.CONTACT_INTAKE_SCRIPT_ID }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -30,12 +34,12 @@ jobs:
 
       - name: Validate required secrets are present
         run: |
-          if [ -z "${{ secrets.CLASPRC_JSON }}" ]; then
+          if [ -z "$CLASPRC_JSON" ]; then
             echo "ERROR: CLASPRC_JSON secret is not set."
             echo "Add it in: Settings → Secrets and variables → Actions → New repository secret"
             exit 1
           fi
-          if [ -z "${{ secrets.CONTACT_INTAKE_SCRIPT_ID }}" ]; then
+          if [ -z "$CONTACT_INTAKE_SCRIPT_ID" ]; then
             echo "ERROR: CONTACT_INTAKE_SCRIPT_ID secret is not set."
             echo "Find it in the Apps Script project: Project Settings → IDs → Script ID"
             exit 1
@@ -43,17 +47,14 @@ jobs:
 
       - name: Write clasp credentials
         run: |
-          echo '${{ secrets.CLASPRC_JSON }}' > ~/.clasprc.json
+          printf '%s' "$CLASPRC_JSON" > ~/.clasprc.json
           chmod 600 ~/.clasprc.json
 
       - name: Write .clasp.json with script ID
         run: |
-          cat > google-apps-script/contact-intake-app/.clasp.json <<EOF
-          {
-            "scriptId": "${{ secrets.CONTACT_INTAKE_SCRIPT_ID }}",
-            "rootDir": "."
-          }
-          EOF
+          printf '{\n  "scriptId": "%s",\n  "rootDir": "."\n}\n' \
+            "$CONTACT_INTAKE_SCRIPT_ID" \
+            > google-apps-script/contact-intake-app/.clasp.json
 
       - name: Copy canonical source files into deploy folder
         run: |
