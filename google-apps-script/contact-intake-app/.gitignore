@@ -1,0 +1,4 @@
+# Generated at deploy time by GitHub Actions — do not commit these
+Code.gs
+CoreBundle.gs
+.clasp.json

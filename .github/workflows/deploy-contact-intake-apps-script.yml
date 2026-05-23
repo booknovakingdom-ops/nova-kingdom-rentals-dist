@@ -1,0 +1,84 @@
+name: Deploy NK Contact Intake to Apps Script
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'google-apps-script/nk-contact-intake.js'
+      - 'google-apps-script/CoreBundle.gs'
+      - 'google-apps-script/contact-intake-app/**'
+      - '.github/workflows/deploy-contact-intake-apps-script.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: clasp push to Apps Script
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install clasp
+        run: npm install -g @google/clasp
+
+      - name: Validate required secrets are present
+        run: |
+          if [ -z "${{ secrets.CLASPRC_JSON }}" ]; then
+            echo "ERROR: CLASPRC_JSON secret is not set."
+            echo "Add it in: Settings → Secrets and variables → Actions → New repository secret"
+            exit 1
+          fi
+          if [ -z "${{ secrets.CONTACT_INTAKE_SCRIPT_ID }}" ]; then
+            echo "ERROR: CONTACT_INTAKE_SCRIPT_ID secret is not set."
+            echo "Find it in the Apps Script project: Project Settings → IDs → Script ID"
+            exit 1
+          fi
+
+      - name: Write clasp credentials
+        run: |
+          echo '${{ secrets.CLASPRC_JSON }}' > ~/.clasprc.json
+          chmod 600 ~/.clasprc.json
+
+      - name: Write .clasp.json with script ID
+        run: |
+          cat > google-apps-script/contact-intake-app/.clasp.json <<EOF
+          {
+            "scriptId": "${{ secrets.CONTACT_INTAKE_SCRIPT_ID }}",
+            "rootDir": "."
+          }
+          EOF
+
+      - name: Copy canonical source files into deploy folder
+        run: |
+          cp google-apps-script/nk-contact-intake.js \
+             google-apps-script/contact-intake-app/Code.gs
+
+          cp google-apps-script/CoreBundle.gs \
+             google-apps-script/contact-intake-app/CoreBundle.gs
+
+          echo "Files staged for deploy:"
+          ls -lh google-apps-script/contact-intake-app/
+
+      - name: clasp status (verify project connection)
+        working-directory: google-apps-script/contact-intake-app
+        run: clasp status
+
+      - name: clasp push
+        working-directory: google-apps-script/contact-intake-app
+        run: clasp push --force
+
+      - name: Deploy complete
+        run: |
+          echo "✅ NK Contact Intake deployed to Apps Script."
+          echo "   Open script.google.com to verify Code.gs and CoreBundle.gs."
+          echo "   Run TestHarness.testAll() in the editor to confirm all tests pass."
+          echo ""
+          echo "⚠  This deploy pushes code only."
+          echo "   It does not run processContactIntake() and does not create Gmail drafts."
