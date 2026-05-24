@@ -2587,6 +2587,161 @@ var DraftQueue = (function () {
 
 
 // ═════════════════════════════════════════════════════════════════════════════
+// 10. BOOKINGLLIFECYCLE
+// ═════════════════════════════════════════════════════════════════════════════
+
+/**
+ * BookingLifecycle — RentalOps Core Library
+ *
+ * Formal state machine for booking and customer lifecycle transitions.
+ * All state changes go through this module and are logged to Ops_BookingLifecycleLog.
+ *
+ * Valid states and transitions are defined in 11_booking_lifecycle_log.json.
+ */
+
+var BookingLifecycle = (function () {
+
+  var TAB_NAME = 'Ops_BookingLifecycleLog';
+
+  var VALID_TRANSITIONS = {
+    'new':         ['engaged', 'dormant', 'dnc'],
+    'engaged':     ['quoted', 'dormant', 'dnc'],
+    'quoted':      ['negotiating', 'booked', 'dormant', 'dnc'],
+    'negotiating': ['booked', 'dormant', 'dnc'],
+    'booked':      ['paid', 'cancelled'],
+    'paid':        ['completed', 'cancelled'],
+    'completed':   [],
+    'dormant':     ['engaged'],
+    'dnc':         [],
+    'cancelled':   []
+  };
+
+  var GUARDS = {
+    'booked':    function (ctx) {
+      if (!ctx.depositReceived) throw new Error('BookingLifecycle: cannot transition to BOOKED — deposit not received');
+    },
+    'paid':      function (ctx) {
+      if (!ctx.balanceReceived) throw new Error('BookingLifecycle: cannot transition to PAID — balance not received');
+    },
+    'completed': function (ctx) {
+      if (!ctx.eventDate) throw new Error('BookingLifecycle: cannot transition to COMPLETED — event_date not set');
+      var eventDate = new Date(ctx.eventDate);
+      if (eventDate > new Date()) throw new Error('BookingLifecycle: cannot transition to COMPLETED — event_date is in the future');
+    }
+  };
+
+  function _getSheet(spreadsheetId) {
+    var ss = SpreadsheetApp.openById(spreadsheetId);
+    var sheet = ss.getSheetByName(TAB_NAME);
+    if (!sheet) throw new Error('BookingLifecycle: tab not found: ' + TAB_NAME);
+    return sheet;
+  }
+
+  function transition(spreadsheetId, params) {
+    var from = params.fromState;
+    var to   = params.toState;
+    if (from && VALID_TRANSITIONS[from]) {
+      if (VALID_TRANSITIONS[from].indexOf(to) === -1) {
+        throw new Error('BookingLifecycle: invalid transition ' + from + ' → ' + to + ' for entity ' + params.entityId);
+      }
+    }
+    if (GUARDS[to] && params.guardContext) {
+      GUARDS[to](params.guardContext);
+    }
+    var sheet = _getSheet(spreadsheetId);
+    sheet.appendRow([
+      Identifiers.lifecycleLogId(),
+      params.tenantId        || '',
+      params.bookingId       || '',
+      params.customerId      || '',
+      params.entityType      || '',
+      params.entityId        || '',
+      from  || '',
+      to    || '',
+      params.transitionEvent || '',
+      params.triggeredBy     || 'system',
+      params.notes           || '',
+      params.traceId         || '',
+      new Date().toISOString()
+    ]);
+    return { success: true, from: from, to: to, entityId: params.entityId };
+  }
+
+  function isValidTransition(from, to) {
+    if (!from) return true;
+    return VALID_TRANSITIONS[from] && VALID_TRANSITIONS[from].indexOf(to) !== -1;
+  }
+
+  return {
+    transition:        transition,
+    isValidTransition: isValidTransition,
+    VALID_TRANSITIONS: VALID_TRANSITIONS
+  };
+})();
+
+
+// ═════════════════════════════════════════════════════════════════════════════
+// 10b. EVENTS
+// ═════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Events — RentalOps Core Library
+ *
+ * Named event type constants for the event-driven processing model.
+ * Use Events.CONTACT_FORM_RECEIVED etc. — no magic strings in worker scripts.
+ */
+
+var Events = (function () {
+
+  var CONTACT_FORM_RECEIVED              = 'CONTACT_FORM_RECEIVED';
+  var QUOTE_REQUEST_RECEIVED             = 'QUOTE_REQUEST_RECEIVED';
+  var EMAIL_REPLY_RECEIVED               = 'EMAIL_REPLY_RECEIVED';
+  var QUICK_ASSISTANT_INQUIRY_RECEIVED   = 'QUICK_ASSISTANT_INQUIRY_RECEIVED';
+  var DEPOSIT_RECEIVED                   = 'DEPOSIT_RECEIVED';
+  var BALANCE_RECEIVED                   = 'BALANCE_RECEIVED';
+  var BOOKING_CONFIRMED                  = 'BOOKING_CONFIRMED';
+  var BOOKING_CANCELLED                  = 'BOOKING_CANCELLED';
+  var EVENT_COMPLETED                    = 'EVENT_COMPLETED';
+  var DEPOSIT_OVERDUE                    = 'DEPOSIT_OVERDUE';
+  var POST_EVENT_FOLLOW_UP               = 'POST_EVENT_FOLLOW_UP';
+  var REVIEW_REQUESTED                   = 'REVIEW_REQUESTED';
+  var MANUAL_OVERRIDE                    = 'MANUAL_OVERRIDE';
+  var SIMULATION_RUN                     = 'SIMULATION_RUN';
+  var CONTROL_CHANGED                    = 'CONTROL_CHANGED';
+
+  function build(eventType, payload, meta) {
+    return {
+      event_type:    eventType,
+      payload:       payload   || {},
+      tenant_id:     meta.tenantId     || '',
+      worker_script: meta.workerScript || '',
+      trace_id:      meta.traceId      || '',
+      timestamp:     meta.timestamp    || new Date().toISOString()
+    };
+  }
+
+  return {
+    CONTACT_FORM_RECEIVED:            CONTACT_FORM_RECEIVED,
+    QUOTE_REQUEST_RECEIVED:           QUOTE_REQUEST_RECEIVED,
+    EMAIL_REPLY_RECEIVED:             EMAIL_REPLY_RECEIVED,
+    QUICK_ASSISTANT_INQUIRY_RECEIVED: QUICK_ASSISTANT_INQUIRY_RECEIVED,
+    DEPOSIT_RECEIVED:                 DEPOSIT_RECEIVED,
+    BALANCE_RECEIVED:                 BALANCE_RECEIVED,
+    BOOKING_CONFIRMED:                BOOKING_CONFIRMED,
+    BOOKING_CANCELLED:                BOOKING_CANCELLED,
+    EVENT_COMPLETED:                  EVENT_COMPLETED,
+    DEPOSIT_OVERDUE:                  DEPOSIT_OVERDUE,
+    POST_EVENT_FOLLOW_UP:             POST_EVENT_FOLLOW_UP,
+    REVIEW_REQUESTED:                 REVIEW_REQUESTED,
+    MANUAL_OVERRIDE:                  MANUAL_OVERRIDE,
+    SIMULATION_RUN:                   SIMULATION_RUN,
+    CONTROL_CHANGED:                  CONTROL_CHANGED,
+    build:                            build
+  };
+})();
+
+
+// ═════════════════════════════════════════════════════════════════════════════
 // 16. TESTHARNESS
 // ═════════════════════════════════════════════════════════════════════════════
 
