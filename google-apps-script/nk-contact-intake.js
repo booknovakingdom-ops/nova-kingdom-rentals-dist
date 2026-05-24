@@ -816,6 +816,217 @@ function resetIdempotencyForMessage(messageId) {
   console.log('[ADMIN] Reset complete. Next production run will reprocess this message.');
 }
 
+// ─── Top-level test runner ────────────────────────────────────────────────────
+
+/**
+ * Top-level wrapper visible in the Apps Script function dropdown.
+ * Runs the full TestHarness suite and logs the pass/fail summary.
+ * All tests are I/O-free — no Gmail, no Sheets, no API calls.
+ */
+function runAllTests() {
+  return TestHarness.testAll();
+}
+
+// ─── Tenant migration + health check ─────────────────────────────────────────
+
+/**
+ * runTenantMigrationToNkrInternal()
+ *
+ * Safe, idempotent admin helper.
+ * For every Config_* sheet that has a tenant_id column, copies rows belonging
+ * to legacy NKR tenant IDs ('nkr') to tenant_id = 'nkr_internal', unless an
+ * equivalent nkr_internal row already exists.
+ *
+ * Rules:
+ *  - Never deletes or modifies existing rows.
+ *  - Uses the sheet's "key column" (e.g., control_key, unit_id) to decide
+ *    whether a copy already exists. Falls back to "any nkr_internal row"
+ *    for sheets with no declared key (e.g., Config_BusinessProfile).
+ *  - Safe to run more than once — duplicate runs are no-ops.
+ *  - Logs before/after counts per sheet.
+ *
+ * Run order after deploy:
+ *   1. runTenantMigrationToNkrInternal
+ *   2. runTenantConfigHealthCheck
+ *   3. runAllTests
+ *   4. runSimulationTest
+ */
+function runTenantMigrationToNkrInternal() {
+  _assertSpreadsheetId();
+  var ss            = SpreadsheetApp.openById(TENANT.SPREADSHEET_ID);
+  var OLD_TENANTS   = ['nkr'];
+  var NEW_TENANT    = 'nkr_internal';
+
+  // keyCol: column whose value identifies a unique logical row within a sheet.
+  // null = no unique key; dedup is "skip if any nkr_internal row already exists."
+  var SHEET_CONFIG = [
+    { name: 'Config_BusinessProfile',  keyCol: null },
+    { name: 'Config_OpsControls',      keyCol: 'control_key' },
+    { name: 'Config_InventoryUnits',   keyCol: 'unit_id' },
+    { name: 'Config_PricingRules',     keyCol: 'rule_id' },
+    { name: 'Config_MessageTemplates', keyCol: 'template_id' },
+    { name: 'Config_RiskRules',        keyCol: 'rule_id' },
+    { name: 'Config_Packages',         keyCol: 'package_id' }
+  ];
+
+  var report = ['=== Tenant Migration: ' + OLD_TENANTS.join('/') + ' → ' + NEW_TENANT + ' ==='];
+
+  SHEET_CONFIG.forEach(function (cfg) {
+    var sheet = ss.getSheetByName(cfg.name);
+    if (!sheet) {
+      report.push(cfg.name + ': SKIP — sheet not found');
+      return;
+    }
+    var data = sheet.getDataRange().getValues();
+    if (data.length < 2) {
+      report.push(cfg.name + ': SKIP — no data rows');
+      return;
+    }
+
+    var headers      = data[0].map(function (h) { return String(h).trim(); });
+    var tidIdx       = headers.indexOf('tenant_id');
+    if (tidIdx === -1) {
+      report.push(cfg.name + ': SKIP — no tenant_id column');
+      return;
+    }
+    var keyIdx       = cfg.keyCol ? headers.indexOf(cfg.keyCol) : -1;
+    var rows         = data.slice(1);
+
+    // Build a set of keys that already exist for nkr_internal
+    var existing = {};
+    rows.forEach(function (row) {
+      if (String(row[tidIdx]).trim() !== NEW_TENANT) return;
+      var k = keyIdx !== -1 ? String(row[keyIdx]).trim() : '__any__';
+      existing[k] = true;
+    });
+
+    var before  = Object.keys(existing).length;
+    var copied  = 0;
+    var skipped = 0;
+
+    rows.forEach(function (row) {
+      var tid = String(row[tidIdx]).trim();
+      if (OLD_TENANTS.indexOf(tid) === -1) return; // not an old NKR row
+
+      var k = keyIdx !== -1 ? String(row[keyIdx]).trim() : '__any__';
+      if (existing[k]) {
+        skipped++;
+        return;
+      }
+
+      var newRow     = row.slice();
+      newRow[tidIdx] = NEW_TENANT;
+      sheet.appendRow(newRow);
+      existing[k] = true; // prevent duplicate within this run
+      copied++;
+    });
+
+    report.push(cfg.name + ': copied=' + copied + ', skipped=' + skipped +
+                ' (nkr_internal rows before=' + before + ', after=' + (before + copied) + ')');
+  });
+
+  report.push('=== Migration complete. Run runTenantConfigHealthCheck() to verify. ===');
+  report.forEach(function (line) { console.log(line); });
+  Logger.log(report.join('\n'));
+}
+
+/**
+ * runTenantConfigHealthCheck()
+ *
+ * Logs PASS/FAIL for each config area required by the intake worker.
+ * Run this after runTenantMigrationToNkrInternal() to confirm the tenant
+ * is fully configured before running simulations or live processing.
+ */
+function runTenantConfigHealthCheck() {
+  _assertSpreadsheetId();
+  ConfigLoader.clearCache();
+  var sid = TENANT.SPREADSHEET_ID;
+  var tid = TENANT.TENANT_ID;
+
+  var checks = [
+    {
+      name: 'Business Profile (active row exists)',
+      run: function () {
+        var p = ConfigLoader.getBusinessProfile(sid, tid);
+        if (!p) throw new Error('null profile returned');
+        return 'deposit_rate=' + p.deposit_rate + ', wind_limit=' + p.wind_limit_kmh;
+      }
+    },
+    {
+      name: 'Ops Controls (intake_script_enabled present)',
+      run: function () {
+        var c = ConfigLoader.getOpsControls(sid, tid);
+        if (typeof c.intake_script_enabled === 'undefined')
+          throw new Error('intake_script_enabled key missing');
+        return 'simulation_mode=' + c.simulation_mode + ', auto_draft_enabled=' + c.auto_draft_enabled;
+      }
+    },
+    {
+      name: 'Inventory Units (at least one active unit)',
+      run: function () {
+        var u = ConfigLoader.getInventoryUnits(sid, tid);
+        var count = Object.keys(u).length;
+        if (!count) throw new Error('no active units');
+        return count + ' active unit(s)';
+      }
+    },
+    {
+      name: 'Pricing Rules (at least one rule or empty is OK)',
+      run: function () {
+        var r = ConfigLoader.getPricingRules(sid, tid);
+        return r.length + ' active rule(s)';
+      }
+    },
+    {
+      name: 'Risk Rules (at least one rule or empty is OK)',
+      run: function () {
+        var r = ConfigLoader.getRiskRules(sid, tid);
+        return r.length + ' active rule(s)';
+      }
+    },
+    {
+      name: 'Message Templates (at least one template)',
+      run: function () {
+        var t = ConfigLoader.getMessageTemplates(sid, tid);
+        if (!t.length) throw new Error('no active templates');
+        return t.length + ' template(s)';
+      }
+    },
+    {
+      name: 'Packages (at least one package or empty is OK)',
+      run: function () {
+        try {
+          var p = ConfigLoader.getPackages(sid, tid);
+          return p.length + ' package(s)';
+        } catch (e) {
+          if (e.message.indexOf('tab not found') !== -1) return 'sheet absent (OK — optional)';
+          throw e;
+        }
+      }
+    }
+  ];
+
+  var lines = ['=== Tenant Config Health Check: ' + tid + ' ==='];
+  var allPass = true;
+
+  checks.forEach(function (check) {
+    try {
+      var detail = check.run();
+      lines.push('PASS  ' + check.name + ' — ' + detail);
+    } catch (e) {
+      lines.push('FAIL  ' + check.name + ' — ' + e.message);
+      allPass = false;
+    }
+  });
+
+  lines.push('');
+  lines.push(allPass
+    ? '✅ All config checks passed. Ready to run runAllTests() and runSimulationTest().'
+    : '❌ Some checks failed. Run runTenantMigrationToNkrInternal() and retry.');
+  lines.forEach(function (line) { console.log(line); });
+  Logger.log(lines.join('\n'));
+}
+
 // ─── Mock thread factory ──────────────────────────────────────────────────────
 
 function _mockThread(msgId, body, subject, from) {
