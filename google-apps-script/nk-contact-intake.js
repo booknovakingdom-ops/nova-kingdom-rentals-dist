@@ -25,7 +25,7 @@
 
 var TENANT = {
   SPREADSHEET_ID:     '1zJCGaO8nUSC4sYD75Nw5ZKcc4W8EGdMncpdmfehrgOI',
-  TENANT_ID:          'nkr',
+  TENANT_ID:          'nkr_internal',
   ANTHROPIC_KEY_PROP: 'ANTHROPIC_API_KEY',        // Script Properties key name
   PROCESSED_LABEL:    'NK/Contact-Processed',
   CONTACT_SUBJECTS: [

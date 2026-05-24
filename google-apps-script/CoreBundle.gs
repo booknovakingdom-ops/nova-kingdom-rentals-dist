@@ -855,7 +855,7 @@ var ExecutionEnv = (function () {
   var _initialized      = false;
 
   // Sim_ tabs that clearSimTabs() is permitted to reset (whitelist — never wildcard)
-  var SIM_TABS = ['Sim_Actions', 'Sim_Drafts', 'Sim_AutomationQueue', 'Sim_ManualReview'];
+  var SIM_TABS = ['Sim_Actions', 'Sim_Drafts', 'Sim_AutomationQueue', 'Sim_ManualReview', 'Sim_ReviewQueue', 'Sim_DraftQueue'];
 
   // ─── Initialization ───────────────────────────────────────────────────────
 
@@ -927,26 +927,44 @@ var ExecutionEnv = (function () {
    * Simulation: logs to Sim_Actions + full body to Sim_Drafts.
    * Live + auto_draft_enabled=false: suppresses, logs to Sim_Actions.
    * Live + auto_draft_enabled=true: creates real Gmail draft.
+   * Always enqueues to DraftQueue (Sim_DraftQueue or Ops_DraftQueue).
    *
+   * @param {string} toEmail
+   * @param {string} subject
+   * @param {string} body
+   * @param {string} traceId
+   * @param {Object} [meta]  Optional: { message_id, intent, mode }
    * @returns {string}  Draft ID or '' if suppressed.
    */
-  function createDraft(toEmail, subject, body, traceId) {
+  function createDraft(toEmail, subject, body, traceId, meta) {
     _assertInit();
+    var draftId;
     if (_simulation) {
       _simLog('CREATE_DRAFT', { toEmail: toEmail, subject: subject, bodyPreview: body.slice(0, 150) }, traceId);
       _simDraftFull(toEmail, subject, body, traceId);
-      return 'SIM-DRAFT-' + Date.now();
-    }
-    if (!_autoDraftEnabled) {
+      draftId = 'SIM-DRAFT-' + Date.now();
+    } else if (!_autoDraftEnabled) {
       _simLog('DRAFT_SUPPRESSED', { toEmail: toEmail, reason: 'auto_draft_enabled=false' }, traceId);
-      return '';
+      draftId = '';
+    } else {
+      try {
+        draftId = GmailApp.createDraft(toEmail, subject, body).getId();
+      } catch (e) {
+        console.error('ExecutionEnv.createDraft: ' + e.message);
+        draftId = '';
+      }
     }
-    try {
-      return GmailApp.createDraft(toEmail, subject, body).getId();
-    } catch (e) {
-      console.error('ExecutionEnv.createDraft: ' + e.message);
-      return '';
-    }
+    DraftQueue.enqueue(_spreadsheetId, {
+      message_id:     (meta && meta.message_id) || '',
+      customer_email: toEmail,
+      subject:        subject,
+      gmail_draft_id: draftId,
+      intent:         (meta && meta.intent)     || '',
+      mode:           (meta && meta.mode)        || '',
+      status:         draftId ? 'PENDING_REVIEW' : 'SUPPRESSED',
+      trace_id:       traceId || ''
+    }, _tenantId, _simulation, _simRunId);
+    return draftId;
   }
 
   // ─── CRM Writes ───────────────────────────────────────────────────────────
@@ -1011,37 +1029,24 @@ var ExecutionEnv = (function () {
   }
 
   /**
-   * Write a manual review row.
-   * Simulation: writes to Sim_ManualReview with simulation stamps.
-   * Live: writes to real Manual_Review.
-   * Both modes: logs MANUAL_REVIEW_FLAGGED to Ops_Metrics with simulation stamps.
+   * Enqueue a manual review record via ReviewQueue.
+   * Simulation: writes to Sim_ReviewQueue.
+   * Live: writes to Ops_ReviewQueue.
+   * Both modes: logs MANUAL_REVIEW_FLAGGED to Ops_Metrics.
    */
   function writeManualReview(data, traceId) {
     _assertInit();
-    var tabName = _simulation ? 'Sim_ManualReview' : 'Manual_Review';
-    var headers = [
-      'manual_review_id', 'timestamp', 'customer_email', 'thread_link',
-      'risk_reason', 'severity', 'recommended_owner_action', 'urgency', 'trace_id'
-    ];
-    if (_simulation) headers = headers.concat(['simulation_run_id', 'tenant_id', 'environment']);
-    var sheet   = _getOrCreateSheet(tabName, headers);
-    var urgency = (data.severity === 'critical' || data.severity === 'high') ? 'TODAY' : 'THIS_WEEK';
-    var action  = data.severity === 'critical' ? 'Call customer immediately' : 'Review and reply manually';
-    var row = [
-      'MR-' + Date.now(),
-      new Date().toISOString(),
-      data.email      || '',
-      data.threadLink || '',
-      data.reason     || '',
-      data.severity   || 'medium',
-      action,
-      urgency,
-      traceId         || ''
-    ];
-    if (_simulation) row = row.concat([_simRunId, _tenantId, 'SIMULATION']);
-    sheet.appendRow(row);
+    ReviewQueue.enqueue(_spreadsheetId, {
+      message_id:    data.message_id    || '',
+      email:         data.email         || '',
+      customer_name: data.customer_name || '',
+      reason:        data.reason        || '',
+      severity:      data.severity      || 'medium',
+      thread_link:   data.thread_link   || data.threadLink || '',
+      status:        'OPEN',
+      trace_id:      traceId || ''
+    }, _tenantId, _simulation, _simRunId);
 
-    // Always log to Ops_Metrics — real in both modes, includes simulation stamps
     MetricsLogger.log(_spreadsheetId, {
       tenantId:     _tenantId,
       eventType:    'MANUAL_REVIEW_FLAGGED',
@@ -1050,10 +1055,9 @@ var ExecutionEnv = (function () {
       traceId:      traceId || ''
     });
 
-    // In simulation, also record in Sim_Actions for the unified side-effect log
     if (_simulation) {
-      _simLog('WRITE_MANUAL_REVIEW', {
-        tab: tabName, email: data.email, reason: data.reason, severity: data.severity
+      _simLog('WRITE_REVIEW_QUEUE', {
+        email: data.email, reason: data.reason, severity: data.severity
       }, traceId);
     }
   }
@@ -1148,6 +1152,7 @@ var ExecutionEnv = (function () {
       case 'DRAFT_SUPPRESSED':      return 'Draft suppressed (' + payload.reason + ') for ' + payload.toEmail;
       case 'UPSERT_CUSTOMER':       return payload.email + ' | readiness: ' + (payload.readiness || '?');
       case 'WRITE_MANUAL_REVIEW':   return payload.email + ' | ' + payload.severity + ' | ' + (payload.reason || '').slice(0, 60);
+      case 'WRITE_REVIEW_QUEUE':    return payload.email + ' | ' + payload.severity + ' | ' + (payload.reason || '').slice(0, 60);
       case 'CREATE_CALENDAR_EVENT': return 'Calendar: ' + (payload.title || '') + ' on ' + (payload.date || '');
       case 'SEND_NOTIFICATION':     return 'Notify: ' + (payload.type || '') + ' → ' + (payload.recipient || '');
       default:                      return JSON.stringify(payload).slice(0, 80);
@@ -2412,4 +2417,170 @@ var AiClient = (function () {
     classify:   classify,
     draftReply: draftReply
   };
+})();
+
+
+// ═════════════════════════════════════════════════════════════════════════════
+// 14. REVIEWQUEUE
+// ═════════════════════════════════════════════════════════════════════════════
+
+/**
+ * ReviewQueue — RentalOps Core Library
+ *
+ * Persistent queue for messages requiring human review before a reply is sent.
+ * Designed for multi-tenant operation: every row is stamped with tenant_id.
+ *
+ * Live tab:       Ops_ReviewQueue
+ * Simulation tab: Sim_ReviewQueue
+ *
+ * Schema (live):
+ *   tenant_id | queue_id | created_at | message_id | customer_email |
+ *   customer_name | reason | severity | thread_link | status | trace_id
+ *
+ * Simulation rows append: simulation_run_id | environment
+ *
+ * Usage: ReviewQueue.enqueue(spreadsheetId, data, tenantId, simulation, simRunId)
+ */
+
+var ReviewQueue = (function () {
+
+  var HEADERS = [
+    'tenant_id', 'queue_id', 'created_at', 'message_id',
+    'customer_email', 'customer_name', 'reason', 'severity',
+    'thread_link', 'status', 'trace_id'
+  ];
+
+  /**
+   * Append one review record.
+   * @param {string}  spreadsheetId
+   * @param {Object}  data  { message_id, email, customer_name, reason, severity, thread_link, status, trace_id }
+   * @param {string}  tenantId
+   * @param {boolean} simulation
+   * @param {string}  simRunId  Ignored when simulation=false
+   * @returns {string}  Generated queue_id
+   */
+  function enqueue(spreadsheetId, data, tenantId, simulation, simRunId) {
+    var tabName = simulation ? 'Sim_ReviewQueue' : 'Ops_ReviewQueue';
+    var headers = simulation ? HEADERS.concat(['simulation_run_id', 'environment']) : HEADERS;
+    var sheet   = _getOrCreateSheet(spreadsheetId, tabName, headers);
+    var queueId = 'RQ-' + Date.now() + '-' + _rand4();
+    var row = [
+      tenantId               || '',
+      queueId,
+      new Date().toISOString(),
+      data.message_id        || '',
+      data.email             || '',
+      data.customer_name     || '',
+      data.reason            || '',
+      data.severity          || 'medium',
+      data.thread_link       || '',
+      data.status            || 'OPEN',
+      data.trace_id          || ''
+    ];
+    if (simulation) row = row.concat([simRunId || '', 'SIMULATION']);
+    sheet.appendRow(row);
+    return queueId;
+  }
+
+  function _getOrCreateSheet(spreadsheetId, tabName, headers) {
+    var ss    = SpreadsheetApp.openById(spreadsheetId);
+    var sheet = ss.getSheetByName(tabName);
+    if (!sheet) {
+      sheet = ss.insertSheet(tabName);
+      sheet.appendRow(headers);
+    }
+    return sheet;
+  }
+
+  function _rand4() {
+    return Math.floor(Math.random() * 9000 + 1000).toString();
+  }
+
+  return { enqueue: enqueue };
+
+})();
+
+
+// ═════════════════════════════════════════════════════════════════════════════
+// 15. DRAFTQUEUE
+// ═════════════════════════════════════════════════════════════════════════════
+
+/**
+ * DraftQueue — RentalOps Core Library
+ *
+ * Persistent queue tracking every Gmail draft created by the system.
+ * Supports multi-tenant operation: every row is stamped with tenant_id.
+ *
+ * Live tab:       Ops_DraftQueue
+ * Simulation tab: Sim_DraftQueue
+ *
+ * Schema (live):
+ *   tenant_id | queue_id | created_at | message_id | customer_email |
+ *   subject | gmail_draft_id | intent | mode | status | trace_id
+ *
+ * Simulation rows append: simulation_run_id | environment
+ *
+ * Status values:
+ *   PENDING_REVIEW — draft created, awaiting owner send/discard decision
+ *   SUPPRESSED     — draft not created (auto_draft_enabled=false or error)
+ *
+ * Usage: DraftQueue.enqueue(spreadsheetId, data, tenantId, simulation, simRunId)
+ */
+
+var DraftQueue = (function () {
+
+  var HEADERS = [
+    'tenant_id', 'queue_id', 'created_at', 'message_id',
+    'customer_email', 'subject', 'gmail_draft_id',
+    'intent', 'mode', 'status', 'trace_id'
+  ];
+
+  /**
+   * Append one draft record.
+   * @param {string}  spreadsheetId
+   * @param {Object}  data  { message_id, customer_email, subject, gmail_draft_id, intent, mode, status, trace_id }
+   * @param {string}  tenantId
+   * @param {boolean} simulation
+   * @param {string}  simRunId  Ignored when simulation=false
+   * @returns {string}  Generated queue_id
+   */
+  function enqueue(spreadsheetId, data, tenantId, simulation, simRunId) {
+    var tabName = simulation ? 'Sim_DraftQueue' : 'Ops_DraftQueue';
+    var headers = simulation ? HEADERS.concat(['simulation_run_id', 'environment']) : HEADERS;
+    var sheet   = _getOrCreateSheet(spreadsheetId, tabName, headers);
+    var queueId = 'DQ-' + Date.now() + '-' + _rand4();
+    var row = [
+      tenantId               || '',
+      queueId,
+      new Date().toISOString(),
+      data.message_id        || '',
+      data.customer_email    || '',
+      data.subject           || '',
+      data.gmail_draft_id    || '',
+      data.intent            || '',
+      data.mode              || '',
+      data.status            || 'PENDING_REVIEW',
+      data.trace_id          || ''
+    ];
+    if (simulation) row = row.concat([simRunId || '', 'SIMULATION']);
+    sheet.appendRow(row);
+    return queueId;
+  }
+
+  function _getOrCreateSheet(spreadsheetId, tabName, headers) {
+    var ss    = SpreadsheetApp.openById(spreadsheetId);
+    var sheet = ss.getSheetByName(tabName);
+    if (!sheet) {
+      sheet = ss.insertSheet(tabName);
+      sheet.appendRow(headers);
+    }
+    return sheet;
+  }
+
+  function _rand4() {
+    return Math.floor(Math.random() * 9000 + 1000).toString();
+  }
+
+  return { enqueue: enqueue };
+
 })();

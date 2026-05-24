@@ -949,6 +949,20 @@ var TestHarness = (function () {
     assert('Validators: incomplete bundle fails', !Validators.validateContextBundle(bad).valid);
   }
 
+  // ─── ReviewQueue module guard ─────────────────────────────────────────────
+
+  function testReviewQueue_moduleApi() {
+    assert('ReviewQueue: module is defined', typeof ReviewQueue !== 'undefined');
+    assert('ReviewQueue: enqueue is a function', typeof ReviewQueue.enqueue === 'function');
+  }
+
+  // ─── DraftQueue module guard ──────────────────────────────────────────────
+
+  function testDraftQueue_moduleApi() {
+    assert('DraftQueue: module is defined', typeof DraftQueue !== 'undefined');
+    assert('DraftQueue: enqueue is a function', typeof DraftQueue.enqueue === 'function');
+  }
+
   // ─── Test Runner ──────────────────────────────────────────────────────────
 
   function testAll() {
@@ -1024,6 +1038,10 @@ var TestHarness = (function () {
     testTemplateRenderer_render();
     testTemplateRenderer_missingPlaceholder();
     testTemplateRenderer_forbiddenPhrases();
+
+    // ReviewQueue / DraftQueue module guards
+    testReviewQueue_moduleApi();
+    testDraftQueue_moduleApi();
 
     // Subject placeholder
     testSubjectPlaceholder_bookingIdStripped();
