@@ -321,6 +321,20 @@ function _processThread(thread, controls, profile, traceId) {
 
   // ══ Steps 9–13: Draft path ═══════════════════════════════════════════════════
   if (aiDecision.decision !== 'draft') {
+    // Guarantee a visible terminal outcome row before marking COMPLETED.
+    // 'manual_review' already wrote to Ops_ReviewQueue via the post-AI gate above.
+    // 'no_draft' and 'status_only' have no visible output — write to ReviewQueue now
+    // so Harkirat can see why this message was not drafted.
+    if (aiDecision.decision !== 'manual_review') {
+      ExecutionEnv.writeManualReview({
+        email:      customerEmail,
+        threadLink: thread.getPermalink(),
+        reason:     'AI decision: ' + aiDecision.decision +
+                    ' | intent: ' + (aiDecision.intent || 'unknown') +
+                    ' | confidence: ' + aiDecision.confidence,
+        severity:   'low'
+      }, traceId);
+    }
     _finalizeThread(thread, messageId, customerEmail, parsed, aiDecision,
       aiDecision.decision === 'status_only' ? 'STATUS_ONLY' : 'NO_DRAFT', traceId);
     return;
@@ -586,8 +600,20 @@ function _finalizeThread(thread, messageId, customerEmail, parsed, aiDecision, r
 function _fetchUnprocessedThreads() {
   var query = '(' + TENANT.CONTACT_SUBJECTS.map(function (s) {
     return 'subject:"' + s + '"';
-  }).join(' OR ') + ') -label:' + TENANT.PROCESSED_LABEL;
+  }).join(' OR ') + ') -label:' + TENANT.PROCESSED_LABEL + ' newer_than:7d';
   return GmailApp.search(query, 0, TENANT.MAX_THREADS_PER_RUN);
+}
+
+/**
+ * _intakeCandidateQuery()
+ *
+ * Returns the exact Gmail search query used by _fetchUnprocessedThreads().
+ * Exposed as a named helper so runIntakeCandidateDebug() and tests can inspect it.
+ */
+function _intakeCandidateQuery() {
+  return '(' + TENANT.CONTACT_SUBJECTS.map(function (s) {
+    return 'subject:"' + s + '"';
+  }).join(' OR ') + ') -label:' + TENANT.PROCESSED_LABEL + ' newer_than:7d';
 }
 
 function _extractEmail(from) {
@@ -1573,6 +1599,261 @@ function runLiveDraftOnlyTestLatestWeb3Forms() {
 
 function runLiveTestKnownMessage_19e6069cfe3c13fd() {
   return runLiveDraftOnlyTestFromMessageId('19e6069cfe3c13fd');
+}
+
+// ─── Message Audit ────────────────────────────────────────────────────────────
+
+/**
+ * runProcessedMessageAudit(messageId)
+ *
+ * Read-only diagnostic for any message that was marked COMPLETED but has no
+ * visible terminal outcome (no Gmail draft, no ReviewQueue row).
+ *
+ * Logs:
+ *   - Gmail subject / from / date / labels
+ *   - Idempotency row: status / result_type / trace_id
+ *   - Ops_DraftQueue rows (by message_id and trace_id)
+ *   - Ops_ReviewQueue rows (by message_id and trace_id)
+ *   - Automation Queue rows (by message_id)
+ *   - Ops_InquiryState row (by thread_id)
+ *   - Ops_Metrics events (by trace_id)
+ *
+ * Verdict:
+ *   OK_DRAFT_CREATED             — real Gmail draft found in DraftQueue
+ *   OK_REVIEW_QUEUED             — ReviewQueue row found
+ *   OK_SKIPPED_WITH_REASON       — idempotency row shows SKIPPED
+ *   BAD_COMPLETED_WITHOUT_OUTCOME — COMPLETED + processed label but no draft/review row
+ *   BAD_PROCESSED_LABEL_WITHOUT_OUTCOME — label applied but idempotency unclear
+ *
+ * No writes. No side effects.
+ */
+function runProcessedMessageAudit(messageId) {
+  _assertSpreadsheetId();
+
+  function log(s) { console.log('[AUDIT] ' + s); }
+
+  log('═══════════════════════════════════════════════════════════');
+  log('Message audit: ' + messageId);
+  log('═══════════════════════════════════════════════════════════');
+
+  // ── 1. Gmail ─────────────────────────────────────────────────────────────
+  var msg, thread, threadId, gmailLabels;
+  try {
+    msg    = GmailApp.getMessageById(messageId);
+    thread = msg.getThread();
+    threadId = thread.getId();
+    gmailLabels = thread.getLabels().map(function (l) { return l.getName(); });
+    log('Subject    : ' + msg.getSubject());
+    log('From       : ' + msg.getFrom());
+    log('Date       : ' + msg.getDate());
+    log('Thread ID  : ' + threadId);
+    log('Labels     : ' + (gmailLabels.length ? gmailLabels.join(', ') : '(none)'));
+  } catch (e) {
+    log('ERROR: Could not fetch Gmail message — ' + e.message);
+    return;
+  }
+
+  // ── 2. Spreadsheet helper ─────────────────────────────────────────────────
+  var ss = SpreadsheetApp.openById(TENANT.SPREADSHEET_ID);
+
+  function scanTab(tabName, colName, value) {
+    var sheet = ss.getSheetByName(tabName);
+    if (!sheet) return { found: false, rows: [], missing: true };
+    var data = sheet.getDataRange().getValues();
+    if (data.length < 2) return { found: false, rows: [] };
+    var hdrs = data[0].map(function (h) { return String(h).trim(); });
+    var col  = hdrs.indexOf(colName);
+    if (col === -1) return { found: false, rows: [], badCol: colName };
+    var matches = [];
+    for (var i = 1; i < data.length; i++) {
+      if (String(data[i][col]).trim() === value) {
+        var row = {};
+        hdrs.forEach(function (h, j) { row[h] = data[i][j]; });
+        matches.push(row);
+      }
+    }
+    return { found: matches.length > 0, rows: matches };
+  }
+
+  // ── 3. Idempotency ────────────────────────────────────────────────────────
+  var idStatus = '', idResult = '', idTraceId = '';
+  var idSheet = ss.getSheetByName('Ops_IdempotencyLog');
+  if (idSheet) {
+    var idData = idSheet.getDataRange().getValues();
+    for (var i = 1; i < idData.length; i++) {
+      if (String(idData[i][0]).trim() === messageId) {
+        idStatus  = String(idData[i][2] || '');   // COL.STATUS
+        idResult  = String(idData[i][6] || '');   // COL.RESULT_TYPE
+        idTraceId = String(idData[i][12] || '');  // COL.TRACE_ID
+        break;
+      }
+    }
+  }
+  log('─── Idempotency ────────────────────────────────────────────');
+  if (idStatus) {
+    log('Status     : ' + idStatus);
+    log('Result     : ' + idResult);
+    log('Trace ID   : ' + idTraceId);
+  } else {
+    log('Status     : NOT FOUND in Ops_IdempotencyLog');
+  }
+
+  // ── 4. Ops_DraftQueue ────────────────────────────────────────────────────
+  log('─── Ops_DraftQueue ─────────────────────────────────────────');
+  var dqByMsg   = scanTab('Ops_DraftQueue', 'message_id', messageId).rows;
+  var dqByTrace = idTraceId ? scanTab('Ops_DraftQueue', 'trace_id', idTraceId).rows : [];
+  var dqRows    = dqByMsg.slice();
+  dqByTrace.forEach(function (r) {
+    if (!dqRows.some(function (e) { return e.queue_id === r.queue_id; })) dqRows.push(r);
+  });
+  log('Rows found : ' + dqRows.length);
+  var hasDraft = false;
+  dqRows.forEach(function (r, idx) {
+    var gid = String(r.gmail_draft_id || '').trim();
+    var isReal = gid && gid.indexOf('SIM-DRAFT-') !== 0;
+    if (isReal) hasDraft = true;
+    log('  [' + idx + '] gmail_draft_id=' + (gid || '(empty)') +
+        ' status=' + (r.status || '') +
+        ' mode='   + (r.mode   || '') +
+        ' email='  + (r.customer_email || '') +
+        (isReal ? ' ← REAL DRAFT' : ''));
+  });
+
+  // ── 5. Ops_ReviewQueue ────────────────────────────────────────────────────
+  log('─── Ops_ReviewQueue ────────────────────────────────────────');
+  var rqByMsg   = scanTab('Ops_ReviewQueue', 'message_id', messageId).rows;
+  var rqByTrace = idTraceId ? scanTab('Ops_ReviewQueue', 'trace_id', idTraceId).rows : [];
+  var rqRows    = rqByMsg.slice();
+  rqByTrace.forEach(function (r) {
+    if (!rqRows.some(function (e) { return e.queue_id === r.queue_id; })) rqRows.push(r);
+  });
+  log('Rows found : ' + rqRows.length);
+  rqRows.forEach(function (r, idx) {
+    log('  [' + idx + '] reason='   + (r.reason   || '') +
+        ' severity=' + (r.severity || '') +
+        ' status='   + (r.status   || ''));
+  });
+
+  // ── 6. Automation Queue ──────────────────────────────────────────────────
+  log('─── Automation Queue (Ops_AutomationQueue) ─────────────────');
+  var aqRows = scanTab('Automation Queue', 'message_id', messageId).rows;
+  log('Rows found : ' + aqRows.length);
+  aqRows.forEach(function (r, idx) {
+    log('  [' + idx + '] decision=' + (r.decision || '') +
+        ' status='  + (r.status   || '') +
+        ' intent='  + (r.intent   || ''));
+  });
+
+  // ── 7. Ops_InquiryState ──────────────────────────────────────────────────
+  log('─── Ops_InquiryState ───────────────────────────────────────');
+  var isRows = scanTab('Ops_InquiryState', 'thread_id', threadId).rows;
+  log('Rows found : ' + isRows.length);
+  isRows.forEach(function (r, idx) {
+    log('  [' + idx + '] stage=' + (r.inquiry_stage || '') +
+        ' first_response=' + (r.first_response_draft_created || '') +
+        ' email='          + (r.customer_email || ''));
+  });
+
+  // ── 8. Ops_Metrics ───────────────────────────────────────────────────────
+  if (idTraceId) {
+    log('─── Ops_Metrics (trace_id=' + idTraceId + ') ────────────────');
+    var mRows = scanTab('Ops_Metrics', 'trace_id', idTraceId).rows;
+    log('Events found : ' + mRows.length);
+    mRows.forEach(function (r, idx) {
+      log('  [' + idx + '] event_type=' + (r.event_type || '') +
+          ' worker=' + (r.worker_script || ''));
+    });
+  }
+
+  // ── 9. Verdict ───────────────────────────────────────────────────────────
+  log('─── Verdict ────────────────────────────────────────────────');
+  var hasLabel     = gmailLabels.indexOf(TENANT.PROCESSED_LABEL) !== -1;
+  var hasReviewRow = rqRows.length > 0;
+  var isSkipped    = idStatus === 'SKIPPED';
+
+  var verdict;
+  if (hasDraft) {
+    verdict = 'OK_DRAFT_CREATED';
+  } else if (hasReviewRow) {
+    verdict = 'OK_REVIEW_QUEUED';
+  } else if (isSkipped) {
+    verdict = 'OK_SKIPPED_WITH_REASON';
+  } else if (idStatus === 'COMPLETED') {
+    verdict = 'BAD_COMPLETED_WITHOUT_OUTCOME';
+  } else if (hasLabel) {
+    verdict = 'BAD_PROCESSED_LABEL_WITHOUT_OUTCOME';
+  } else {
+    verdict = 'UNKNOWN — not yet processed or audit data missing';
+  }
+
+  log('Idempotency : ' + (idStatus || 'NOT_FOUND') + ' / ' + (idResult || 'N/A'));
+  log('Processed label applied : ' + (hasLabel ? 'YES' : 'NO'));
+  log('Real Gmail draft        : ' + (hasDraft ? 'YES' : 'NO'));
+  log('ReviewQueue row         : ' + (hasReviewRow ? 'YES' : 'NO'));
+  log('');
+  log('VERDICT: ' + verdict);
+  log('═══════════════════════════════════════════════════════════');
+}
+
+function runAuditKnownMessage_19e6069cfe3c13fd() {
+  return runProcessedMessageAudit('19e6069cfe3c13fd');
+}
+
+// ─── Intake Candidate Debug ───────────────────────────────────────────────────
+
+/**
+ * runIntakeCandidateDebug()
+ *
+ * Read-only. Logs:
+ *   - The exact Gmail query used by _fetchUnprocessedThreads()
+ *   - Candidate thread count
+ *   - For each candidate: subject / from / labels / idempotency status /
+ *     whether _processThread would process or skip it
+ *
+ * No Gmail draft created. No labels applied. No Sheets writes.
+ */
+function runIntakeCandidateDebug() {
+  _assertSpreadsheetId();
+
+  var query = _intakeCandidateQuery();
+  console.log('[CANDIDATE-DEBUG] Gmail query : ' + query);
+
+  var threads = GmailApp.search(query, 0, TENANT.MAX_THREADS_PER_RUN);
+  console.log('[CANDIDATE-DEBUG] Candidates  : ' + threads.length);
+
+  if (!threads.length) {
+    console.log('[CANDIDATE-DEBUG] No candidates. Inbox is clear or all are labeled.');
+    return;
+  }
+
+  var ss = SpreadsheetApp.openById(TENANT.SPREADSHEET_ID);
+  var idSheet = ss.getSheetByName('Ops_IdempotencyLog');
+  var idData  = idSheet ? idSheet.getDataRange().getValues() : [];
+
+  function idempotencyStatus(msgId) {
+    for (var i = 1; i < idData.length; i++) {
+      if (String(idData[i][0]).trim() === msgId) return String(idData[i][2] || 'FOUND_NO_STATUS');
+    }
+    return 'NOT_FOUND';
+  }
+
+  threads.forEach(function (thread, idx) {
+    var msgs   = thread.getMessages();
+    var first  = msgs[0];
+    var msgId  = first.getId();
+    var labels = thread.getLabels().map(function (l) { return l.getName(); });
+    var idStatus = idempotencyStatus(msgId);
+    var wouldSkip = (idStatus === 'COMPLETED' || idStatus === 'SKIPPED' || idStatus === 'PROCESSING');
+
+    console.log('[CANDIDATE-DEBUG] [' + idx + '] msgId=' + msgId);
+    console.log('[CANDIDATE-DEBUG]       Subject : ' + first.getSubject());
+    console.log('[CANDIDATE-DEBUG]       From    : ' + first.getFrom());
+    console.log('[CANDIDATE-DEBUG]       Labels  : ' + (labels.length ? labels.join(', ') : '(none)'));
+    console.log('[CANDIDATE-DEBUG]       Idempotency : ' + idStatus);
+    console.log('[CANDIDATE-DEBUG]       Would   : ' + (wouldSkip ? 'SKIP (already processed)' : 'PROCESS'));
+  });
+
+  console.log('[CANDIDATE-DEBUG] Done.');
 }
 
 /**

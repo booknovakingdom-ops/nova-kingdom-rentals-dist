@@ -4089,6 +4089,27 @@ var TestHarness = (function () {
       { simulation_mode: true, auto_draft_enabled: false }, TENANT.TENANT_ID);
   }
 
+  // ─── Terminal outcome / audit function guards ─────────────────────────────
+
+  function testAuditFunction_exists() {
+    assert('runProcessedMessageAudit is defined',
+      typeof runProcessedMessageAudit === 'function');
+    assert('runAuditKnownMessage_19e6069cfe3c13fd is defined',
+      typeof runAuditKnownMessage_19e6069cfe3c13fd === 'function');
+    assert('runIntakeCandidateDebug is defined',
+      typeof runIntakeCandidateDebug === 'function');
+  }
+
+  function testIntakeCandidateQuery_excludesLabel() {
+    var q = _intakeCandidateQuery();
+    assert('_intakeCandidateQuery: contains NK/Contact-Processed exclusion',
+      q.indexOf('-label:' + TENANT.PROCESSED_LABEL) !== -1);
+    assert('_intakeCandidateQuery: contains newer_than:7d',
+      q.indexOf('newer_than:7d') !== -1);
+    assert('_intakeCandidateQuery: contains at least one known subject',
+      q.indexOf('Nova Kingdom Rentals Booking Inquiry') !== -1);
+  }
+
   // ─── Test Runner ──────────────────────────────────────────────────────────
 
   function testAll() {
@@ -4202,6 +4223,10 @@ var TestHarness = (function () {
     testExecutionEnv_liveGatePreventsLiveDraftsByDefault();
     testExecutionEnv_allowLiveGmailDraftsUnlocksGate();
     testExecutionEnv_initResetsLiveGate();
+
+    // Terminal outcome / audit function guards
+    testAuditFunction_exists();
+    testIntakeCandidateQuery_excludesLabel();
 
     // Subject placeholder
     testSubjectPlaceholder_bookingIdStripped();
