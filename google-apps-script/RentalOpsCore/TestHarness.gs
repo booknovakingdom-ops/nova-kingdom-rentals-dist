@@ -1061,8 +1061,10 @@ var TestHarness = (function () {
     assert('FirstResponse: no "booking is confirmed"', lower.indexOf('booking is confirmed') === -1);
     assert('FirstResponse: no "you are booked"', lower.indexOf('you are booked') === -1);
     assert('FirstResponse: no "we guarantee availability"', lower.indexOf('we guarantee availability') === -1);
-    assert('FirstResponse: says "not a booking confirmation"',
-      lower.indexOf('not a booking confirmation') !== -1);
+    assert('FirstResponse: no "not a booking confirmation"', lower.indexOf('not a booking confirmation') === -1);
+    assert('FirstResponse: no "Please note:"', lower.indexOf('please note:') === -1);
+    assert('FirstResponse: no "DRAFT" label', body.indexOf('DRAFT') === -1);
+    assert('FirstResponse: no "REVIEW BEFORE SENDING"', body.indexOf('REVIEW BEFORE SENDING') === -1);
   }
 
   function testFirstResponseBody_noAvailabilityGuarantee() {
