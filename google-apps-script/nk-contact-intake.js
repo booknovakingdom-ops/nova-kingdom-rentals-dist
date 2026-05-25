@@ -1799,6 +1799,99 @@ function runAuditKnownMessage_19e6069cfe3c13fd() {
   return runProcessedMessageAudit('19e6069cfe3c13fd');
 }
 
+// ─── Backfill ─────────────────────────────────────────────────────────────────
+
+/**
+ * runBackfillProcessedLabelForCompletedCandidates()
+ *
+ * One-time admin repair: finds Gmail threads matching the contact-form subjects
+ * whose idempotency row is COMPLETED or SKIPPED but that are missing the
+ * NK/Contact-Processed label, then applies the label.
+ *
+ * Searches the last 30 days WITHOUT the label exclusion filter so it can see
+ * threads that were processed but never labeled.
+ *
+ * Safe:
+ *   - Applies Gmail labels only. No drafts. No emails sent. No Sheets writes.
+ *   - Threads that already have the label are skipped.
+ *   - Threads without a COMPLETED/SKIPPED idempotency row are skipped.
+ *
+ * Live only — this function is intentionally not simulation-gated because
+ * applying a Gmail label is its sole purpose.
+ */
+function runBackfillProcessedLabelForCompletedCandidates() {
+  _assertSpreadsheetId();
+
+  // ── Build label object once ───────────────────────────────────────────────
+  var label;
+  try {
+    label = GmailApp.getUserLabelByName(TENANT.PROCESSED_LABEL)
+         || GmailApp.createLabel(TENANT.PROCESSED_LABEL);
+  } catch (e) {
+    console.error('[BACKFILL] Could not get/create label "' + TENANT.PROCESSED_LABEL + '": ' + e.message);
+    return;
+  }
+
+  // ── Search last 30 days — no label exclusion so we catch unlabeled ones ──
+  var query = '(' + TENANT.CONTACT_SUBJECTS.map(function (s) {
+    return 'subject:"' + s + '"';
+  }).join(' OR ') + ') newer_than:30d';
+
+  console.log('[BACKFILL] Query    : ' + query);
+  var threads = GmailApp.search(query, 0, 100);
+  console.log('[BACKFILL] Threads  : ' + threads.length);
+
+  // ── Load idempotency index into memory ────────────────────────────────────
+  var ss      = SpreadsheetApp.openById(TENANT.SPREADSHEET_ID);
+  var idSheet = ss.getSheetByName('Ops_IdempotencyLog');
+  var idIndex = {};   // messageId → status
+  if (idSheet) {
+    var idData = idSheet.getDataRange().getValues();
+    for (var i = 1; i < idData.length; i++) {
+      var key = String(idData[i][0]).trim();   // COL.KEY
+      if (key) idIndex[key] = String(idData[i][2] || '');  // COL.STATUS
+    }
+  }
+
+  // ── Walk each thread ──────────────────────────────────────────────────────
+  var counts = { applied: 0, alreadyLabeled: 0, skippedNotComplete: 0, errors: 0 };
+
+  threads.forEach(function (thread) {
+    var firstMsgId = thread.getMessages()[0].getId();
+    var existingLabels = thread.getLabels().map(function (l) { return l.getName(); });
+    var hasLabel  = existingLabels.indexOf(TENANT.PROCESSED_LABEL) !== -1;
+    var idStatus  = idIndex[firstMsgId] || 'NOT_FOUND';
+
+    if (hasLabel) {
+      counts.alreadyLabeled++;
+      console.log('[BACKFILL] SKIP already_labeled  msgId=' + firstMsgId);
+      return;
+    }
+
+    if (idStatus !== 'COMPLETED' && idStatus !== 'SKIPPED') {
+      counts.skippedNotComplete++;
+      console.log('[BACKFILL] SKIP idempotency=' + idStatus + ' msgId=' + firstMsgId);
+      return;
+    }
+
+    try {
+      label.addToThread(thread);
+      counts.applied++;
+      console.log('[BACKFILL] LABELED idempotency=' + idStatus + ' msgId=' + firstMsgId);
+    } catch (e) {
+      counts.errors++;
+      console.error('[BACKFILL] ERROR labeling msgId=' + firstMsgId + ': ' + e.message);
+    }
+  });
+
+  // ── Summary ───────────────────────────────────────────────────────────────
+  console.log('[BACKFILL] ─────────────────────────────────────────────────────');
+  console.log('[BACKFILL] Applied            : ' + counts.applied);
+  console.log('[BACKFILL] Already labeled    : ' + counts.alreadyLabeled);
+  console.log('[BACKFILL] Skipped (not done) : ' + counts.skippedNotComplete);
+  console.log('[BACKFILL] Errors             : ' + counts.errors);
+}
+
 // ─── Intake Candidate Debug ───────────────────────────────────────────────────
 
 /**
