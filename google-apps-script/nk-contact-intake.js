@@ -816,6 +816,114 @@ function resetIdempotencyForMessage(messageId) {
   console.log('[ADMIN] Reset complete. Next production run will reprocess this message.');
 }
 
+/**
+ * runQueueSchemaHealthCheck()
+ *
+ * Logs PASS/FAIL for:
+ *   - Sim_DraftQueue exists
+ *   - Sim_ReviewQueue exists
+ *   - DraftQueue headers match expected schema
+ *   - ReviewQueue headers match expected schema
+ *
+ * Read-only — never writes, never sends email.
+ * Run after runReviewQueueSimulationTest() so both tabs are present.
+ */
+function runQueueSchemaHealthCheck() {
+  _assertSpreadsheetId();
+  var ss = SpreadsheetApp.openById(TENANT.SPREADSHEET_ID);
+
+  var EXPECTED = {
+    'Sim_ReviewQueue': [
+      'tenant_id', 'queue_id', 'created_at', 'message_id',
+      'customer_email', 'customer_name', 'reason', 'severity',
+      'thread_link', 'status', 'trace_id', 'simulation_run_id', 'environment'
+    ],
+    'Sim_DraftQueue': [
+      'tenant_id', 'queue_id', 'created_at', 'message_id',
+      'customer_email', 'subject', 'gmail_draft_id',
+      'intent', 'mode', 'status', 'trace_id', 'simulation_run_id', 'environment'
+    ]
+  };
+
+  var lines   = ['=== Queue Schema Health Check ==='];
+  var allPass = true;
+
+  Object.keys(EXPECTED).forEach(function (tabName) {
+    var sheet = ss.getSheetByName(tabName);
+    if (!sheet) {
+      lines.push('FAIL  ' + tabName + ' — tab does not exist (run runReviewQueueSimulationTest first)');
+      allPass = false;
+      return;
+    }
+    lines.push('PASS  ' + tabName + ' — tab exists');
+
+    var data = sheet.getDataRange().getValues();
+    if (!data.length) {
+      lines.push('FAIL  ' + tabName + ' headers — tab is completely empty');
+      allPass = false;
+      return;
+    }
+    var actual   = data[0].map(function (h) { return String(h).trim(); });
+    var expected = EXPECTED[tabName];
+    var match    = JSON.stringify(actual.slice(0, expected.length)) === JSON.stringify(expected);
+    if (match) {
+      lines.push('PASS  ' + tabName + ' headers — ' + actual.length + ' columns, schema matches');
+    } else {
+      lines.push('FAIL  ' + tabName + ' headers mismatch');
+      lines.push('       expected: [' + expected.join(', ') + ']');
+      lines.push('       actual:   [' + actual.join(', ')   + ']');
+      allPass = false;
+    }
+  });
+
+  lines.push('');
+  lines.push(allPass
+    ? '✅ All queue schema checks passed.'
+    : '❌ Some checks failed. See above.');
+  lines.forEach(function (line) { console.log(line); });
+  Logger.log(lines.join('\n'));
+}
+
+/**
+ * runReviewQueueSimulationTest()
+ *
+ * Forces a direct simulation-only write to Sim_ReviewQueue.
+ * Creates the tab if it does not exist.
+ * Does NOT process Gmail, does NOT send email, does NOT touch production data.
+ * Use this to verify the review queue path and provision the tab.
+ *
+ * Expected post-run state:
+ *   - Sim_ReviewQueue tab exists with headers + at least one data row
+ *   - Sim_Actions tab has a WRITE_REVIEW_QUEUE entry
+ */
+function runReviewQueueSimulationTest() {
+  _assertSpreadsheetId();
+
+  ExecutionEnv.init(TENANT.SPREADSHEET_ID, {
+    simulation_mode:    true,
+    auto_draft_enabled: false
+  }, TENANT.TENANT_ID);
+
+  var traceId = Identifiers.traceId();
+
+  ExecutionEnv.writeManualReview({
+    message_id:    'SIM-REVIEW-TEST-' + Date.now(),
+    email:         'review-test@example.com',
+    customer_name: 'Review Queue Test User',
+    reason:        'runReviewQueueSimulationTest: direct simulation test of ReviewQueue path',
+    severity:      'medium',
+    thread_link:   'https://mail.google.com/sim/review-test',
+    status:        'OPEN'
+  }, traceId);
+
+  console.log('[runReviewQueueSimulationTest] Row written to Sim_ReviewQueue.');
+  console.log('[runReviewQueueSimulationTest] sim_run_id : ' + ExecutionEnv.getSimRunId());
+  console.log('[runReviewQueueSimulationTest] trace_id   : ' + traceId);
+  console.log('[runReviewQueueSimulationTest] tenant_id  : ' + TENANT.TENANT_ID);
+  console.log('[runReviewQueueSimulationTest] No Gmail reads, no email sent, no production mutations.');
+  console.log('[runReviewQueueSimulationTest] Run runQueueSchemaHealthCheck() to verify the tab schema.');
+}
+
 // ─── Top-level test runner ────────────────────────────────────────────────────
 
 /**
