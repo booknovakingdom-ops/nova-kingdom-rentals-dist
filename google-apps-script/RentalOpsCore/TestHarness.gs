@@ -949,6 +949,175 @@ var TestHarness = (function () {
     assert('Validators: incomplete bundle fails', !Validators.validateContextBundle(bad).valid);
   }
 
+  // ─── InquiryState module guard ────────────────────────────────────────────
+
+  function testInquiryState_moduleApi() {
+    assert('InquiryState: module defined', typeof InquiryState !== 'undefined');
+    assert('InquiryState: get is a function', typeof InquiryState.get === 'function');
+    assert('InquiryState: upsert is a function', typeof InquiryState.upsert === 'function');
+    assert('InquiryState: STAGES defined', typeof InquiryState.STAGES === 'object');
+    assert('InquiryState: STAGES.NEW_INQUIRY defined', !!InquiryState.STAGES.NEW_INQUIRY);
+    assert('InquiryState: STAGES.AWAITING_MISSING_INFO defined', !!InquiryState.STAGES.AWAITING_MISSING_INFO);
+    assert('InquiryState: STAGES.READY_FOR_OWNER_REVIEW defined', !!InquiryState.STAGES.READY_FOR_OWNER_REVIEW);
+    assert('InquiryState: STAGES.QUOTE_DRAFT_READY defined', !!InquiryState.STAGES.QUOTE_DRAFT_READY);
+  }
+
+  // ─── _detectMissingFields tests ───────────────────────────────────────────
+
+  function testDetectMissingFields_emptyParsed() {
+    var missing = _detectMissingFields({});
+    assert('MissingFields: event_date missing when blank', missing.indexOf('event_date') !== -1);
+    assert('MissingFields: event_address missing when blank', missing.indexOf('event_address') !== -1);
+    assert('MissingFields: rental_item missing when blank', missing.indexOf('rental_item') !== -1);
+    assert('MissingFields: guest_count missing when blank', missing.indexOf('guest_count') !== -1);
+    assert('MissingFields: setup_surface missing when blank', missing.indexOf('setup_surface') !== -1);
+    assert('MissingFields: power_access missing when blank', missing.indexOf('power_access') !== -1);
+  }
+
+  function testDetectMissingFields_allCriticalPresent() {
+    var parsed = {
+      event_date: 'July 19, 2026', event_address: '45 Maple St', rental_item: 'Crown Quest',
+      guest_count: '25', start_time: '10:00 AM', setup_surface: 'grass', power_access: 'yes'
+    };
+    var missing = _detectMissingFields(parsed);
+    assert('MissingFields: event_date not missing', missing.indexOf('event_date') === -1);
+    assert('MissingFields: event_address not missing', missing.indexOf('event_address') === -1);
+    assert('MissingFields: rental_item not missing', missing.indexOf('rental_item') === -1);
+    assert('MissingFields: guest_count not missing', missing.indexOf('guest_count') === -1);
+    assert('MissingFields: returns empty or short array', missing.length === 0);
+  }
+
+  function testDetectMissingFields_partiallyFilled() {
+    var parsed = {
+      event_date: 'August 5, 2026', event_address: '', rental_item: 'Crown Dino Combo',
+      guest_count: '', start_time: '', setup_surface: '', power_access: ''
+    };
+    var missing = _detectMissingFields(parsed);
+    assert('MissingFields: event_address in missing', missing.indexOf('event_address') !== -1);
+    assert('MissingFields: guest_count in missing', missing.indexOf('guest_count') !== -1);
+    assert('MissingFields: event_date NOT in missing (provided)', missing.indexOf('event_date') === -1);
+    assert('MissingFields: rental_item NOT in missing (provided)', missing.indexOf('rental_item') === -1);
+  }
+
+  function testDetectMissingFields_waterItemAddsWaterAccess() {
+    var parsed = { event_date: 'June 1', event_address: '10 St', rental_item: 'Water Splash Zone',
+                   guest_count: '20', start_time: '11am', setup_surface: 'grass', power_access: 'yes',
+                   water_access: '' };
+    var missing = _detectMissingFields(parsed);
+    assert('MissingFields: water_access added for water item', missing.indexOf('water_access') !== -1);
+  }
+
+  function testDetectMissingFields_nonWaterItemNoWaterAccess() {
+    var parsed = { event_date: 'June 1', event_address: '10 St', rental_item: 'Crown Quest',
+                   guest_count: '20', start_time: '11am', setup_surface: 'grass', power_access: 'yes' };
+    var missing = _detectMissingFields(parsed);
+    assert('MissingFields: water_access NOT added for non-water item', missing.indexOf('water_access') === -1);
+  }
+
+  // ─── _buildFirstResponseBody tests ───────────────────────────────────────
+
+  function testFirstResponseBody_containsEventDetailsHeader() {
+    var body = _buildFirstResponseBody('Jane', { event_date: 'July 1' }, ['event_address']);
+    assert('FirstResponse: contains "event details we received"',
+      body.toLowerCase().indexOf('event details we received') !== -1);
+  }
+
+  function testFirstResponseBody_showsProvidedEventDate() {
+    var body = _buildFirstResponseBody('Jane',
+      { event_date: 'July 19, 2026', event_address: '45 Maple St', rental_item: 'Crown Quest',
+        guest_count: '25', setup_surface: 'grass', power_access: 'yes', start_time: '10am' }, []);
+    assert('FirstResponse: provided event_date appears in body', body.indexOf('July 19, 2026') !== -1);
+    assert('FirstResponse: provided event_address appears in body', body.indexOf('45 Maple St') !== -1);
+    assert('FirstResponse: provided rental_item appears in body', body.indexOf('Crown Quest') !== -1);
+  }
+
+  function testFirstResponseBody_showsNotProvidedForBlanks() {
+    var body = _buildFirstResponseBody('Jane', {}, ['event_date', 'event_address', 'rental_item']);
+    assert('FirstResponse: shows "Not provided" for missing fields', body.indexOf('Not provided') !== -1);
+  }
+
+  function testFirstResponseBody_listsMissingQuestions() {
+    var missing = ['event_date', 'setup_surface'];
+    var body = _buildFirstResponseBody('Jane', {}, missing);
+    assert('FirstResponse: asks event_date question',
+      body.indexOf('What date is your event') !== -1);
+    assert('FirstResponse: asks setup_surface question',
+      body.toLowerCase().indexOf('surface') !== -1);
+  }
+
+  function testFirstResponseBody_noMissingFieldsNoQuestions() {
+    var body = _buildFirstResponseBody('Jane',
+      { event_date: 'July 1', event_address: '45 St', rental_item: 'Crown Quest',
+        guest_count: '20', start_time: '10am', setup_surface: 'grass', power_access: 'yes' }, []);
+    assert('FirstResponse: no numbered questions when all present',
+      body.indexOf('1.') === -1);
+    assert('FirstResponse: says will prepare quote',
+      body.toLowerCase().indexOf('preliminary quote') !== -1);
+  }
+
+  function testFirstResponseBody_noBookingConfirmation() {
+    var body = _buildFirstResponseBody('Jane', {}, ['event_date']);
+    var lower = body.toLowerCase();
+    assert('FirstResponse: no "booking is confirmed"', lower.indexOf('booking is confirmed') === -1);
+    assert('FirstResponse: no "you are booked"', lower.indexOf('you are booked') === -1);
+    assert('FirstResponse: no "we guarantee availability"', lower.indexOf('we guarantee availability') === -1);
+    assert('FirstResponse: says "not a booking confirmation"',
+      lower.indexOf('not a booking confirmation') !== -1);
+  }
+
+  function testFirstResponseBody_noAvailabilityGuarantee() {
+    var body = _buildFirstResponseBody('Jane', {}, []);
+    var lower = body.toLowerCase();
+    assert('FirstResponse: no "guarantee availability"', lower.indexOf('guarantee availability') === -1);
+    assert('FirstResponse: no "availability confirmed"', lower.indexOf('availability confirmed') === -1);
+    assert('FirstResponse: uses "will review availability"',
+      lower.indexOf('will review availability') !== -1);
+  }
+
+  function testFirstResponseBody_passesCheckForbiddenPhrases() {
+    var body = _buildFirstResponseBody('Jane',
+      { event_date: 'July 1', event_address: '10 St', rental_item: 'Crown Quest' }, ['guest_count']);
+    var hits = TemplateRenderer.checkForbiddenPhrases(body);
+    assertEqual('FirstResponse: passes forbidden phrase check', hits.length, 0);
+  }
+
+  // ─── _buildFollowUpBody tests ─────────────────────────────────────────────
+
+  function testFollowUpBody_doesNotRepeatFullChecklist() {
+    var body = _buildFollowUpBody('Jane', ['setup_surface']);
+    var lower = body.toLowerCase();
+    assert('FollowUp: does NOT contain "event details we received"',
+      lower.indexOf('event details we received') === -1);
+    assert('FollowUp: does NOT list all event fields',
+      lower.indexOf('event date:') === -1);
+  }
+
+  function testFollowUpBody_onlyAsksMissingFields() {
+    var body = _buildFollowUpBody('Jane', ['setup_surface', 'power_access']);
+    assert('FollowUp: asks setup_surface', body.toLowerCase().indexOf('surface') !== -1);
+    assert('FollowUp: asks power_access', body.toLowerCase().indexOf('power') !== -1);
+    assert('FollowUp: does NOT ask event_date', body.indexOf('What date is your event') === -1);
+  }
+
+  function testFollowUpBody_noRemainingMissing() {
+    var body = _buildFollowUpBody('Jane', []);
+    assert('FollowUp: no numbered questions when nothing missing', body.indexOf('1.') === -1);
+    assert('FollowUp: says will prepare quote', body.toLowerCase().indexOf('preliminary quote') !== -1);
+  }
+
+  function testFollowUpBody_noBookingConfirmation() {
+    var body = _buildFollowUpBody('Jane', ['setup_surface']);
+    var lower = body.toLowerCase();
+    assert('FollowUp: no "booking is confirmed"', lower.indexOf('booking is confirmed') === -1);
+    assert('FollowUp: no "guarantee availability"', lower.indexOf('guarantee availability') === -1);
+  }
+
+  function testFollowUpBody_passesCheckForbiddenPhrases() {
+    var body = _buildFollowUpBody('Jane', ['event_date', 'setup_surface']);
+    var hits = TemplateRenderer.checkForbiddenPhrases(body);
+    assertEqual('FollowUp: passes forbidden phrase check', hits.length, 0);
+  }
+
   // ─── ReviewQueue module guard ─────────────────────────────────────────────
 
   function testReviewQueue_moduleApi() {
@@ -1038,6 +1207,33 @@ var TestHarness = (function () {
     testTemplateRenderer_render();
     testTemplateRenderer_missingPlaceholder();
     testTemplateRenderer_forbiddenPhrases();
+
+    // InquiryState module guard
+    testInquiryState_moduleApi();
+
+    // _detectMissingFields
+    testDetectMissingFields_emptyParsed();
+    testDetectMissingFields_allCriticalPresent();
+    testDetectMissingFields_partiallyFilled();
+    testDetectMissingFields_waterItemAddsWaterAccess();
+    testDetectMissingFields_nonWaterItemNoWaterAccess();
+
+    // _buildFirstResponseBody
+    testFirstResponseBody_containsEventDetailsHeader();
+    testFirstResponseBody_showsProvidedEventDate();
+    testFirstResponseBody_showsNotProvidedForBlanks();
+    testFirstResponseBody_listsMissingQuestions();
+    testFirstResponseBody_noMissingFieldsNoQuestions();
+    testFirstResponseBody_noBookingConfirmation();
+    testFirstResponseBody_noAvailabilityGuarantee();
+    testFirstResponseBody_passesCheckForbiddenPhrases();
+
+    // _buildFollowUpBody
+    testFollowUpBody_doesNotRepeatFullChecklist();
+    testFollowUpBody_onlyAsksMissingFields();
+    testFollowUpBody_noRemainingMissing();
+    testFollowUpBody_noBookingConfirmation();
+    testFollowUpBody_passesCheckForbiddenPhrases();
 
     // ReviewQueue / DraftQueue module guards
     testReviewQueue_moduleApi();

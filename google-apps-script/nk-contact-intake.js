@@ -325,7 +325,8 @@ function _processThread(thread, controls, profile, traceId) {
   }
 
   var draftId = _buildAndCreateDraft(
-    parsed, customerEmail, firstName, aiDecision, contextBundle, controls, profile, units, traceId
+    parsed, customerEmail, firstName, aiDecision, contextBundle, controls, profile, units, traceId,
+    thread.getId()
   );
 
   _finalizeThread(thread, messageId, customerEmail, parsed, aiDecision,
@@ -376,78 +377,108 @@ function _classifyWithFallback(contextBundle, controls, traceId) {
 
 // ─── Draft Builder ────────────────────────────────────────────────────────────
 
-function _buildAndCreateDraft(parsed, customerEmail, firstName, aiDecision, contextBundle, controls, profile, units, traceId) {
-  // Quote calculation if all fields are present
-  var quoteResult = null;
-  if (aiDecision.mode === 'quote' && parsed.rental_item && parsed.event_date && parsed.event_address) {
-    var matchedUnit = _matchUnit(parsed.rental_item, units);
-    if (matchedUnit) {
-      try {
-        quoteResult = QuoteEngine.calculate({
-          tenantId: TENANT.TENANT_ID,
-          lineItems: [{ unitId: matchedUnit.unit_id, unitName: matchedUnit.unit_name,
-                        basePrice: matchedUnit.base_price, hours: matchedUnit.default_hours }],
-          distanceKm: 0,
-          attendantHours: 0, paymentMethod: 'etransfer',
-          extensionRequested: false, discountPct: 0, sillyStringDamage: false,
-          businessProfile: profile,
-          pricingRules: ConfigLoader.getPricingRules(TENANT.SPREADSHEET_ID, TENANT.TENANT_ID)
-        });
-      } catch (e) {
-        console.warn('Contact Intake: QuoteEngine failed — ' + e.message + ' — downgrading to ask_once');
-        quoteResult = null;
+function _buildAndCreateDraft(parsed, customerEmail, firstName, aiDecision, contextBundle, controls, profile, units, traceId, threadId) {
+  var simulation    = ExecutionEnv.isSimulation();
+  var simRunId      = ExecutionEnv.getSimRunId();
+  var missingFields = _detectMissingFields(parsed);
+  var state         = threadId
+    ? InquiryState.get(TENANT.SPREADSHEET_ID, threadId, simulation)
+    : null;
+
+  var isFirstResponse = !state || !state.first_response_draft_created;
+  var isFollowUp      = !isFirstResponse &&
+                        state.inquiry_stage === InquiryState.STAGES.AWAITING_MISSING_INFO;
+
+  var subject, bodyScaffold, quoteResult = null;
+  var draftMode;
+  var nextStage = missingFields.length
+    ? InquiryState.STAGES.AWAITING_MISSING_INFO
+    : InquiryState.STAGES.READY_FOR_OWNER_REVIEW;
+
+  if (isFirstResponse) {
+    // ── Stage: NEW_INQUIRY — structured first-response details-check draft ─
+    subject      = 'Event details received — Nova Kingdom Rentals';
+    bodyScaffold = _buildFirstResponseBody(firstName, parsed, missingFields);
+    draftMode    = 'first_response';
+
+  } else if (isFollowUp) {
+    // ── Stage: AWAITING_MISSING_INFO — short follow-up with only remaining questions ─
+    subject      = 'Re: Event details received — Nova Kingdom Rentals';
+    bodyScaffold = _buildFollowUpBody(firstName, missingFields);
+    draftMode    = 'follow_up';
+
+  } else {
+    // ── Stage: READY_FOR_OWNER_REVIEW / QUOTE_DRAFT_READY — template + AI polish ─
+    draftMode = aiDecision.mode;
+    nextStage = InquiryState.STAGES.QUOTE_DRAFT_READY;
+
+    if (aiDecision.mode === 'quote' && parsed.rental_item && parsed.event_date && parsed.event_address) {
+      var matchedUnit = _matchUnit(parsed.rental_item, units);
+      if (matchedUnit) {
+        try {
+          quoteResult = QuoteEngine.calculate({
+            tenantId: TENANT.TENANT_ID,
+            lineItems: [{ unitId: matchedUnit.unit_id, unitName: matchedUnit.unit_name,
+                          basePrice: matchedUnit.base_price, hours: matchedUnit.default_hours }],
+            distanceKm: 0, attendantHours: 0, paymentMethod: 'etransfer',
+            extensionRequested: false, discountPct: 0, sillyStringDamage: false,
+            businessProfile: profile,
+            pricingRules: ConfigLoader.getPricingRules(TENANT.SPREADSHEET_ID, TENANT.TENANT_ID)
+          });
+        } catch (e) {
+          console.warn('Contact Intake: QuoteEngine failed — ' + e.message + ' — downgrading to ask_once');
+          quoteResult = null;
+          aiDecision.mode = 'ask_once';
+          draftMode = 'ask_once';
+        }
+      } else {
         aiDecision.mode = 'ask_once';
+        draftMode = 'ask_once';
+        aiDecision.missing_fields = (aiDecision.missing_fields || []).concat(['rental_item']);
       }
-    } else {
-      aiDecision.mode = 'ask_once';
-      aiDecision.missing_fields = (aiDecision.missing_fields || []).concat(['rental_item']);
     }
-  }
 
-  // Template selection
-  var templates = ConfigLoader.getMessageTemplates(
-    TENANT.SPREADSHEET_ID, TENANT.TENANT_ID, aiDecision.intent, aiDecision.mode
-  );
-  if (!templates.length) {
-    templates = ConfigLoader.getMessageTemplates(
-      TENANT.SPREADSHEET_ID, TENANT.TENANT_ID, null, aiDecision.mode
+    var templates = ConfigLoader.getMessageTemplates(
+      TENANT.SPREADSHEET_ID, TENANT.TENANT_ID, aiDecision.intent, aiDecision.mode
     );
+    if (!templates.length) {
+      templates = ConfigLoader.getMessageTemplates(
+        TENANT.SPREADSHEET_ID, TENANT.TENANT_ID, null, aiDecision.mode
+      );
+    }
+    if (!templates.length) {
+      ExecutionEnv.writeManualReview({
+        email: customerEmail, threadLink: '',
+        reason: 'No template: intent=' + aiDecision.intent + ' mode=' + aiDecision.mode,
+        severity: 'medium'
+      }, traceId);
+      return '';
+    }
+
+    var template = templates[0];
+    var vars = TemplateRenderer.buildVars(
+      { customer:  { first_name: firstName, name: parsed.name || '', email: customerEmail, phone: parsed.phone || '' },
+        booking:   { event_date: parsed.event_date || '', event_address: parsed.event_address || '' },
+        event_date: parsed.event_date || '', event_address: parsed.event_address || '',
+        organization_name:      parsed.name || '',
+        missing_field_question: _missingFieldQ(aiDecision.missing_fields) },
+      quoteResult, profile
+    );
+
+    var scaffold = TemplateRenderer.render(template.body_template, vars);
+    subject = TemplateRenderer.render(template.subject_template || 'Re: Nova Kingdom Rentals', vars);
+    subject = subject
+      .replace(/\s*[-—]\s*\[[A-Z_]+\]/g, '')
+      .replace(/\[[A-Z_]+\]\s*[-—]?\s*/g, '')
+      .trim();
+    if (!subject) subject = 'Re: Nova Kingdom Rentals';
+
+    // AI polish only for the template/quote path (not for code-generated templates)
+    bodyScaffold = _polishWithFallback(scaffold, contextBundle, controls, traceId);
   }
-  if (!templates.length) {
-    ExecutionEnv.writeManualReview({
-      email: customerEmail, threadLink: '',
-      reason: 'No template: intent=' + aiDecision.intent + ' mode=' + aiDecision.mode,
-      severity: 'medium'
-    }, traceId);
-    return '';
-  }
 
-  var template = templates[0];
-  var vars     = TemplateRenderer.buildVars(
-    { customer:  { first_name: firstName, name: parsed.name || '', email: customerEmail, phone: parsed.phone || '' },
-      booking:   { event_date: parsed.event_date || '', event_address: parsed.event_address || '' },
-      event_date: parsed.event_date || '', event_address: parsed.event_address || '',
-      organization_name:      parsed.name || '',
-      missing_field_question: _missingFieldQ(aiDecision.missing_fields) },
-    quoteResult, profile
-  );
-
-  var scaffold = TemplateRenderer.render(template.body_template, vars);
-
-  // Render subject and strip any unresolved [PLACEHOLDER] tokens.
-  // booking_id is not assigned at inquiry stage — remove it from subject rather than showing [BOOKING_ID].
-  var subject = TemplateRenderer.render(template.subject_template || 'Re: Nova Kingdom Rentals', vars);
-  subject = subject
-    .replace(/\s*[-—]\s*\[[A-Z_]+\]/g, '')   // "— [BOOKING_ID]" at end
-    .replace(/\[[A-Z_]+\]\s*[-—]?\s*/g, '')   // "[BOOKING_ID]" elsewhere
-    .trim();
-  if (!subject) subject = 'Re: Nova Kingdom Rentals';
-
-  // AI polish (fallback to scaffold on failure)
-  var draftBody = _polishWithFallback(scaffold, contextBundle, controls, traceId);
-
-  // Post-draft validations
-  var forbiddenHits = TemplateRenderer.checkForbiddenPhrases(draftBody);
+  // ── Shared validations (all paths) ───────────────────────────────────────
+  var forbiddenHits = TemplateRenderer.checkForbiddenPhrases(bodyScaffold || '');
   if (forbiddenHits.length) {
     ExecutionEnv.writeManualReview({
       email: customerEmail, threadLink: '',
@@ -455,7 +486,7 @@ function _buildAndCreateDraft(parsed, customerEmail, firstName, aiDecision, cont
     }, traceId);
     return '';
   }
-  if (quoteResult && RiskEvaluator.draftContainsUnlistedPrice(draftBody, quoteResult.priceBlock)) {
+  if (quoteResult && RiskEvaluator.draftContainsUnlistedPrice(bodyScaffold, quoteResult.priceBlock)) {
     ExecutionEnv.writeManualReview({
       email: customerEmail, threadLink: '',
       reason: 'Draft contains unlisted price — possible AI hallucination', severity: 'high'
@@ -463,14 +494,10 @@ function _buildAndCreateDraft(parsed, customerEmail, firstName, aiDecision, cont
     return '';
   }
 
-  // ── Unresolved placeholder gate ───────────────────────────────────────────
-  // Block draft creation if any [BRACKET_TOKEN], {{mustache}}, undefined, or null
-  // remain unresolved in the subject or body after template rendering and AI polish.
-  var finalBody = draftBody + '\n\n⚠ DRAFT — REVIEW BEFORE SENDING ⚠';
-  var allPlaceholders = ContactFormParser.containsUnresolvedPlaceholders(subject)
+  var finalBody = (bodyScaffold || '') + '\n\n⚠ DRAFT — REVIEW BEFORE SENDING ⚠';
+  var allPlaceholders = ContactFormParser.containsUnresolvedPlaceholders(subject || '')
     .concat(ContactFormParser.containsUnresolvedPlaceholders(finalBody));
   if (allPlaceholders.length) {
-    // Deduplicate
     var uniqueTokens = allPlaceholders.filter(function (v, i, a) { return a.indexOf(v) === i; });
     console.warn('Contact Intake: draft blocked — unresolved placeholders: ' + uniqueTokens.join(', '));
     ExecutionEnv.writeManualReview({
@@ -480,8 +507,6 @@ function _buildAndCreateDraft(parsed, customerEmail, firstName, aiDecision, cont
     return '';
   }
 
-  // ── Recipient safety guard ────────────────────────────────────────────────
-  // Final hard check: never create a draft to a Web3Forms notify address.
   var recipientCheck = ContactFormParser.validateRequiredForDraft(null, customerEmail);
   if (!recipientCheck.valid) {
     console.warn('Contact Intake: draft blocked — invalid recipient: ' + recipientCheck.issues.join(', '));
@@ -492,7 +517,28 @@ function _buildAndCreateDraft(parsed, customerEmail, firstName, aiDecision, cont
     return '';
   }
 
-  return ExecutionEnv.createDraft(customerEmail, subject, finalBody, traceId);
+  var draftId = ExecutionEnv.createDraft(customerEmail, subject, finalBody, traceId, {
+    message_id: contextBundle.message_id,
+    intent:     aiDecision.intent,
+    mode:       draftMode
+  });
+
+  // Update inquiry state for this thread
+  if (threadId) {
+    InquiryState.upsert(TENANT.SPREADSHEET_ID, threadId, {
+      tenant_id:                       TENANT.TENANT_ID,
+      customer_email:                  customerEmail,
+      inquiry_stage:                   nextStage,
+      first_response_draft_created:    true,
+      first_response_draft_created_at: (state && state.first_response_draft_created_at)
+                                         ? state.first_response_draft_created_at
+                                         : new Date().toISOString(),
+      missing_fields_last_asked:       JSON.stringify(missingFields),
+      trace_id:                        traceId
+    }, simulation, simRunId);
+  }
+
+  return draftId || '';
 }
 
 function _polishWithFallback(scaffold, contextBundle, controls, traceId) {
@@ -550,6 +596,146 @@ function _extractEmail(from) {
 function _isBusinessEmail(email, businessEmail) {
   return String(email || '').toLowerCase().trim() ===
          String(businessEmail || '').toLowerCase().trim();
+}
+
+// ─── Inquiry stage helpers ────────────────────────────────────────────────────
+
+var CRITICAL_FIELDS_FOR_QUOTE  = ['event_date', 'event_address', 'rental_item'];
+var IMPORTANT_FIELDS_FOR_DRAFT = ['guest_count', 'start_time', 'setup_surface', 'power_access'];
+
+var MISSING_FIELD_QUESTIONS = {
+  event_date:    'What date is your event?',
+  event_address: 'Where will the event be held (full address, including city)?',
+  rental_item:   'Which inflatable or package are you interested in?',
+  guest_count:   'Roughly how many guests or kids are expected?',
+  start_time:    'What time would you like the rental or setup for?',
+  setup_surface: 'What type of surface will we be setting up on — grass, pavement, gravel, or indoor?',
+  power_access:  'Will there be power access nearby for the inflatable?',
+  water_access:  'Will water access be available for the water unit?',
+  age_range:     'What age range will be using the inflatable?',
+  supervision:   'Will an adult be supervising the inflatable throughout the event?'
+};
+
+/**
+ * Returns an array of field names that are missing or blank from the parsed form.
+ * Always checks critical fields (event_date, event_address, rental_item) and
+ * important operational fields (guest_count, start_time, setup_surface, power_access).
+ * Adds water_access only if the requested item name suggests a water unit.
+ *
+ * This is a pure function — no I/O, fully testable.
+ *
+ * @param {Object} parsed  Output of ContactFormParser.parse() or .parseNkrWebsiteBooking()
+ * @returns {Array<string>}  Ordered list of missing field names
+ */
+function _detectMissingFields(parsed) {
+  var missing = [];
+  var all = CRITICAL_FIELDS_FOR_QUOTE.concat(IMPORTANT_FIELDS_FOR_DRAFT);
+  all.forEach(function (f) {
+    var val = parsed ? parsed[f] : '';
+    if (!val || !String(val).trim()) missing.push(f);
+  });
+  if (parsed && parsed.rental_item) {
+    var lower = parsed.rental_item.toLowerCase();
+    var isWater = lower.indexOf('water') !== -1 || lower.indexOf('splash') !== -1 ||
+                  lower.indexOf('slip') !== -1;
+    if (isWater && (!parsed.water_access || !String(parsed.water_access).trim())) {
+      missing.push('water_access');
+    }
+  }
+  return missing;
+}
+
+/**
+ * Build the first-response "event details received" draft body.
+ *
+ * Shows ALL fields (provided values or "Not provided"), then asks questions
+ * for any that are missing. Uses safe wording — no booking confirmations,
+ * no availability guarantees. Pure function, no I/O.
+ *
+ * @param {string}        firstName
+ * @param {Object}        parsed        ContactFormParser output
+ * @param {Array<string>} missingFields Output of _detectMissingFields(parsed)
+ * @returns {string}
+ */
+function _buildFirstResponseBody(firstName, parsed, missingFields) {
+  var p      = parsed || {};
+  var orNone = function (val) { return val && String(val).trim() ? String(val).trim() : 'Not provided'; };
+  var timeStr = [p.start_time, p.end_time].filter(Boolean).join(' – ');
+
+  var lines = [
+    'Hi ' + (firstName || 'there') + ',',
+    '',
+    'Thanks for reaching out to Nova Kingdom Rentals! Here are the event details we received:',
+    '',
+    '• Event date:             ' + orNone(p.event_date),
+    '• Time:                   ' + orNone(timeStr),
+    '• Event address:          ' + orNone(p.event_address),
+    '• Event type:             ' + orNone(p.event_type),
+    '• Item/package requested: ' + orNone(p.rental_item),
+    '• Guest count:            ' + orNone(p.guest_count),
+    '• Setup surface:          ' + orNone(p.setup_surface),
+    '• Power access:           ' + orNone(p.power_access),
+    '• Water access:           ' + orNone(p.water_access),
+    ''
+  ];
+
+  if (missingFields.length) {
+    lines.push('Before we can prepare your quote, could you please confirm or provide the following?');
+    lines.push('');
+    missingFields.forEach(function (f, i) {
+      var q = MISSING_FIELD_QUESTIONS[f] || ('Please provide: ' + f.replace(/_/g, ' '));
+      lines.push((i + 1) + '. ' + q);
+    });
+    lines.push('');
+    lines.push('Once we have those details, Nova Kingdom Rentals will review availability, setup requirements, and preliminary pricing before sending your quote.');
+  } else {
+    lines.push('We have all the details we need. Nova Kingdom Rentals will review availability, setup requirements, and prepare a preliminary quote shortly.');
+  }
+
+  lines.push('');
+  lines.push('Please note: this is not a booking confirmation. Availability and preliminary pricing will be confirmed by Nova Kingdom Rentals after review.');
+  lines.push('');
+  lines.push('— Nova Kingdom Rentals Team');
+  lines.push('booknovakingdom@gmail.com | 902-990-0005');
+
+  return lines.join('\n');
+}
+
+/**
+ * Build the follow-up draft body for threads where a first response was already sent.
+ * Only asks remaining missing questions — never repeats the full event-details checklist.
+ * Pure function, no I/O.
+ *
+ * @param {string}        firstName
+ * @param {Array<string>} remainingMissing  Output of _detectMissingFields(parsed)
+ * @returns {string}
+ */
+function _buildFollowUpBody(firstName, remainingMissing) {
+  var lines = [
+    'Hi ' + (firstName || 'there') + ',',
+    '',
+  ];
+
+  if (remainingMissing.length) {
+    lines.push('Thanks for the update! We still need a few details before we can prepare your quote:');
+    lines.push('');
+    remainingMissing.forEach(function (f, i) {
+      var q = MISSING_FIELD_QUESTIONS[f] || ('Please provide: ' + f.replace(/_/g, ' '));
+      lines.push((i + 1) + '. ' + q);
+    });
+    lines.push('');
+    lines.push("We'll review availability and send a preliminary quote once we have those details.");
+  } else {
+    lines.push("Thanks for providing all the details! Nova Kingdom Rentals will review availability and prepare a preliminary quote shortly.");
+    lines.push('');
+    lines.push('Please note: final pricing and availability will be confirmed by Nova Kingdom Rentals.');
+  }
+
+  lines.push('');
+  lines.push('— Nova Kingdom Rentals Team');
+  lines.push('booknovakingdom@gmail.com | 902-990-0005');
+
+  return lines.join('\n');
 }
 
 /**
