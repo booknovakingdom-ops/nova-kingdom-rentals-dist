@@ -4540,6 +4540,102 @@ var TestHarness = (function () {
       typeof IntakeNormalizer !== 'undefined' && typeof DraftQueue !== 'undefined');
   }
 
+  // ─── _buildInternalOwnerDraftBody tests ──────────────────────────────────
+
+  function testInternalOwnerDraftBody_containsMessageId() {
+    var body = _buildInternalOwnerDraftBody(null, 'MSG-TEST-001', 'w3f@notify.com', 'https://thread/1', 'test reason');
+    assert('_buildInternalOwnerDraftBody: contains message ID', body.indexOf('MSG-TEST-001') !== -1);
+  }
+
+  function testInternalOwnerDraftBody_containsGmailSender() {
+    var body = _buildInternalOwnerDraftBody(null, 'MSG-001', 'notify+abc@web3forms.com', '', '');
+    assert('_buildInternalOwnerDraftBody: contains Gmail sender', body.indexOf('notify+abc@web3forms.com') !== -1);
+  }
+
+  function testInternalOwnerDraftBody_containsReason() {
+    var body = _buildInternalOwnerDraftBody(null, 'MSG-002', 'x@test.com', '', 'No valid customer email found');
+    assert('_buildInternalOwnerDraftBody: contains reason text', body.indexOf('No valid customer email found') !== -1);
+  }
+
+  function testInternalOwnerDraftBody_containsParsedFields() {
+    var parsed = { name: 'Jane Smith', event_date: 'July 19, 2026', rental_item: 'Crown Quest',
+                   event_address: '45 Maple St', phone: '902-555-1234' };
+    var body = _buildInternalOwnerDraftBody(parsed, 'MSG-003', 'x@test.com', 'https://link', 'test');
+    assert('_buildInternalOwnerDraftBody: contains parsed name', body.indexOf('Jane Smith') !== -1);
+    assert('_buildInternalOwnerDraftBody: contains event date', body.indexOf('July 19, 2026') !== -1);
+    assert('_buildInternalOwnerDraftBody: contains rental item', body.indexOf('Crown Quest') !== -1);
+  }
+
+  function testInternalOwnerDraftBody_nullParsedNoCrash() {
+    var body = _buildInternalOwnerDraftBody(null, 'MSG-004', 'x@test.com', '', '');
+    assert('_buildInternalOwnerDraftBody: null parsed returns non-empty string',
+      typeof body === 'string' && body.length > 0);
+    assert('_buildInternalOwnerDraftBody: null parsed shows Not provided',
+      body.indexOf('Not provided') !== -1);
+  }
+
+  function testInternalOwnerDraftBody_containsActionRequired() {
+    var body = _buildInternalOwnerDraftBody(null, 'MSG-005', 'x@test.com', '', '');
+    assert('_buildInternalOwnerDraftBody: contains Action required instruction',
+      body.indexOf('Action required') !== -1);
+  }
+
+  function testInternalOwnerDraftBody_containsHiHarkirat() {
+    var body = _buildInternalOwnerDraftBody(null, 'MSG-006', 'x@test.com', '', '');
+    assert('_buildInternalOwnerDraftBody: addressed to Harkirat', body.indexOf('Hi Harkirat') !== -1);
+  }
+
+  // ─── Gmail-first always-draft rule tests ──────────────────────────────────
+
+  function testAlwaysDraft_internalReviewDraftFunctionExists() {
+    assert('_buildInternalOwnerDraftBody is defined as a function',
+      typeof _buildInternalOwnerDraftBody === 'function');
+    assert('_buildInternalOwnerReviewDraft is defined as a function',
+      typeof _buildInternalOwnerReviewDraft === 'function');
+  }
+
+  function testAlwaysDraft_resultTypeStrings() {
+    var fnSrc = _processThread.toString();
+    assert('_processThread: contains DRAFT_CREATED result type',
+      fnSrc.indexOf('DRAFT_CREATED') !== -1);
+    assert('_processThread: contains DRAFT_CREATED_REVIEW_REQUIRED',
+      fnSrc.indexOf('DRAFT_CREATED_REVIEW_REQUIRED') !== -1);
+    assert('_processThread: contains INTERNAL_REVIEW_DRAFT_CREATED',
+      fnSrc.indexOf('INTERNAL_REVIEW_DRAFT_CREATED') !== -1);
+  }
+
+  function testAlwaysDraft_noDraftBranchRemoved() {
+    var fnSrc = _processThread.toString();
+    assert("_processThread: 'NO_DRAFT' result type no longer used",
+      fnSrc.indexOf("'NO_DRAFT'") === -1);
+    assert("_processThread: 'STATUS_ONLY' result type no longer used",
+      fnSrc.indexOf("'STATUS_ONLY'") === -1);
+  }
+
+  function testAlwaysDraft_webformGmailLastSenderAlwaysFalse() {
+    var fnSrc = _processThread.toString();
+    assert('_processThread: last_sender_is_business hardcoded false for webform_gmail',
+      fnSrc.indexOf('last_sender_is_business: false') !== -1);
+  }
+
+  function testAudit_badCustomerInquiryWithoutDraftVerdictPresent() {
+    var fnSrc = runProcessedMessageAudit.toString();
+    assert('audit: BAD_CUSTOMER_INQUIRY_WITHOUT_DRAFT verdict present in source',
+      fnSrc.indexOf('BAD_CUSTOMER_INQUIRY_WITHOUT_DRAFT') !== -1);
+  }
+
+  function testAudit_okDraftCreatedReviewRequiredVerdictPresent() {
+    var fnSrc = runProcessedMessageAudit.toString();
+    assert('audit: OK_DRAFT_CREATED_REVIEW_REQUIRED verdict present in source',
+      fnSrc.indexOf('OK_DRAFT_CREATED_REVIEW_REQUIRED') !== -1);
+  }
+
+  function testAudit_okInternalReviewDraftCreatedVerdictPresent() {
+    var fnSrc = runProcessedMessageAudit.toString();
+    assert('audit: OK_INTERNAL_REVIEW_DRAFT_CREATED verdict present in source',
+      fnSrc.indexOf('OK_INTERNAL_REVIEW_DRAFT_CREATED') !== -1);
+  }
+
   // ─── Test Runner ──────────────────────────────────────────────────────────
 
   function testAll() {
@@ -4685,6 +4781,24 @@ var TestHarness = (function () {
     // Extended queue schema
     testReviewQueue_newSchemaHasSourceChannel();
     testDraftQueue_newSchemaHasSourceChannel();
+
+    // _buildInternalOwnerDraftBody
+    testInternalOwnerDraftBody_containsMessageId();
+    testInternalOwnerDraftBody_containsGmailSender();
+    testInternalOwnerDraftBody_containsReason();
+    testInternalOwnerDraftBody_containsParsedFields();
+    testInternalOwnerDraftBody_nullParsedNoCrash();
+    testInternalOwnerDraftBody_containsActionRequired();
+    testInternalOwnerDraftBody_containsHiHarkirat();
+
+    // Gmail-first always-draft rule
+    testAlwaysDraft_internalReviewDraftFunctionExists();
+    testAlwaysDraft_resultTypeStrings();
+    testAlwaysDraft_noDraftBranchRemoved();
+    testAlwaysDraft_webformGmailLastSenderAlwaysFalse();
+    testAudit_badCustomerInquiryWithoutDraftVerdictPresent();
+    testAudit_okDraftCreatedReviewRequiredVerdictPresent();
+    testAudit_okInternalReviewDraftCreatedVerdictPresent();
 
     var passed = _results.filter(function (r) { return r.passed; }).length;
     var total  = _results.length;

@@ -136,15 +136,15 @@ function _processThread(thread, controls, profile, traceId) {
   var parsed = ContactFormParser.parse(body, subject);
 
   if (!parsed) {
-    // Unknown form subject — use gmailSender as best available email
-    ExecutionEnv.writeManualReview({
-      message_id: messageId, email: gmailSender, threadLink: thread.getPermalink(),
-      reason: 'Unknown form subject: ' + subject, severity: 'medium'
-    }, traceId);
-    _finalizeThread(thread, messageId, gmailSender, null, {
-      decision: 'manual_review', intent: 'unknown', readiness: 'new',
+    // Unknown form subject — cannot parse inquiry. Create an internal owner-review
+    // draft so Harkirat sees it in Gmail even though it cannot be routed to a customer draft.
+    var unknownSubjectReason = 'Unknown form subject: ' + subject;
+    console.warn('Contact Intake: ' + unknownSubjectReason);
+    _buildInternalOwnerReviewDraft(null, messageId, gmailSender, profile.email, traceId, thread, unknownSubjectReason);
+    _finalizeThread(thread, messageId, profile.email, null, {
+      decision: 'internal_review', intent: 'unknown', readiness: 'new',
       mode: 'escalate', confidence: 0
-    }, 'MANUAL_REVIEW', traceId);
+    }, 'INTERNAL_REVIEW_DRAFT_CREATED', traceId);
     return;
   }
 
@@ -186,31 +186,16 @@ function _processThread(thread, controls, profile, traceId) {
   });
 
   if (!customerEmail) {
-    // No valid customer email — cannot create draft, must be reviewed by Harkirat
+    // No valid customer email found in the form body — cannot create a customer-facing draft.
+    // Create an internal owner-review draft addressed to the business email so Harkirat
+    // can see this inquiry in Gmail and follow up manually.
     var noEmailReason = 'No valid customer email found in form body. Gmail sender was: ' + gmailSender;
     console.warn('Contact Intake: ' + noEmailReason);
-    ExecutionEnv.writeManualReview({
-      message_id: messageId, email: 'UNKNOWN', threadLink: thread.getPermalink(),
-      reason: noEmailReason, severity: 'high'
-    }, traceId);
-    ExecutionEnv.writeQueueTask({
-      task_id:     'TASK-' + Date.now(),
-      message_id:  messageId,
-      customer_id: 'UNKNOWN',
-      email:       'UNKNOWN',
-      intent:      'unknown',
-      readiness:   'new',
-      decision:    'manual_review',
-      mode:        'escalate',
-      confidence:  0,
-      event_date:  parsed.event_date  || '',
-      rental_item: parsed.rental_item || '',
-      status:      'NEEDS_REVIEW'
-    }, traceId);
-    _finalizeThread(thread, messageId, 'UNKNOWN', parsed, {
-      decision: 'manual_review', intent: 'unknown', readiness: 'new',
+    _buildInternalOwnerReviewDraft(parsed, messageId, gmailSender, profile.email, traceId, thread, noEmailReason);
+    _finalizeThread(thread, messageId, profile.email, parsed, {
+      decision: 'internal_review', intent: 'unknown', readiness: 'new',
       mode: 'escalate', confidence: 0
-    }, 'MANUAL_REVIEW', traceId);
+    }, 'INTERNAL_REVIEW_DRAFT_CREATED', traceId);
     return;
   }
 
@@ -221,29 +206,44 @@ function _processThread(thread, controls, profile, traceId) {
   var preAiCtx = {
     sender_email:            customerEmail,
     customer_do_not_contact: !!(crmCustomerForGate.do_not_contact),
-    last_sender_is_business: _isBusinessEmail(customerEmail, profile.email)
+    // For webform_gmail: the actual Gmail sender is Web3Forms (notify+...@web3forms.com),
+    // not the customer or the business owner. Always set false so the business-email
+    // skip rule never triggers on Web3Forms-originated inquiries.
+    last_sender_is_business: false
   };
   var preGate = RiskEvaluator.evaluate(riskRules, preAiCtx);
 
-  if (preGate.worstAction === 'no_draft' || preGate.worstAction === 'escalate') {
+  var reviewRequiredByPreGate = false;
+  if (preGate.worstAction === 'no_draft') {
+    // Explicit skip: DNC, blocklist, or verified spam address.
     var gateReason = preGate.triggered.map(function (r) { return r.reason; }).join('; ');
     MetricsLogger.log(TENANT.SPREADSHEET_ID, {
       tenantId: TENANT.TENANT_ID, eventType: 'RISK_RULE_TRIGGERED',
       workerScript: TENANT.WORKER_SCRIPT,
-      metadata: ExecutionEnv.stampMetadata({ messageId: messageId, action: preGate.worstAction, reason: gateReason }),
+      metadata: ExecutionEnv.stampMetadata({ messageId: messageId, action: 'no_draft', reason: gateReason }),
       traceId: traceId
     });
-    if (preGate.worstAction === 'escalate') {
-      ExecutionEnv.writeManualReview({
-        message_id: messageId, email: customerEmail, threadLink: thread.getPermalink(),
-        reason: gateReason, severity: preGate.worstSeverity,
-        normalized: normalizedInquiry
-      }, traceId);
-    }
     Idempotency.markSkipped(TENANT.SPREADSHEET_ID, messageId, TENANT.TENANT_ID,
       TENANT.WORKER_SCRIPT, gateReason, traceId);
     ExecutionEnv.applyGmailLabel(thread, TENANT.PROCESSED_LABEL, traceId);
     return;
+  } else if (preGate.worstAction === 'escalate') {
+    // Risk flag raised — write ReviewQueue AND continue to create a draft.
+    // Owner will see both the ReviewQueue warning and the Gmail draft.
+    var gateReason = preGate.triggered.map(function (r) { return r.reason; }).join('; ');
+    MetricsLogger.log(TENANT.SPREADSHEET_ID, {
+      tenantId: TENANT.TENANT_ID, eventType: 'RISK_RULE_TRIGGERED',
+      workerScript: TENANT.WORKER_SCRIPT,
+      metadata: ExecutionEnv.stampMetadata({ messageId: messageId, action: 'escalate', reason: gateReason }),
+      traceId: traceId
+    });
+    ExecutionEnv.writeManualReview({
+      message_id: messageId, email: customerEmail, threadLink: thread.getPermalink(),
+      reason: gateReason, severity: preGate.worstSeverity,
+      normalized: normalizedInquiry
+    }, traceId);
+    reviewRequiredByPreGate = true;
+    // Do NOT return — fall through to create the draft alongside the ReviewQueue row.
   }
 
   // ══ Step 4: Deterministic customer upsert ══════════════════════════════════
@@ -312,24 +312,23 @@ function _processThread(thread, controls, profile, traceId) {
     confidence:              aiDecision.confidence
   };
   var postGate = RiskEvaluator.evaluate(riskRules, postAiCtx);
+  var reviewRequiredByPostGate = false;
   if (postGate.worstAction && postGate.worstAction !== 'flag_only') {
     var postReason = postGate.triggered.map(function (r) { return r.reason; }).join('; ');
-    if (postGate.worstAction === 'manual_review' || postGate.worstAction === 'escalate') {
-      ExecutionEnv.writeManualReview({
-        message_id: messageId, email: customerEmail, threadLink: thread.getPermalink(),
-        reason: postReason, severity: postGate.worstSeverity,
-        normalized: normalizedInquiry
-      }, traceId);
-      aiDecision.decision = 'manual_review';
-    } else {
-      aiDecision.decision = 'no_draft';
-    }
+    // Always write ReviewQueue for any post-gate trigger (including low-confidence AI).
+    // Do NOT block draft creation — ReviewQueue is additive context, not a gate.
+    ExecutionEnv.writeManualReview({
+      message_id: messageId, email: customerEmail, threadLink: thread.getPermalink(),
+      reason: postReason, severity: postGate.worstSeverity,
+      normalized: normalizedInquiry
+    }, traceId);
+    reviewRequiredByPostGate = true;
   }
 
   // ── Deterministic override: if email + name + event_date + rental_item are all present,
-  // force a draft even if AI said no_draft or status_only. Only skips if a risk rule
-  // triggered escalate — in that case the human must review regardless of data quality.
-  if (aiDecision.decision !== 'draft' && postGate.worstAction !== 'escalate') {
+  // force decision='draft' so _buildAndCreateDraft uses the correct mode.
+  // Always applies — ReviewQueue rows are written alongside drafts, not instead of them.
+  if (aiDecision.decision !== 'draft') {
     if (IntakeNormalizer.hasSufficientDataForDraft(normalizedInquiry)) {
       console.log('Contact Intake: deterministic override — email+name+date+item present, forcing draft');
       aiDecision.decision = 'draft';
@@ -354,36 +353,37 @@ function _processThread(thread, controls, profile, traceId) {
     status:      aiDecision.decision === 'manual_review' ? 'NEEDS_REVIEW' : 'PENDING'
   }, traceId);
 
-  // ══ Steps 9–13: Draft path ═══════════════════════════════════════════════════
-  if (aiDecision.decision !== 'draft') {
-    // Guarantee a visible terminal outcome row before marking COMPLETED.
-    // 'manual_review' already wrote to Ops_ReviewQueue via the post-AI gate above.
-    // 'no_draft' and 'status_only' have no visible output — write to ReviewQueue now
-    // so Harkirat can see why this message was not drafted.
-    if (aiDecision.decision !== 'manual_review') {
-      ExecutionEnv.writeManualReview({
-        message_id: messageId,
-        email:      customerEmail,
-        threadLink: thread.getPermalink(),
-        reason:     'AI decision: ' + aiDecision.decision +
-                    ' | intent: ' + (aiDecision.intent || 'unknown') +
-                    ' | confidence: ' + aiDecision.confidence,
-        severity:   'low',
-        normalized: normalizedInquiry
-      }, traceId);
-    }
-    _finalizeThread(thread, messageId, customerEmail, parsed, aiDecision,
-      aiDecision.decision === 'status_only' ? 'STATUS_ONLY' : 'NO_DRAFT', traceId);
-    return;
-  }
+  // ══ Steps 9–13: Always create a Gmail draft ════════════════════════════════
+  // Gmail-first rule: every customer inquiry creates a draft — never NO_DRAFT.
+  // ReviewQueue rows are written alongside the draft, not instead of it.
+  // Only DNC/blocklist inquiries are skipped (handled in Step 3 above).
+  var reviewRequired = reviewRequiredByPreGate || reviewRequiredByPostGate;
 
   var draftId = _buildAndCreateDraft(
     parsed, customerEmail, firstName, aiDecision, contextBundle, controls, profile, units, traceId,
     thread.getId(), normalizedInquiry
   );
 
-  _finalizeThread(thread, messageId, customerEmail, parsed, aiDecision,
-    draftId ? 'DRAFT_CREATED' : 'MANUAL_REVIEW', traceId);
+  var resultType;
+  if (draftId) {
+    resultType = reviewRequired ? 'DRAFT_CREATED_REVIEW_REQUIRED' : 'DRAFT_CREATED';
+  } else {
+    // Draft creation failed (forbidden phrases, invalid recipient, template error, etc.)
+    // If no ReviewQueue row was already written, write one so owner is not left in the dark.
+    if (!reviewRequired) {
+      ExecutionEnv.writeManualReview({
+        message_id: messageId,
+        email:      customerEmail,
+        threadLink: thread.getPermalink(),
+        reason:     'Draft creation failed — see Ops_Metrics for trace_id: ' + traceId,
+        severity:   'high',
+        normalized: normalizedInquiry
+      }, traceId);
+    }
+    resultType = 'DRAFT_CREATED_REVIEW_REQUIRED';
+  }
+
+  _finalizeThread(thread, messageId, customerEmail, parsed, aiDecision, resultType, traceId);
 
   if (draftId) {
     MetricsLogger.log(TENANT.SPREADSHEET_ID, {
@@ -809,6 +809,98 @@ function _buildFollowUpBody(firstName, remainingMissing) {
   lines.push('booknovakingdom@gmail.com | 902-990-0005');
 
   return lines.join('\n');
+}
+
+/**
+ * _buildInternalOwnerDraftBody
+ *
+ * Pure function — builds the plain-text body for an internal owner-review draft.
+ * Used when the form could not be routed to a customer-facing draft:
+ *   - Unknown form subject (parsed = null)
+ *   - Missing customer email (parsed present, customerEmail = '')
+ *
+ * @param {Object|null} parsed          ContactFormParser output, or null
+ * @param {string}      messageId       Gmail message ID
+ * @param {string}      gmailSender     Web3Forms "From" header value
+ * @param {string}      threadPermalink Permalink URL for the Gmail thread
+ * @param {string}      reason          Why owner review is needed
+ * @returns {string}  Plain-text draft body
+ */
+function _buildInternalOwnerDraftBody(parsed, messageId, gmailSender, threadPermalink, reason) {
+  var p = parsed || {};
+  var lines = [
+    'Hi Harkirat,',
+    '',
+    'A contact form inquiry needs manual review.',
+    'Reason: ' + (reason || 'See inquiry details below.'),
+    '',
+    '─── Inquiry Details ───────────────────────────────',
+    '• Message ID:     ' + (messageId       || '(none)'),
+    '• Gmail Sender:   ' + (gmailSender     || '(none)'),
+    '• Thread link:    ' + (threadPermalink || '(unavailable)'),
+    '',
+    '• Name:           ' + (p.name          || 'Not provided'),
+    '• Phone:          ' + (p.phone         || 'Not provided'),
+    '• Event date:     ' + (p.event_date    || 'Not provided'),
+    '• Event type:     ' + (p.event_type    || 'Not provided'),
+    '• Item requested: ' + (p.rental_item   || 'Not provided'),
+    '• Event address:  ' + (p.event_address || 'Not provided'),
+    '• Notes:          ' + (p.notes         || 'Not provided'),
+    '',
+    '─────────────────────────────────────────────────────',
+    '',
+    'Action required: locate the customer using the details above and reply manually.',
+    '',
+    '— Nova Kingdom Rentals Intake System'
+  ];
+  return lines.join('\n');
+}
+
+/**
+ * _buildInternalOwnerReviewDraft
+ *
+ * Creates a Gmail draft addressed to the business owner for inquiries that
+ * cannot produce a customer-facing draft (missing email or unparseable form).
+ * This keeps Gmail as the single task list — even broken inquiries appear there.
+ *
+ * Draft is addressed to the owner's business email so it appears in Gmail Drafts.
+ * Never auto-sends. ExecutionEnv.createDraft() is the only Gmail call.
+ *
+ * @param {Object|null} parsed        ContactFormParser output, or null
+ * @param {string}      messageId
+ * @param {string}      gmailSender   Web3Forms "From" header value
+ * @param {string}      businessEmail Owner email from Config_BusinessProfile
+ * @param {string}      traceId
+ * @param {Object}      thread        GmailThread (or mock) — used for getId() + getPermalink()
+ * @param {string}      reason        Reason string for owner review
+ * @returns {string}  DraftQueue ID or ''
+ */
+function _buildInternalOwnerReviewDraft(parsed, messageId, gmailSender, businessEmail, traceId, thread, reason) {
+  var subject = parsed
+    ? 'Manual review needed — inquiry missing customer email'
+    : 'Manual review needed — unknown form subject';
+
+  var body = _buildInternalOwnerDraftBody(
+    parsed, messageId, gmailSender,
+    thread ? thread.getPermalink() : '',
+    reason
+  );
+
+  var draftId = ExecutionEnv.createDraft(
+    businessEmail || 'booknovakingdom@gmail.com',
+    subject,
+    body,
+    traceId,
+    {
+      message_id:        messageId,
+      source_channel:    'webform_gmail',
+      source_message_id: messageId,
+      source_thread_id:  thread ? thread.getId() : '',
+      intent:            'internal_review',
+      mode:              'escalate'
+    }
+  );
+  return draftId || '';
 }
 
 /**
@@ -1303,7 +1395,7 @@ function runRuntimeBuildInfo() {
 
   // ── Commit SHA (from git metadata baked in at build time) ─────────────────
   // No CI/CD injects a BUILD_SHA constant, so we probe module presence instead.
-  log('Expected build tag : IntakeNormalizer + Meta/IG stubs + extended queues');
+  log('Expected build tag : Gmail-first always-draft + IntakeNormalizer + Meta/IG stubs + extended queues');
 
   // ── Module presence checks ────────────────────────────────────────────────
   var checks = [
@@ -1330,7 +1422,11 @@ function runRuntimeBuildInfo() {
     { label: 'ReviewQueue defined',
       pass: typeof ReviewQueue !== 'undefined' },
     { label: 'DraftQueue defined',
-      pass: typeof DraftQueue !== 'undefined' }
+      pass: typeof DraftQueue !== 'undefined' },
+    { label: 'Gmail-first rule: _buildInternalOwnerDraftBody is function',
+      pass: typeof _buildInternalOwnerDraftBody === 'function' },
+    { label: 'Gmail-first rule: _buildInternalOwnerReviewDraft is function',
+      pass: typeof _buildInternalOwnerReviewDraft === 'function' }
   ];
 
   log('─── Module presence ────────────────────────────────────────');
@@ -1410,7 +1506,7 @@ function runRuntimeBuildInfo() {
   // ── Summary ───────────────────────────────────────────────────────────────
   log('═══════════════════════════════════════════════════════════');
   log(allPass
-    ? '✅ BUILD VERIFIED — all modules present, schemas extended, tests pass'
+    ? '✅ BUILD VERIFIED — Gmail-first always-draft rule active, all modules present, schemas extended, tests pass'
     : '❌ BUILD INCOMPLETE — see FAIL lines above');
   log('═══════════════════════════════════════════════════════════');
 }
@@ -1966,17 +2062,23 @@ function runProcessedMessageAudit(messageId) {
   var hasReviewRow = rqRows.length > 0;
   var isSkipped    = idStatus === 'SKIPPED';
 
+  var isInternalReviewDraft = hasDraft && dqRows.some(function (r) {
+    return String(r.intent || '').trim() === 'internal_review';
+  });
+
   var verdict;
-  if (hasDraft) {
+  if (isInternalReviewDraft) {
+    verdict = 'OK_INTERNAL_REVIEW_DRAFT_CREATED';
+  } else if (hasDraft && hasReviewRow) {
+    verdict = 'OK_DRAFT_CREATED_REVIEW_REQUIRED';
+  } else if (hasDraft) {
     verdict = 'OK_DRAFT_CREATED';
-  } else if (hasReviewRow) {
-    verdict = 'OK_REVIEW_QUEUED';
   } else if (isSkipped) {
     verdict = 'OK_SKIPPED_WITH_REASON';
+  } else if (idStatus === 'COMPLETED') {
+    verdict = 'BAD_CUSTOMER_INQUIRY_WITHOUT_DRAFT';
   } else if (hasMetricsReviewFlag && !hasReviewRow) {
     verdict = 'BAD_MANUAL_REVIEW_LOGGED_BUT_NO_REVIEW_QUEUE_ROW';
-  } else if (idStatus === 'COMPLETED') {
-    verdict = 'BAD_COMPLETED_WITHOUT_OUTCOME';
   } else if (hasLabel) {
     verdict = 'BAD_PROCESSED_LABEL_WITHOUT_OUTCOME';
   } else {
@@ -1986,6 +2088,7 @@ function runProcessedMessageAudit(messageId) {
   log('Idempotency : ' + (idStatus || 'NOT_FOUND') + ' / ' + (idResult || 'N/A'));
   log('Processed label applied          : ' + (hasLabel ? 'YES' : 'NO'));
   log('Real Gmail draft                 : ' + (hasDraft ? 'YES' : 'NO'));
+  log('Internal owner-review draft      : ' + (isInternalReviewDraft ? 'YES' : 'NO'));
   log('ReviewQueue row                  : ' + (hasReviewRow ? 'YES' : 'NO'));
   log('Metrics MANUAL_REVIEW_FLAGGED    : ' + (hasMetricsReviewFlag ? 'YES' : 'NO'));
   log('');
