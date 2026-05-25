@@ -138,7 +138,7 @@ function _processThread(thread, controls, profile, traceId) {
   if (!parsed) {
     // Unknown form subject — use gmailSender as best available email
     ExecutionEnv.writeManualReview({
-      email: gmailSender, threadLink: thread.getPermalink(),
+      message_id: messageId, email: gmailSender, threadLink: thread.getPermalink(),
       reason: 'Unknown form subject: ' + subject, severity: 'medium'
     }, traceId);
     _finalizeThread(thread, messageId, gmailSender, null, {
@@ -171,7 +171,7 @@ function _processThread(thread, controls, profile, traceId) {
     var noEmailReason = 'No valid customer email found in form body. Gmail sender was: ' + gmailSender;
     console.warn('Contact Intake: ' + noEmailReason);
     ExecutionEnv.writeManualReview({
-      email: 'UNKNOWN', threadLink: thread.getPermalink(),
+      message_id: messageId, email: 'UNKNOWN', threadLink: thread.getPermalink(),
       reason: noEmailReason, severity: 'high'
     }, traceId);
     ExecutionEnv.writeQueueTask({
@@ -216,7 +216,7 @@ function _processThread(thread, controls, profile, traceId) {
     });
     if (preGate.worstAction === 'escalate') {
       ExecutionEnv.writeManualReview({
-        email: customerEmail, threadLink: thread.getPermalink(),
+        message_id: messageId, email: customerEmail, threadLink: thread.getPermalink(),
         reason: gateReason, severity: preGate.worstSeverity
       }, traceId);
     }
@@ -253,6 +253,7 @@ function _processThread(thread, controls, profile, traceId) {
     tenant_id:               TENANT.TENANT_ID,
     message_id:              messageId,
     thread_id:               thread.getId(),
+    thread_link:             thread.getPermalink(),
     sender_email:            customerEmail,
     sender_name:             parsed.name || '',
     form_subject:            subject,
@@ -294,7 +295,7 @@ function _processThread(thread, controls, profile, traceId) {
     var postReason = postGate.triggered.map(function (r) { return r.reason; }).join('; ');
     if (postGate.worstAction === 'manual_review' || postGate.worstAction === 'escalate') {
       ExecutionEnv.writeManualReview({
-        email: customerEmail, threadLink: thread.getPermalink(),
+        message_id: messageId, email: customerEmail, threadLink: thread.getPermalink(),
         reason: postReason, severity: postGate.worstSeverity
       }, traceId);
       aiDecision.decision = 'manual_review';
@@ -327,6 +328,7 @@ function _processThread(thread, controls, profile, traceId) {
     // so Harkirat can see why this message was not drafted.
     if (aiDecision.decision !== 'manual_review') {
       ExecutionEnv.writeManualReview({
+        message_id: messageId,
         email:      customerEmail,
         threadLink: thread.getPermalink(),
         reason:     'AI decision: ' + aiDecision.decision +
@@ -464,7 +466,8 @@ function _buildAndCreateDraft(parsed, customerEmail, firstName, aiDecision, cont
     }
     if (!templates.length) {
       ExecutionEnv.writeManualReview({
-        email: customerEmail, threadLink: '',
+        message_id: contextBundle.message_id, email: customerEmail,
+        threadLink: contextBundle.thread_link || '',
         reason: 'No template: intent=' + aiDecision.intent + ' mode=' + aiDecision.mode,
         severity: 'medium'
       }, traceId);
@@ -497,14 +500,16 @@ function _buildAndCreateDraft(parsed, customerEmail, firstName, aiDecision, cont
   var forbiddenHits = TemplateRenderer.checkForbiddenPhrases(bodyScaffold || '');
   if (forbiddenHits.length) {
     ExecutionEnv.writeManualReview({
-      email: customerEmail, threadLink: '',
+      message_id: contextBundle.message_id, email: customerEmail,
+      threadLink: contextBundle.thread_link || '',
       reason: 'Forbidden phrase in draft: ' + forbiddenHits.join(', '), severity: 'high'
     }, traceId);
     return '';
   }
   if (quoteResult && RiskEvaluator.draftContainsUnlistedPrice(bodyScaffold, quoteResult.priceBlock)) {
     ExecutionEnv.writeManualReview({
-      email: customerEmail, threadLink: '',
+      message_id: contextBundle.message_id, email: customerEmail,
+      threadLink: contextBundle.thread_link || '',
       reason: 'Draft contains unlisted price — possible AI hallucination', severity: 'high'
     }, traceId);
     return '';
@@ -517,7 +522,8 @@ function _buildAndCreateDraft(parsed, customerEmail, firstName, aiDecision, cont
     var uniqueTokens = allPlaceholders.filter(function (v, i, a) { return a.indexOf(v) === i; });
     console.warn('Contact Intake: draft blocked — unresolved placeholders: ' + uniqueTokens.join(', '));
     ExecutionEnv.writeManualReview({
-      email: customerEmail, threadLink: '',
+      message_id: contextBundle.message_id, email: customerEmail,
+      threadLink: contextBundle.thread_link || '',
       reason: 'Unresolved template placeholders: ' + uniqueTokens.join(', '), severity: 'high'
     }, traceId);
     return '';
@@ -527,7 +533,8 @@ function _buildAndCreateDraft(parsed, customerEmail, firstName, aiDecision, cont
   if (!recipientCheck.valid) {
     console.warn('Contact Intake: draft blocked — invalid recipient: ' + recipientCheck.issues.join(', '));
     ExecutionEnv.writeManualReview({
-      email: customerEmail, threadLink: '',
+      message_id: contextBundle.message_id, email: customerEmail,
+      threadLink: contextBundle.thread_link || '',
       reason: 'Invalid draft recipient: ' + recipientCheck.issues.join(', '), severity: 'critical'
     }, traceId);
     return '';
@@ -1755,13 +1762,15 @@ function runProcessedMessageAudit(messageId) {
   });
 
   // ── 8. Ops_Metrics ───────────────────────────────────────────────────────
+  var hasMetricsReviewFlag = false;
   if (idTraceId) {
     log('─── Ops_Metrics (trace_id=' + idTraceId + ') ────────────────');
     var mRows = scanTab('Ops_Metrics', 'trace_id', idTraceId).rows;
     log('Events found : ' + mRows.length);
     mRows.forEach(function (r, idx) {
-      log('  [' + idx + '] event_type=' + (r.event_type || '') +
-          ' worker=' + (r.worker_script || ''));
+      var evType = String(r.event_type || '');
+      if (evType === 'MANUAL_REVIEW_FLAGGED') hasMetricsReviewFlag = true;
+      log('  [' + idx + '] event_type=' + evType + ' worker=' + (r.worker_script || ''));
     });
   }
 
@@ -1778,6 +1787,8 @@ function runProcessedMessageAudit(messageId) {
     verdict = 'OK_REVIEW_QUEUED';
   } else if (isSkipped) {
     verdict = 'OK_SKIPPED_WITH_REASON';
+  } else if (hasMetricsReviewFlag && !hasReviewRow) {
+    verdict = 'BAD_MANUAL_REVIEW_LOGGED_BUT_NO_REVIEW_QUEUE_ROW';
   } else if (idStatus === 'COMPLETED') {
     verdict = 'BAD_COMPLETED_WITHOUT_OUTCOME';
   } else if (hasLabel) {
@@ -1787,9 +1798,10 @@ function runProcessedMessageAudit(messageId) {
   }
 
   log('Idempotency : ' + (idStatus || 'NOT_FOUND') + ' / ' + (idResult || 'N/A'));
-  log('Processed label applied : ' + (hasLabel ? 'YES' : 'NO'));
-  log('Real Gmail draft        : ' + (hasDraft ? 'YES' : 'NO'));
-  log('ReviewQueue row         : ' + (hasReviewRow ? 'YES' : 'NO'));
+  log('Processed label applied          : ' + (hasLabel ? 'YES' : 'NO'));
+  log('Real Gmail draft                 : ' + (hasDraft ? 'YES' : 'NO'));
+  log('ReviewQueue row                  : ' + (hasReviewRow ? 'YES' : 'NO'));
+  log('Metrics MANUAL_REVIEW_FLAGGED    : ' + (hasMetricsReviewFlag ? 'YES' : 'NO'));
   log('');
   log('VERDICT: ' + verdict);
   log('═══════════════════════════════════════════════════════════');
@@ -1797,6 +1809,14 @@ function runProcessedMessageAudit(messageId) {
 
 function runAuditKnownMessage_19e6069cfe3c13fd() {
   return runProcessedMessageAudit('19e6069cfe3c13fd');
+}
+
+function runAuditKnownMessage_19e60e3de1983703() {
+  return runProcessedMessageAudit('19e60e3de1983703');
+}
+
+function runAuditKnownMessage_19e60e2dd28f623e() {
+  return runProcessedMessageAudit('19e60e2dd28f623e');
 }
 
 // ─── Backfill ─────────────────────────────────────────────────────────────────
