@@ -3979,6 +3979,16 @@ var TestHarness = (function () {
     assertEqual('FirstResponse: passes forbidden phrase check', hits.length, 0);
   }
 
+  function testFirstResponseBody_noInternalReviewLabels() {
+    var body = _buildFirstResponseBody('Jane',
+      { event_date: 'July 1', event_address: '10 St', rental_item: 'Crown Quest' }, []);
+    var lower = body.toLowerCase();
+    assert('FirstResponse: no "please note:" in customer copy', lower.indexOf('please note:') === -1);
+    assert('FirstResponse: no "not a booking confirmation"', lower.indexOf('not a booking confirmation') === -1);
+    assert('FirstResponse: no "DRAFT" label', body.indexOf('DRAFT') === -1);
+    assert('FirstResponse: no "REVIEW BEFORE SENDING"', body.indexOf('REVIEW BEFORE SENDING') === -1);
+  }
+
   // ─── _buildFollowUpBody tests ─────────────────────────────────────────────
 
   function testFollowUpBody_doesNotRepeatFullChecklist() {
@@ -4014,6 +4024,15 @@ var TestHarness = (function () {
     var body = _buildFollowUpBody('Jane', ['event_date', 'setup_surface']);
     var hits = TemplateRenderer.checkForbiddenPhrases(body);
     assertEqual('FollowUp: passes forbidden phrase check', hits.length, 0);
+  }
+
+  function testFollowUpBody_noInternalReviewLabels() {
+    var body = _buildFollowUpBody('Jane', ['event_date']);
+    var lower = body.toLowerCase();
+    assert('FollowUp: no "please note:"', lower.indexOf('please note:') === -1);
+    assert('FollowUp: no "not a booking confirmation"', lower.indexOf('not a booking confirmation') === -1);
+    assert('FollowUp: no "DRAFT" label', body.indexOf('DRAFT') === -1);
+    assert('FollowUp: no "REVIEW BEFORE SENDING"', body.indexOf('REVIEW BEFORE SENDING') === -1);
   }
 
   // ─── ReviewQueue module guard ─────────────────────────────────────────────
@@ -4163,6 +4182,7 @@ var TestHarness = (function () {
     testFirstResponseBody_noBookingConfirmation();
     testFirstResponseBody_noAvailabilityGuarantee();
     testFirstResponseBody_passesCheckForbiddenPhrases();
+    testFirstResponseBody_noInternalReviewLabels();
 
     // _buildFollowUpBody
     testFollowUpBody_doesNotRepeatFullChecklist();
@@ -4170,6 +4190,7 @@ var TestHarness = (function () {
     testFollowUpBody_noRemainingMissing();
     testFollowUpBody_noBookingConfirmation();
     testFollowUpBody_passesCheckForbiddenPhrases();
+    testFollowUpBody_noInternalReviewLabels();
 
     // ReviewQueue / DraftQueue module guards
     testReviewQueue_moduleApi();

@@ -496,7 +496,7 @@ function _buildAndCreateDraft(parsed, customerEmail, firstName, aiDecision, cont
     return '';
   }
 
-  var finalBody = (bodyScaffold || '') + '\n\n⚠ DRAFT — REVIEW BEFORE SENDING ⚠';
+  var finalBody = bodyScaffold || '';
   var allPlaceholders = ContactFormParser.containsUnresolvedPlaceholders(subject || '')
     .concat(ContactFormParser.containsUnresolvedPlaceholders(finalBody));
   if (allPlaceholders.length) {
@@ -695,8 +695,6 @@ function _buildFirstResponseBody(firstName, parsed, missingFields) {
   }
 
   lines.push('');
-  lines.push('Please note: this is not a booking confirmation. Availability and preliminary pricing will be confirmed by Nova Kingdom Rentals after review.');
-  lines.push('');
   lines.push('— Nova Kingdom Rentals Team');
   lines.push('booknovakingdom@gmail.com | 902-990-0005');
 
@@ -729,8 +727,6 @@ function _buildFollowUpBody(firstName, remainingMissing) {
     lines.push("We'll review availability and send a preliminary quote once we have those details.");
   } else {
     lines.push("Thanks for providing all the details! Nova Kingdom Rentals will review availability and prepare a preliminary quote shortly.");
-    lines.push('');
-    lines.push('Please note: final pricing and availability will be confirmed by Nova Kingdom Rentals.');
   }
 
   lines.push('');
