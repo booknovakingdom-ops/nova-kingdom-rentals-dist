@@ -878,7 +878,7 @@ function runQueueSchemaHealthCheck() {
 
   lines.push('');
   lines.push(allPass
-    ? '✅ All queue schema checks passed.'
+    ? '✅ All queue schema checks passed. Ops_DraftQueue and Ops_ReviewQueue will be created on first live write.'
     : '❌ Some checks failed. See above.');
   lines.forEach(function (line) { console.log(line); });
   Logger.log(lines.join('\n'));
@@ -1129,10 +1129,207 @@ function runTenantConfigHealthCheck() {
 
   lines.push('');
   lines.push(allPass
-    ? '✅ All config checks passed. Ready to run runAllTests() and runSimulationTest().'
+    ? '✅ All config checks passed. Ready to run runAllTests() → runSimulationTest() → runLiveReadinessCheck().'
     : '❌ Some checks failed. Run runTenantMigrationToNkrInternal() and retry.');
   lines.forEach(function (line) { console.log(line); });
   Logger.log(lines.join('\n'));
+}
+
+// ─── Live draft-only test helpers ────────────────────────────────────────────
+
+/**
+ * runLiveDraftOnlyTestFromMessageId(messageId)
+ *
+ * Processes exactly one Gmail message by ID through the full intake pipeline
+ * and creates a real Gmail DRAFT only. Never sends email.
+ *
+ * Pre-flight refusals (refuses to run if any condition fails):
+ *   1. messageId is blank
+ *   2. simulation_mode = true
+ *   3. auto_draft_enabled = false
+ *   4. intake_script_enabled = false
+ *   5. (structural) GmailApp.sendEmail is never called in this codebase
+ *
+ * Writes to:
+ *   - Ops_DraftQueue  (always)
+ *   - Ops_ReviewQueue (if risk/escalation path is triggered)
+ *   - Ops_IdempotencyLog, Ops_Metrics, Gmail label (normal audit trail)
+ *
+ * Idempotency-safe:
+ *   - If messageId was already COMPLETED, logs and refuses.
+ *   - To retry: call resetIdempotencyForMessage(messageId) first.
+ *
+ * Does NOT scan Gmail threads. Does NOT process any message other than the
+ * one identified by messageId.
+ */
+function runLiveDraftOnlyTestFromMessageId(messageId) {
+
+  // ── Guard 1: messageId required ───────────────────────────────────────────
+  if (!messageId || !String(messageId).trim()) {
+    console.error('[LIVE-TEST] REFUSED: messageId is required.');
+    return;
+  }
+
+  _assertSpreadsheetId();
+  ConfigLoader.clearCache();
+
+  // ── Guards 2–4: operational controls ─────────────────────────────────────
+  var controls, profile;
+  try {
+    controls = ConfigLoader.getOpsControls(TENANT.SPREADSHEET_ID, TENANT.TENANT_ID);
+    profile  = ConfigLoader.getBusinessProfile(TENANT.SPREADSHEET_ID, TENANT.TENANT_ID);
+  } catch (e) {
+    console.error('[LIVE-TEST] REFUSED: config load failed — ' + e.message);
+    return;
+  }
+
+  if (controls.simulation_mode) {
+    console.error('[LIVE-TEST] REFUSED: simulation_mode=true.');
+    console.error('[LIVE-TEST] Set simulation_mode=false in Config_OpsControls before running live tests.');
+    return;
+  }
+  if (!controls.auto_draft_enabled) {
+    console.error('[LIVE-TEST] REFUSED: auto_draft_enabled=false.');
+    console.error('[LIVE-TEST] Set auto_draft_enabled=true in Config_OpsControls to enable draft creation.');
+    return;
+  }
+  if (!controls.intake_script_enabled) {
+    console.error('[LIVE-TEST] REFUSED: intake_script_enabled=false.');
+    return;
+  }
+
+  // ── Guard 5: structural auto-send impossibility ───────────────────────────
+  // GmailApp.sendEmail is not called anywhere in this codebase.
+  // ExecutionEnv.createDraft() calls GmailApp.createDraft() only.
+  console.log('[LIVE-TEST] Safety confirmed: system creates Gmail drafts only. Auto-send is structurally impossible.');
+
+  // ── Fetch the specific message ─────────────────────────────────────────────
+  var msg;
+  try {
+    msg = GmailApp.getMessageById(messageId);
+  } catch (e) {
+    console.error('[LIVE-TEST] Could not fetch message ' + messageId + ': ' + e.message);
+    return;
+  }
+
+  var thread           = msg.getThread();
+  var firstMsgId       = thread.getMessages()[0].getId();
+  var effectiveMsgId   = firstMsgId; // _processThread always keys on first message
+
+  console.log('[LIVE-TEST] messageId (requested)  : ' + messageId);
+  if (firstMsgId !== messageId) {
+    console.warn('[LIVE-TEST] WARNING: requested ID is not the first message in its thread.');
+    console.warn('[LIVE-TEST] Idempotency will be keyed on first message ID: ' + firstMsgId);
+  }
+  console.log('[LIVE-TEST] Subject : ' + msg.getSubject());
+  console.log('[LIVE-TEST] From    : ' + msg.getFrom());
+
+  // ── Idempotency pre-check ────────────────────────────────────────────────
+  var existing = Idempotency.check(TENANT.SPREADSHEET_ID, effectiveMsgId);
+  if (existing && existing.status === 'COMPLETED') {
+    console.warn('[LIVE-TEST] REFUSED: message ' + effectiveMsgId + ' is already COMPLETED.');
+    console.warn('[LIVE-TEST] To retry: call resetIdempotencyForMessage("' + effectiveMsgId + '") first.');
+    return;
+  }
+  if (existing && existing.status === 'PROCESSING') {
+    console.warn('[LIVE-TEST] WARNING: message ' + effectiveMsgId + ' has status PROCESSING — may be a stale lock.');
+  }
+
+  // ── Pre-log parsed fields ─────────────────────────────────────────────────
+  var parsed = ContactFormParser.parse(msg.getPlainBody(), msg.getSubject());
+  if (parsed) {
+    console.log('[LIVE-TEST] Parsed customer email : ' + (parsed.email      || '(none)'));
+    console.log('[LIVE-TEST] Parsed event date     : ' + (parsed.event_date  || '(none)'));
+    console.log('[LIVE-TEST] Parsed rental item    : ' + (parsed.rental_item || '(none)'));
+  } else {
+    console.warn('[LIVE-TEST] Parser returned null — unknown form subject. Will route to manual review.');
+  }
+
+  // ── Run through the standard pipeline ────────────────────────────────────
+  ExecutionEnv.init(TENANT.SPREADSHEET_ID, controls, TENANT.TENANT_ID);
+  var traceId = Identifiers.traceId();
+  console.log('[LIVE-TEST] trace_id : ' + traceId);
+
+  try {
+    _processThread(thread, controls, profile, traceId);
+  } catch (e) {
+    console.error('[LIVE-TEST] Pipeline error: ' + e.message);
+    MetricsLogger.logError(TENANT.SPREADSHEET_ID, TENANT.TENANT_ID,
+      TENANT.WORKER_SCRIPT, 'LIVE_TEST_FAILED: ' + e.message, traceId);
+    return;
+  }
+
+  // ── Post-run: read back queue IDs from operational tabs ───────────────────
+  // _processThread writes to Ops_DraftQueue / Ops_ReviewQueue; read back by
+  // trace_id to surface the generated queue IDs in the log.
+  _logQueueRowByTraceId('Ops_DraftQueue',  traceId, '[LIVE-TEST] Ops_DraftQueue  queue_id');
+  _logQueueRowByTraceId('Ops_ReviewQueue', traceId, '[LIVE-TEST] Ops_ReviewQueue queue_id');
+
+  console.log('[LIVE-TEST] Complete. No emails were sent. Review the Gmail draft before sending.');
+}
+
+/**
+ * runLiveDraftOnlyTestLatestWeb3Forms()
+ *
+ * Finds the single newest Gmail thread matching a known Web3Forms contact form
+ * subject, logs the selected message ID, then delegates to
+ * runLiveDraftOnlyTestFromMessageId().
+ *
+ * Does NOT filter by processed/unprocessed label — idempotency in the pipeline
+ * handles already-processed messages. The selected message ID is always logged
+ * so you can see exactly which message will be (or was refused to be) processed.
+ */
+function runLiveDraftOnlyTestLatestWeb3Forms() {
+  _assertSpreadsheetId();
+
+  var query   = '(' + TENANT.CONTACT_SUBJECTS.map(function (s) {
+    return 'subject:"' + s + '"';
+  }).join(' OR ') + ')';
+
+  var threads = GmailApp.search(query, 0, 1);
+  if (!threads.length) {
+    console.error('[LIVE-TEST-LATEST] No matching Web3Forms threads found. Query: ' + query);
+    return;
+  }
+
+  var firstMsg  = threads[0].getMessages()[0];
+  var messageId = firstMsg.getId();
+
+  console.log('[LIVE-TEST-LATEST] Selected message ID : ' + messageId);
+  console.log('[LIVE-TEST-LATEST] Subject             : ' + firstMsg.getSubject());
+  console.log('[LIVE-TEST-LATEST] From                : ' + firstMsg.getFrom());
+  console.log('[LIVE-TEST-LATEST] Delegating to runLiveDraftOnlyTestFromMessageId...');
+
+  runLiveDraftOnlyTestFromMessageId(messageId);
+}
+
+/**
+ * _logQueueRowByTraceId(tabName, traceId, label)
+ *
+ * Scans tabName (newest-first) for the first row whose trace_id column
+ * matches traceId and logs its queue_id under label.
+ * Read-only; no writes.
+ */
+function _logQueueRowByTraceId(tabName, traceId, label) {
+  try {
+    var ss    = SpreadsheetApp.openById(TENANT.SPREADSHEET_ID);
+    var sheet = ss.getSheetByName(tabName);
+    if (!sheet) return;
+    var data     = sheet.getDataRange().getValues();
+    if (data.length < 2) return;
+    var headers  = data[0].map(function (h) { return String(h).trim(); });
+    var tidx     = headers.indexOf('trace_id');
+    var qidx     = headers.indexOf('queue_id');
+    if (tidx === -1 || qidx === -1) return;
+    for (var i = data.length - 1; i >= 1; i--) {
+      if (String(data[i][tidx]).trim() === traceId) {
+        console.log(label + ' : ' + data[i][qidx]);
+        return;
+      }
+    }
+  } catch (e) {
+    console.warn('_logQueueRowByTraceId(' + tabName + '): ' + e.message);
+  }
 }
 
 // ─── Live readiness check ─────────────────────────────────────────────────────
@@ -1225,8 +1422,20 @@ function runLiveReadinessCheck() {
     verdict = 'NOT_READY';
   }
 
-  lines.push('');
-  lines.push('Verdict: ' + verdict);
+  var nextStep;
+  if (verdict === 'SAFE_SIMULATION_MODE') {
+    nextStep = 'Next: run runSimulationTest() to exercise the pipeline safely. ' +
+               'To go live: set simulation_mode=false and auto_draft_enabled=true in Config_OpsControls, ' +
+               'then rerun runLiveReadinessCheck().';
+  } else if (verdict === 'READY_FOR_DRAFT_ONLY_LIVE_MODE') {
+    nextStep = 'Next: run runLiveDraftOnlyTestFromMessageId(messageId) or ' +
+               'runLiveDraftOnlyTestLatestWeb3Forms() to create a real Gmail draft.';
+  } else {
+    nextStep = 'Fix the issues above, then rerun runLiveReadinessCheck().';
+  }
+
+  lines.push('Verdict  : ' + verdict);
+  lines.push('Next step: ' + nextStep);
   lines.forEach(function (l) { console.log(l); });
   Logger.log(lines.join('\n'));
 }
