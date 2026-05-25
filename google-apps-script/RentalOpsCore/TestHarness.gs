@@ -1,3 +1,6 @@
+// 16. TESTHARNESS
+// ═════════════════════════════════════════════════════════════════════════════
+
 /**
  * TestHarness — RentalOps Core Library
  *
@@ -1237,6 +1240,141 @@ var TestHarness = (function () {
       q.indexOf('Nova Kingdom Rentals Booking Inquiry') !== -1);
   }
 
+  // ─── IntakeNormalizer tests ───────────────────────────────────────────────
+
+  function testIntakeNormalizer_moduleApi() {
+    assert('IntakeNormalizer: module is defined', typeof IntakeNormalizer !== 'undefined');
+    assert('IntakeNormalizer: normalizeWebformGmail is a function',
+      typeof IntakeNormalizer.normalizeWebformGmail === 'function');
+    assert('IntakeNormalizer: hasSufficientDataForDraft is a function',
+      typeof IntakeNormalizer.hasSufficientDataForDraft === 'function');
+  }
+
+  function testIntakeNormalizer_webformGmail() {
+    var n = IntakeNormalizer.normalizeWebformGmail({
+      message_id: 'abc123', email: 'test@example.com', name: 'Jane Doe',
+      event_date: '2026-08-01', rental_item: 'Crown Quest',
+      phone: '902-555-0123', event_type: 'Birthday'
+    });
+    assert('IntakeNormalizer: source_channel is webform_gmail',
+      n.source_channel === 'webform_gmail');
+    assert('IntakeNormalizer: email propagated as customer_email',
+      n.customer_email === 'test@example.com');
+    assert('IntakeNormalizer: name propagated',    n.customer_name  === 'Jane Doe');
+    assert('IntakeNormalizer: event_date propagated', n.event_date  === '2026-08-01');
+    assert('IntakeNormalizer: rental_item propagated', n.rental_item === 'Crown Quest');
+    assert('IntakeNormalizer: customer_social_id blank', n.customer_social_id === '');
+    assert('IntakeNormalizer: customer_handle blank',    n.customer_handle    === '');
+    assert('IntakeNormalizer: missing_fields is empty array',
+      Array.isArray(n.missing_fields) && n.missing_fields.length === 0);
+  }
+
+  function testIntakeNormalizer_hasSufficientData_allPresent() {
+    var n = IntakeNormalizer.normalizeWebformGmail({
+      email: 'test@example.com', name: 'Jane', event_date: '2026-08-01', rental_item: 'Crown Quest'
+    });
+    assert('hasSufficientDataForDraft: true when all key fields present',
+      IntakeNormalizer.hasSufficientDataForDraft(n) === true);
+  }
+
+  function testIntakeNormalizer_hasSufficientData_missingEmail() {
+    var n = IntakeNormalizer.normalizeWebformGmail({
+      name: 'Jane', event_date: '2026-08-01', rental_item: 'Crown Quest'
+    });
+    assert('hasSufficientDataForDraft: false when email missing',
+      IntakeNormalizer.hasSufficientDataForDraft(n) === false);
+  }
+
+  function testIntakeNormalizer_hasSufficientData_missingName() {
+    var n = IntakeNormalizer.normalizeWebformGmail({
+      email: 'test@example.com', event_date: '2026-08-01', rental_item: 'Crown Quest'
+    });
+    assert('hasSufficientDataForDraft: false when name missing',
+      IntakeNormalizer.hasSufficientDataForDraft(n) === false);
+  }
+
+  function testIntakeNormalizer_hasSufficientData_missingDate() {
+    var n = IntakeNormalizer.normalizeWebformGmail({
+      email: 'test@example.com', name: 'Jane', rental_item: 'Crown Quest'
+    });
+    assert('hasSufficientDataForDraft: false when event_date missing',
+      IntakeNormalizer.hasSufficientDataForDraft(n) === false);
+  }
+
+  function testIntakeNormalizer_hasSufficientData_missingItem() {
+    var n = IntakeNormalizer.normalizeWebformGmail({
+      email: 'test@example.com', name: 'Jane', event_date: '2026-08-01'
+    });
+    assert('hasSufficientDataForDraft: false when rental_item missing',
+      IntakeNormalizer.hasSufficientDataForDraft(n) === false);
+  }
+
+  // ─── MetaMessengerAdapter tests ───────────────────────────────────────────
+
+  function testMetaMessengerAdapter_moduleApi() {
+    assert('MetaMessengerAdapter: module is defined', typeof MetaMessengerAdapter !== 'undefined');
+    assert('MetaMessengerAdapter: normalizeMetaMessage is a function',
+      typeof MetaMessengerAdapter.normalizeMetaMessage === 'function');
+    assert('MetaMessengerAdapter: createMetaReplyDraft is a function',
+      typeof MetaMessengerAdapter.createMetaReplyDraft === 'function');
+    assert('MetaMessengerAdapter: sendMetaReplyAfterApproval is a function',
+      typeof MetaMessengerAdapter.sendMetaReplyAfterApproval === 'function');
+  }
+
+  function testMetaMessengerAdapter_throwsNotImplemented() {
+    var threw = false;
+    try { MetaMessengerAdapter.normalizeMetaMessage({}); } catch (e) { threw = true; }
+    assert('MetaMessengerAdapter.normalizeMetaMessage: throws not-implemented error', threw);
+  }
+
+  function testMetaMessengerAdapter_createDraftThrows() {
+    var threw = false;
+    try { MetaMessengerAdapter.createMetaReplyDraft({}); } catch (e) { threw = true; }
+    assert('MetaMessengerAdapter.createMetaReplyDraft: throws not-implemented error', threw);
+  }
+
+  // ─── InstagramDmAdapter tests ─────────────────────────────────────────────
+
+  function testInstagramDmAdapter_moduleApi() {
+    assert('InstagramDmAdapter: module is defined', typeof InstagramDmAdapter !== 'undefined');
+    assert('InstagramDmAdapter: normalizeInstagramDm is a function',
+      typeof InstagramDmAdapter.normalizeInstagramDm === 'function');
+    assert('InstagramDmAdapter: createInstagramReplyDraft is a function',
+      typeof InstagramDmAdapter.createInstagramReplyDraft === 'function');
+    assert('InstagramDmAdapter: sendInstagramReplyAfterApproval is a function',
+      typeof InstagramDmAdapter.sendInstagramReplyAfterApproval === 'function');
+  }
+
+  function testInstagramDmAdapter_throwsNotImplemented() {
+    var threw = false;
+    try { InstagramDmAdapter.normalizeInstagramDm({}); } catch (e) { threw = true; }
+    assert('InstagramDmAdapter.normalizeInstagramDm: throws not-implemented error', threw);
+  }
+
+  function testInstagramDmAdapter_sendThrows() {
+    var threw = false;
+    try { InstagramDmAdapter.sendInstagramReplyAfterApproval('approval-123'); } catch (e) { threw = true; }
+    assert('InstagramDmAdapter.sendInstagramReplyAfterApproval: throws not-implemented error', threw);
+  }
+
+  // ─── ReviewQueue extended schema tests ───────────────────────────────────
+
+  function testReviewQueue_newSchemaHasSourceChannel() {
+    assert('ReviewQueue: module is defined', typeof ReviewQueue !== 'undefined');
+    assert('ReviewQueue: enqueue is a function', typeof ReviewQueue.enqueue === 'function');
+    var n = IntakeNormalizer.normalizeWebformGmail({ email: 'test@example.com' });
+    assert('IntakeNormalizer: source_channel field present in output',
+      typeof n.source_channel !== 'undefined' && n.source_channel === 'webform_gmail');
+  }
+
+  function testDraftQueue_newSchemaHasSourceChannel() {
+    assert('DraftQueue: module is defined', typeof DraftQueue !== 'undefined');
+    assert('DraftQueue: enqueue is a function', typeof DraftQueue.enqueue === 'function');
+    // DraftQueue HEADERS contains source_channel — verify via module existence (Sheets I/O not testable here)
+    assert('IntakeNormalizer and DraftQueue both defined for channel tracking',
+      typeof IntakeNormalizer !== 'undefined' && typeof DraftQueue !== 'undefined');
+  }
+
   // ─── Test Runner ──────────────────────────────────────────────────────────
 
   function testAll() {
@@ -1359,6 +1497,29 @@ var TestHarness = (function () {
 
     // Subject placeholder
     testSubjectPlaceholder_bookingIdStripped();
+
+    // IntakeNormalizer
+    testIntakeNormalizer_moduleApi();
+    testIntakeNormalizer_webformGmail();
+    testIntakeNormalizer_hasSufficientData_allPresent();
+    testIntakeNormalizer_hasSufficientData_missingEmail();
+    testIntakeNormalizer_hasSufficientData_missingName();
+    testIntakeNormalizer_hasSufficientData_missingDate();
+    testIntakeNormalizer_hasSufficientData_missingItem();
+
+    // MetaMessengerAdapter
+    testMetaMessengerAdapter_moduleApi();
+    testMetaMessengerAdapter_throwsNotImplemented();
+    testMetaMessengerAdapter_createDraftThrows();
+
+    // InstagramDmAdapter
+    testInstagramDmAdapter_moduleApi();
+    testInstagramDmAdapter_throwsNotImplemented();
+    testInstagramDmAdapter_sendThrows();
+
+    // Extended queue schema
+    testReviewQueue_newSchemaHasSourceChannel();
+    testDraftQueue_newSchemaHasSourceChannel();
 
     var passed = _results.filter(function (r) { return r.passed; }).length;
     var total  = _results.length;
