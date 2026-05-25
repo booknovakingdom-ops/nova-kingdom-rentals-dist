@@ -1135,6 +1135,102 @@ function runTenantConfigHealthCheck() {
   Logger.log(lines.join('\n'));
 }
 
+// ─── Live readiness check ─────────────────────────────────────────────────────
+
+/**
+ * runLiveReadinessCheck()
+ *
+ * Read-only pre-flight that logs the current operational state and outputs one
+ * of three final verdicts:
+ *
+ *   SAFE_SIMULATION_MODE          — simulation_mode=true; no real side effects possible
+ *   READY_FOR_DRAFT_ONLY_LIVE_MODE — live mode, drafts enabled, auto-send impossible
+ *   NOT_READY                     — config missing, intake disabled, or indeterminate state
+ *
+ * Guarantees:
+ *   - No emails sent.
+ *   - No Gmail drafts created.
+ *   - No Gmail messages read.
+ *   - No intake processing.
+ *   - Ops_DraftQueue and Ops_ReviewQueue are checked for existence only; not created.
+ */
+function runLiveReadinessCheck() {
+  _assertSpreadsheetId();
+  ConfigLoader.clearCache();
+
+  var lines   = ['=== Live Readiness Check ==='];
+  var ready   = true;
+  var verdict = 'NOT_READY';
+
+  // ── 1. Identity ───────────────────────────────────────────────────────────
+  lines.push('tenant_id      : ' + TENANT.TENANT_ID);
+  lines.push('spreadsheet_id : ' + TENANT.SPREADSHEET_ID);
+
+  // ── 2–5. Ops controls ─────────────────────────────────────────────────────
+  var controls;
+  try {
+    controls = ConfigLoader.getOpsControls(TENANT.SPREADSHEET_ID, TENANT.TENANT_ID);
+  } catch (e) {
+    lines.push('FAIL  ops controls could not be loaded: ' + e.message);
+    lines.push('');
+    lines.push('Verdict: NOT_READY');
+    lines.forEach(function (l) { console.log(l); });
+    Logger.log(lines.join('\n'));
+    return;
+  }
+
+  var simMode        = !!controls.simulation_mode;
+  var autoDraft      = !!controls.auto_draft_enabled;
+  var intakeEnabled  = !!controls.intake_script_enabled;
+
+  lines.push('simulation_mode      : ' + simMode);
+  lines.push('auto_draft_enabled   : ' + autoDraft);
+  lines.push('intake_script_enabled: ' + intakeEnabled);
+
+  if (!intakeEnabled) {
+    lines.push('WARN  intake_script_enabled = false — worker will exit immediately on run');
+    ready = false;
+  }
+
+  // ── 6–7. Operational queue tabs ───────────────────────────────────────────
+  var ss = SpreadsheetApp.openById(TENANT.SPREADSHEET_ID);
+  ['Ops_DraftQueue', 'Ops_ReviewQueue'].forEach(function (tabName) {
+    var sheet = ss.getSheetByName(tabName);
+    lines.push(tabName + ': ' + (sheet ? 'EXISTS' : 'absent (will be created on first live write)'));
+  });
+
+  // ── 8. Draft creation status ──────────────────────────────────────────────
+  var draftStatus;
+  if (simMode) {
+    draftStatus = 'SUPPRESSED — simulation_mode=true, all drafts written to Sim_Drafts only';
+  } else if (autoDraft) {
+    draftStatus = 'ENABLED — live mode, Gmail drafts will be created (not auto-sent)';
+  } else {
+    draftStatus = 'SUPPRESSED — auto_draft_enabled=false, no Gmail drafts will be created';
+    ready = false;
+  }
+  lines.push('Gmail draft creation : ' + draftStatus);
+
+  // ── 9. Auto-send safety ───────────────────────────────────────────────────
+  // The system NEVER auto-sends email. processContactIntake() creates Gmail
+  // drafts only. Harkirat must review and click Send manually.
+  lines.push('Auto-send emails     : IMPOSSIBLE — system creates drafts only; manual send required');
+
+  // ── 10. Final verdict ─────────────────────────────────────────────────────
+  if (simMode && intakeEnabled) {
+    verdict = 'SAFE_SIMULATION_MODE';
+  } else if (!simMode && autoDraft && intakeEnabled) {
+    verdict = 'READY_FOR_DRAFT_ONLY_LIVE_MODE';
+  } else {
+    verdict = 'NOT_READY';
+  }
+
+  lines.push('');
+  lines.push('Verdict: ' + verdict);
+  lines.forEach(function (l) { console.log(l); });
+  Logger.log(lines.join('\n'));
+}
+
 // ─── Mock thread factory ──────────────────────────────────────────────────────
 
 function _mockThread(msgId, body, subject, from) {
