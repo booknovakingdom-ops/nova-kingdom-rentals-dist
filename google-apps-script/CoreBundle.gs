@@ -849,6 +849,7 @@ var ExecutionEnv = (function () {
 
   var _simulation       = true;
   var _autoDraftEnabled = false;
+  var _liveAllowed      = false;   // must be explicitly set by live-specific functions
   var _spreadsheetId    = '';
   var _tenantId         = '';
   var _simRunId         = '';
@@ -868,6 +869,7 @@ var ExecutionEnv = (function () {
     _tenantId         = tenantId || '';
     _simulation       = !!controls.simulation_mode;
     _autoDraftEnabled = !!controls.auto_draft_enabled;
+    _liveAllowed      = false;   // reset on every init — callers must re-enable explicitly
     _simRunId         = _simulation ? ('SIM-RUN-' + Date.now() + '-' + _rand4()) : '';
     _initialized      = true;
   }
@@ -880,6 +882,29 @@ var ExecutionEnv = (function () {
   function getSimRunId() {
     _assertInit();
     return _simRunId;
+  }
+
+  /**
+   * Explicitly permit live Gmail draft creation for the current run.
+   * Must be called after init() by live-specific functions only:
+   *   processContactIntake() and runLiveDraftOnlyTestFromMessageId().
+   * Simulation and debug functions must never call this.
+   */
+  function allowLiveGmailDrafts() {
+    _assertInit();
+    _liveAllowed = true;
+  }
+
+  /**
+   * Returns true only when all three conditions are met:
+   *   1. not simulation mode
+   *   2. auto_draft_enabled=true
+   *   3. allowLiveGmailDrafts() was called this run
+   * Use in tests and runSimulationSafetyCheck() to assert gate state.
+   */
+  function wouldCreateLiveDraft() {
+    _assertInit();
+    return !_simulation && _autoDraftEnabled && _liveAllowed;
   }
 
   /**
@@ -943,6 +968,14 @@ var ExecutionEnv = (function () {
       _simLog('CREATE_DRAFT', { toEmail: toEmail, subject: subject, bodyPreview: body.slice(0, 150) }, traceId);
       _simDraftFull(toEmail, subject, body, traceId);
       draftId = 'SIM-DRAFT-' + Date.now();
+    } else if (!_liveAllowed) {
+      // Live draft creation requires an explicit opt-in from a live-specific function.
+      // This prevents simulation/debug functions from creating real Gmail drafts even
+      // when Config_OpsControls has simulation_mode=false.
+      _simLog('DRAFT_SUPPRESSED', { toEmail: toEmail, reason: 'live_draft_not_explicitly_allowed' }, traceId);
+      console.error('ExecutionEnv.createDraft: BLOCKED — allowLiveGmailDrafts() was not called. ' +
+        'Only processContactIntake() and runLiveDraftOnlyTestFromMessageId() may create live drafts.');
+      draftId = '';
     } else if (!_autoDraftEnabled) {
       _simLog('DRAFT_SUPPRESSED', { toEmail: toEmail, reason: 'auto_draft_enabled=false' }, traceId);
       draftId = '';
@@ -1176,18 +1209,20 @@ var ExecutionEnv = (function () {
   // ─── Public API ───────────────────────────────────────────────────────────
 
   return {
-    init:                init,
-    isSimulation:        isSimulation,
-    getSimRunId:         getSimRunId,
-    stampMetadata:       stampMetadata,
-    applyGmailLabel:     applyGmailLabel,
-    createDraft:         createDraft,
-    upsertCustomer:      upsertCustomer,
-    writeQueueTask:      writeQueueTask,
-    writeManualReview:   writeManualReview,
-    createCalendarEvent: createCalendarEvent,
-    sendNotification:    sendNotification,
-    clearSimTabs:        clearSimTabs
+    init:                  init,
+    isSimulation:          isSimulation,
+    getSimRunId:           getSimRunId,
+    allowLiveGmailDrafts:  allowLiveGmailDrafts,
+    wouldCreateLiveDraft:  wouldCreateLiveDraft,
+    stampMetadata:         stampMetadata,
+    applyGmailLabel:       applyGmailLabel,
+    createDraft:           createDraft,
+    upsertCustomer:        upsertCustomer,
+    writeQueueTask:        writeQueueTask,
+    writeManualReview:     writeManualReview,
+    createCalendarEvent:   createCalendarEvent,
+    sendNotification:      sendNotification,
+    clearSimTabs:          clearSimTabs
   };
 })();
 
@@ -3995,6 +4030,44 @@ var TestHarness = (function () {
     assert('DraftQueue: enqueue is a function', typeof DraftQueue.enqueue === 'function');
   }
 
+  // ─── ExecutionEnv live-gate safety tests ──────────────────────────────────
+
+  function testExecutionEnv_liveGatePreventsLiveDraftsByDefault() {
+    // Init with live config but do NOT call allowLiveGmailDrafts()
+    ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+      { simulation_mode: false, auto_draft_enabled: true }, TENANT.TENANT_ID);
+    assert('ExecutionEnv live gate: wouldCreateLiveDraft=false without allowLiveGmailDrafts',
+      ExecutionEnv.wouldCreateLiveDraft() === false);
+    // Restore safe state
+    ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+      { simulation_mode: true, auto_draft_enabled: false }, TENANT.TENANT_ID);
+  }
+
+  function testExecutionEnv_allowLiveGmailDraftsUnlocksGate() {
+    ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+      { simulation_mode: false, auto_draft_enabled: true }, TENANT.TENANT_ID);
+    ExecutionEnv.allowLiveGmailDrafts();
+    assert('ExecutionEnv live gate: wouldCreateLiveDraft=true after allowLiveGmailDrafts',
+      ExecutionEnv.wouldCreateLiveDraft() === true);
+    // Restore safe state
+    ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+      { simulation_mode: true, auto_draft_enabled: false }, TENANT.TENANT_ID);
+  }
+
+  function testExecutionEnv_initResetsLiveGate() {
+    ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+      { simulation_mode: false, auto_draft_enabled: true }, TENANT.TENANT_ID);
+    ExecutionEnv.allowLiveGmailDrafts();
+    // Re-init should reset the gate
+    ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+      { simulation_mode: false, auto_draft_enabled: true }, TENANT.TENANT_ID);
+    assert('ExecutionEnv live gate: re-init resets to false',
+      ExecutionEnv.wouldCreateLiveDraft() === false);
+    // Restore safe state
+    ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+      { simulation_mode: true, auto_draft_enabled: false }, TENANT.TENANT_ID);
+  }
+
   // ─── Test Runner ──────────────────────────────────────────────────────────
 
   function testAll() {
@@ -4101,6 +4174,11 @@ var TestHarness = (function () {
     // ReviewQueue / DraftQueue module guards
     testReviewQueue_moduleApi();
     testDraftQueue_moduleApi();
+
+    // ExecutionEnv live-gate safety
+    testExecutionEnv_liveGatePreventsLiveDraftsByDefault();
+    testExecutionEnv_allowLiveGmailDraftsUnlocksGate();
+    testExecutionEnv_initResetsLiveGate();
 
     // Subject placeholder
     testSubjectPlaceholder_bookingIdStripped();

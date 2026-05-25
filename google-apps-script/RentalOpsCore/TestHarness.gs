@@ -1132,6 +1132,44 @@ var TestHarness = (function () {
     assert('DraftQueue: enqueue is a function', typeof DraftQueue.enqueue === 'function');
   }
 
+  // ─── ExecutionEnv live-gate safety tests ──────────────────────────────────
+
+  function testExecutionEnv_liveGatePreventsLiveDraftsByDefault() {
+    // Init with live config but do NOT call allowLiveGmailDrafts()
+    ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+      { simulation_mode: false, auto_draft_enabled: true }, TENANT.TENANT_ID);
+    assert('ExecutionEnv live gate: wouldCreateLiveDraft=false without allowLiveGmailDrafts',
+      ExecutionEnv.wouldCreateLiveDraft() === false);
+    // Restore safe state
+    ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+      { simulation_mode: true, auto_draft_enabled: false }, TENANT.TENANT_ID);
+  }
+
+  function testExecutionEnv_allowLiveGmailDraftsUnlocksGate() {
+    ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+      { simulation_mode: false, auto_draft_enabled: true }, TENANT.TENANT_ID);
+    ExecutionEnv.allowLiveGmailDrafts();
+    assert('ExecutionEnv live gate: wouldCreateLiveDraft=true after allowLiveGmailDrafts',
+      ExecutionEnv.wouldCreateLiveDraft() === true);
+    // Restore safe state
+    ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+      { simulation_mode: true, auto_draft_enabled: false }, TENANT.TENANT_ID);
+  }
+
+  function testExecutionEnv_initResetsLiveGate() {
+    ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+      { simulation_mode: false, auto_draft_enabled: true }, TENANT.TENANT_ID);
+    ExecutionEnv.allowLiveGmailDrafts();
+    // Re-init should reset the gate
+    ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+      { simulation_mode: false, auto_draft_enabled: true }, TENANT.TENANT_ID);
+    assert('ExecutionEnv live gate: re-init resets to false',
+      ExecutionEnv.wouldCreateLiveDraft() === false);
+    // Restore safe state
+    ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+      { simulation_mode: true, auto_draft_enabled: false }, TENANT.TENANT_ID);
+  }
+
   // ─── Test Runner ──────────────────────────────────────────────────────────
 
   function testAll() {
@@ -1238,6 +1276,11 @@ var TestHarness = (function () {
     // ReviewQueue / DraftQueue module guards
     testReviewQueue_moduleApi();
     testDraftQueue_moduleApi();
+
+    // ExecutionEnv live-gate safety
+    testExecutionEnv_liveGatePreventsLiveDraftsByDefault();
+    testExecutionEnv_allowLiveGmailDraftsUnlocksGate();
+    testExecutionEnv_initResetsLiveGate();
 
     // Subject placeholder
     testSubjectPlaceholder_bookingIdStripped();

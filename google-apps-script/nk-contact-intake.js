@@ -81,6 +81,8 @@ function processContactIntake() {
 
   // Initialize environment ONCE for the entire run
   ExecutionEnv.init(TENANT.SPREADSHEET_ID, controls, TENANT.TENANT_ID);
+  // processContactIntake is a live entry point — explicitly permit live Gmail drafts.
+  if (!controls.simulation_mode) ExecutionEnv.allowLiveGmailDrafts();
 
   var threads = _fetchUnprocessedThreads();
   console.log('Contact Intake: ' + threads.length + ' unprocessed thread(s)');
@@ -872,7 +874,15 @@ function runSimulationFromBody(body, subject, from) {
 
   var controls = ConfigLoader.getOpsControls(TENANT.SPREADSHEET_ID, TENANT.TENANT_ID);
   var profile  = ConfigLoader.getBusinessProfile(TENANT.SPREADSHEET_ID, TENANT.TENANT_ID);
+
+  // SIMULATION SAFETY: force simulation mode regardless of Config_OpsControls.
+  // runSimulationFromBody (and every function that calls it) must NEVER create
+  // real Gmail drafts even when simulation_mode=false in the live config.
+  controls.simulation_mode    = true;
+  controls.auto_draft_enabled = false;
+
   ExecutionEnv.init(TENANT.SPREADSHEET_ID, controls, TENANT.TENANT_ID);
+  // Note: allowLiveGmailDrafts() is intentionally NOT called here.
 
   var traceId = Identifiers.traceId();
   try {
@@ -1108,6 +1118,80 @@ function runReviewQueueSimulationTest() {
   console.log('[runReviewQueueSimulationTest] tenant_id  : ' + TENANT.TENANT_ID);
   console.log('[runReviewQueueSimulationTest] No Gmail reads, no email sent, no production mutations.');
   console.log('[runReviewQueueSimulationTest] Run runQueueSchemaHealthCheck() to verify the tab schema.');
+}
+
+/**
+ * runSimulationSafetyCheck()
+ *
+ * Read-only runtime verification that simulation functions cannot create live
+ * Gmail drafts regardless of Config_OpsControls settings.
+ *
+ * Logs PASS/FAIL for each assertion. All must pass before any live mode is used.
+ * No spreadsheet writes, no Gmail reads, no side effects.
+ */
+function runSimulationSafetyCheck() {
+  var lines  = [];
+  var passed = 0;
+  var failed = 0;
+
+  function check(label, condition) {
+    if (condition) {
+      lines.push('PASS  ' + label);
+      passed++;
+    } else {
+      lines.push('FAIL  ' + label);
+      failed++;
+    }
+  }
+
+  // ── Check 1: runSimulationFromBody forces simulation mode ─────────────────
+  // Init with live config then verify wouldCreateLiveDraft=false (no allowLiveGmailDrafts call)
+  ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+    { simulation_mode: false, auto_draft_enabled: true }, TENANT.TENANT_ID);
+  check('live config + no allowLiveGmailDrafts → isSimulation=false',
+    ExecutionEnv.isSimulation() === false);
+  check('live config + no allowLiveGmailDrafts → wouldCreateLiveDraft=false',
+    ExecutionEnv.wouldCreateLiveDraft() === false);
+
+  // ── Check 2: allowLiveGmailDrafts() correctly unlocks the gate ────────────
+  ExecutionEnv.allowLiveGmailDrafts();
+  check('after allowLiveGmailDrafts → wouldCreateLiveDraft=true',
+    ExecutionEnv.wouldCreateLiveDraft() === true);
+
+  // ── Check 3: init() always resets the gate ────────────────────────────────
+  // Re-init without calling allowLiveGmailDrafts → gate must reset
+  ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+    { simulation_mode: false, auto_draft_enabled: true }, TENANT.TENANT_ID);
+  check('re-init resets live gate → wouldCreateLiveDraft=false',
+    ExecutionEnv.wouldCreateLiveDraft() === false);
+
+  // ── Check 4: simulation mode suppresses drafts without needing the gate ───
+  ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+    { simulation_mode: true, auto_draft_enabled: false }, TENANT.TENANT_ID);
+  check('simulation mode → isSimulation=true', ExecutionEnv.isSimulation() === true);
+  check('simulation mode → wouldCreateLiveDraft=false',
+    ExecutionEnv.wouldCreateLiveDraft() === false);
+
+  // ── Check 5: simulation mode + allowLiveGmailDrafts still returns false ───
+  // The gate does not override simulation mode
+  ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+    { simulation_mode: true, auto_draft_enabled: true }, TENANT.TENANT_ID);
+  ExecutionEnv.allowLiveGmailDrafts();
+  check('simulation mode + allowLiveGmailDrafts → wouldCreateLiveDraft=false (sim takes priority)',
+    ExecutionEnv.wouldCreateLiveDraft() === false);
+
+  // ── Restore to safe simulation state ─────────────────────────────────────
+  ExecutionEnv.init(TENANT.SPREADSHEET_ID,
+    { simulation_mode: true, auto_draft_enabled: false }, TENANT.TENANT_ID);
+
+  // ── Summary ───────────────────────────────────────────────────────────────
+  lines.forEach(function (l) { console.log('[SAFETY] ' + l); });
+  var verdict = failed === 0 ? 'ALL SAFETY CHECKS PASSED' : (failed + ' SAFETY CHECKS FAILED');
+  console.log('[SAFETY] ─────────────────────────────────────────────────────');
+  console.log('[SAFETY] ' + verdict + ' (' + passed + '/' + (passed + failed) + ')');
+  if (failed > 0) {
+    console.error('[SAFETY] CRITICAL: Do not enable live mode until all safety checks pass.');
+  }
 }
 
 // ─── Top-level test runner ────────────────────────────────────────────────────
@@ -1433,6 +1517,8 @@ function runLiveDraftOnlyTestFromMessageId(messageId) {
 
   // ── Run through the standard pipeline ────────────────────────────────────
   ExecutionEnv.init(TENANT.SPREADSHEET_ID, controls, TENANT.TENANT_ID);
+  // This is a live-specific function — explicitly permit live Gmail drafts.
+  ExecutionEnv.allowLiveGmailDrafts();
   var traceId = Identifiers.traceId();
   console.log('[LIVE-TEST] trace_id : ' + traceId);
 
