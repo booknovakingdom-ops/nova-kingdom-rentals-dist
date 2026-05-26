@@ -1431,7 +1431,6 @@ var ContactFormParser = (function () {
     'PowerAccess', 'Power Access', 'PowerNeedsReview', 'Power Needs Review',
     'WaterAccess', 'Water Access',
     'AdultSupervision', 'Adult Supervision',
-    'BudgetRange', 'Budget Range',
     // Pricing summary
     'Subtotal', 'EstimatedTotal', 'Estimated Total',
     // Delivery
@@ -1702,7 +1701,6 @@ var ContactFormParser = (function () {
       power_access:   _pick(raw, ['power_distance_to_outlet', 'power_access']),
       water_access:      _pick(raw, ['water_access']),
       adult_supervision: _pick(raw, ['adult_supervision', 'adultsupervision']),
-      budget_range:      _pick(raw, ['budget_range', 'budgetrange']),
       preferred_contact: _pick(raw, ['preferred_contact', 'preferredcontact']),
       message:           _pick(raw, ['notes', 'message', 'additional_notes', 'other_info', 'anything_else']),
       extra:             {}
@@ -1721,7 +1719,6 @@ var ContactFormParser = (function () {
       'power_distance_to_outlet', 'power_access', 'power_needs_review',
       'water_access',
       'adult_supervision', 'adultsupervision',
-      'budget_range', 'budgetrange',
       'preferred_contact',
       'notes', 'message', 'additional_notes', 'other_info', 'anything_else',
       'subtotal', 'estimated_total',
@@ -3053,7 +3050,6 @@ var IntakeNormalizer = (function () {
       power_access:       p.power_access  || '',
       water_access:        p.water_access        || '',
       adult_supervision:   p.adult_supervision   || '',
-      budget_range:        p.budget_range        || '',
       preferred_contact:   p.preferred_contact   || '',
       notes:               p.notes               || '',
       missing_fields:      []
@@ -4488,11 +4484,10 @@ var TestHarness = (function () {
     var n = IntakeNormalizer.normalizeWebformGmail({
       email: 'test@example.com', name: 'Jane', event_date: '2026-08-01', rental_item: 'Crown Quest',
       end_time: '4:00 PM', adult_supervision: 'Yes, adults will supervise',
-      budget_range: '$300–$500', preferred_contact: 'Email'
+      preferred_contact: 'Email'
     });
     assertEqual('IntakeNorm: end_time propagated',          n.end_time,           '4:00 PM');
     assertEqual('IntakeNorm: adult_supervision propagated', n.adult_supervision,  'Yes, adults will supervise');
-    assertEqual('IntakeNorm: budget_range propagated',      n.budget_range,       '$300–$500');
     assertEqual('IntakeNorm: preferred_contact propagated', n.preferred_contact,  'Email');
   }
 
@@ -4512,7 +4507,6 @@ var TestHarness = (function () {
       'powerAccess  : Yes, power within 50 ft',
       'waterAccess  : Not needed',
       'adultSupervision  : Yes, adults will supervise',
-      'budgetRange  : $300–$500',
       'preferredContact  : Email',
       'notes  : Kids love bounce houses'
     ].join('\n');
@@ -4524,7 +4518,6 @@ var TestHarness = (function () {
     assertEqual('Parser: power_access',        result.power_access,       'Yes, power within 50 ft');
     assertEqual('Parser: water_access',        result.water_access,       'Not needed');
     assertEqual('Parser: adult_supervision',   result.adult_supervision,  'Yes, adults will supervise');
-    assertEqual('Parser: budget_range',        result.budget_range,       '$300–$500');
     assertEqual('Parser: preferred_contact',   result.preferred_contact,  'Email');
     assertEqual('Parser: rental_item from packageInterest', result.rental_item, 'Crown Quest');
     assertEqual('Parser: event_date from eventDate',   result.event_date,   '2026-08-01');
@@ -4561,10 +4554,9 @@ var TestHarness = (function () {
       guest_count: '25', start_time: '10:00 AM', end_time: '4:00 PM',
       setup_surface: 'Grass', power_access: 'Yes, power within 50 ft',
       water_access: 'Not needed', adult_supervision: 'Yes, adults will supervise',
-      budget_range: '$300–$500', preferred_contact: 'Email'
+      preferred_contact: 'Email'
     }, []);
     assert('FirstResp: shows adult_supervision', body.indexOf('Yes, adults will supervise') !== -1);
-    assert('FirstResp: shows budget_range',      body.indexOf('$300') !== -1);
     assert('FirstResp: shows preferred_contact', body.indexOf('Email') !== -1);
     assert('FirstResp: shows end_time in time row', body.indexOf('4:00 PM') !== -1);
   }
@@ -4575,7 +4567,7 @@ var TestHarness = (function () {
       guest_count: '25', start_time: '10:00 AM', end_time: '4:00 PM',
       event_type: 'Birthday Party', setup_surface: 'Grass',
       power_access: 'Yes, power within 50 ft', water_access: 'Not needed',
-      adult_supervision: 'Yes, adults will supervise', budget_range: '$300–$500',
+      adult_supervision: 'Yes, adults will supervise',
       preferred_contact: 'Email'
     };
     var missing = _detectMissingFields(parsed);
@@ -4598,7 +4590,6 @@ var TestHarness = (function () {
       'powerAccess  : Not sure',
       'waterAccess  : Not sure',
       'adultSupervision  : Not sure yet',
-      'budgetRange  : Not sure yet',
       'preferredContact  : No preference'
     ].join('\n');
     var result = ContactFormParser.parseNkrWebsiteBooking(body);
@@ -4606,7 +4597,6 @@ var TestHarness = (function () {
     assertEqual('NotSure: power_access value preserved',  result.power_access,      'Not sure');
     assertEqual('NotSure: water_access value preserved',  result.water_access,      'Not sure');
     assertEqual('NotSure: adult_supervision preserved',   result.adult_supervision, 'Not sure yet');
-    assertEqual('NotSure: budget_range preserved',        result.budget_range,      'Not sure yet');
     assertEqual('NotSure: preferred_contact preserved',   result.preferred_contact, 'No preference');
     var missing = _detectMissingFields(result);
     assert('NotSure: no missing fields (all answered with Not Sure)', missing.length === 0);

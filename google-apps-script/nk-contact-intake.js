@@ -184,7 +184,6 @@ function _processThread(thread, controls, profile, traceId) {
     power_access:      parsed.power_access      || '',
     water_access:      parsed.water_access      || '',
     adult_supervision: parsed.adult_supervision || '',
-    budget_range:      parsed.budget_range      || '',
     preferred_contact: parsed.preferred_contact || '',
     notes:             parsed.notes             || ''
   });
@@ -759,7 +758,6 @@ function _buildFirstResponseBody(firstName, parsed, missingFields) {
     '• Power access:           ' + orNone(p.power_access),
     '• Water access:           ' + orNone(p.water_access),
     '• Adult supervision:      ' + orNone(p.adult_supervision),
-    '• Budget range:           ' + orNone(p.budget_range),
     '• Preferred contact:      ' + orNone(p.preferred_contact),
     ''
   ];
