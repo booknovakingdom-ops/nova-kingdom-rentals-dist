@@ -1430,6 +1430,8 @@ var ContactFormParser = (function () {
     'PowerDistanceToOutlet', 'Power Distance To Outlet',
     'PowerAccess', 'Power Access', 'PowerNeedsReview', 'Power Needs Review',
     'WaterAccess', 'Water Access',
+    'AdultSupervision', 'Adult Supervision',
+    'BudgetRange', 'Budget Range',
     // Pricing summary
     'Subtotal', 'EstimatedTotal', 'Estimated Total',
     // Delivery
@@ -1698,9 +1700,12 @@ var ContactFormParser = (function () {
       rental_item:    _pick(raw, ['package_interest', 'selected_items', 'rental_item', 'rental_items', 'interested_in', 'unit', 'units']),
       setup_surface:  _pick(raw, ['setup_surface', 'surface', 'surface_type']),
       power_access:   _pick(raw, ['power_distance_to_outlet', 'power_access']),
-      water_access:   _pick(raw, ['water_access']),
-      message:        _pick(raw, ['notes', 'message', 'additional_notes', 'other_info', 'anything_else']),
-      extra:          {}
+      water_access:      _pick(raw, ['water_access']),
+      adult_supervision: _pick(raw, ['adult_supervision', 'adultsupervision']),
+      budget_range:      _pick(raw, ['budget_range', 'budgetrange']),
+      preferred_contact: _pick(raw, ['preferred_contact', 'preferredcontact']),
+      message:           _pick(raw, ['notes', 'message', 'additional_notes', 'other_info', 'anything_else']),
+      extra:             {}
     };
     var known = [
       'business', 'inquiry_type', 'name', 'full_name', 'your_name', 'from_name',
@@ -1715,6 +1720,8 @@ var ContactFormParser = (function () {
       'setup_surface', 'surface', 'surface_type', 'indoor_outdoor',
       'power_distance_to_outlet', 'power_access', 'power_needs_review',
       'water_access',
+      'adult_supervision', 'adultsupervision',
+      'budget_range', 'budgetrange',
       'preferred_contact',
       'notes', 'message', 'additional_notes', 'other_info', 'anything_else',
       'subtotal', 'estimated_total',
