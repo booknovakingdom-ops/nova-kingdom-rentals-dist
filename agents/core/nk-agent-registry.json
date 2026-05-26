@@ -1,0 +1,428 @@
+{
+  "version": "2.0.0",
+  "last_updated": "2026-05-26",
+  "schema_version": "2.0",
+  "notes": "All production changes require Harkirat approval. Scoring updated monthly by responsible manager agent.",
+
+  "hierarchy": {
+    "tier_0": "human_owner",
+    "tier_1": "executive",
+    "tier_2": "manager",
+    "tier_3": "worker",
+    "tier_qa": "qa_auditor"
+  },
+
+  "scoring_rubric": "agents/core/nk-agent-scoring-rubric.md",
+  "failure_flow": "agents/core/nk-failure-handling-flow.md",
+  "architecture": "agents/core/nk-agent-architecture.md",
+
+  "agents": [
+
+    {
+      "id": "nkr-ceo",
+      "name": "CEO Agent",
+      "tier": 1,
+      "file": "agents/leadership/nk-ceo-agent.md",
+      "status": "active",
+      "phase": 1,
+      "purpose": "Monitor all manager agents, diagnose system failures, propose improvements",
+      "reports_to": "human_owner",
+      "supervises": ["nkr-intake-mgr", "nkr-comm-mgr", "nkr-ops-mgr", "nkr-sales-mgr", "nkr-marketing-mgr", "nkr-hiring-mgr"],
+      "outputs": ["weekly_ceo_report_gmail_draft", "improvement_proposals_gmail_draft"],
+      "forbidden": ["contact_customers", "auto_send", "approve_own_proposals", "change_production_prompts"],
+      "scoring": {
+        "accuracy": null,
+        "hallucination_risk": null,
+        "human_edit_rate_pct": null,
+        "missed_field_rate_pct": null,
+        "wrong_price_risk": null,
+        "safety_risk": null,
+        "customer_confusion_risk": null,
+        "speed": null,
+        "business_impact": 10,
+        "composite": null,
+        "last_scored": null
+      },
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-intake-mgr",
+      "name": "Intake Manager",
+      "tier": 2,
+      "file": "agents/leadership/nk-intake-manager.md",
+      "status": "active",
+      "phase": 1,
+      "purpose": "Every inquiry gets a Gmail Draft or a ReviewQueue entry. Zero dropped leads.",
+      "reports_to": "nkr-ceo",
+      "supervises": ["nkr-booking-converter", "nkr-lead-scorer"],
+      "outputs": ["routed_tasks", "review_queue_entries", "daily_intake_summary"],
+      "forbidden": ["calculate_prices", "confirm_availability", "create_drafts_directly", "route_blocklist"],
+      "scoring": {
+        "accuracy": null,
+        "hallucination_risk": null,
+        "human_edit_rate_pct": null,
+        "missed_field_rate_pct": null,
+        "wrong_price_risk": 1,
+        "safety_risk": 2,
+        "customer_confusion_risk": null,
+        "speed": null,
+        "business_impact": 9,
+        "composite": null,
+        "last_scored": null
+      },
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-comm-mgr",
+      "name": "Communication Manager",
+      "tier": 2,
+      "file": "agents/leadership/nk-communication-manager.md",
+      "status": "active",
+      "phase": 1,
+      "purpose": "Every customer-facing draft passes QC before reaching owner's inbox.",
+      "reports_to": "nkr-ceo",
+      "supervises": ["nkr-quote-builder", "nkr-deposit-chaser", "nkr-objection-handler", "nkr-post-event", "nkr-cold-lead"],
+      "outputs": ["qc_stamped_drafts", "failed_draft_flags", "weekly_comm_report"],
+      "forbidden": ["change_prices", "confirm_bookings", "pass_autofail_drafts", "write_crm"],
+      "scoring": {
+        "accuracy": null,
+        "hallucination_risk": null,
+        "human_edit_rate_pct": null,
+        "missed_field_rate_pct": null,
+        "wrong_price_risk": null,
+        "safety_risk": null,
+        "customer_confusion_risk": null,
+        "speed": null,
+        "business_impact": 10,
+        "composite": null,
+        "last_scored": null
+      },
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-ops-mgr",
+      "name": "Operations Manager",
+      "tier": 2,
+      "file": "agents/leadership/nk-operations-manager.md",
+      "status": "active",
+      "phase": 1,
+      "purpose": "Booking pipeline integrity and operational readiness.",
+      "reports_to": "nkr-ceo",
+      "supervises": ["nkr-booking-pipeline", "nkr-crm-mgr", "nkr-delivery", "nkr-weather", "nkr-inventory"],
+      "outputs": ["daily_pipeline_report", "overdue_flags", "pre_event_checklists", "weekly_ops_report"],
+      "forbidden": ["confirm_booking_without_stage6", "waive_deposit", "commit_equipment_before_stage6"],
+      "scoring": {
+        "accuracy": null,
+        "hallucination_risk": null,
+        "human_edit_rate_pct": null,
+        "missed_field_rate_pct": null,
+        "wrong_price_risk": 1,
+        "safety_risk": null,
+        "customer_confusion_risk": null,
+        "speed": null,
+        "business_impact": 9,
+        "composite": null,
+        "last_scored": null
+      },
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-sales-mgr",
+      "name": "Sales/Pricing Manager",
+      "tier": 2,
+      "file": "agents/leadership/nk-sales-pricing-manager.md",
+      "status": "active",
+      "phase": 1,
+      "purpose": "Every quote has correct prices and correct math. Conversion is the outcome; accuracy is the requirement.",
+      "reports_to": "nkr-ceo",
+      "supervises": ["nkr-quote-builder", "nkr-package-recommender", "nkr-upsell", "nkr-objection-handler", "nkr-school-events"],
+      "outputs": ["verified_quote_objects", "pricing_error_flags", "weekly_sales_report"],
+      "forbidden": ["change_source_of_truth", "approve_discount_over_10pct", "quote_from_memory", "add_hst"],
+      "scoring": {
+        "accuracy": null,
+        "hallucination_risk": null,
+        "human_edit_rate_pct": null,
+        "missed_field_rate_pct": null,
+        "wrong_price_risk": null,
+        "safety_risk": null,
+        "customer_confusion_risk": null,
+        "speed": null,
+        "business_impact": 10,
+        "composite": null,
+        "last_scored": null
+      },
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-marketing-mgr",
+      "name": "Marketing/Growth Manager",
+      "tier": 2,
+      "file": "agents/leadership/nk-marketing-growth-manager.md",
+      "status": "active",
+      "phase": 1,
+      "purpose": "Every piece of content is accurate, on-brand, and safe to publish.",
+      "reports_to": "nkr-ceo",
+      "supervises": ["nkr-caption-writer", "nkr-reel-script", "nkr-content-calendar", "nkr-ad-copywriter", "nkr-review-specialist"],
+      "outputs": ["approved_content", "rejected_content", "weekly_growth_report"],
+      "forbidden": ["post_to_social", "approve_wrong_prices", "launch_ad_campaigns", "approve_crisis_comms"],
+      "scoring": {
+        "accuracy": null,
+        "hallucination_risk": null,
+        "human_edit_rate_pct": null,
+        "missed_field_rate_pct": null,
+        "wrong_price_risk": null,
+        "safety_risk": null,
+        "customer_confusion_risk": null,
+        "speed": null,
+        "business_impact": 7,
+        "composite": null,
+        "last_scored": null
+      },
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-hiring-mgr",
+      "name": "Agent Hiring Manager",
+      "tier": 2,
+      "file": "agents/leadership/nk-agent-hiring-manager.md",
+      "status": "active",
+      "phase": 1,
+      "purpose": "Identify agent coverage gaps and propose new agents, improvements, or retirements.",
+      "reports_to": "nkr-ceo",
+      "supervises": [],
+      "outputs": ["new_agent_proposals", "retirement_recommendations", "registry_updates", "monthly_registry_report"],
+      "forbidden": ["deploy_agents", "modify_live_prompts", "remove_agent_files"],
+      "scoring": {
+        "accuracy": null,
+        "hallucination_risk": null,
+        "human_edit_rate_pct": null,
+        "missed_field_rate_pct": null,
+        "wrong_price_risk": 1,
+        "safety_risk": 2,
+        "customer_confusion_risk": 1,
+        "speed": null,
+        "business_impact": 6,
+        "composite": null,
+        "last_scored": null
+      },
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-qa-auditor",
+      "name": "QA Auditor",
+      "tier": "qa",
+      "file": "agents/core/nk-quality-control-auditor.md",
+      "status": "active",
+      "phase": 1,
+      "purpose": "Run QC checklist on every draft before it enters the owner's review queue.",
+      "reports_to": "nkr-comm-mgr",
+      "also_reports_to": "nkr-ceo",
+      "supervises": [],
+      "outputs": ["qa_pass_stamp", "qa_fail_with_reasons", "autofail_flags"],
+      "forbidden": ["pass_autofail_drafts", "change_prices", "send_to_customer"],
+      "scoring": {
+        "accuracy": null,
+        "hallucination_risk": 1,
+        "wrong_price_risk": 1,
+        "safety_risk": 1,
+        "business_impact": 10,
+        "composite": null,
+        "last_scored": null
+      },
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-booking-converter",
+      "name": "Booking Converter",
+      "tier": 3,
+      "file": "agents/sales/nk-booking-converter.md",
+      "status": "active",
+      "phase": 1,
+      "purpose": "First response to inquiries, qualify leads, collect missing info.",
+      "reports_to": "nkr-intake-mgr",
+      "scoring": {
+        "accuracy": null,
+        "hallucination_risk": null,
+        "human_edit_rate_pct": null,
+        "missed_field_rate_pct": null,
+        "wrong_price_risk": null,
+        "safety_risk": 2,
+        "customer_confusion_risk": null,
+        "speed": null,
+        "business_impact": 9,
+        "composite": null,
+        "last_scored": null
+      },
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-quote-builder",
+      "name": "Quote Builder",
+      "tier": 3,
+      "file": "agents/sales/nk-quote-builder.md",
+      "status": "active",
+      "phase": 1,
+      "purpose": "Calculate accurate quotes from source-of-truth pricing.",
+      "reports_to": "nkr-sales-mgr",
+      "scoring": {
+        "accuracy": null,
+        "hallucination_risk": null,
+        "human_edit_rate_pct": null,
+        "missed_field_rate_pct": null,
+        "wrong_price_risk": null,
+        "safety_risk": 1,
+        "customer_confusion_risk": null,
+        "speed": null,
+        "business_impact": 10,
+        "composite": null,
+        "last_scored": null
+      },
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-chief-of-staff",
+      "name": "Chief of Staff",
+      "tier": 2,
+      "file": "agents/leadership/nk-chief-of-staff.md",
+      "status": "active",
+      "phase": 1,
+      "purpose": "Human-facing task router and weekly pulse coordinator when working directly with Harkirat.",
+      "reports_to": "human_owner",
+      "notes": "Used for interactive sessions with Harkirat. Not in the automated pipeline.",
+      "scoring": {
+        "accuracy": null,
+        "hallucination_risk": null,
+        "business_impact": 8,
+        "composite": null,
+        "last_scored": null
+      },
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-deposit-chaser",
+      "name": "Deposit Chaser",
+      "tier": 3,
+      "file": "agents/sales/nk-deposit-chaser.md",
+      "status": "active",
+      "phase": 2,
+      "purpose": "Follow up on unpaid deposits at Stage 5.",
+      "reports_to": "nkr-comm-mgr",
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-complaint-handler",
+      "name": "Complaint Handler",
+      "tier": 3,
+      "file": "agents/customer-service/nk-complaint-handler.md",
+      "status": "active",
+      "phase": 2,
+      "purpose": "De-escalate complaints without admitting liability.",
+      "reports_to": "nkr-comm-mgr",
+      "scoring": {
+        "safety_risk": null,
+        "business_impact": 9
+      },
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-post-event",
+      "name": "Post-Event Follow-up",
+      "tier": 3,
+      "file": "agents/customer-service/nk-post-event-followup.md",
+      "status": "active",
+      "phase": 2,
+      "purpose": "Send review request and satisfaction check after event.",
+      "reports_to": "nkr-comm-mgr",
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-caption-writer",
+      "name": "Caption Writer",
+      "tier": 3,
+      "file": "agents/marketing/nk-caption-writer.md",
+      "status": "active",
+      "phase": 2,
+      "purpose": "Write on-brand social captions.",
+      "reports_to": "nkr-marketing-mgr",
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-reel-script",
+      "name": "Reel Script Writer",
+      "tier": 3,
+      "file": "agents/marketing/nk-reel-script-writer.md",
+      "status": "active",
+      "phase": 2,
+      "purpose": "Write short-form video scripts.",
+      "reports_to": "nkr-marketing-mgr",
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-ad-copywriter",
+      "name": "Ad Copywriter",
+      "tier": 3,
+      "file": "agents/ads/nk-ad-copywriter.md",
+      "status": "active",
+      "phase": 2,
+      "purpose": "Write Meta ad copy.",
+      "reports_to": "nkr-marketing-mgr",
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-business-intelligence",
+      "name": "Business Intelligence Reporter",
+      "tier": 3,
+      "file": "agents/leadership/nk-business-intelligence.md",
+      "status": "active",
+      "phase": 2,
+      "purpose": "Weekly and monthly business performance reports.",
+      "reports_to": "nkr-ceo",
+      "failure_log": []
+    },
+
+    {
+      "id": "nkr-crisis-comms",
+      "name": "Crisis Communications",
+      "tier": 3,
+      "file": "agents/leadership/nk-crisis-communications.md",
+      "status": "active",
+      "phase": 2,
+      "purpose": "Draft crisis responses — always requires Harkirat approval before use.",
+      "reports_to": "nkr-comm-mgr",
+      "scoring": {
+        "safety_risk": null,
+        "business_impact": 10
+      },
+      "failure_log": []
+    }
+
+  ],
+
+  "not_built": [
+    "real_meta_instagram_api",
+    "voice_agent",
+    "sms_sending",
+    "stripe_integration",
+    "supabase_migration",
+    "saas_client_onboarding",
+    "auto_send_system",
+    "fully_autonomous_production_editing"
+  ]
+}
