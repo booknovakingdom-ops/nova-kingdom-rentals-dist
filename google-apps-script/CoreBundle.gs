@@ -3051,9 +3051,12 @@ var IntakeNormalizer = (function () {
       start_time:         p.start_time    || '',
       setup_surface:      p.setup_surface || '',
       power_access:       p.power_access  || '',
-      water_access:       p.water_access  || '',
-      notes:              p.notes         || '',
-      missing_fields:     []
+      water_access:        p.water_access        || '',
+      adult_supervision:   p.adult_supervision   || '',
+      budget_range:        p.budget_range        || '',
+      preferred_contact:   p.preferred_contact   || '',
+      notes:               p.notes               || '',
+      missing_fields:      []
     };
   }
 
@@ -4481,6 +4484,134 @@ var TestHarness = (function () {
       IntakeNormalizer.hasSufficientDataForDraft(n) === false);
   }
 
+  function testIntakeNormalizer_newFields_propagated() {
+    var n = IntakeNormalizer.normalizeWebformGmail({
+      email: 'test@example.com', name: 'Jane', event_date: '2026-08-01', rental_item: 'Crown Quest',
+      end_time: '4:00 PM', adult_supervision: 'Yes, adults will supervise',
+      budget_range: '$300–$500', preferred_contact: 'Email'
+    });
+    assertEqual('IntakeNorm: end_time propagated',          n.end_time,           '4:00 PM');
+    assertEqual('IntakeNorm: adult_supervision propagated', n.adult_supervision,  'Yes, adults will supervise');
+    assertEqual('IntakeNorm: budget_range propagated',      n.budget_range,       '$300–$500');
+    assertEqual('IntakeNorm: preferred_contact propagated', n.preferred_contact,  'Email');
+  }
+
+  function testParser_newFieldsMapped() {
+    var body = [
+      'name  : Jane Smith',
+      'email  : jane@example.com',
+      'phone  : 902-555-0123',
+      'eventDate  : 2026-08-01',
+      'eventAddress  : 45 Maple St',
+      'eventType  : Birthday Party',
+      'packageInterest  : Crown Quest',
+      'startTime  : 10:00 AM',
+      'endTime  : 4:00 PM',
+      'guests  : 25',
+      'setupSurface  : Grass',
+      'powerAccess  : Yes, power within 50 ft',
+      'waterAccess  : Not needed',
+      'adultSupervision  : Yes, adults will supervise',
+      'budgetRange  : $300–$500',
+      'preferredContact  : Email',
+      'notes  : Kids love bounce houses'
+    ].join('\n');
+    var result = ContactFormParser.parseNkrWebsiteBooking(body);
+    assertEqual('Parser: start_time',          result.start_time,         '10:00 AM');
+    assertEqual('Parser: end_time',            result.end_time,           '4:00 PM');
+    assertEqual('Parser: guest_count',         result.guest_count,        '25');
+    assertEqual('Parser: setup_surface',       result.setup_surface,      'Grass');
+    assertEqual('Parser: power_access',        result.power_access,       'Yes, power within 50 ft');
+    assertEqual('Parser: water_access',        result.water_access,       'Not needed');
+    assertEqual('Parser: adult_supervision',   result.adult_supervision,  'Yes, adults will supervise');
+    assertEqual('Parser: budget_range',        result.budget_range,       '$300–$500');
+    assertEqual('Parser: preferred_contact',   result.preferred_contact,  'Email');
+    assertEqual('Parser: rental_item from packageInterest', result.rental_item, 'Crown Quest');
+    assertEqual('Parser: event_date from eventDate',   result.event_date,   '2026-08-01');
+    assertEqual('Parser: event_address from eventAddress', result.event_address, '45 Maple St');
+    assertEqual('Parser: event_type from eventType',   result.event_type,   'Birthday Party');
+  }
+
+  function testDetectMissingFields_notSureTreatedAsAnswered() {
+    var parsed = {
+      event_date: '2026-08-01', event_address: '45 Maple St', rental_item: 'Crown Quest',
+      guest_count: '25', start_time: '10:00 AM',
+      setup_surface: 'Not Sure', power_access: 'Not sure', water_access: 'Not sure'
+    };
+    var missing = _detectMissingFields(parsed);
+    assert('NotSure: setup_surface "Not Sure" treated as answered', missing.indexOf('setup_surface') === -1);
+    assert('NotSure: power_access "Not sure" treated as answered',  missing.indexOf('power_access') === -1);
+    assert('NotSure: result is empty', missing.length === 0);
+  }
+
+  function testDetectMissingFields_notSureYetTreatedAsAnswered() {
+    var parsed = {
+      event_date: '2026-08-01', event_address: '45 Maple St', rental_item: 'Crown Quest',
+      guest_count: '25', start_time: '10:00 AM',
+      setup_surface: 'Not sure yet', power_access: 'Not sure yet'
+    };
+    var missing = _detectMissingFields(parsed);
+    assert('NotSureYet: setup_surface treated as answered', missing.indexOf('setup_surface') === -1);
+    assert('NotSureYet: power_access treated as answered',  missing.indexOf('power_access') === -1);
+  }
+
+  function testFirstResponseBody_showsNewFields() {
+    var body = _buildFirstResponseBody('Jane', {
+      event_date: '2026-08-01', event_address: '45 Maple St', rental_item: 'Crown Quest',
+      guest_count: '25', start_time: '10:00 AM', end_time: '4:00 PM',
+      setup_surface: 'Grass', power_access: 'Yes, power within 50 ft',
+      water_access: 'Not needed', adult_supervision: 'Yes, adults will supervise',
+      budget_range: '$300–$500', preferred_contact: 'Email'
+    }, []);
+    assert('FirstResp: shows adult_supervision', body.indexOf('Yes, adults will supervise') !== -1);
+    assert('FirstResp: shows budget_range',      body.indexOf('$300') !== -1);
+    assert('FirstResp: shows preferred_contact', body.indexOf('Email') !== -1);
+    assert('FirstResp: shows end_time in time row', body.indexOf('4:00 PM') !== -1);
+  }
+
+  function testFirstResponseBody_fullFormNoMissingFields() {
+    var parsed = {
+      event_date: '2026-08-01', event_address: '45 Maple St', rental_item: 'Crown Quest',
+      guest_count: '25', start_time: '10:00 AM', end_time: '4:00 PM',
+      event_type: 'Birthday Party', setup_surface: 'Grass',
+      power_access: 'Yes, power within 50 ft', water_access: 'Not needed',
+      adult_supervision: 'Yes, adults will supervise', budget_range: '$300–$500',
+      preferred_contact: 'Email'
+    };
+    var missing = _detectMissingFields(parsed);
+    assertEqual('FullForm: no missing fields when all answered', missing.length, 0);
+    var body = _buildFirstResponseBody('Jane', parsed, missing);
+    assert('FullForm: body does not contain numbered questions', body.indexOf('1.') === -1);
+    assert('FullForm: says will prepare quote', body.toLowerCase().indexOf('preliminary quote') !== -1);
+  }
+
+  function testParser_notSureValuesPreserved() {
+    var body = [
+      'name  : Jane',
+      'email  : jane@example.com',
+      'eventDate  : 2026-08-01',
+      'eventAddress  : 45 Maple St',
+      'packageInterest  : Crown Quest',
+      'guests  : 20',
+      'startTime  : 10:00 AM',
+      'setupSurface  : Not Sure',
+      'powerAccess  : Not sure',
+      'waterAccess  : Not sure',
+      'adultSupervision  : Not sure yet',
+      'budgetRange  : Not sure yet',
+      'preferredContact  : No preference'
+    ].join('\n');
+    var result = ContactFormParser.parseNkrWebsiteBooking(body);
+    assertEqual('NotSure: setup_surface value preserved', result.setup_surface,     'Not Sure');
+    assertEqual('NotSure: power_access value preserved',  result.power_access,      'Not sure');
+    assertEqual('NotSure: water_access value preserved',  result.water_access,      'Not sure');
+    assertEqual('NotSure: adult_supervision preserved',   result.adult_supervision, 'Not sure yet');
+    assertEqual('NotSure: budget_range preserved',        result.budget_range,      'Not sure yet');
+    assertEqual('NotSure: preferred_contact preserved',   result.preferred_contact, 'No preference');
+    var missing = _detectMissingFields(result);
+    assert('NotSure: no missing fields (all answered with Not Sure)', missing.length === 0);
+  }
+
   // ─── MetaMessengerAdapter tests ───────────────────────────────────────────
 
   function testMetaMessengerAdapter_moduleApi() {
@@ -4774,6 +4905,13 @@ var TestHarness = (function () {
     testIntakeNormalizer_hasSufficientData_missingName();
     testIntakeNormalizer_hasSufficientData_missingDate();
     testIntakeNormalizer_hasSufficientData_missingItem();
+    testIntakeNormalizer_newFields_propagated();
+    testParser_newFieldsMapped();
+    testDetectMissingFields_notSureTreatedAsAnswered();
+    testDetectMissingFields_notSureYetTreatedAsAnswered();
+    testFirstResponseBody_showsNewFields();
+    testFirstResponseBody_fullFormNoMissingFields();
+    testParser_notSureValuesPreserved();
 
     // MetaMessengerAdapter
     testMetaMessengerAdapter_moduleApi();

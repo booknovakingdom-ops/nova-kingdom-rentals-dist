@@ -177,12 +177,16 @@ function _processThread(thread, controls, profile, traceId) {
     event_type:    parsed.event_type    || '',
     rental_item:   parsed.rental_item   || '',
     event_address: parsed.event_address || '',
-    guest_count:   parsed.guest_count   || '',
-    start_time:    parsed.start_time    || '',
-    setup_surface: parsed.setup_surface || '',
-    power_access:  parsed.power_access  || '',
-    water_access:  parsed.water_access  || '',
-    notes:         parsed.notes         || ''
+    guest_count:       parsed.guest_count       || '',
+    start_time:        parsed.start_time        || '',
+    end_time:          parsed.end_time          || '',
+    setup_surface:     parsed.setup_surface     || '',
+    power_access:      parsed.power_access      || '',
+    water_access:      parsed.water_access      || '',
+    adult_supervision: parsed.adult_supervision || '',
+    budget_range:      parsed.budget_range      || '',
+    preferred_contact: parsed.preferred_contact || '',
+    notes:             parsed.notes             || ''
   });
 
   if (!customerEmail) {
@@ -678,19 +682,20 @@ function _isBusinessEmail(email, businessEmail) {
 // ─── Inquiry stage helpers ────────────────────────────────────────────────────
 
 var CRITICAL_FIELDS_FOR_QUOTE  = ['event_date', 'event_address', 'rental_item'];
-var IMPORTANT_FIELDS_FOR_DRAFT = ['guest_count', 'start_time', 'setup_surface', 'power_access'];
+var IMPORTANT_FIELDS_FOR_DRAFT = ['guest_count', 'start_time', 'setup_surface', 'power_access', 'adult_supervision'];
 
 var MISSING_FIELD_QUESTIONS = {
-  event_date:    'What date is your event?',
-  event_address: 'Where will the event be held (full address, including city)?',
-  rental_item:   'Which inflatable or package are you interested in?',
-  guest_count:   'Roughly how many guests or kids are expected?',
-  start_time:    'What time would you like the rental or setup for?',
-  setup_surface: 'What type of surface will we be setting up on — grass, pavement, gravel, or indoor?',
-  power_access:  'Will there be power access nearby for the inflatable?',
-  water_access:  'Will water access be available for the water unit?',
-  age_range:     'What age range will be using the inflatable?',
-  supervision:   'Will an adult be supervising the inflatable throughout the event?'
+  event_date:        'What date is your event?',
+  event_address:     'Where will the event be held (full address, including city)?',
+  rental_item:       'Which inflatable or package are you interested in?',
+  guest_count:       'Roughly how many guests or kids are expected?',
+  start_time:        'What time would you like the rental or setup for?',
+  setup_surface:     'What type of surface will we be setting up on — grass, pavement, gravel, or indoor?',
+  power_access:      'Will there be power access nearby for the inflatable?',
+  water_access:      'Will water access be available for the water unit?',
+  adult_supervision: 'Will there be adults supervising the rental throughout the event, or would you like us to provide a staff attendant?',
+  age_range:         'What age range will be using the inflatable?',
+  supervision:       'Will an adult be supervising the inflatable throughout the event?'
 };
 
 /**
@@ -753,6 +758,9 @@ function _buildFirstResponseBody(firstName, parsed, missingFields) {
     '• Setup surface:          ' + orNone(p.setup_surface),
     '• Power access:           ' + orNone(p.power_access),
     '• Water access:           ' + orNone(p.water_access),
+    '• Adult supervision:      ' + orNone(p.adult_supervision),
+    '• Budget range:           ' + orNone(p.budget_range),
+    '• Preferred contact:      ' + orNone(p.preferred_contact),
     ''
   ];
 
