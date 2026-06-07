@@ -29,8 +29,8 @@ const CROWN_CARNIVAL_STANDALONE = 270;
 const CROWN_CARNIVAL_ADDON      = 200;
 
 const BOOTH_360_ID         = "product-360-video-booth";
-const BOOTH_360_STANDALONE = 249;
-const BOOTH_360_ADDON      = 199;
+const BOOTH_360_STANDALONE = 250;
+const BOOTH_360_ADDON      = 175;
 
 // Time-based 360 booth pricing. Returns {hours, standalone, addon} or null if times invalid.
 function calc360Price(st, et) {
@@ -50,8 +50,8 @@ const CART_ITEM_META = {
     addonLabel: "Add-on",
   },
   [BOOTH_360_ID]: {
-    image:      "/images/360-video-booth.jpg?v=20260522-2",
-    subtitle:   "Standalone: $249/hr · Add-on with package: $199/hr · Extra hours available",
+    image:      "/images/360-video-booth.jpg",
+    subtitle:   "Standalone: $250/hr · Add-on with package: $175/hr · Extra hours available",
     addonLabel: "Add-on",
   },
 };
@@ -285,7 +285,7 @@ function getIncludedProductIds(cart) {
   return map;
 }
 
-// Corrects addon prices: Carnival Challenge and 360 Video Booth are cheaper when a package is in cart
+// Corrects addon prices: Carnival Challenge and 360 Photo Booth are cheaper when a package is in cart
 function normalizeCarnivalPrice(cart) {
   const hasPkg = cart.some((i) => i.id.startsWith("pkg-"));
   return cart.map((i) => {
@@ -914,7 +914,7 @@ function makeFormSection(items, stats) {
     }
     if (attendantEl) attendantEl.textContent = attendantText;
 
-    // ── 360 Video Booth time-based pricing ────────────────────────
+    // ── 360 Photo Booth time-based pricing ────────────────────────
     var booth360Adj = 0;
     var boothItem = items.find(function(i) { return i.id === BOOTH_360_ID; });
     var hasUKP = items.some(function(i) { return i.id === "pkg-ultimate-kingdom-plus"; });
@@ -941,7 +941,7 @@ function makeFormSection(items, stats) {
       }
     } else if (hasUKP) {
       if (rowEl)   { rowEl.hidden = false; }
-      if (labelEl) { labelEl.textContent = "↳ 360 Video Booth · 3 hrs included in UKP"; }
+      if (labelEl) { labelEl.textContent = "↳ 360 Photo Booth · 3 hrs included in UKP"; }
       if (priceEl) { priceEl.textContent = "included"; }
     } else {
       if (rowEl) { rowEl.hidden = true; }
@@ -1315,7 +1315,7 @@ function injectDesktopPhotBoothNav() {
 // This function moves the 360 booth card out of that grid and into its own
 // "Photo Booth" section injected after the Interactive Games lineup section.
 
-const BOOTH_IMG_PATH = "/images/360-video-booth.jpg?v=20260522-2";
+const BOOTH_IMG_PATH = "/images/360-video-booth.jpg";
 
 function injectPhotBoothSection() {
   // Only run on the rentals listing page, not detail pages or any other route
@@ -1349,7 +1349,7 @@ function injectPhotBoothSection() {
   section.innerHTML =
     '<div class="section-heading">' +
       '<p class="eyebrow">Photo Booth Experiences</p>' +
-      '<h2>360 Video Booth</h2>' +
+      '<h2>360 Photo Booth</h2>' +
     '</div>' +
     '<div class="nk-photo-booth-inner"></div>';
 
@@ -1360,21 +1360,21 @@ function injectPhotBoothSection() {
   card.className = "nk-booth-feature-card";
   card.innerHTML =
     '<div class="nk-booth-img-wrap">' +
-      '<img src="' + BOOTH_IMG_PATH + '" alt="360 Video Booth rental Nova Scotia" loading="lazy">' +
+      '<img src="' + BOOTH_IMG_PATH + '" alt="360 Photo Booth rental Nova Scotia" loading="lazy">' +
     '</div>' +
     '<div class="nk-booth-info">' +
       '<p class="eyebrow">Photo Booth Experiences</p>' +
-      '<h3>360 Video Booth</h3>' +
-      '<p class="nk-booth-tagline">Spin the Moment, Keep It Forever</p>' +
+      '<h3>360 Photo Booth</h3>' +
+      '<p class="nk-booth-tagline">Capture Every Angle, Keep Every Memory</p>' +
       '<ul class="nk-booth-pricing">' +
-        '<li><strong>Standalone:</strong> 1 hr $249 · each additional hr $100</li>' +
-        '<li><strong>Add-on with any package:</strong> 1 hr $199 · each additional hr $70</li>' +
-        '<li>Operator included · Setup &amp; takedown included</li>' +
-        '<li>Basic props may be included · Custom theme props +$10/theme</li>' +
+        '<li><strong>Standalone:</strong> 1 hr $250 · each additional hr $125</li>' +
+        '<li><strong>Add-on with any package:</strong> 1 hr $175 · each additional hr $100</li>' +
+        '<li>Setup &amp; takedown included</li>' +
+        '<li>Basic props may be included</li>' +
       '</ul>' +
       '<div class="nk-booth-btns">' +
         '<a class="button button-dark nk-booth-detail-btn" href="/rentals/360-video-booth">View Details</a>' +
-        '<a class="button button-gold" href="/contact?interest=360+Video+Booth">Check Availability</a>' +
+        '<a class="button button-gold" href="/contact?interest=360+Photo+Booth">Check Availability</a>' +
       '</div>' +
     '</div>';
 
@@ -1395,7 +1395,7 @@ function injectPhotBoothSection() {
     } else {
       const hasPkg = current.some((i) => i.id.startsWith("pkg-"));
       const price  = hasPkg ? BOOTH_360_ADDON : BOOTH_360_STANDALONE;
-      current.push({ id: BOOTH_360_ID, name: "360 Video Booth", price, isInflatable: false });
+      current.push({ id: BOOTH_360_ID, name: "360 Photo Booth", price, isInflatable: false });
       saveCart(normalizeCarnivalPrice(current));
     }
     const after = loadCart().some((i) => i.id === BOOTH_360_ID);
