@@ -30,7 +30,7 @@
       }
     ],
     "ctaHeading": "Check availability for your Bridgewater event",
-    "ctaText": "Send your date, address, and event details. We\u2019ll confirm availability, travel cost, setup suitability, and deposit details."
+    "ctaText": "Send your date, address, and event details. We’ll confirm availability, travel cost, setup suitability, and deposit details."
   },
   {
     "slug": "inflatable-rentals-south-shore-ns",
@@ -92,7 +92,7 @@
       }
     ],
     "ctaHeading": "Check availability for Chester",
-    "ctaText": "Send your Chester event details and we\u2019ll confirm availability, travel cost, setup suitability, and deposit details."
+    "ctaText": "Send your Chester event details and we’ll confirm availability, travel cost, setup suitability, and deposit details."
   },
   {
     "slug": "bouncy-castle-rentals-lunenburg-ns",
@@ -150,7 +150,7 @@
       }
     ],
     "ctaHeading": "Check Mahone Bay availability",
-    "ctaText": "Share your event details and we\u2019ll confirm availability, travel cost, and setup suitability."
+    "ctaText": "Share your event details and we’ll confirm availability, travel cost, and setup suitability."
   },
   {
     "slug": "party-rentals-liverpool-ns",
@@ -208,7 +208,7 @@
       }
     ],
     "ctaHeading": "Check Shelburne rental availability",
-    "ctaText": "Send your event details and we\u2019ll review availability, travel cost, staffing needs, and setup suitability."
+    "ctaText": "Send your event details and we’ll review availability, travel cost, staffing needs, and setup suitability."
   },
   {
     "slug": "inflatable-rentals-yarmouth-ns",
@@ -655,11 +655,11 @@
   {
     "slug": "360-video-booth-rental-nova-scotia",
     "regionType": "provincial",
-    "title": "360 Video Booth Rental in Nova Scotia",
-    "metaTitle": "360 Video Booth Rental Nova Scotia | Nova Kingdom Rentals",
-    "metaDescription": "360 Video Booth rental for Nova Scotia events. Operator included. Standalone from $249 or add-on from $199 with any package. Bridgewater-based, setup included.",
-    "h1": "360 Video Booth Rental in Nova Scotia",
-    "intro": "Nova Kingdom Rentals offers 360 Video Booth rentals across Nova Scotia for birthdays, school events, festivals, fundraisers, corporate events, weddings, and community celebrations. Book it standalone or add it to any inflatable or event package at a discounted rate. Based in Bridgewater and serving the South Shore and Nova Scotia.",
+    "title": "360 Photo Booth Rental in Nova Scotia",
+    "metaTitle": "360 Photo Booth Rental Nova Scotia | Nova Kingdom Rentals",
+    "metaDescription": "360 Photo Booth rental for Nova Scotia events. Standalone from $250 or add-on from $175 with any package. Bridgewater-based, setup included.",
+    "h1": "360 Photo Booth Rental in Nova Scotia",
+    "intro": "Nova Kingdom Rentals offers 360 Photo Booth rentals across Nova Scotia for birthdays, school events, festivals, fundraisers, corporate events, weddings, and community celebrations. Book it standalone or add it to any inflatable or event package at a discounted rate. Based in Bridgewater and serving the South Shore and Nova Scotia.",
     "serviceAreaText": "Based in Bridgewater and serving the South Shore and Nova Scotia. Travel cost and setup suitability are confirmed before booking.",
     "bestFor": [
       "Birthdays and milestone events",
@@ -672,23 +672,23 @@
     ],
     "faq": [
       {
-        "question": "What is included with the 360 Video Booth rental in Nova Scotia?",
-        "answer": "The 360 Video Booth includes setup, takedown, and an operator. Basic props may be included when available. Custom theme props ($10 per theme) can be arranged in advance \u2014 request before your event date. Custom video editing is not included unless quoted separately."
+        "question": "What is included with the 360 Photo Booth rental in Nova Scotia?",
+        "answer": "The 360 Photo Booth includes the 26.8\" platform, rotating camera arm, RGB ring light, remote control, and professional setup and takedown."
       },
       {
-        "question": "How much does a 360 Video Booth rental cost in Nova Scotia?",
-        "answer": "Standalone pricing starts at $249 for 1 hour. Add-on pricing with any inflatable or event package starts at $199 for 1 hour. Additional hours are available. Contact us for a full quote."
+        "question": "How much does a 360 Photo Booth rental cost in Nova Scotia?",
+        "answer": "Standalone pricing is $250 for 1 hour, with additional hours at $125/hour. Add-on pricing with any inflatable or event package is $175 for 1 hour, with additional hours at $100/hour. Contact us for a full quote."
       },
       {
-        "question": "Can I add the 360 Video Booth to an inflatable package?",
-        "answer": "Yes. The 360 Video Booth is available as a discounted add-on with any Nova Kingdom Rentals inflatable or event package. Add-on pricing starts at $199 for 1 hour."
+        "question": "Can I add the 360 Photo Booth to an inflatable package?",
+        "answer": "Yes. The 360 Photo Booth is available as a discounted add-on with any Nova Kingdom Rentals inflatable or event package. Add-on pricing starts at $175 for 1 hour."
       },
       {
-        "question": "Do you deliver the 360 Video Booth across Nova Scotia?",
+        "question": "Do you deliver the 360 Photo Booth across Nova Scotia?",
         "answer": "We serve Bridgewater, the South Shore, and across Nova Scotia. Travel cost and setup suitability are confirmed before booking is finalized."
       }
     ],
-    "ctaHeading": "Add a 360 Video Booth to your Nova Scotia event",
+    "ctaHeading": "Add a 360 Photo Booth to your Nova Scotia event",
     "ctaText": "Send your event date, address, and rental details. We will confirm availability, travel cost, and pricing for your event."
   },
   {
@@ -696,9 +696,9 @@
     "regionType": "local",
     "title": "Photo Booth Rental in Bridgewater NS",
     "metaTitle": "Photo Booth Rental Bridgewater NS | Nova Kingdom Rentals",
-    "metaDescription": "360 Video Booth rental in Bridgewater, Nova Scotia. Operator and setup included. Standalone from $249 or add-on from $199. Serving South Shore and NS events.",
+    "metaDescription": "360 Photo Booth rental in Bridgewater, Nova Scotia. Setup included. Standalone from $250 or add-on from $175. Serving South Shore and NS events.",
     "h1": "Photo Booth Rental in Bridgewater NS",
-    "intro": "Nova Kingdom Rentals offers 360 video booth rentals in Bridgewater and across the South Shore. Great for birthdays, school events, fundraisers, corporate events, and community celebrations. Rent it standalone or save with a discounted package add-on. We are based in Bridgewater and serve the surrounding communities.",
+    "intro": "Nova Kingdom Rentals offers 360 photo booth rentals in Bridgewater and across the South Shore. Great for birthdays, school events, fundraisers, corporate events, and community celebrations. Rent it standalone or save with a discounted package add-on. We are based in Bridgewater and serve the surrounding communities.",
     "serviceAreaText": "Based in Bridgewater. Delivery available in Bridgewater and surrounding South Shore communities. Travel cost confirmed before booking.",
     "bestFor": [
       "Birthdays and family celebrations",
@@ -712,15 +712,15 @@
     "faq": [
       {
         "question": "Do you offer photo or video booth rentals in Bridgewater?",
-        "answer": "Yes. Nova Kingdom Rentals offers a 360 Video Booth rental in Bridgewater and across the South Shore. Standalone and package add-on options are available."
+        "answer": "Yes. Nova Kingdom Rentals offers a 360 Photo Booth rental in Bridgewater and across the South Shore. Standalone and package add-on options are available."
       },
       {
-        "question": "Is the 360 Video Booth available for birthday parties in Bridgewater?",
-        "answer": "Yes. The 360 Video Booth is a popular add-on for birthday parties, school events, and community celebrations in Bridgewater and surrounding areas."
+        "question": "Is the 360 Photo Booth available for birthday parties in Bridgewater?",
+        "answer": "Yes. The 360 Photo Booth is a popular add-on for birthday parties, school events, and community celebrations in Bridgewater and surrounding areas."
       },
       {
         "question": "What does the photo booth rental include in Bridgewater?",
-        "answer": "Setup, takedown, and operator are included. Basic props may be included when available. Custom theme props ($10 per theme) can be arranged in advance \u2014 request before your event date. Custom video editing is not included unless quoted separately."
+        "answer": "Setup and takedown are included. Basic props may be included when available. Custom video editing is not included unless quoted separately."
       },
       {
         "question": "How do I book a 360 photo booth rental in Bridgewater NS?",
@@ -733,11 +733,11 @@
   {
     "slug": "360-video-booth-rental-new-brunswick",
     "regionType": "atlantic",
-    "title": "360 Video Booth Rental in New Brunswick",
-    "metaTitle": "360 Video Booth Rental New Brunswick | Nova Kingdom Rentals",
-    "metaDescription": "360 Video Booth rental for New Brunswick events. Bridgewater-based Nova Kingdom Rentals takes selected larger NB bookings. Operator included. Travel quoted.",
-    "h1": "360 Video Booth Rental for New Brunswick Events",
-    "intro": "Nova Kingdom Rentals is a Bridgewater-based event rental company serving Nova Scotia and selected larger bookings across New Brunswick and the Maritimes. Our 360 Video Booth is available for festivals, corporate events, school events, fundraisers, and large community celebrations in New Brunswick \u2014 including Moncton, Fredericton, Saint John, and surrounding areas. Travel cost is quoted separately for out-of-province bookings and confirmed before any booking is finalized.",
+    "title": "360 Photo Booth Rental in New Brunswick",
+    "metaTitle": "360 Photo Booth Rental New Brunswick | Nova Kingdom Rentals",
+    "metaDescription": "360 Photo Booth rental for New Brunswick events. Bridgewater-based Nova Kingdom Rentals takes selected larger NB bookings. Travel quoted.",
+    "h1": "360 Photo Booth Rental for New Brunswick Events",
+    "intro": "Nova Kingdom Rentals is a Bridgewater-based event rental company serving Nova Scotia and selected larger bookings across New Brunswick and the Maritimes. Our 360 Photo Booth is available for festivals, corporate events, school events, fundraisers, and large community celebrations in New Brunswick — including Moncton, Fredericton, Saint John, and surrounding areas. Travel cost is quoted separately for out-of-province bookings and confirmed before any booking is finalized.",
     "serviceAreaText": "Based in Bridgewater, Nova Scotia. New Brunswick bookings are accepted for larger events where travel, staffing, and logistics requirements can be met. Travel cost is quoted separately and confirmed in advance.",
     "bestFor": [
       "Festivals and large community celebrations",
@@ -750,20 +750,20 @@
     ],
     "faq": [
       {
-        "question": "Does Nova Kingdom Rentals travel to New Brunswick for 360 Video Booth rentals?",
+        "question": "Does Nova Kingdom Rentals travel to New Brunswick for 360 Photo Booth rentals?",
         "answer": "Yes, for selected larger events. Nova Kingdom Rentals is Bridgewater-based and accepts New Brunswick bookings for festivals, corporate events, and large community celebrations where travel and logistics are feasible. Travel cost is quoted separately and confirmed before booking."
       },
       {
-        "question": "How much does it cost to bring a 360 Video Booth to New Brunswick?",
-        "answer": "The 360 Video Booth standalone rate starts at $249 for 1 hour (operator included). For New Brunswick events, travel cost, staffing, and any additional logistics are quoted separately based on your event location. Contact us for a full quote."
+        "question": "How much does it cost to bring a 360 Photo Booth to New Brunswick?",
+        "answer": "The 360 Photo Booth standalone rate starts at $250 for 1 hour . For New Brunswick events, travel cost, staffing, and any additional logistics are quoted separately based on your event location. Contact us for a full quote."
       },
       {
-        "question": "What New Brunswick cities do you serve for 360 Video Booth rentals?",
+        "question": "What New Brunswick cities do you serve for 360 Photo Booth rentals?",
         "answer": "We accept selected larger event bookings in Moncton, Fredericton, Saint John, Sackville, and surrounding New Brunswick communities. All New Brunswick bookings are subject to availability, travel cost confirmation, and setup suitability."
       },
       {
-        "question": "Can I add the 360 Video Booth to an inflatable package for a New Brunswick event?",
-        "answer": "Yes. The 360 Video Booth is available as a discounted add-on ($199 for 1 hour, operator included) with any Nova Kingdom Rentals inflatable or event package. For New Brunswick events, the full package plus travel cost would be quoted together."
+        "question": "Can I add the 360 Photo Booth to an inflatable package for a New Brunswick event?",
+        "answer": "Yes. The 360 Photo Booth is available as a discounted add-on ($175 for 1 hour) with any Nova Kingdom Rentals inflatable or event package. For New Brunswick events, the full package plus travel cost would be quoted together."
       }
     ],
     "ctaHeading": "Request a quote for your New Brunswick event",
@@ -772,11 +772,11 @@
   {
     "slug": "360-video-booth-rental-pei",
     "regionType": "atlantic",
-    "title": "360 Video Booth Rental in PEI",
-    "metaTitle": "360 Video Booth Rental PEI | Prince Edward Island | Nova Kingdom Rentals",
-    "metaDescription": "360 Video Booth rental for PEI events. Nova Kingdom Rentals is Bridgewater-based and takes selected larger PEI bookings. Operator included. Travel quoted.",
-    "h1": "360 Video Booth Rental for PEI Events",
-    "intro": "Nova Kingdom Rentals is a Bridgewater, Nova Scotia-based event rental company. Our 360 Video Booth is available for selected larger events on Prince Edward Island \u2014 including Charlottetown, Summerside, and surrounding communities. PEI bookings are accepted for festivals, corporate events, school events, fundraisers, and large celebrations where full travel, staffing, and logistics requirements can be arranged. Travel cost and logistics are quoted separately and confirmed before any booking is finalized.",
+    "title": "360 Photo Booth Rental in PEI",
+    "metaTitle": "360 Photo Booth Rental PEI | Prince Edward Island | Nova Kingdom Rentals",
+    "metaDescription": "360 Photo Booth rental for PEI events. Nova Kingdom Rentals is Bridgewater-based and takes selected larger PEI bookings. Travel quoted.",
+    "h1": "360 Photo Booth Rental for PEI Events",
+    "intro": "Nova Kingdom Rentals is a Bridgewater, Nova Scotia-based event rental company. Our 360 Photo Booth is available for selected larger events on Prince Edward Island — including Charlottetown, Summerside, and surrounding communities. PEI bookings are accepted for festivals, corporate events, school events, fundraisers, and large celebrations where full travel, staffing, and logistics requirements can be arranged. Travel cost and logistics are quoted separately and confirmed before any booking is finalized.",
     "serviceAreaText": "Based in Bridgewater, Nova Scotia. PEI bookings are accepted for selected larger events. Travel, staffing, and logistics costs are quoted separately and confirmed before booking.",
     "bestFor": [
       "Festivals and outdoor events",
@@ -789,20 +789,16 @@
     ],
     "faq": [
       {
-        "question": "Does Nova Kingdom Rentals travel to PEI for 360 Video Booth rentals?",
+        "question": "Does Nova Kingdom Rentals travel to PEI for 360 Photo Booth rentals?",
         "answer": "Yes, for selected larger events. We are based in Bridgewater, Nova Scotia, and accept PEI bookings for festivals, corporate events, and larger community celebrations where travel and logistics are feasible. Travel cost and staffing are quoted separately."
       },
       {
-        "question": "How much does a 360 Video Booth rental cost for a PEI event?",
-        "answer": "The 360 Video Booth starts at $249 for 1 hour (operator included). For PEI events, travel cost, staffing, and logistics requirements are quoted separately based on your event location and needs. Contact us for a full PEI event quote."
+        "question": "How much does a 360 Photo Booth rental cost for a PEI event?",
+        "answer": "The 360 Photo Booth starts at $250 for 1 hour . For PEI events, travel cost, staffing, and logistics requirements are quoted separately based on your event location and needs. Contact us for a full PEI event quote."
       },
       {
-        "question": "What PEI communities do you serve for 360 Video Booth rentals?",
+        "question": "What PEI communities do you serve for 360 Photo Booth rentals?",
         "answer": "We accept selected larger event bookings in Charlottetown, Summerside, and surrounding PEI communities. All PEI bookings are subject to availability, logistics confirmation, travel cost, and setup suitability."
-      },
-      {
-        "question": "Is the operator included with the 360 Video Booth for a PEI event?",
-        "answer": "Yes. An operator is included with every 360 Video Booth rental, including PEI bookings. Setup and takedown are also included. Any additional staffing requirements for larger events would be noted in your quote."
       }
     ],
     "ctaHeading": "Request a quote for your PEI event",
@@ -812,10 +808,10 @@
     "slug": "photo-booth-rental-halifax-ns",
     "regionType": "provincial",
     "title": "Photo Booth Rental Halifax NS",
-    "metaTitle": "Photo Booth Rental Halifax NS | 360 Video Booth | Nova Kingdom Rentals",
-    "metaDescription": "360 Video Booth rental for Halifax and HRM events. Nova Kingdom Rentals is Bridgewater-based. Operator included. Birthdays, corporate events, and schools.",
+    "metaTitle": "Photo Booth Rental Halifax NS | 360 Photo Booth | Nova Kingdom Rentals",
+    "metaDescription": "360 Photo Booth rental for Halifax and HRM events. Nova Kingdom Rentals is Bridgewater-based. Birthdays, corporate events, and schools.",
     "h1": "Photo Booth Rental in Halifax NS",
-    "intro": "Nova Kingdom Rentals offers 360 Video Booth rentals for Halifax and Halifax Regional Municipality events. We are based in Bridgewater on the South Shore and serve Halifax for birthdays, corporate events, school events, fundraisers, festivals, and community celebrations. The 360 Video Booth can be booked as a standalone rental or as a discounted add-on with any inflatable or event package. Travel cost from Bridgewater to Halifax is quoted separately and confirmed before any booking is finalized.",
+    "intro": "Nova Kingdom Rentals offers 360 Photo Booth rentals for Halifax and Halifax Regional Municipality events. We are based in Bridgewater on the South Shore and serve Halifax for birthdays, corporate events, school events, fundraisers, festivals, and community celebrations. The 360 Photo Booth can be booked as a standalone rental or as a discounted add-on with any inflatable or event package. Travel cost from Bridgewater to Halifax is quoted separately and confirmed before any booking is finalized.",
     "serviceAreaText": "Based in Bridgewater. Halifax and Halifax Regional Municipality events accepted. Travel cost from Bridgewater is quoted separately and confirmed before booking.",
     "bestFor": [
       "Birthdays and milestone celebrations",
@@ -828,20 +824,16 @@
     ],
     "faq": [
       {
-        "question": "Do you offer 360 video booth or photo booth rentals in Halifax?",
-        "answer": "Yes. Nova Kingdom Rentals offers 360 Video Booth rentals in Halifax and the Halifax Regional Municipality. We are based in Bridgewater on the South Shore. Travel cost to Halifax is quoted separately and confirmed before booking."
+        "question": "Do you offer 360 photo booth or photo booth rentals in Halifax?",
+        "answer": "Yes. Nova Kingdom Rentals offers 360 Photo Booth rentals in Halifax and the Halifax Regional Municipality. We are based in Bridgewater on the South Shore. Travel cost to Halifax is quoted separately and confirmed before booking."
       },
       {
         "question": "How much does a photo booth rental cost in Halifax NS?",
-        "answer": "The 360 Video Booth starts at $249 for 1 hour as a standalone rental (operator included). When added to an inflatable or event package, the rate drops to $199 for 1 hour. Travel cost from Bridgewater to Halifax is quoted separately."
+        "answer": "The 360 Photo Booth starts at $250 for 1 hour as a standalone rental. When added to an inflatable or event package, the rate drops to $175 for 1 hour. Travel cost from Bridgewater to Halifax is quoted separately."
       },
       {
-        "question": "Is the operator included for Halifax photo booth rentals?",
-        "answer": "Yes. An operator is included with every 360 Video Booth rental. Setup and takedown are included. Basic props may be available. Custom theme props ($10 per theme) can be arranged in advance."
-      },
-      {
-        "question": "Can I book the 360 video booth for a corporate event in Halifax?",
-        "answer": "Yes. The 360 Video Booth is well suited for corporate events, fundraisers, and large celebrations in Halifax. Contact us with your event date, location, and expected attendance to get a full quote including travel cost."
+        "question": "Can I book the 360 photo booth for a corporate event in Halifax?",
+        "answer": "Yes. The 360 Photo Booth is well suited for corporate events, fundraisers, and large celebrations in Halifax. Contact us with your event date, location, and expected attendance to get a full quote including travel cost."
       }
     ],
     "ctaHeading": "Book a photo booth rental for your Halifax event",
@@ -851,10 +843,10 @@
     "slug": "photo-booth-rental-moncton-nb",
     "regionType": "atlantic",
     "title": "Photo Booth Rental Moncton NB",
-    "metaTitle": "Photo Booth Rental Moncton NB | 360 Video Booth | Nova Kingdom Rentals",
-    "metaDescription": "360 Video Booth rental for Moncton, NB events. Bridgewater-based Nova Kingdom Rentals. Operator included. Selected larger bookings. Travel cost quoted first.",
+    "metaTitle": "Photo Booth Rental Moncton NB | 360 Photo Booth | Nova Kingdom Rentals",
+    "metaDescription": "360 Photo Booth rental for Moncton, NB events. Bridgewater-based Nova Kingdom Rentals. Selected larger bookings. Travel cost quoted first.",
     "h1": "Photo Booth Rental in Moncton NB",
-    "intro": "Nova Kingdom Rentals is a Bridgewater, Nova Scotia-based event rental company. Our 360 Video Booth is available for selected larger events in Moncton and Greater Moncton \u2014 including corporate events, festivals, fundraisers, school events, and large community celebrations. We do not have a local office in Moncton. All bookings for Moncton and New Brunswick are subject to availability, travel cost confirmation, and logistics planning. Travel cost is quoted separately and confirmed before any booking is finalized.",
+    "intro": "Nova Kingdom Rentals is a Bridgewater, Nova Scotia-based event rental company. Our 360 Photo Booth is available for selected larger events in Moncton and Greater Moncton — including corporate events, festivals, fundraisers, school events, and large community celebrations. We do not have a local office in Moncton. All bookings for Moncton and New Brunswick are subject to availability, travel cost confirmation, and logistics planning. Travel cost is quoted separately and confirmed before any booking is finalized.",
     "serviceAreaText": "Based in Bridgewater, Nova Scotia. Moncton and Greater Moncton bookings accepted for selected larger events. Travel cost is quoted separately and confirmed before booking. We do not have a local office in Moncton.",
     "bestFor": [
       "Corporate events and fundraisers",
@@ -871,16 +863,12 @@
         "answer": "Yes, for selected larger events. We are Bridgewater-based and accept Moncton event bookings where travel, logistics, and setup requirements can be met. We do not have a local Moncton office. Travel cost is quoted separately and confirmed before booking."
       },
       {
-        "question": "What is the cost of a 360 video booth rental in Moncton?",
-        "answer": "The 360 Video Booth starts at $249 for 1 hour (operator included). For Moncton events, travel cost and any additional logistics are quoted separately based on your event date and location. Contact us for a full Moncton quote."
-      },
-      {
-        "question": "Is the operator included with photo booth rentals in Moncton?",
-        "answer": "Yes. An operator is included with every 360 Video Booth rental. Setup and takedown are included. For Moncton events, staffing travel arrangements are included in the travel cost quote."
+        "question": "What is the cost of a 360 photo booth rental in Moncton?",
+        "answer": "The 360 Photo Booth starts at $250 for 1 hour . For Moncton events, travel cost and any additional logistics are quoted separately based on your event date and location. Contact us for a full Moncton quote."
       },
       {
         "question": "How far in advance should I book a photo booth for a Moncton event?",
-        "answer": "For out-of-province events in Moncton and New Brunswick, we recommend contacting us as early as possible \u2014 ideally several weeks in advance \u2014 to confirm availability, logistics, and travel cost."
+        "answer": "For out-of-province events in Moncton and New Brunswick, we recommend contacting us as early as possible — ideally several weeks in advance — to confirm availability, logistics, and travel cost."
       }
     ],
     "ctaHeading": "Request a quote for your Moncton event",
@@ -890,10 +878,10 @@
     "slug": "photo-booth-rental-charlottetown-pei",
     "regionType": "atlantic",
     "title": "Photo Booth Rental Charlottetown PEI",
-    "metaTitle": "Photo Booth Rental Charlottetown PEI | 360 Video Booth | Nova Kingdom Rentals",
-    "metaDescription": "360 Video Booth rental for Charlottetown, PEI events. Nova Kingdom Rentals is Bridgewater-based. Operator included. Selected larger PEI bookings. Travel quoted.",
+    "metaTitle": "Photo Booth Rental Charlottetown PEI | 360 Photo Booth | Nova Kingdom Rentals",
+    "metaDescription": "360 Photo Booth rental for Charlottetown, PEI events. Nova Kingdom Rentals is Bridgewater-based. Selected larger PEI bookings. Travel quoted.",
     "h1": "Photo Booth Rental in Charlottetown PEI",
-    "intro": "Nova Kingdom Rentals is a Bridgewater, Nova Scotia-based event rental company. Our 360 Video Booth is available for selected larger events in Charlottetown and across Prince Edward Island \u2014 including corporate events, festivals, school events, fundraisers, and large community celebrations. We do not have a local office in Charlottetown. All PEI bookings are subject to availability, travel cost, and logistics confirmation. Travel cost and logistics requirements are quoted separately and confirmed before any booking is finalized.",
+    "intro": "Nova Kingdom Rentals is a Bridgewater, Nova Scotia-based event rental company. Our 360 Photo Booth is available for selected larger events in Charlottetown and across Prince Edward Island — including corporate events, festivals, school events, fundraisers, and large community celebrations. We do not have a local office in Charlottetown. All PEI bookings are subject to availability, travel cost, and logistics confirmation. Travel cost and logistics requirements are quoted separately and confirmed before any booking is finalized.",
     "serviceAreaText": "Based in Bridgewater, Nova Scotia. Charlottetown and Prince Edward Island bookings accepted for selected larger events. Travel cost and logistics quoted separately. We do not have a local office in Charlottetown.",
     "bestFor": [
       "Corporate events and fundraisers",
@@ -911,14 +899,10 @@
       },
       {
         "question": "What does a 360 photo booth rental cost in Charlottetown?",
-        "answer": "The 360 Video Booth starts at $249 for 1 hour (operator included). For Charlottetown and PEI events, travel cost and logistics are quoted separately based on event date and location. Contact us for a full Charlottetown event quote."
+        "answer": "The 360 Photo Booth starts at $250 for 1 hour . For Charlottetown and PEI events, travel cost and logistics are quoted separately based on event date and location. Contact us for a full Charlottetown event quote."
       },
       {
-        "question": "Is the operator included for Charlottetown photo booth rentals?",
-        "answer": "Yes. An operator is included with every 360 Video Booth rental. Setup and takedown are included. For PEI events, operator travel arrangements are included in the travel cost quote."
-      },
-      {
-        "question": "How do I book a 360 video booth for a Charlottetown event?",
+        "question": "How do I book a 360 photo booth for a Charlottetown event?",
         "answer": "Submit a booking request with your event date, Charlottetown address, and rental details. We will confirm availability, travel cost, and logistics before finalizing any PEI booking."
       }
     ],
@@ -928,11 +912,11 @@
   {
     "slug": "photo-booth-rentals-maritimes",
     "regionType": "atlantic",
-    "title": "Photo Booth Rentals \u2014 Maritimes",
-    "metaTitle": "Photo Booth Rentals Maritimes | 360 Video Booth NS NB PEI | Nova Kingdom Rentals",
-    "metaDescription": "360 Video Booth rentals across the Maritimes. Bridgewater-based Nova Kingdom Rentals. Operator included. Selected NB, PEI, and NS bookings. Travel quoted.",
+    "title": "Photo Booth Rentals — Maritimes",
+    "metaTitle": "Photo Booth Rentals Maritimes | 360 Photo Booth NS NB PEI | Nova Kingdom Rentals",
+    "metaDescription": "360 Photo Booth rentals across the Maritimes. Bridgewater-based Nova Kingdom Rentals. Selected NB, PEI, and NS bookings. Travel quoted.",
     "h1": "Photo Booth Rentals Across the Maritimes",
-    "intro": "Nova Kingdom Rentals is a Bridgewater, Nova Scotia-based event rental company offering 360 Video Booth rentals across the Maritimes. We serve Nova Scotia events as our primary market, with selected larger bookings available in New Brunswick, Prince Edward Island, and surrounding Maritime communities. The 360 Video Booth is ideal for birthdays, festivals, corporate events, school events, fundraisers, weddings, and community celebrations. Travel cost is quoted separately for bookings outside Nova Scotia and confirmed before any booking is finalized.",
+    "intro": "Nova Kingdom Rentals is a Bridgewater, Nova Scotia-based event rental company offering 360 Photo Booth rentals across the Maritimes. We serve Nova Scotia events as our primary market, with selected larger bookings available in New Brunswick, Prince Edward Island, and surrounding Maritime communities. The 360 Photo Booth is ideal for birthdays, festivals, corporate events, school events, fundraisers, weddings, and community celebrations. Travel cost is quoted separately for bookings outside Nova Scotia and confirmed before any booking is finalized.",
     "serviceAreaText": "Based in Bridgewater, Nova Scotia. Serving Nova Scotia as the primary market. Selected larger bookings accepted across New Brunswick, PEI, and the Maritimes. Travel cost quoted separately for out-of-province events.",
     "bestFor": [
       "Festivals and large outdoor events",
@@ -949,29 +933,29 @@
         "answer": "We are based in Bridgewater, Nova Scotia, and serve Nova Scotia as our primary market. Selected larger bookings are accepted across New Brunswick, Prince Edward Island, and the Maritimes where travel and logistics requirements can be met. Travel cost is quoted separately."
       },
       {
-        "question": "What is a 360 Video Booth and how does it work at Maritime events?",
-        "answer": "The 360 Video Booth features a 100 cm rotating platform, RGB ring light, LED strip lighting, and an adjustable arm with phone and camera mount. Guests step on the platform and capture slow-motion 360-degree video from every angle. An operator is included with every booking to run the booth."
+        "question": "What is a 360 Photo Booth and how does it work at Maritime events?",
+        "answer": "The 360 Photo Booth features a 100 cm rotating platform, RGB ring light, LED strip lighting, and an adjustable arm with phone and camera mount. Guests step on the platform and capture slow-motion 360-degree video from every angle."
       },
       {
         "question": "How much does a 360 photo booth rental cost for a Maritime event?",
-        "answer": "Standalone pricing starts at $249 for 1 hour (operator included). Add-on pricing with any inflatable or event package starts at $199 for 1 hour. For events outside Nova Scotia, travel cost is quoted separately based on location."
+        "answer": "Standalone pricing starts at $250 for 1 hour . Add-on pricing with any inflatable or event package starts at $175 for 1 hour. For events outside Nova Scotia, travel cost is quoted separately based on location."
       },
       {
-        "question": "Can you bring the 360 Video Booth to outdoor festivals in the Maritimes?",
-        "answer": "Yes. The 360 Video Booth is well suited for outdoor festivals and events across the Maritimes. A standard power outlet is required. We confirm setup suitability, travel cost, and logistics before finalizing any booking."
+        "question": "Can you bring the 360 Photo Booth to outdoor festivals in the Maritimes?",
+        "answer": "Yes. The 360 Photo Booth is well suited for outdoor festivals and events across the Maritimes. A standard power outlet is required. We confirm setup suitability, travel cost, and logistics before finalizing any booking."
       }
     ],
-    "ctaHeading": "Book a 360 Video Booth for your Maritime event",
+    "ctaHeading": "Book a 360 Photo Booth for your Maritime event",
     "ctaText": "Send your event date, province, address, and rental details. We will confirm availability, travel cost, and pricing for your Maritime event."
   },
   {
     "slug": "event-photo-booth-rental-atlantic-canada",
     "regionType": "atlantic",
-    "title": "Event Photo Booth Rental \u2014 Atlantic Canada",
-    "metaTitle": "Event Photo Booth Rental Atlantic Canada | 360 Video Booth | Nova Kingdom Rentals",
-    "metaDescription": "360 Video Booth rental for Atlantic Canada events. Bridgewater-based, operator included. Serves NS with selected NB, PEI, and Maritimes bookings. Travel quoted.",
+    "title": "Event Photo Booth Rental — Atlantic Canada",
+    "metaTitle": "Event Photo Booth Rental Atlantic Canada | 360 Photo Booth | Nova Kingdom Rentals",
+    "metaDescription": "360 Photo Booth rental for Atlantic Canada events. Bridgewater-based. Serves NS with selected NB, PEI, and Maritimes bookings. Travel quoted.",
     "h1": "Event Photo Booth Rental in Atlantic Canada",
-    "intro": "Nova Kingdom Rentals is a Bridgewater, Nova Scotia-based event rental company. Our 360 Video Booth is available for events across Atlantic Canada \u2014 including festivals, corporate events, school events, fundraisers, municipal events, and large community celebrations. Nova Scotia is our primary service area. We accept selected larger bookings across New Brunswick, Prince Edward Island, and the Maritimes where travel and logistics requirements can be arranged. Travel cost is quoted separately for bookings outside Nova Scotia and confirmed before any booking is finalized.",
+    "intro": "Nova Kingdom Rentals is a Bridgewater, Nova Scotia-based event rental company. Our 360 Photo Booth is available for events across Atlantic Canada — including festivals, corporate events, school events, fundraisers, municipal events, and large community celebrations. Nova Scotia is our primary service area. We accept selected larger bookings across New Brunswick, Prince Edward Island, and the Maritimes where travel and logistics requirements can be arranged. Travel cost is quoted separately for bookings outside Nova Scotia and confirmed before any booking is finalized.",
     "serviceAreaText": "Based in Bridgewater, Nova Scotia. Serving Nova Scotia as the primary market. Selected larger bookings accepted across New Brunswick, PEI, and the Maritimes by quote. Travel cost and logistics confirmed before booking.",
     "bestFor": [
       "Festivals and large outdoor celebrations",
@@ -988,12 +972,12 @@
         "answer": "Yes. We are Bridgewater-based and serve Nova Scotia as our primary market. We accept selected larger event bookings across New Brunswick, PEI, and the Maritimes where travel and logistics are feasible. Travel cost is quoted separately and confirmed before booking."
       },
       {
-        "question": "What is included with the 360 Video Booth for Atlantic Canada events?",
-        "answer": "Every 360 Video Booth rental includes the operator, setup, and takedown. Basic props may be included when available. Custom theme props ($10 per theme) can be arranged in advance. For out-of-province bookings, travel and staffing logistics are included in the travel cost quote."
+        "question": "What is included with the 360 Photo Booth for Atlantic Canada events?",
+        "answer": "Every 360 Photo Booth rental includes setup and takedown. Basic props may be included when available. For out-of-province bookings, travel and logistics are included in the travel cost quote."
       },
       {
-        "question": "Is the 360 Video Booth suitable for large festivals and corporate events?",
-        "answer": "Yes. The 360 Video Booth is designed for high-traffic events. Guests step onto the rotating 100 cm platform and capture slow-motion video from every angle \u2014 backed by RGB ring light and LED strip lighting. The operator manages the booth throughout your event."
+        "question": "Is the 360 Photo Booth suitable for large festivals and corporate events?",
+        "answer": "Yes. The 360 Photo Booth is designed for high-traffic events. Guests step onto the rotating 100 cm platform and capture slow-motion video from every angle — backed by RGB ring light and LED strip lighting."
       },
       {
         "question": "How do I request a quote for an Atlantic Canada event photo booth rental?",
@@ -1021,11 +1005,11 @@
     "faq": [
       {
         "question": "How much space does a bouncy castle need?",
-        "answer": "Each inflatable has different space requirements. As a general rule, add 2\u20133 feet of clearance on all sides of the unit dimensions, plus overhead clearance (most inflatables are 10\u201315 feet tall). The Crown Dino Combo, for example, is 13.1ft x 13.1ft x 9.8ft and needs a clear area of at least 18ft x 18ft with 12ft overhead clearance."
+        "answer": "Each inflatable has different space requirements. As a general rule, add 2–3 feet of clearance on all sides of the unit dimensions, plus overhead clearance (most inflatables are 10–15 feet tall). The Crown Dino Combo, for example, is 13.1ft x 13.1ft x 9.8ft and needs a clear area of at least 18ft x 18ft with 12ft overhead clearance."
       },
       {
         "question": "What surface types work for inflatable setup?",
-        "answer": "Flat grass is the ideal setup surface. We can also set up on concrete, asphalt, and compacted gravel \u2014 stakes may not be used on hard surfaces, so sandbags or ballast weights are used instead. Sloped surfaces and soft sand are generally not suitable. Surface suitability is confirmed before booking."
+        "answer": "Flat grass is the ideal setup surface. We can also set up on concrete, asphalt, and compacted gravel — stakes may not be used on hard surfaces, so sandbags or ballast weights are used instead. Sloped surfaces and soft sand are generally not suitable. Surface suitability is confirmed before booking."
       },
       {
         "question": "Do I need to measure my yard before booking?",
@@ -1033,7 +1017,7 @@
       },
       {
         "question": "What is the overhead clearance required?",
-        "answer": "Most inflatables require 12\u201315 feet of overhead clearance. The Crown Rush 42 water slide requires up to 12 feet at its highest point. Always account for trees, wires, and canopy structures when measuring available height."
+        "answer": "Most inflatables require 12–15 feet of overhead clearance. The Crown Rush 42 water slide requires up to 12 feet at its highest point. Always account for trees, wires, and canopy structures when measuring available height."
       }
     ],
     "ctaHeading": "Ready to book? Check space requirements for your rental",
@@ -1042,9 +1026,9 @@
   {
     "slug": "wet-vs-dry-inflatable-guide",
     "regionType": "guide",
-    "title": "Wet vs Dry Inflatables \u2014 Which Should You Rent? | Nova Kingdom Rentals",
-    "metaTitle": "Wet vs Dry Inflatables \u2014 Which Should You Rent? | Nova Kingdom Rentals",
-    "metaDescription": "Wet vs dry inflatables \u2014 which is right for your event? Compare options, setup needs, and pricing from Nova Kingdom Rentals in Bridgewater, Nova Scotia.",
+    "title": "Wet vs Dry Inflatables — Which Should You Rent? | Nova Kingdom Rentals",
+    "metaTitle": "Wet vs Dry Inflatables — Which Should You Rent? | Nova Kingdom Rentals",
+    "metaDescription": "Wet vs dry inflatables — which is right for your event? Compare options, setup needs, and pricing from Nova Kingdom Rentals in Bridgewater, Nova Scotia.",
     "h1": "Wet vs Dry Inflatables: Which Is Right for Your Event?",
     "intro": "Not every inflatable is water-ready, and not every event calls for a water slide. This guide explains the difference between wet and dry inflatables, which Nova Kingdom Rentals products fall into each category, and how to choose based on your event, guests, and setup. We are Bridgewater-based and serve the South Shore and Nova Scotia.",
     "serviceAreaText": "Nova Kingdom Rentals is based in Bridgewater, NS and serves the South Shore, Nova Scotia, and selected events across the Maritimes.",
@@ -1057,7 +1041,7 @@
     "faq": [
       {
         "question": "What is the difference between a wet and dry inflatable?",
-        "answer": "Wet inflatables are designed to run with water \u2014 they include water slides, splash pools, and combo units with wet zones. Dry inflatables are used without water and include bounce houses, obstacle courses, climbing walls, and interactive games. Nova Kingdom Rentals wet-use units are the Crown Island Combo, Crown Rush 42, and Crown Cascade."
+        "answer": "Wet inflatables are designed to run with water — they include water slides, splash pools, and combo units with wet zones. Dry inflatables are used without water and include bounce houses, obstacle courses, climbing walls, and interactive games. Nova Kingdom Rentals wet-use units are the Crown Island Combo, Crown Rush 42, and Crown Cascade."
       },
       {
         "question": "Do wet inflatables require a water connection?",
@@ -1065,15 +1049,15 @@
       },
       {
         "question": "Can dry inflatables be used in hot weather?",
-        "answer": "Yes. Dry inflatables can be used in all weather conditions within our operating guidelines. In hot weather, dry bounce inflatables are still popular \u2014 the Crown Dino Combo, Crown Quest obstacle course, Crown Climber, and Crown Axe Challenge are all dry units suitable for warm-weather events."
+        "answer": "Yes. Dry inflatables can be used in all weather conditions within our operating guidelines. In hot weather, dry bounce inflatables are still popular — the Crown Dino Combo, Crown Quest obstacle course, Crown Climber, and Crown Axe Challenge are all dry units suitable for warm-weather events."
       },
       {
         "question": "Which wet inflatable is best for young kids?",
-        "answer": "The Crown Island Combo is the best wet inflatable for younger kids. It has a splash pool, slide, and bounce area, with a seat height of 4ft 3in \u2014 accessible for children 3 and up. The Crown Cascade and Crown Rush 42 are better suited to older kids and teens."
+        "answer": "The Crown Island Combo is the best wet inflatable for younger kids. It has a splash pool, slide, and bounce area, with a seat height of 4ft 3in — accessible for children 3 and up. The Crown Cascade and Crown Rush 42 are better suited to older kids and teens."
       }
     ],
     "ctaHeading": "Not sure which inflatable fits your event?",
-    "ctaText": "Send your event details \u2014 date, address, number of guests, and age range. We will recommend the right inflatable or package and confirm availability."
+    "ctaText": "Send your event details — date, address, number of guests, and age range. We will recommend the right inflatable or package and confirm availability."
   },
   {
     "slug": "birthday-party-inflatable-guide",
@@ -1082,7 +1066,7 @@
     "metaTitle": "Inflatable Rentals for Birthday Parties Nova Scotia | Nova Kingdom Rentals",
     "metaDescription": "Plan a birthday party inflatable rental in Nova Scotia. Best units for all ages, setup tips, and pricing from Bridgewater-based Nova Kingdom Rentals.",
     "h1": "Inflatable Rentals for Birthday Parties in Nova Scotia",
-    "intro": "A bouncy castle or inflatable rental is one of the best additions to a birthday party \u2014 kids remember it, parents love it, and it keeps everyone entertained. This guide covers which inflatables work best for different age groups, how to plan setup, and what to expect when you book through Nova Kingdom Rentals in Bridgewater, Nova Scotia.",
+    "intro": "A bouncy castle or inflatable rental is one of the best additions to a birthday party — kids remember it, parents love it, and it keeps everyone entertained. This guide covers which inflatables work best for different age groups, how to plan setup, and what to expect when you book through Nova Kingdom Rentals in Bridgewater, Nova Scotia.",
     "serviceAreaText": "Nova Kingdom Rentals is based in Bridgewater, NS and serves South Shore communities including Lunenburg, Chester, Mahone Bay, Liverpool, and beyond.",
     "bestFor": [
       "Backyard birthday parties for younger kids",
@@ -1093,7 +1077,7 @@
     "faq": [
       {
         "question": "What is the best inflatable for a younger kids birthday party?",
-        "answer": "The Crown Dino Combo ($210) is our top pick for younger kids \u2014 it features a dinosaur theme, bounce area, and slide, and is perfectly scaled for children 2\u20138 years old. The Crown Island Combo ($310) is also great for younger kids, adding a splash pool for summer parties."
+        "answer": "The Crown Dino Combo ($210) is our top pick for younger kids — it features a dinosaur theme, bounce area, and slide, and is perfectly scaled for children 2–8 years old. The Crown Island Combo ($310) is also great for younger kids, adding a splash pool for summer parties."
       },
       {
         "question": "What is the best inflatable for older kids and teen birthdays?",
@@ -1101,11 +1085,11 @@
       },
       {
         "question": "How far in advance should I book a birthday party rental?",
-        "answer": "We recommend booking as early as possible \u2014 particularly for summer weekends in June, July, and August, which fill up quickly. Submit your booking request with your event date and we will confirm availability. Booking is confirmed after deposit."
+        "answer": "We recommend booking as early as possible — particularly for summer weekends in June, July, and August, which fill up quickly. Submit your booking request with your event date and we will confirm availability. Booking is confirmed after deposit."
       },
       {
-        "question": "Can I add a 360 Video Booth to a birthday party package?",
-        "answer": "Yes. The 360 Video Booth can be added to any inflatable rental or package at the add-on rate of $199 for the first hour ($70 per additional hour). The operator is included. It is a popular addition for milestone birthdays and teen parties."
+        "question": "Can I add a 360 Photo Booth to a birthday party package?",
+        "answer": "Yes. The 360 Photo Booth can be added to any inflatable rental or package at the add-on rate of $175 for the first hour ($100 per additional hour). It is a popular addition for milestone birthdays and teen parties."
       }
     ],
     "ctaHeading": "Book your birthday party inflatable rental",
@@ -1176,8 +1160,8 @@
         "answer": "Yes. We serve festivals across Nova Scotia. The first 15 km of travel from Bridgewater is included. Travel beyond 15 km is quoted at $0.72 per km (return). For larger events, travel cost is confirmed before booking."
       },
       {
-        "question": "Can you provide a 360 Video Booth for a festival?",
-        "answer": "Yes. The 360 Video Booth is a popular festival attraction. Guests step onto the rotating platform and capture slow-motion video from every angle. Operator is included. It can be booked standalone or added to any inflatable package at the add-on rate."
+        "question": "Can you provide a 360 Photo Booth for a festival?",
+        "answer": "Yes. The 360 Photo Booth is a popular festival attraction. Guests step onto the rotating platform and capture slow-motion video from every angle. It can be booked standalone or added to any inflatable package at the add-on rate."
       }
     ],
     "ctaHeading": "Request a festival inflatable quote",
@@ -1201,7 +1185,7 @@
     "faq": [
       {
         "question": "What inflatables are most popular for community events?",
-        "answer": "Community events typically benefit from a mix of units that serve different age groups. Popular combinations include the Crown Quest obstacle course plus Crown Axe Challenge plus Crown Kick Darts \u2014 covering kids through adults. Our community event packages bundle multiple units for built-in savings."
+        "answer": "Community events typically benefit from a mix of units that serve different age groups. Popular combinations include the Crown Quest obstacle course plus Crown Axe Challenge plus Crown Kick Darts — covering kids through adults. Our community event packages bundle multiple units for built-in savings."
       },
       {
         "question": "Do you provide insurance documentation for community events?",
@@ -1222,11 +1206,11 @@
   {
     "slug": "360-video-booth-event-ideas",
     "regionType": "guide",
-    "title": "360 Video Booth Event Ideas for Nova Scotia Events | Nova Kingdom Rentals",
-    "metaTitle": "360 Video Booth Event Ideas Nova Scotia | Nova Kingdom Rentals",
-    "metaDescription": "Creative 360 Video Booth ideas for birthdays, weddings, corporate events, and festivals in Nova Scotia. Operator included. From $199. Based in Bridgewater NS.",
-    "h1": "360 Video Booth Ideas for Nova Scotia Events",
-    "intro": "The 360 Video Booth creates slow-motion video content from every angle \u2014 and it works at almost any event type. From backyard birthdays to corporate parties, school fun days to fundraising galas, it gives guests a shareable, memorable experience. Nova Kingdom Rentals provides the booth, operator, setup, and takedown from our base in Bridgewater, Nova Scotia.",
+    "title": "360 Photo Booth Event Ideas for Nova Scotia Events | Nova Kingdom Rentals",
+    "metaTitle": "360 Photo Booth Event Ideas Nova Scotia | Nova Kingdom Rentals",
+    "metaDescription": "Creative 360 Photo Booth ideas for birthdays, weddings, corporate events, and festivals in Nova Scotia. From $250. Based in Bridgewater NS.",
+    "h1": "360 Photo Booth Ideas for Nova Scotia Events",
+    "intro": "The 360 Photo Booth creates slow-motion video content from every angle — and it works at almost any event type. From backyard birthdays to corporate parties, school fun days to fundraising galas, it gives guests a shareable, memorable experience. Nova Kingdom Rentals provides the booth, setup, and takedown from our base in Bridgewater, Nova Scotia.",
     "serviceAreaText": "Nova Kingdom Rentals is based in Bridgewater, NS and serves events across Nova Scotia and selected Maritimes bookings.",
     "bestFor": [
       "Milestone birthdays and anniversary celebrations",
@@ -1238,24 +1222,20 @@
     ],
     "faq": [
       {
-        "question": "What events work best with a 360 Video Booth?",
-        "answer": "The 360 Video Booth works well at any event where guests want memorable, shareable content. It is especially popular at milestone birthdays, weddings, proms, corporate events, and fundraiser galas. It also works at school fun days, community celebrations, and festivals \u2014 anywhere guests gather and want to capture the moment."
+        "question": "What events work best with a 360 Photo Booth?",
+        "answer": "The 360 Photo Booth works well at any event where guests want memorable, shareable content. It is especially popular at milestone birthdays, weddings, proms, corporate events, and fundraiser galas. It also works at school fun days, community celebrations, and festivals — anywhere guests gather and want to capture the moment."
       },
       {
-        "question": "How much does the 360 Video Booth cost for a Nova Scotia event?",
-        "answer": "Standalone: $249 for the first hour, $100 per additional hour. Add-on with any inflatable package: $199 for the first hour, $70 per additional hour. Operator is included with every booking. Custom theme props are available for $10 per theme \u2014 request before your event date."
+        "question": "How much does the 360 Photo Booth cost for a Nova Scotia event?",
+        "answer": "Standalone: $250 for the first hour, $125 per additional hour. Add-on with any inflatable package: $175 for the first hour, $100 per additional hour."
       },
       {
-        "question": "Is the operator included with every 360 Video Booth rental?",
-        "answer": "Yes. Every 360 Video Booth rental includes a dedicated operator who manages the booth throughout your event. You do not need to hire additional staffing. The operator handles setup, assists guests, and manages takedown."
-      },
-      {
-        "question": "Can the 360 Video Booth be used at an outdoor event or festival?",
-        "answer": "The 360 Video Booth requires a clear, level setup area with access to a standard household electrical outlet. It is suitable for indoor and outdoor events with a covered or sheltered area. It is not suitable for open-field setups without power access or in wet conditions."
+        "question": "Can the 360 Photo Booth be used at an outdoor event or festival?",
+        "answer": "The 360 Photo Booth requires a clear, level setup area with access to a standard household electrical outlet. It is suitable for indoor and outdoor events with a covered or sheltered area. It is not suitable for open-field setups without power access or in wet conditions."
       }
     ],
-    "ctaHeading": "Add the 360 Video Booth to your next event",
-    "ctaText": "Tell us your event date, type, and location. We will confirm availability, pricing, and travel cost for your 360 Video Booth rental in Nova Scotia."
+    "ctaHeading": "Add the 360 Photo Booth to your next event",
+    "ctaText": "Tell us your event date, type, and location. We will confirm availability, pricing, and travel cost for your 360 Photo Booth rental in Nova Scotia."
   },
   {
     "slug": "how-to-book-inflatable-rental",
@@ -1264,7 +1244,7 @@
     "metaTitle": "How to Book an Inflatable Rental Nova Scotia | Nova Kingdom Rentals",
     "metaDescription": "Step-by-step guide to booking an inflatable rental from Nova Kingdom Rentals in Bridgewater, NS. Learn what information you need and what to expect at booking.",
     "h1": "How to Book an Inflatable Rental in Nova Scotia",
-    "intro": "Booking an inflatable rental with Nova Kingdom Rentals is straightforward. This guide walks through the process step by step \u2014 from choosing your rental to confirming your booking \u2014 so you know exactly what to expect. We are based in Bridgewater, Nova Scotia, and serve the South Shore and beyond.",
+    "intro": "Booking an inflatable rental with Nova Kingdom Rentals is straightforward. This guide walks through the process step by step — from choosing your rental to confirming your booking — so you know exactly what to expect. We are based in Bridgewater, Nova Scotia, and serve the South Shore and beyond.",
     "serviceAreaText": "Nova Kingdom Rentals is based in Bridgewater, NS and serves South Shore communities and all of Nova Scotia.",
     "bestFor": [
       "First-time inflatable rental customers",
@@ -1291,6 +1271,6 @@
       }
     ],
     "ctaHeading": "Ready to book your rental?",
-    "ctaText": "Submit your event details \u2014 date, address, rental choice, and number of guests. We will confirm availability, travel cost, and booking terms within one business day."
+    "ctaText": "Submit your event details — date, address, rental choice, and number of guests. We will confirm availability, travel cost, and booking terms within one business day."
   }
 ]
