@@ -1304,7 +1304,7 @@ function cleanupPhotBoothSection() {
   });
 }
 
-// ── Desktop nav — inject Photo Booth link after Lawn Games ───────
+// ── Desktop/mobile nav — inject Photo Booth + Foam Party links ───
 function injectDesktopPhotBoothNav() {
   const nav = document.querySelector('nav[aria-label="Primary navigation"]');
   if (!nav || nav.querySelector("[data-nk-pb-nav]")) return;
@@ -1313,14 +1313,24 @@ function injectDesktopPhotBoothNav() {
     if (a.textContent.trim() === "Lawn Games") lawnGamesAnchor = a;
   });
   if (!lawnGamesAnchor) return;
-  const link = document.createElement("a");
-  link.href = "/rentals/360-video-booth";
-  link.textContent = "Photo Booth";
-  link.dataset.nkPbNav = "1";
+
+  const pbLink = document.createElement("a");
+  pbLink.href = "/rentals/360-video-booth";
+  pbLink.textContent = "Photo Booth";
+  pbLink.dataset.nkPbNav = "1";
   if (window.location.pathname.startsWith("/rentals/360-video-booth")) {
-    link.setAttribute("aria-current", "page");
+    pbLink.setAttribute("aria-current", "page");
   }
-  lawnGamesAnchor.insertAdjacentElement("afterend", link);
+  lawnGamesAnchor.insertAdjacentElement("afterend", pbLink);
+
+  const fpLink = document.createElement("a");
+  fpLink.href = "/rentals/kids-foam-party";
+  fpLink.textContent = "Foam Party";
+  fpLink.dataset.nkFpNav = "1";
+  if (window.location.pathname.startsWith("/rentals/kids-foam-party")) {
+    fpLink.setAttribute("aria-current", "page");
+  }
+  pbLink.insertAdjacentElement("afterend", fpLink);
 }
 
 // ── 360 Photo Booth section injection ───────────────────────────
