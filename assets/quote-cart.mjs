@@ -798,7 +798,7 @@ function makeFormSection(items, stats) {
         <option value="No / unsure">No / unsure</option>
       </select>
     </div>
-    <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-notes">Notes</label><textarea id="nkf-notes" name="notes" placeholder="Timing, access, fencing, hills, permit details, or anything else helpful."></textarea></div>
+    <div class="nk-qf-field"><label class="nk-qf-label" for="nkf-notes">Notes <span class="nk-optional">(Optional)</span></label><textarea id="nkf-notes" name="notes" placeholder="Timing, access, fencing, hills, permit details, or anything else helpful."></textarea></div>
     <div class="nk-disclaimer">${escHtml(DISCLAIMER)}</div>
     <p class="nk-estimate-note" style="margin-top:0.5rem;">${escHtml(WAIVER_NOTE)}</p>
     <button class="nk-qf-submit" type="submit" id="nk-qf-submit-btn">Request Availability</button>

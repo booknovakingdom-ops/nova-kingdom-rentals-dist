@@ -159,7 +159,7 @@ function renderPackagePanel(pkg) {
       </div>
 
       <div class="package-detail-facts">
-        <article><span>Rental length</span><strong>${escapeHtml(pkg.duration || "Backyard: 6 hrs · Event: 4 hrs")}</strong></article>
+        <article><span>Rental length</span><strong>${escapeHtml(pkg.duration || "Private parties: up to 6 hrs · Events: up to 4 hrs")}</strong></article>
         <article><span>Setup</span><strong>Setup and takedown included</strong></article>
         <article><span>Delivery</span><strong>First 15 km from Bridgewater free, then $0.72/km unless otherwise quoted</strong></article>
         <article><span>Booking</span><strong>Final availability and setup suitability are confirmed manually</strong></article>
