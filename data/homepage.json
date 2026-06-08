@@ -44,6 +44,11 @@
       "link": "/lawn-games"
     },
     {
+      "title": "Kids Foam Party",
+      "text": "Non-toxic foam fun for birthdays, schools, camps, and family events.",
+      "link": "/rentals/kids-foam-party"
+    },
+    {
       "title": "Packages",
       "text": "Bundled events with built-in savings — from $310.",
       "link": "/packages"
@@ -52,7 +57,8 @@
   "popularProductIds": [
     "crown-island-combo",
     "crown-axe-challenge",
-    "360-video-booth"
+    "360-video-booth",
+    "kids-foam-party"
   ],
   "howItWorks": [
     {

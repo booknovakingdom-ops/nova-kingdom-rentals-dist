@@ -32,6 +32,14 @@ const BOOTH_360_ID         = "product-360-video-booth";
 const BOOTH_360_STANDALONE = 250;
 const BOOTH_360_ADDON      = 175;
 
+const FOAM_PARTY_ID = "product-kids-foam-party";
+// Foam party pricing tiers by guest count
+const FOAM_TIERS = [
+  { label: "Up to 30 kids", standalone: 349, addon: 200 },
+  { label: "31–80 kids",    standalone: 599, addon: 350 },
+  { label: "80+ kids",      standalone: 800, addon: 650 },
+];
+
 // Time-based 360 booth pricing. Returns {hours, standalone, addon} or null if times invalid.
 function calc360Price(st, et) {
   if (!st || !et) return null;
@@ -52,6 +60,11 @@ const CART_ITEM_META = {
   [BOOTH_360_ID]: {
     image:      "/images/360-video-booth.jpg",
     subtitle:   "Standalone: $250/hr · Add-on with package: $175/hr · Extra hours available",
+    addonLabel: "Add-on",
+  },
+  [FOAM_PARTY_ID]: {
+    image:      "/images/kids-foam-party.jpg",
+    subtitle:   "Priced by guest count — confirm tier at booking",
     addonLabel: "Add-on",
   },
 };
@@ -1441,14 +1454,126 @@ function cleanupBoothDetailPage() {
   });
 }
 
+// ── Kids Foam Party section cleanup on non-rentals routes ────────
+function cleanupFoamPartySection() {
+  if (window.location.pathname.match(/^\/rentals\/?$/)) return;
+  const section = document.getElementById("nk-foam-party-section");
+  if (section) section.remove();
+  document.querySelectorAll("[data-nk-foam-processed]").forEach(function (el) {
+    el.removeAttribute("data-nk-foam-processed");
+  });
+}
+
+// ── Kids Foam Party section injection ────────────────────────────
+// Pulls the foam party card out of the React-rendered grid and injects
+// its own featured section with tiered pricing after the Photo Booth section.
+const FOAM_IMG_PATH = "/images/kids-foam-party.jpg";
+
+function injectFoamPartySection() {
+  if (!window.location.pathname.match(/^\/rentals\/?$/)) return;
+  if (document.getElementById("nk-foam-party-section")) return;
+
+  const lineupSections = document.querySelectorAll(".lineup-section");
+  if (!lineupSections.length) return;
+
+  // Hide the foam party card inside the React grid
+  document.querySelectorAll(".lineup-section .product-card").forEach((card) => {
+    const img = card.querySelector("img");
+    if (img && img.src.includes("kids-foam-party")) {
+      card.style.display = "none";
+    }
+  });
+
+  // Insert after the photo booth section if present, otherwise after last lineup section
+  const anchorSection =
+    document.getElementById("nk-photo-booth-section") ||
+    [...lineupSections].pop();
+  if (!anchorSection) return;
+
+  const section = document.createElement("section");
+  section.id = "nk-foam-party-section";
+  section.className = "page-section lineup-section nk-foam-party-section";
+  section.innerHTML =
+    '<div class="section-heading">' +
+      '<p class="eyebrow">Foam Party</p>' +
+      '<h2>Kids Foam Party</h2>' +
+    '</div>' +
+    '<div class="nk-foam-inner"></div>';
+
+  const inner = section.querySelector(".nk-foam-inner");
+
+  const card = document.createElement("article");
+  card.className = "nk-booth-feature-card";
+
+  const tierRows = FOAM_TIERS.map(function (t) {
+    return (
+      "<li><strong>" + t.label + ":</strong> Standalone $" + t.standalone +
+      " · Add-on $" + t.addon + "</li>"
+    );
+  }).join("");
+
+  card.innerHTML =
+    '<div class="nk-booth-img-wrap">' +
+      '<img src="' + FOAM_IMG_PATH + '" alt="Kids Foam Party rental Nova Scotia" loading="lazy">' +
+    '</div>' +
+    '<div class="nk-booth-info">' +
+      '<p class="eyebrow">Foam Party · Kids &amp; Family Only</p>' +
+      '<h3>Kids Foam Party</h3>' +
+      '<p class="nk-booth-tagline">High-Energy Foam Fun for Kids</p>' +
+      '<ul class="nk-booth-pricing">' +
+        tierRows +
+        '<li>Setup &amp; takedown included · Outdoor only · Water &amp; power required</li>' +
+        '<li>Kid-safe, non-toxic foam · Ages 3–14 · Not for adult or alcohol events</li>' +
+      '</ul>' +
+      '<div class="nk-booth-btns">' +
+        '<a class="button button-dark nk-booth-detail-btn" href="/rentals/kids-foam-party">View Details</a>' +
+        '<a class="button button-gold" href="/contact?interest=Kids+Foam+Party">Check Availability</a>' +
+      '</div>' +
+    '</div>';
+
+  // Add to Quote button — uses base price of smallest standalone tier
+  const btnWrap = card.querySelector(".nk-booth-btns");
+  const qtBtn = document.createElement("button");
+  qtBtn.type = "button";
+  qtBtn.dataset.nkId = FOAM_PARTY_ID;
+  const cartNow = loadCart();
+  const inCart  = cartNow.some(function (i) { return i.id === FOAM_PARTY_ID; });
+  qtBtn.className = "nk-add-to-quote" + (inCart ? " in-cart" : "");
+  qtBtn.textContent = inCart ? "In Quote ✓" : "Add to Quote";
+  qtBtn.addEventListener("click", function () {
+    const current = loadCart();
+    const nowIn   = current.some(function (i) { return i.id === FOAM_PARTY_ID; });
+    if (nowIn) {
+      saveCart(current.filter(function (i) { return i.id !== FOAM_PARTY_ID; }));
+    } else {
+      const hasPkg = current.some(function (i) { return i.id.startsWith("pkg-") || i.isInflatable; });
+      const price  = hasPkg ? FOAM_TIERS[0].addon : FOAM_TIERS[0].standalone;
+      current.push({ id: FOAM_PARTY_ID, name: "Kids Foam Party", price, isInflatable: false });
+      saveCart(current);
+    }
+    const after = loadCart().some(function (i) { return i.id === FOAM_PARTY_ID; });
+    qtBtn.textContent = after ? "In Quote ✓" : "Add to Quote";
+    qtBtn.classList.toggle("in-cart", after);
+    updateBar();
+  });
+  btnWrap.insertAdjacentElement("afterbegin", qtBtn);
+
+  inner.appendChild(card);
+  anchorSection.insertAdjacentElement("afterend", section);
+
+  lineupSections.forEach(function (s) { s.setAttribute("data-nk-foam-processed", "1"); });
+}
+
 function enhanceAll() {
   cleanupPhotBoothSection();
+  cleanupFoamPartySection();
   enhanceProductCards();
   enhancePackageCards();
   enhanceProductDetail();
   enhanceLawnGameCards();
   enhanceCarnivalAddonBtns();
   injectPhotBoothSection();
+  injectFoamPartySection();
   cleanupBoothDetailPage();
   injectDesktopPhotBoothNav();
 }
