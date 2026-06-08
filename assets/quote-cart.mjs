@@ -39,7 +39,7 @@ function calc360Price(st, et) {
   var d = (parseInt(b[0]) * 60 + parseInt(b[1])) - (parseInt(a[0]) * 60 + parseInt(a[1]));
   if (d <= 0) return null;
   var h = Math.ceil(d / 60);
-  return { hours: h, standalone: 249 + (h - 1) * 100, addon: 199 + (h - 1) * 70 };
+  return { hours: h, standalone: 250 + (h - 1) * 125, addon: 175 + (h - 1) * 100 };
 }
 
 // Extra display metadata for specific cart items (thumbnail + subtitle in cart panel)
