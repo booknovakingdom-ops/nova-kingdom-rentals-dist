@@ -35,9 +35,9 @@ const BOOTH_360_ADDON      = 175;
 const FOAM_PARTY_ID = "product-kids-foam-party";
 // Foam party pricing tiers by guest count
 const FOAM_TIERS = [
-  { label: "Up to 30 kids", standalone: 349, addon: 200 },
-  { label: "31–80 kids",    standalone: 599, addon: 350 },
-  { label: "80+ kids",      standalone: 800, addon: 650 },
+  { label: "Up to 30 kids", standalone: 349, addon: 200, prefix: "" },
+  { label: "31–80 kids",    standalone: 599, addon: 350, prefix: "" },
+  { label: "80+ kids",      standalone: 800, addon: 650, prefix: "from " },
 ];
 
 // Time-based 360 booth pricing. Returns {hours, standalone, addon} or null if times invalid.
@@ -64,7 +64,7 @@ const CART_ITEM_META = {
   },
   [FOAM_PARTY_ID]: {
     image:      "/images/kids-foam-party.jpg",
-    subtitle:   "Priced by guest count — confirm tier at booking",
+    subtitle:   "Hourly pricing by guest count — confirm tier at booking",
     addonLabel: "Add-on",
   },
 };
@@ -1507,8 +1507,8 @@ function injectFoamPartySection() {
 
   const tierRows = FOAM_TIERS.map(function (t) {
     return (
-      "<li><strong>" + t.label + ":</strong> Standalone $" + t.standalone +
-      " · Add-on $" + t.addon + "</li>"
+      "<li><strong>" + t.label + ":</strong> " + t.prefix + "$" + t.standalone +
+      "/hr standalone · " + t.prefix + "$" + t.addon + "/hr add-on</li>"
     );
   }).join("");
 
@@ -1520,6 +1520,7 @@ function injectFoamPartySection() {
       '<p class="eyebrow">Foam Party · Kids &amp; Family Only</p>' +
       '<h3>Kids Foam Party</h3>' +
       '<p class="nk-booth-tagline">High-Energy Foam Fun for Kids</p>' +
+      '<p class="nk-booth-pricing-label"><strong>Hourly Foam Party Pricing</strong></p>' +
       '<ul class="nk-booth-pricing">' +
         tierRows +
         '<li>Setup &amp; takedown included · Outdoor only · Water &amp; power required</li>' +
@@ -1564,6 +1565,21 @@ function injectFoamPartySection() {
   lineupSections.forEach(function (s) { s.setAttribute("data-nk-foam-processed", "1"); });
 }
 
+// ── Foam Party detail page — fix hardcoded inflatable duration row ─
+function cleanupFoamPartyDetailPage() {
+  if (!window.location.pathname.match(/^\/rentals\/kids-foam-party\/?/)) return;
+
+  document.querySelectorAll(".facts-grid article").forEach(function (article) {
+    const label = article.querySelector("span")?.textContent?.trim();
+    if (label === "Rental duration") {
+      const val = article.querySelector("strong");
+      if (val && val.textContent.includes("6 hrs")) {
+        val.textContent = "Priced per hour";
+      }
+    }
+  });
+}
+
 function enhanceAll() {
   cleanupPhotBoothSection();
   cleanupFoamPartySection();
@@ -1575,6 +1591,7 @@ function enhanceAll() {
   injectPhotBoothSection();
   injectFoamPartySection();
   cleanupBoothDetailPage();
+  cleanupFoamPartyDetailPage();
   injectDesktopPhotBoothNav();
 }
 
