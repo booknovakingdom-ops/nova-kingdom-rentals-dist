@@ -1,0 +1,6 @@
+# Local audit/report tooling output (Node modules + generated reports).
+# Not part of the deployed site — generated on demand.
+audit-output/
+
+# Node dependencies (should never be committed to this static dist repo)
+node_modules/
