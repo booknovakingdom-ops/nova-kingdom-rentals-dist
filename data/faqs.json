@@ -22,7 +22,7 @@
     ],
     [
       "Wind limit",
-      "Use must stop if wind exceeds the manufacturer limit, or 40 km/h / 25 mph if no specific limit is stated."
+      "Use must stop if wind exceeds the manufacturer limit, or 38 km/h if no specific limit is stated."
     ],
     [
       "Setup area required",
@@ -134,7 +134,7 @@
         ],
         [
           "What is the wind limit?",
-          "Use must stop if wind exceeds the manufacturer limit. If no specific unit limit is stated, use must stop at 40 km/h / 25 mph or earlier if conditions feel unsafe."
+          "Use must stop if wind exceeds the manufacturer limit. If no specific unit limit is stated, use must stop at 38 km/h or earlier if conditions feel unsafe."
         ],
         [
           "Do I need to provide water?",

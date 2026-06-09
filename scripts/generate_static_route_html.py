@@ -298,6 +298,49 @@ def product_schema(product: dict[str, Any]) -> dict[str, Any]:
     return schema
 
 
+_PROVINCE_SUFFIX = {"ns": "Nova Scotia", "nb": "New Brunswick", "pei": "Prince Edward Island"}
+_REGION_NAMES = {
+    "nova-scotia": "Nova Scotia",
+    "atlantic-canada": "Atlantic Canada",
+    "new-brunswick": "New Brunswick",
+    "maritimes": "Maritimes",
+    "prince-edward-island": "Prince Edward Island",
+    "pei": "Prince Edward Island",
+}
+# Longest-first so "school-event-inflatable-rentals-" wins over "school-event-rentals-".
+_SERVICE_PREFIXES = sorted(
+    [
+        "bouncy-castle-rentals-", "inflatable-rentals-", "water-slide-rentals-", "party-rentals-",
+        "kids-foam-party-", "photo-booth-rental-", "photo-booth-rentals-", "lawn-game-rentals-",
+        "school-event-inflatable-rentals-", "school-event-rentals-", "community-event-rentals-",
+        "360-video-booth-rental-", "festival-inflatable-rentals-", "event-photo-booth-rental-",
+        "event-rentals-",
+    ],
+    key=len,
+    reverse=True,
+)
+
+
+def area_served_name(page: dict[str, Any]) -> str:
+    """Derive a clean Place name (e.g. "Kentville, Nova Scotia") from the page slug.
+
+    Avoids dumping the serviceAreaText paragraph into schema. Region and guide
+    pages resolve to the region name or fall back to "Nova Scotia".
+    """
+    rest = page["slug"]
+    for prefix in _SERVICE_PREFIXES:
+        if rest.startswith(prefix):
+            rest = rest[len(prefix):]
+            break
+    for suffix, province in _PROVINCE_SUFFIX.items():
+        if rest.endswith(f"-{suffix}"):
+            locality = " ".join(word.capitalize() for word in rest[: -len(suffix) - 1].split("-"))
+            return f"{locality}, {province}"
+    if rest in _REGION_NAMES:
+        return _REGION_NAMES[rest]
+    return "Nova Scotia"
+
+
 def service_schema(page: dict[str, Any], site_info: dict[str, Any]) -> dict[str, Any]:
     """Service schema for SEO location/event pages."""
     return {
@@ -307,7 +350,7 @@ def service_schema(page: dict[str, Any], site_info: dict[str, Any]) -> dict[str,
         "description": page["intro"],
         "provider": {"@id": f"{BASE_URL}/#localbusiness"},
         "serviceType": "Event Equipment Rental",
-        "areaServed": {"@type": "Place", "name": page.get("serviceAreaText", "Nova Scotia")[:100]},
+        "areaServed": {"@type": "Place", "name": area_served_name(page)},
         "url": route_url(f"/{page['slug']}"),
         "hasOfferCatalog": {
             "@type": "OfferCatalog",
