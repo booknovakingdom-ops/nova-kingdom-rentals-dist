@@ -380,6 +380,271 @@ def flatten_faqs(faq_data: dict[str, Any]) -> list[tuple[str, str]]:
     return pairs
 
 
+# ── Static fallback content ──────────────────────────────────────────────
+# Server-rendered body content placed inside <div id="root"> so crawlers, AI
+# tools, social scrapers, and no-JS users see readable content immediately.
+# React's createRoot().render() replaces this content once the SPA mounts.
+
+FIXED_H1 = {
+    "/": "Bouncy Castle & Inflatable Rentals Bridgewater NS",
+    "/rentals": "Inflatable Rentals & Bouncy Castles",
+    "/packages": "Party Rental Packages",
+    "/lawn-games": "Lawn Game Rentals Bridgewater NS",
+    "/about": "About Nova Kingdom Rentals",
+    "/service-areas": "Service Areas",
+    "/faq": "Bouncy Castle Rental FAQ",
+    "/contact": "Check Availability",
+}
+
+LAWN_GAME_PRICING = (
+    "5 Lawn Games: $175. 10 Lawn Games: $250. All 12 Lawn Games (includes Cornhole): $280. "
+    "Cornhole add-on available with 5 or 10 game selections for +$25."
+)
+
+HOME_FAQ_QUESTIONS = [
+    "Are bookings instantly confirmed online?",
+    "What is the wind limit?",
+    "Is Silly String allowed?",
+    "How far do you deliver?",
+]
+
+
+def render_paragraphs(text: str | None) -> str:
+    if not text:
+        return ""
+    return "".join(f"<p>{h(part.strip())}</p>" for part in re.split(r"\n\s*\n", text) if part.strip())
+
+
+def render_list(items: list[Any] | None) -> str:
+    if not items:
+        return ""
+    return "<ul>" + "".join(f"<li>{h(str(item))}</li>" for item in items) + "</ul>"
+
+
+def render_dl(pairs: list[tuple[str, Any]]) -> str:
+    cleaned = [(key, value) for key, value in pairs if value]
+    if not cleaned:
+        return ""
+    return "<dl>" + "".join(f"<dt>{h(key)}</dt><dd>{h(str(value))}</dd>" for key, value in cleaned) + "</dl>"
+
+
+def render_section(title: str, body: str) -> str:
+    if not body:
+        return ""
+    return f"<h2>{h(title)}</h2>{body}"
+
+
+def render_faq_dl(pairs: list[tuple[str, str]], title: str = "Frequently Asked Questions") -> str:
+    if not pairs:
+        return ""
+    items = "".join(f"<dt>{h(question)}</dt><dd>{h(answer)}</dd>" for question, answer in pairs)
+    return f"<h2>{h(title)}</h2><dl>{items}</dl>"
+
+
+def cta_block(text: str = "Check availability and request a quote") -> str:
+    return f'<p class="static-fallback-cta"><a href="/contact">{h(text)}</a></p>'
+
+
+def render_product_summary_list(products: list[dict[str, Any]]) -> str:
+    items = []
+    for product in products:
+        use = "Wet-use" if product.get("wetUse") else "Dry-use"
+        link = f'<a href="/rentals/{h(product["slug"])}">{h(product["name"])}</a>'
+        meta_bits = [str(bit) for bit in (product.get("category"), product.get("price"), use) if bit]
+        line = link + " - " + ", ".join(h(bit) for bit in meta_bits)
+        if product.get("shortDescription"):
+            line += f" - {h(product['shortDescription'])}"
+        items.append(f"<li>{line}</li>")
+    return "<ul>" + "".join(items) + "</ul>"
+
+
+def render_product_fallback(product: dict[str, Any]) -> str:
+    parts: list[str] = []
+    if product.get("tagline"):
+        parts.append(f"<p><em>{h(product['tagline'])}</em></p>")
+    use = "Wet-use" if product.get("wetUse") else "Dry-use"
+    parts.append(render_dl([
+        ("Price", product.get("price")),
+        ("Status", product.get("status")),
+        ("Category", product.get("category")),
+        ("Duration", product.get("duration")),
+        ("Dimensions", product.get("dimensions")),
+        ("Capacity", product.get("capacity")),
+        ("Use type", use),
+    ]))
+    full_desc = product.get("fullDescription")
+    short_desc = product.get("shortDescription")
+    if full_desc:
+        parts.append(render_paragraphs(full_desc))
+        if short_desc and short_desc.strip() not in full_desc:
+            parts.append(f"<p>{h(short_desc)}</p>")
+    elif short_desc:
+        parts.append(f"<p>{h(short_desc)}</p>")
+    parts.append(render_section("Features", render_list(product.get("features"))))
+    parts.append(render_section("Best For", render_list(product.get("bestFor"))))
+    parts.append(render_section("Specs", render_list(product.get("specs"))))
+    parts.append(render_section("Setup Notes", render_list(product.get("setupNotes"))))
+    parts.append(cta_block(f"Check availability for {product['name']}"))
+    return "".join(parts)
+
+
+def render_homepage_fallback(
+    site_info: dict[str, Any],
+    products: list[dict[str, Any]],
+    packages: list[dict[str, Any]],
+    faqs: dict[str, Any],
+    homepage: dict[str, Any],
+) -> str:
+    parts: list[str] = []
+    intro_text = homepage.get("intro", {}).get("text")
+    if intro_text:
+        parts.append(render_paragraphs(intro_text))
+    parts.append(render_section("Service Area", f"<p>{h(site_info['serviceArea'])}</p>"))
+    parts.append(render_section("Our Lineup", render_product_summary_list(products)))
+    package_items = []
+    for pkg in packages:
+        included = ", ".join(pkg.get("includedItems") or pkg.get("included") or [])
+        package_items.append(f"{pkg['name']} - {pkg.get('price', '')} (save {pkg.get('savings', '')}): {included}")
+    parts.append(render_section("Party Rental Packages", render_list(package_items)))
+    safety_items = [f"{title}: {text}" for title, text in faqs.get("importantNotes", [])]
+    parts.append(render_section("Safety & Booking Notes", render_list(safety_items)))
+    by_question = dict(flatten_faqs(faqs))
+    short_faqs = [(question, by_question[question]) for question in HOME_FAQ_QUESTIONS if question in by_question]
+    parts.append(render_faq_dl(short_faqs))
+    parts.append(cta_block())
+    return "".join(parts)
+
+
+def render_rentals_fallback(products: list[dict[str, Any]], description: str) -> str:
+    parts = [f"<p>{h(description)}</p>", render_product_summary_list(products), cta_block()]
+    return "".join(parts)
+
+
+def render_packages_fallback(packages: list[dict[str, Any]], description: str) -> str:
+    parts = [f"<p>{h(description)}</p>"]
+    for pkg in packages:
+        parts.append(f"<h2>{h(pkg['name'])}</h2>")
+        parts.append(render_dl([
+            ("Price", pkg.get("price")),
+            ("Savings", pkg.get("savings")),
+            ("Duration", pkg.get("duration")),
+        ]))
+        if pkg.get("description"):
+            parts.append(f"<p>{h(pkg['description'])}</p>")
+        parts.append(render_list(pkg.get("includedItems") or pkg.get("included")))
+    parts.append("<p>Final availability and setup suitability are confirmed manually before booking is finalized.</p>")
+    parts.append(cta_block("Check availability for a package"))
+    return "".join(parts)
+
+
+def render_lawn_games_fallback(lawn_games: list[dict[str, Any]], description: str) -> str:
+    parts = [f"<p>{h(description)}</p>"]
+    items = [f"{game['name']}: {game['description']}" for game in lawn_games]
+    parts.append(render_section("12 Lawn Games", render_list(items)))
+    parts.append(render_section("Lawn Game Packages", f"<p>{h(LAWN_GAME_PRICING)}</p>"))
+    parts.append("<p>Lawn games can be booked standalone or added to inflatable and package rentals.</p>")
+    parts.append(cta_block())
+    return "".join(parts)
+
+
+def render_faq_page_fallback(faqs: dict[str, Any]) -> str:
+    parts: list[str] = []
+    for group in faqs.get("groups", []):
+        pairs = [(question, answer) for question, answer in group.get("items", [])]
+        parts.append(render_faq_dl(pairs, title=group["title"]))
+    parts.append(cta_block())
+    return "".join(parts)
+
+
+def render_contact_fallback(site_info: dict[str, Any]) -> str:
+    parts = [
+        "<p>Use the contact form to send your event details and request availability. "
+        "Submitting a request does not confirm your booking.</p>",
+        render_section(
+            "What to Include",
+            render_list([
+                "Event date",
+                "Event address",
+                "Event type (birthday, school, community, festival, corporate, etc.)",
+                "Product or package choice",
+                "Number of guests / kids",
+                "Setup surface (grass, asphalt, concrete, indoor, etc.)",
+                "Power and water access",
+                "Preferred contact method",
+            ]),
+        ),
+        f"<p>{h(site_info['availabilityNote'])}</p>",
+        render_dl([
+            ("Phone", site_info.get("phone")),
+            ("Email", site_info.get("email")),
+        ]),
+    ]
+    return "".join(parts)
+
+
+def render_about_fallback(site_info: dict[str, Any]) -> str:
+    parts = [
+        "<p>Nova Kingdom Rentals is a Bridgewater, Nova Scotia-based inflatable and party rental company "
+        "providing bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, "
+        "a 360 Photo Booth, and party rental packages for birthdays, school events, community events, "
+        "festivals, corporate events, fundraisers, and family celebrations.</p>",
+        f"<p>{h(site_info['serviceArea'])}</p>",
+        render_dl([
+            ("Insurance", site_info.get("insuranceNote")),
+            ("Setup", site_info.get("setupNote")),
+            ("Delivery", site_info.get("deliveryNote")),
+        ]),
+        f"<p>{h(site_info['availabilityNote'])}</p>",
+        cta_block(),
+    ]
+    return "".join(parts)
+
+
+def render_service_areas_fallback(site_info: dict[str, Any]) -> str:
+    parts = [
+        f"<p>{h(site_info['serviceArea'])}</p>",
+        render_dl([
+            ("Delivery", site_info.get("deliveryNote")),
+            ("Insurance", site_info.get("insuranceNote")),
+            ("Setup", site_info.get("setupNote")),
+        ]),
+        f"<p>{h(site_info['availabilityNote'])}</p>",
+        cta_block("Check availability for your area"),
+    ]
+    return "".join(parts)
+
+
+def render_seo_page_fallback(
+    page: dict[str, Any],
+    product_by_id: dict[str, dict[str, Any]],
+    product_by_slug: dict[str, dict[str, Any]],
+) -> str:
+    parts = [f"<p>{h(page['intro'])}</p>"]
+    if page.get("serviceAreaText"):
+        parts.append(f"<p>{h(page['serviceAreaText'])}</p>")
+    featured = []
+    for product_id in page.get("featuredProductIds", []):
+        product = product_by_id.get(product_id) or product_by_slug.get(product_id)
+        if product:
+            featured.append(product)
+    if featured:
+        parts.append(render_section("Featured Rentals", render_product_summary_list(featured)))
+    if page.get("bestFor"):
+        parts.append(render_section("Best For", render_list(page["bestFor"])))
+    faq_pairs = [
+        (item["question"], item["answer"])
+        for item in page.get("faq", [])
+        if item.get("question") and item.get("answer")
+    ]
+    parts.append(render_faq_dl(faq_pairs))
+    parts.append(cta_block(page.get("ctaHeading") or "Check availability and request a quote"))
+    return "".join(parts)
+
+
+def wrap_fallback(h1: str, body: str) -> str:
+    return f'<section class="static-fallback" aria-label="Page summary"><h1>{h(h1)}</h1>{body}</section>'
+
+
 def route_metadata(
     *,
     site_info: dict[str, Any],
@@ -387,6 +652,8 @@ def route_metadata(
     packages: list[dict[str, Any]],
     faqs: dict[str, Any],
     seo_pages: list[dict[str, Any]],
+    lawn_games: list[dict[str, Any]],
+    homepage: dict[str, Any],
 ) -> dict[str, dict[str, Any]]:
     product_by_slug = {product["slug"]: product for product in products}
     product_by_id = {product["id"]: product for product in products}
@@ -408,6 +675,10 @@ def route_metadata(
                 faq_schema(all_faqs),
                 breadcrumb_schema("/", "Home"),
             ],
+            "fallback": wrap_fallback(
+                FIXED_H1["/"],
+                render_homepage_fallback(site_info, products, packages, faqs, homepage),
+            ),
         },
         "/rentals": {
             "title": "Inflatable Rentals & Bouncy Castles | Nova Kingdom Rentals NS",
@@ -417,6 +688,10 @@ def route_metadata(
                 item_list_schema("Nova Kingdom Rentals inflatable rentals", "/rentals", product_items),
                 breadcrumb_schema("/rentals", "Inflatable Rentals"),
             ],
+            "fallback": wrap_fallback(
+                FIXED_H1["/rentals"],
+                render_rentals_fallback(products, "Browse our full lineup of inflatable rentals available across the South Shore and Nova Scotia. Setup and takedown included with every rental. Travel quoted separately."),
+            ),
         },
         "/packages": {
             "title": "Party Rental Packages from $310 | Nova Kingdom Rentals NS",
@@ -426,18 +701,27 @@ def route_metadata(
                 item_list_schema("Nova Kingdom Rentals party rental packages", "/packages", package_items),
                 breadcrumb_schema("/packages", "Party Rental Packages"),
             ],
+            "fallback": wrap_fallback(
+                FIXED_H1["/packages"],
+                render_packages_fallback(packages, "Bundle and save with a Nova Kingdom Rentals party package. Packages combine inflatables, lawn games, and extras for birthdays, schools, and community events. Packages from $310. All packages include setup and takedown."),
+            ),
         },
         "/lawn-games": {
             "title": "Lawn Game Rentals Bridgewater NS | 12 Games | Nova Kingdom Rentals",
             "description": "12 lawn games for rent across Nova Scotia. Cornhole, Giant Connect 4, Giant Jenga, Ladder Toss, and more. Packages from $175. Bridgewater-based, South Shore and NS.",
             "image": LAWN_IMAGE,
             "schema": [breadcrumb_schema("/lawn-games", "Lawn Game Rentals")],
+            "fallback": wrap_fallback(
+                FIXED_H1["/lawn-games"],
+                render_lawn_games_fallback(lawn_games, "Nova Kingdom Rentals offers 12 lawn games available for rent across the South Shore and Nova Scotia. Games can be rented in packages of 5, 10, or all 12 — or added on to an inflatable rental."),
+            ),
         },
         "/about": {
             "title": "About Nova Kingdom Rentals | Bridgewater Inflatable Rentals NS",
             "description": "Nova Kingdom Rentals is a fully insured Bridgewater-based inflatable and party rental company. Serving families, schools, and community events across Nova Scotia.",
             "image": RENTALS_IMAGE,
             "schema": [organization_schema(site_info), breadcrumb_schema("/about", "About Nova Kingdom Rentals")],
+            "fallback": wrap_fallback(FIXED_H1["/about"], render_about_fallback(site_info)),
         },
         "/service-areas": {
             "title": "Service Areas | Inflatable Rentals from Bridgewater NS | Nova Kingdom Rentals",
@@ -447,18 +731,21 @@ def route_metadata(
                 business_schema(site_info),
                 breadcrumb_schema("/service-areas", "Service Areas"),
             ],
+            "fallback": wrap_fallback(FIXED_H1["/service-areas"], render_service_areas_fallback(site_info)),
         },
         "/faq": {
             "title": "Bouncy Castle Rental FAQ | Nova Kingdom Rentals Bridgewater NS",
             "description": "Answers to your questions about booking, delivery, setup, weather, supervision, and safety for inflatable and bouncy castle rentals from Nova Kingdom Rentals.",
             "image": GENERAL_IMAGE,
             "schema": [breadcrumb_schema("/faq", "FAQ"), faq_schema(all_faqs)],
+            "fallback": wrap_fallback(FIXED_H1["/faq"], render_faq_page_fallback(faqs)),
         },
         "/contact": {
             "title": "Check Availability | Nova Kingdom Rentals Bridgewater NS",
             "description": "Send your event date and details to request availability for inflatable rentals and party packages from Nova Kingdom Rentals in Bridgewater, Nova Scotia.",
             "image": RENTALS_IMAGE,
             "schema": [breadcrumb_schema("/contact", "Contact"), business_schema(site_info)],
+            "fallback": wrap_fallback(FIXED_H1["/contact"], render_contact_fallback(site_info)),
         },
     }
 
@@ -469,6 +756,7 @@ def route_metadata(
             "description": product.get("metaDescription") or product.get("shortDescription") or product.get("fullDescription") or f"{product['name']} rental from Nova Kingdom Rentals.",
             "image": product["image"],
             "schema": [breadcrumb_schema(path, product["name"]), product_schema(product)],
+            "fallback": wrap_fallback(product["name"], render_product_fallback(product)),
         }
 
     for page in seo_pages:
@@ -490,6 +778,7 @@ def route_metadata(
             "description": page["metaDescription"],
             "image": first_product.get("image") if first_product else default_image,
             "schema": schema,
+            "fallback": wrap_fallback(page["h1"], render_seo_page_fallback(page, product_by_id, product_by_slug)),
         }
 
     return routes
@@ -527,7 +816,16 @@ def split_template(template: str) -> tuple[str, str]:
     else:
         head_start = template.index('    <meta\n      name="description"')
     assets_start = template.index('    <script type="module" crossorigin src="/assets/index-')
-    return template[:head_start], template[assets_start:]
+    suffix = template[assets_start:]
+    # Normalize root div in case a previous run already injected fallback content.
+    suffix = re.sub(
+        r'<div id="root">.*?</section>\s*</div>',
+        '<div id="root"></div>',
+        suffix,
+        count=1,
+        flags=re.DOTALL,
+    )
+    return template[:head_start], suffix
 
 
 def output_path_for_route(path: str) -> Path:
@@ -570,13 +868,26 @@ def validate_sitemap_routes(routes: dict[str, dict[str, Any]]) -> None:
         raise SystemExit(f"Sitemap routes missing metadata: {missing}")
 
 
+ROOT_DIV_EMPTY = '<div id="root"></div>'
+
+
 def main() -> None:
     site_info = load_json("data/siteInfo.json")
     products = load_json("data/products.json")
     packages = load_json("data/packages.json")
     faqs = load_json("data/faqs.json")
     seo_pages = load_json("data/seoPages.json")
-    routes = route_metadata(site_info=site_info, products=products, packages=packages, faqs=faqs, seo_pages=seo_pages)
+    lawn_games = load_json("data/lawnGames.json")
+    homepage = load_json("data/homepage.json")
+    routes = route_metadata(
+        site_info=site_info,
+        products=products,
+        packages=packages,
+        faqs=faqs,
+        seo_pages=seo_pages,
+        lawn_games=lawn_games,
+        homepage=homepage,
+    )
 
     validate_images(routes)
     validate_sitemap_routes(routes)
@@ -589,7 +900,11 @@ def main() -> None:
     for path, meta in sorted(routes.items()):
         output_path = output_path_for_route(path)
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        output_path.write_text(f"{prefix}{render_head(meta, path)}\n{suffix}", encoding="utf-8")
+        fallback = meta.get("fallback", "")
+        body = f"{prefix}{render_head(meta, path)}\n{suffix}"
+        if fallback:
+            body = body.replace(ROOT_DIV_EMPTY, f'<div id="root">{fallback}</div>', 1)
+        output_path.write_text(body, encoding="utf-8")
 
     print(f"Generated {len(routes)} route HTML files with static SEO metadata.")
 
