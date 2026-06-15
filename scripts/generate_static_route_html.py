@@ -694,8 +694,8 @@ def route_metadata(
             ),
         },
         "/packages": {
-            "title": "Party Rental Packages from $310 | Nova Kingdom Rentals NS",
-            "description": "Inflatable rental packages for birthdays, schools, and community events in Nova Scotia. Water slides, interactive games, and lawn games bundled. Packages from $310.",
+            "title": "Party Rental Packages from $370 | Nova Kingdom Rentals NS",
+            "description": "Inflatable rental packages for birthdays, schools, and community events in Nova Scotia. Water slides, interactive games, and lawn games bundled. Packages from $370.",
             "image": GENERAL_IMAGE,
             "schema": [
                 item_list_schema("Nova Kingdom Rentals party rental packages", "/packages", package_items),
@@ -703,7 +703,7 @@ def route_metadata(
             ],
             "fallback": wrap_fallback(
                 FIXED_H1["/packages"],
-                render_packages_fallback(packages, "Bundle and save with a Nova Kingdom Rentals party package. Packages combine inflatables, lawn games, and extras for birthdays, schools, and community events. Packages from $310. All packages include setup and takedown."),
+                render_packages_fallback(packages, "Bundle and save with a Nova Kingdom Rentals party package. Packages combine inflatables, lawn games, and extras for birthdays, schools, and community events. Packages from $370. All packages include setup and takedown."),
             ),
         },
         "/lawn-games": {
