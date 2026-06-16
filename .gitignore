@@ -4,3 +4,6 @@ audit-output/
 
 # Node dependencies (should never be committed to this static dist repo)
 node_modules/
+
+# Claude Code local session files
+.claude/
