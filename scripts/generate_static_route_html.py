@@ -315,7 +315,7 @@ _SERVICE_PREFIXES = sorted(
         "school-event-inflatable-rentals-", "school-event-rentals-", "community-event-rentals-",
         "360-video-booth-rental-", "festival-inflatable-rentals-", "event-photo-booth-rental-",
         "event-rentals-", "table-and-chair-rentals-", "chair-rentals-", "table-rentals-",
-        "foam-machine-rental-",
+        "foam-machine-rental-", "360-video-booth-rental-",
     ],
     key=len,
     reverse=True,
