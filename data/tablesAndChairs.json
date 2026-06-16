@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "id": "black-padded-folding-chairs",
+      "name": "Black Padded Folding Chairs",
+      "quantity": 15,
+      "price": "$3 each",
+      "availability": "available",
+      "note": "15 available in our inventory."
+    },
+    {
+      "id": "white-folding-chairs",
+      "name": "White Folding Chairs",
+      "price": "from $3 each",
+      "availability": "by request",
+      "note": "Available by request. Contact us to check availability and pricing."
+    },
+    {
+      "id": "6ft-rectangular-tables",
+      "name": "6 ft Rectangular Tables",
+      "price": "from $8 each",
+      "availability": "by request",
+      "note": "Available by request. Contact us to check availability and pricing."
+    }
+  ],
+  "addOnNote": "Tables and chairs are available as add-ons with inflatable rentals, foam parties, 360 Photo Booth bookings, lawn games, and party packages.",
+  "standaloneNote": "Standalone table and chair rentals are available by quote. A minimum rental order applies before travel.",
+  "confirmationNote": "Availability, quantity, delivery, and final pricing are confirmed manually based on your date, location, and order size."
+}

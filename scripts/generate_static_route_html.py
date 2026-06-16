@@ -314,7 +314,7 @@ _SERVICE_PREFIXES = sorted(
         "kids-foam-party-", "photo-booth-rental-", "photo-booth-rentals-", "lawn-game-rentals-",
         "school-event-inflatable-rentals-", "school-event-rentals-", "community-event-rentals-",
         "360-video-booth-rental-", "festival-inflatable-rentals-", "event-photo-booth-rental-",
-        "event-rentals-",
+        "event-rentals-", "table-and-chair-rentals-", "chair-rentals-", "table-rentals-",
     ],
     key=len,
     reverse=True,
@@ -390,6 +390,7 @@ FIXED_H1 = {
     "/rentals": "Inflatable Rentals & Bouncy Castles",
     "/packages": "Party Rental Packages",
     "/lawn-games": "Lawn Game Rentals Bridgewater NS",
+    "/tables-and-chairs": "Table and Chair Rentals Bridgewater NS",
     "/about": "About Nova Kingdom Rentals",
     "/service-areas": "Service Areas",
     "/faq": "Bouncy Castle Rental FAQ",
@@ -547,6 +548,27 @@ def render_lawn_games_fallback(lawn_games: list[dict[str, Any]], description: st
     return "".join(parts)
 
 
+def render_tables_chairs_fallback(tables_chairs: dict[str, Any], description: str) -> str:
+    parts = [f"<p>{h(description)}</p>"]
+    items_html = []
+    for item in tables_chairs.get("items", []):
+        qty = f" ({item['quantity']} in stock)" if item.get("quantity") else ""
+        avail = item.get("availability", "")
+        avail_label = "In stock" if avail == "available" else "By request"
+        items_html.append(
+            f"{h(item['name'])}{h(qty)} — {h(item.get('price', ''))} — {h(avail_label)}. {h(item.get('note', ''))}"
+        )
+    parts.append(render_section("Available Items", render_list(items_html)))
+    if tables_chairs.get("addOnNote"):
+        parts.append(f"<p>{h(tables_chairs['addOnNote'])}</p>")
+    if tables_chairs.get("standaloneNote"):
+        parts.append(f"<p>{h(tables_chairs['standaloneNote'])}</p>")
+    if tables_chairs.get("confirmationNote"):
+        parts.append(f"<p>{h(tables_chairs['confirmationNote'])}</p>")
+    parts.append(cta_block("Contact us for table and chair availability"))
+    return "".join(parts)
+
+
 def render_faq_page_fallback(faqs: dict[str, Any]) -> str:
     parts: list[str] = []
     for group in faqs.get("groups", []):
@@ -654,6 +676,7 @@ def route_metadata(
     seo_pages: list[dict[str, Any]],
     lawn_games: list[dict[str, Any]],
     homepage: dict[str, Any],
+    tables_chairs: dict[str, Any],
 ) -> dict[str, dict[str, Any]]:
     product_by_slug = {product["slug"]: product for product in products}
     product_by_id = {product["id"]: product for product in products}
@@ -714,6 +737,16 @@ def route_metadata(
             "fallback": wrap_fallback(
                 FIXED_H1["/lawn-games"],
                 render_lawn_games_fallback(lawn_games, "Nova Kingdom Rentals offers 12 lawn games available for rent across the South Shore and Nova Scotia. Games can be rented in packages of 5, 10, or all 12 — or added on to an inflatable rental."),
+            ),
+        },
+        "/tables-and-chairs": {
+            "title": "Table and Chair Rentals Bridgewater NS | Nova Kingdom Rentals",
+            "description": "Table and chair rentals available as add-ons with inflatable rentals, foam parties, 360 Photo Booth, lawn games, and party packages. Standalone rentals available by quote. Bridgewater, Nova Scotia.",
+            "image": GENERAL_IMAGE,
+            "schema": [breadcrumb_schema("/tables-and-chairs", "Table and Chair Rentals")],
+            "fallback": wrap_fallback(
+                FIXED_H1["/tables-and-chairs"],
+                render_tables_chairs_fallback(tables_chairs, "Nova Kingdom Rentals offers tables and chairs as add-ons with inflatable rentals, foam parties, 360 Photo Booth bookings, lawn games, and party packages. Standalone table and chair rentals are available by quote."),
             ),
         },
         "/about": {
@@ -879,6 +912,7 @@ def main() -> None:
     seo_pages = load_json("data/seoPages.json")
     lawn_games = load_json("data/lawnGames.json")
     homepage = load_json("data/homepage.json")
+    tables_chairs = load_json("data/tablesAndChairs.json")
     routes = route_metadata(
         site_info=site_info,
         products=products,
@@ -887,6 +921,7 @@ def main() -> None:
         seo_pages=seo_pages,
         lawn_games=lawn_games,
         homepage=homepage,
+        tables_chairs=tables_chairs,
     )
 
     validate_images(routes)
