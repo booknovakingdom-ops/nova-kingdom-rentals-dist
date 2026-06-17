@@ -5997,6 +5997,56 @@
     "ctaText": "Contact Nova Kingdom Rentals for a fast quote for New Ross and surrounding communities."
   },
   {
+    "slug": "tables-and-chairs",
+    "regionType": "local",
+    "title": "Table and Chair Rentals | Nova Kingdom Rentals",
+    "metaTitle": "Table and Chair Rentals NS | Nova Kingdom Rentals Bridgewater",
+    "metaDescription": "Table and chair rentals for birthdays, school events, community events, and backyard parties across Nova Scotia. Black padded chairs from $3 each. 6 ft tables from $8 each. Add-on or standalone by quote.",
+    "h1": "Table and Chair Rentals Bridgewater NS",
+    "intro": "Nova Kingdom Rentals offers table and chair rentals for events across Nova Scotia. Black padded folding chairs are available at $3 each — with 15 in our inventory. White folding chairs and 6 ft rectangular tables are available by request. Tables and chairs can be added to any inflatable rental, foam party, 360 Photo Booth booking, lawn games, or party package, or rented standalone by quote with a minimum order.",
+    "serviceAreaText": "Nova Kingdom Rentals is based in Bridgewater, Nova Scotia. We serve the South Shore, Annapolis Valley, HRM, and surrounding areas. Availability, quantity, delivery, and final pricing are confirmed manually based on your event date, location, and order size. A minimum rental order applies for standalone table and chair bookings.",
+    "bestFor": [
+      "Birthday parties and backyard events",
+      "School events and fun days",
+      "Community and church events",
+      "Graduations and family gatherings",
+      "Fundraisers and corporate events"
+    ],
+    "featuredProductIds": [],
+    "faq": [
+      {
+        "question": "What tables and chairs are available to rent?",
+        "answer": "Black padded folding chairs are available at $3 each — 15 in our inventory. White folding chairs are available by request starting at $3 each. 6 ft rectangular tables are available by request starting at $8 each."
+      },
+      {
+        "question": "Can I add tables and chairs to an inflatable rental?",
+        "answer": "Yes. Tables and chairs are available as add-ons with inflatable rentals, foam parties, 360 Photo Booth bookings, lawn games, and party packages. Mention your table and chair needs when requesting your booking."
+      },
+      {
+        "question": "Can I rent tables and chairs without an inflatable?",
+        "answer": "Yes. Standalone table and chair rentals are available by quote. A minimum rental order applies before travel. Contact us with your event date, location, and quantities needed."
+      },
+      {
+        "question": "How much do chair rentals cost?",
+        "answer": "Black padded folding chairs are $3 each. White folding chairs are available by request starting at $3 each. Final pricing is confirmed based on your order and location."
+      },
+      {
+        "question": "How much do table rentals cost?",
+        "answer": "6 ft rectangular tables are available by request starting at $8 each. Final pricing is confirmed based on your order, location, and delivery details."
+      },
+      {
+        "question": "Is delivery included with table and chair rentals?",
+        "answer": "Delivery is available. A minimum rental order applies before travel. Final delivery cost is confirmed with your quote based on your order size and location."
+      },
+      {
+        "question": "Is booking confirmed after I submit the form?",
+        "answer": "No. Submitting a request does not confirm your booking. Nova Kingdom Rentals confirms availability, quantity, delivery details, and pricing before your rental is finalized."
+      }
+    ],
+    "ctaHeading": "Check availability for tables and chairs",
+    "ctaText": "Send your event date, address, and quantities needed. We will confirm availability, pricing, and delivery details."
+  },
+  {
     "slug": "table-and-chair-rentals-bridgewater-ns",
     "regionType": "local",
     "title": "Table and Chair Rentals in Bridgewater NS",
