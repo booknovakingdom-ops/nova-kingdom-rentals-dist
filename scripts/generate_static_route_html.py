@@ -807,13 +807,16 @@ def route_metadata(
         if page_faq:
             schema.append(page_faq)
         default_image = BOOTH_IMAGE if page["slug"] in BOOTH_SLUGS else RENTALS_IMAGE
-        routes[path] = {
+        route_entry: dict[str, Any] = {
             "title": page["metaTitle"],
             "description": page["metaDescription"],
             "image": first_product.get("image") if first_product else default_image,
             "schema": schema,
             "fallback": wrap_fallback(page["h1"], render_seo_page_fallback(page, product_by_id, product_by_slug)),
         }
+        if page.get("robots"):
+            route_entry["robots"] = page["robots"]
+        routes[path] = route_entry
 
     return routes
 
@@ -825,7 +828,10 @@ def render_head(meta: dict[str, Any], path: str) -> str:
     description = meta["description"]
     schema_items = [item for item in meta.get("schema", []) if item]
     schema = {"@context": "https://schema.org", "@graph": schema_items}
-    return f'''{GENERATED_MARKER}
+    robots_tag = ""
+    if meta.get("robots"):
+        robots_tag = f'\n    <meta name="robots" content="{h(meta["robots"])}" />'
+    return f'''{GENERATED_MARKER}{robots_tag}
     <meta name="description" content="{h(description)}" />
     <meta property="og:title" content="{h(title)}" />
     <meta property="og:description" content="{h(description)}" />
