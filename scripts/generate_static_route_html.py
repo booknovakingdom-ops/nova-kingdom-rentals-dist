@@ -609,7 +609,7 @@ def render_about_fallback(site_info: dict[str, Any]) -> str:
     parts = [
         "<p>Nova Kingdom Rentals is a Bridgewater, Nova Scotia-based inflatable and party rental company "
         "providing bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, "
-        "a 360 Photo Booth, and party rental packages for birthdays, school events, community events, "
+        "a 360 Video Booth, and party rental packages for birthdays, school events, community events, "
         "festivals, corporate events, fundraisers, and family celebrations.</p>",
         f"<p>{h(site_info['serviceArea'])}</p>",
         render_dl([
@@ -742,12 +742,12 @@ def route_metadata(
         },
         "/tables-and-chairs": {
             "title": "Table and Chair Rentals Bridgewater NS | Nova Kingdom Rentals",
-            "description": "Table and chair rentals available as add-ons with inflatable rentals, foam parties, 360 Photo Booth, lawn games, and party packages. Standalone rentals available by quote. Bridgewater, Nova Scotia.",
+            "description": "Table and chair rentals available as add-ons with inflatable rentals, foam parties, 360 Video Booth, lawn games, and party packages. Standalone rentals available by quote. Bridgewater, Nova Scotia.",
             "image": GENERAL_IMAGE,
             "schema": [breadcrumb_schema("/tables-and-chairs", "Table and Chair Rentals")],
             "fallback": wrap_fallback(
                 FIXED_H1["/tables-and-chairs"],
-                render_tables_chairs_fallback(tables_chairs, "Nova Kingdom Rentals offers tables and chairs as add-ons with inflatable rentals, foam parties, 360 Photo Booth bookings, lawn games, and party packages. Standalone table and chair rentals are available by quote."),
+                render_tables_chairs_fallback(tables_chairs, "Nova Kingdom Rentals offers tables and chairs as add-ons with inflatable rentals, foam parties, 360 Video Booth bookings, lawn games, and party packages. Standalone table and chair rentals are available by quote."),
             ),
         },
         "/about": {
