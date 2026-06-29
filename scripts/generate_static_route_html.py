@@ -560,6 +560,15 @@ def render_tables_chairs_fallback(tables_chairs: dict[str, Any], description: st
             f"{h(item['name'])}{h(qty)} — {h(item.get('price', ''))} — {h(avail_label)}. {h(item.get('note', ''))}"
         )
     parts.append(render_section("Available Items", render_list(items_html)))
+    gallery = [
+        f'<figure class="seo-gallery-item"><img src="{h(item["image"])}" alt="{h(item["name"])} for rent in Nova Scotia" loading="lazy"><figcaption>{h(item["name"])}</figcaption></figure>'
+        for item in tables_chairs.get("items", [])
+        if item.get("image")
+    ]
+    if gallery:
+        parts.append(
+            f'<section class="seo-gallery"><h2>Gallery</h2><div class="seo-gallery-grid">{"".join(gallery)}</div></section>'
+        )
     if tables_chairs.get("addOnNote"):
         parts.append(f"<p>{h(tables_chairs['addOnNote'])}</p>")
     if tables_chairs.get("standaloneNote"):
@@ -645,6 +654,15 @@ def render_seo_page_fallback(
     parts = [f"<p>{h(page['intro'])}</p>"]
     if page.get("serviceAreaText"):
         parts.append(f"<p>{h(page['serviceAreaText'])}</p>")
+    gallery = [
+        f'<figure class="seo-gallery-item"><img src="{h(img["src"])}" alt="{h(img.get("alt", ""))}" loading="lazy"><figcaption>{h(img.get("caption", ""))}</figcaption></figure>'
+        for img in page.get("images", [])
+        if img.get("src")
+    ]
+    if gallery:
+        parts.append(
+            f'<section class="seo-gallery"><h2>Gallery</h2><div class="seo-gallery-grid">{"".join(gallery)}</div></section>'
+        )
     featured = []
     for product_id in page.get("featuredProductIds", []):
         product = product_by_id.get(product_id) or product_by_slug.get(product_id)

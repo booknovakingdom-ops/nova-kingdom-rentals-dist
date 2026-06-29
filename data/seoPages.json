@@ -6052,7 +6052,24 @@
       }
     ],
     "ctaHeading": "Check availability for tables and chairs",
-    "ctaText": "Send your event date, address, and quantities needed. We will confirm availability, pricing, and delivery details."
+    "ctaText": "Send your event date, address, and quantities needed. We will confirm availability, pricing, and delivery details.",
+    "images": [
+      {
+        "src": "/images/black-padded-folding-chairs.jpeg",
+        "alt": "Black padded folding chairs for rent in Nova Scotia",
+        "caption": "Black Padded Folding Chairs — $3 each"
+      },
+      {
+        "src": "/images/white-folding-chairs.jpeg",
+        "alt": "White folding chairs for rent in Nova Scotia",
+        "caption": "White Folding Chairs — from $3 each"
+      },
+      {
+        "src": "/images/6ft-rectangular-tables.jpeg",
+        "alt": "6 ft white rectangular folding table for rent in Nova Scotia",
+        "caption": "6 ft Rectangular Tables — from $8 each"
+      }
+    ]
   },
   {
     "slug": "table-and-chair-rentals-bridgewater-ns",
