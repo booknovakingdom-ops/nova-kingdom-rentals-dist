@@ -682,8 +682,22 @@ def render_seo_page_fallback(
     return "".join(parts)
 
 
+LOOKING_ELSE_BLOCK = (
+    '<section class="looking-else" id="request-other-rentals">'
+    "<h2>Looking for Something Else?</h2>"
+    "<p>Planning something different? If you don’t see what you need, tell us what you’re looking for. "
+    "Nova Kingdom Rentals is always reviewing new event rental items for future inventory.</p>"
+    "<p>Tents, extra tables and chairs, photo booths, mini golf, carnival games, generators, and other event "
+    "add-ons may be available by request or added soon.</p>"
+    '<p><a href="/contact#request-other-rentals">Ask About Other Rentals</a></p>'
+    "<p><small>Requests do not guarantee availability. Final availability, pricing, delivery, and setup "
+    "requirements are confirmed manually.</small></p>"
+    "</section>"
+)
+
+
 def wrap_fallback(h1: str, body: str) -> str:
-    return f'<section class="static-fallback" aria-label="Page summary"><h1>{h(h1)}</h1>{body}</section>'
+    return f'<section class="static-fallback" aria-label="Page summary"><h1>{h(h1)}</h1>{body}{LOOKING_ELSE_BLOCK}</section>'
 
 
 def route_metadata(
