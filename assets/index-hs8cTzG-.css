@@ -17,3 +17,8 @@
 .looking-else-card textarea::placeholder{color:#ffffff8a}
 .looking-else-card p{margin:.5rem 0}
 .looking-else-card .looking-else-disclaimer{font-size:.85rem;opacity:.7}
+.looking-else-card input{display:block;width:100%;margin-top:.5rem;padding:.75rem;border-radius:12px;border:1px solid #ffffff2e;background:#ffffff12;color:#fff;font:inherit;font-weight:400}
+.looking-else-card input::placeholder{color:#ffffff8a}
+.looking-else-card .looking-else-form{margin-top:.75rem}
+.looking-else-card .looking-else-form label{margin-bottom:.75rem}
+.looking-else-card .looking-else-form button{width:100%;margin-top:.25rem}
