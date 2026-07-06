@@ -6118,7 +6118,9 @@
         "label": "Request a Rental Item",
         "href": "/request-a-rental"
       }
-    ]
+    ],
+    "heroText": "Chairs from $3, tables from $8, tents from $100. Add-on with any rental or standalone by quote.",
+    "hideServiceCards": true
   },
   {
     "slug": "table-and-chair-rentals-bridgewater-ns",
@@ -45306,7 +45308,9 @@
       }
     ],
     "ctaHeading": "Need chairs for your event?",
-    "ctaText": "Send your date, location, and quantity. We confirm availability, delivery, and final pricing manually."
+    "ctaText": "Send your date, location, and quantity. We confirm availability, delivery, and final pricing manually.",
+    "heroText": "Black padded folding chairs $3 each — 15 in stock. White folding chairs by request from $3 each.",
+    "hideServiceCards": true
   },
   {
     "slug": "table-rentals",
@@ -45366,7 +45370,9 @@
       }
     ],
     "ctaHeading": "Need tables for your event?",
-    "ctaText": "Send your date, location, and quantity. We confirm availability, delivery, and final pricing manually."
+    "ctaText": "Send your date, location, and quantity. We confirm availability, delivery, and final pricing manually.",
+    "heroText": "6 ft rectangular folding tables by request from $8 each — for food, seating, and registration tables.",
+    "hideServiceCards": true
   },
   {
     "slug": "tent-rentals",
@@ -45578,7 +45584,9 @@
         "href": "/tent-rentals-yarmouth-ns"
       }
     ],
-    "cityLinksTitle": "Tent delivery across Nova Scotia."
+    "cityLinksTitle": "Tent delivery across Nova Scotia.",
+    "heroText": "10x10 pop-up canopy from $100 and 20x20 pole tent from $300 — self-serve or with setup and takedown.",
+    "hideServiceCards": true
   },
   {
     "slug": "tent-rentals-bridgewater-ns",
@@ -48082,7 +48090,7 @@
     "metaTitle": "Foam Party Rentals Nova Scotia | Kids Foam Machine Parties | Nova Kingdom Rentals",
     "metaDescription": "Kids foam party and foam machine rentals across Nova Scotia. From $349/hr standalone or $200/hr as an add-on. Operator, machine, and foam solution included. Children's events only.",
     "h1": "Foam Party Rentals Nova Scotia",
-    "intro": "Nova Kingdom Rentals brings high-energy kids foam parties to backyards, schools, daycares, summer camps, church events, and community celebrations across Nova Scotia. We run the foam machine, supply the foam solution, and keep the fun going — you provide a grass area, a water source, and power. Pricing is by guest count: up to 30 kids is $349/hr standalone or $200/hr as an add-on with any inflatable or package; 31–80 kids is $599/hr standalone or $350/hr add-on; larger groups of 80+ start from $800/hr standalone or $650/hr add-on. Foam parties are for children's events only — not for adult events or events serving alcohol — and a responsible adult aged 19+ must supervise at all times. Availability, setup suitability, and final pricing are confirmed manually.",
+    "intro": "Nova Kingdom Rentals runs high-energy foam parties for kids' birthdays, school fun days, daycares, summer camps, and community events across Nova Scotia. We bring the foam machine, foam solution, and an operator — you provide a grass area, a water source, and power. Foam parties are for children's events only, with adult supervision required. Pricing is by guest count — see the FAQ below.",
     "serviceAreaText": "Based in Bridgewater, Nova Scotia. Kids foam parties are best suited to the South Shore, HRM, and nearby areas where foam logistics work well. The first 15 km from Bridgewater is free, then $0.72/km. Final availability, travel, and setup suitability are confirmed manually for every foam booking.",
     "bestFor": [
       "Kids birthday parties",
@@ -48282,6 +48290,8 @@
     ],
     "ctaHeading": "Ready to book a foam party?",
     "ctaText": "Send your date, location, and approximate number of kids. We confirm availability, travel, setup suitability, and final pricing manually.",
-    "cityLinksTitle": "Foam parties across Nova Scotia."
+    "cityLinksTitle": "Foam parties across Nova Scotia.",
+    "heroText": "Kids foam parties with the machine, foam solution, and operator included. From $200/hr as an add-on or $349/hr standalone.",
+    "hideServiceCards": true
   }
 ]
