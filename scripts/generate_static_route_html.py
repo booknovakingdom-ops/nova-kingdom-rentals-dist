@@ -714,7 +714,7 @@ LOOKING_ELSE_BLOCK = (
     "Nova Kingdom Rentals is always reviewing new event rental items for future inventory.</p>"
     "<p>Tents, extra tables and chairs, photo booths, mini golf, carnival games, generators, and other event "
     "add-ons may be available by request or added soon.</p>"
-    '<p><a href="/contact#request-other-rentals">Ask About Other Rentals</a></p>'
+    '<p><a href="/request-a-rental">Ask About Other Rentals</a></p>'
     "<p><small>Requests do not guarantee availability. Final availability, pricing, delivery, and setup "
     "requirements are confirmed manually.</small></p>"
     "</section>"
