@@ -509,6 +509,16 @@ def render_homepage_fallback(
     if intro_text:
         parts.append(render_paragraphs(intro_text))
     parts.append(render_section("Service Area", f"<p>{h(site_info['serviceArea'])}</p>"))
+    parts.append(
+        render_section(
+            "Real Events",
+            '<div class="seo-gallery-grid">'
+            '<figure class="seo-gallery-item"><img src="/images/events/community-event-inflatables.jpg" alt="Nova Kingdom Rentals inflatables at a community event in Nova Scotia" loading="lazy"><figcaption>Community event day — our inflatable lineup in action</figcaption></figure>'
+            '<figure class="seo-gallery-item"><img src="/images/events/backyard-obstacle-dino-setup.jpg" alt="Backyard bouncy castle and obstacle course setup near Bridgewater Nova Scotia" loading="lazy"><figcaption>Backyard party setup — obstacle course and Dino Combo</figcaption></figure>'
+            '<figure class="seo-gallery-item"><img src="/images/events/360-booth-event-setup.jpg" alt="360 Video Booth set up with props at an indoor event in Nova Scotia" loading="lazy"><figcaption>360 Video Booth ready to spin — props included</figcaption></figure>'
+            "</div>",
+        )
+    )
     parts.append(render_section("Our Lineup", render_product_summary_list(products)))
     package_items = []
     for pkg in packages:
@@ -745,7 +755,7 @@ def route_metadata(
     routes: dict[str, dict[str, Any]] = {
         "/": {
             "title": "Bouncy Castle & Inflatable Rentals Bridgewater NS | Nova Kingdom Rentals",
-            "description": "Premium bouncy castle and inflatable rentals from Bridgewater NS. Water slides, lawn games, 360 Video Booth, and packages. Setup included. South Shore and Nova Scotia.",
+            "description": "Bouncy castle rentals near you — Bridgewater, the South Shore, and across Nova Scotia. Water slides, foam parties, 360 Video Booth, tents, and packages. Setup included.",
             "image": GENERAL_IMAGE,
             "schema": [
                 website_schema(site_info),

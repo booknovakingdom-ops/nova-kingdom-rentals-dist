@@ -21,6 +21,10 @@
     ],
     "faq": [
       {
+        "question": "Searching for a bouncy castle rental near me in Bridgewater?",
+        "answer": "You found it — Nova Kingdom Rentals is based right in Bridgewater, Nova Scotia. The first 15 km of delivery is free, setup and takedown are included, and we serve the whole South Shore from our home base. Call or text 902-990-0005 or request your date online."
+      },
+      {
         "question": "Do you deliver in Bridgewater?",
         "answer": "Yes. Nova Kingdom Rentals is based in Bridgewater. Travel cost, setup suitability, and availability are confirmed before booking."
       },
@@ -38,7 +42,19 @@
       }
     ],
     "ctaHeading": "Check availability for your Bridgewater event",
-    "ctaText": "Send your date, address, and event details. We’ll confirm availability, travel cost, setup suitability, and deposit details."
+    "ctaText": "Send your date, address, and event details. We’ll confirm availability, travel cost, setup suitability, and deposit details.",
+    "images": [
+      {
+        "src": "/images/events/backyard-obstacle-dino-setup.jpg",
+        "alt": "Backyard bouncy castle and obstacle course setup near Bridgewater Nova Scotia",
+        "caption": "Backyard party setup — obstacle course and Dino Combo"
+      },
+      {
+        "src": "/images/events/community-event-inflatables.jpg",
+        "alt": "Nova Kingdom Rentals inflatables at a community event in Nova Scotia",
+        "caption": "Community event day — our inflatable lineup in action"
+      }
+    ]
   },
   {
     "slug": "inflatable-rentals-south-shore-ns",
@@ -493,7 +509,14 @@
       }
     ],
     "ctaHeading": "Request a school event quote",
-    "ctaText": "Send event size, date, location, and rental interests so we can recommend a practical setup."
+    "ctaText": "Send event size, date, location, and rental interests so we can recommend a practical setup.",
+    "images": [
+      {
+        "src": "/images/events/community-event-inflatables.jpg",
+        "alt": "Nova Kingdom Rentals inflatables at a community event in Nova Scotia",
+        "caption": "Community event day — our inflatable lineup in action"
+      }
+    ]
   },
   {
     "slug": "community-event-rentals-nova-scotia",
@@ -535,7 +558,19 @@
       }
     ],
     "ctaHeading": "Start a community event quote",
-    "ctaText": "Send your date, location, expected attendance, and event goals so we can review options."
+    "ctaText": "Send your date, location, expected attendance, and event goals so we can review options.",
+    "images": [
+      {
+        "src": "/images/events/community-event-inflatables.jpg",
+        "alt": "Nova Kingdom Rentals inflatables at a community event in Nova Scotia",
+        "caption": "Community event day — our inflatable lineup in action"
+      },
+      {
+        "src": "/images/events/backyard-obstacle-dino-setup.jpg",
+        "alt": "Backyard bouncy castle and obstacle course setup near Bridgewater Nova Scotia",
+        "caption": "Backyard party setup — obstacle course and Dino Combo"
+      }
+    ]
   },
   {
     "slug": "lawn-game-rentals-nova-scotia",
@@ -953,7 +988,14 @@
     ],
     "ctaHeading": "Add a 360 Video Booth to your Nova Scotia event",
     "ctaText": "Send your event date, address, and rental details. We will confirm availability, travel cost, and pricing for your event.",
-    "heroText": "Nova Kingdom Rentals offers 360 Video Booth rentals across Nova Scotia for birthdays, school events, festivals, fundraisers, corporate events, weddings, and community celebrations."
+    "heroText": "Nova Kingdom Rentals offers 360 Video Booth rentals across Nova Scotia for birthdays, school events, festivals, fundraisers, corporate events, weddings, and community celebrations.",
+    "images": [
+      {
+        "src": "/images/events/360-booth-event-setup.jpg",
+        "alt": "360 Video Booth set up with props at an indoor event in Nova Scotia",
+        "caption": "360 Video Booth ready to spin — props included"
+      }
+    ]
   },
   {
     "slug": "photo-booth-rental-bridgewater-ns",
@@ -993,7 +1035,14 @@
     ],
     "ctaHeading": "Book a photo booth rental in Bridgewater",
     "ctaText": "Send your event date, address, and details. We will confirm availability and pricing for your Bridgewater event.",
-    "heroText": "Nova Kingdom Rentals offers 360 Video Booth rentals in Bridgewater and across the South Shore."
+    "heroText": "Nova Kingdom Rentals offers 360 Video Booth rentals in Bridgewater and across the South Shore.",
+    "images": [
+      {
+        "src": "/images/events/360-booth-event-setup.jpg",
+        "alt": "360 Video Booth set up with props at an indoor event in Nova Scotia",
+        "caption": "360 Video Booth ready to spin — props included"
+      }
+    ]
   },
   {
     "slug": "360-video-booth-rental-new-brunswick",
@@ -23000,6 +23049,10 @@
     ],
     "faq": [
       {
+        "question": "Looking for a bounce house rental near me in Halifax?",
+        "answer": "Nova Kingdom Rentals delivers bouncy castles and inflatables to Halifax, Dartmouth, Bedford, and all of HRM from our Bridgewater base. Travel is quoted up front, and setup and takedown are always included."
+      },
+      {
         "question": "Do you deliver inflatable rentals to Halifax NS?",
         "answer": "Yes. Nova Kingdom Rentals is based in Bridgewater and serves Halifax NS by availability and travel quote. Travel is 100 km from our base; the first 15 km is free, and additional distance is quoted at $0.72/km."
       },
@@ -23022,7 +23075,14 @@
     ],
     "ctaHeading": "Check availability for your Halifax NS event",
     "ctaText": "Send your event date, address in Halifax NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-    "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Halifax NS — a Nova Scotia's capital and Atlantic Canada's largest city, a major port and cultural hub — with bouncy castle rentals."
+    "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Halifax NS — a Nova Scotia's capital and Atlantic Canada's largest city, a major port and cultural hub — with bouncy castle rentals.",
+    "images": [
+      {
+        "src": "/images/events/backyard-obstacle-dino-setup.jpg",
+        "alt": "Backyard bouncy castle and obstacle course setup near Bridgewater Nova Scotia",
+        "caption": "Backyard party setup — obstacle course and Dino Combo"
+      }
+    ]
   },
   {
     "slug": "bouncy-castle-rentals-sackville-ns",
