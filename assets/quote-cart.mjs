@@ -65,7 +65,7 @@ function calc360Price(st, et) {
 // Extra display metadata for specific cart items (thumbnail + subtitle in cart panel)
 const CART_ITEM_META = {
   [CROWN_CARNIVAL_ID]: {
-    image:      "/images/crown carnival challenge.jpeg",
+    image:      "/images/crown-carnival-challenge.jpeg",
     subtitle:   "Basketball shoot · Elephant toss · Tic Tac Toe · On-point target game",
     addonLabel: "Add-on",
   },

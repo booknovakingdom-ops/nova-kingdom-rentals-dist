@@ -864,10 +864,11 @@ def route_metadata(
         if page_faq:
             schema.append(page_faq)
         default_image = BOOTH_IMAGE if page["slug"] in BOOTH_SLUGS else RENTALS_IMAGE
+        gallery_image = next((img["src"] for img in page.get("images", []) if img.get("src")), None)
         route_entry: dict[str, Any] = {
             "title": page["metaTitle"],
             "description": page["metaDescription"],
-            "image": first_product.get("image") if first_product else default_image,
+            "image": (first_product.get("image") if first_product else None) or gallery_image or default_image,
             "schema": schema,
             "fallback": wrap_fallback(page["h1"], render_seo_page_fallback(page, product_by_id, product_by_slug)),
         }

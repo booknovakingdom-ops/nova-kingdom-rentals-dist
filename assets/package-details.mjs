@@ -177,7 +177,7 @@ function renderPackagePanel(pkg) {
         <small>Available lawn game lineup: ${escapeHtml(LAWN_GAMES_LIST.join(", "))}.</small>
 
         <div class="package-addon-carnival" data-nk-carnival-addon>
-          <img src="/images/crown carnival challenge.jpeg" alt="Crown Carnival Challenge inflatable add-on" loading="lazy" onerror="this.style.display='none'">
+          <img src="/images/crown-carnival-challenge.jpeg" alt="Crown Carnival Challenge inflatable add-on" loading="lazy" onerror="this.style.display='none'">
           <div class="package-addon-carnival-body">
             <span class="package-addon-badge">Add-on</span>
             <h4>Crown Carnival Challenge</h4>
