@@ -33,6 +33,18 @@ const BOOTH_360_STANDALONE = 249;
 const BOOTH_360_ADDON      = 199;
 
 const FOAM_PARTY_ID = "product-kids-foam-party";
+// Tents: dual pricing (self-serve vs full-service). Never parse from card text.
+const TENT_PRICING = {
+  "product-10x10-pop-up-tent": { name: "10x10 Pop-Up Tent", self: 100, full: 150, image: "/images/10x10-pop-up-tent.jpeg" },
+  "product-20x20-pole-tent":   { name: "20x20 Pole Tent",   self: 300, full: 400, image: "/images/20x20-pole-tent.jpeg" },
+};
+
+// Event Essentials: per-unit add-ons managed in the cart panel
+const EE_CHAIR_ID = "ee-chairs";
+const EE_TABLE_ID = "ee-tables";
+const EE_CHAIR_PRICE = 3;
+const EE_TABLE_PRICE = 8;
+
 // Foam party pricing tiers by guest count
 const FOAM_TIERS = [
   { label: "Up to 30 kids", standalone: 349, addon: 200, prefix: "" },
@@ -66,6 +78,22 @@ const CART_ITEM_META = {
     image:      "/images/kids-foam-party.jpg",
     subtitle:   "Hourly pricing by guest count — confirm tier at booking",
     addonLabel: "Add-on",
+  },
+  "product-10x10-pop-up-tent": {
+    image:    "/images/10x10-pop-up-tent.jpeg",
+    subtitle: "Self-serve $100 · With setup & takedown $150 · Weight bags included",
+  },
+  "product-20x20-pole-tent": {
+    image:    "/images/20x20-pole-tent.jpeg",
+    subtitle: "Self-serve $300 · With setup & takedown $400 · Grass surface required",
+  },
+  [EE_CHAIR_ID]: {
+    image:    "/images/black-padded-folding-chairs.jpeg",
+    subtitle: "Black padded folding chairs — $3 each",
+  },
+  [EE_TABLE_ID]: {
+    image:    "/images/6ft-rectangular-tables.jpeg",
+    subtitle: "6 ft rectangular tables — $8 each (by request)",
   },
 };
 
@@ -276,7 +304,10 @@ function saveCart(items) {
 // ── Helpers ──────────────────────────────────────────────────────
 const eid        = (id) => document.getElementById(id);
 const escHtml    = (s) => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-const parsePrice = (t) => parseFloat(String(t).replace(/[^0-9.]/g,"")) || 0;
+const parsePrice = (t) => {
+  const m = String(t).match(/\$?\s*([0-9][0-9,]*(?:\.[0-9]+)?)/);
+  return m ? parseFloat(m[1].replace(/,/g, "")) : 0;
+};
 const formatMoney = (n) => "$" + Number(n).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,",");
 
 // Returns { productId: coveringItemName } for all products blocked by items currently in cart.
@@ -489,6 +520,7 @@ function renderPanel() {
     const frag = document.createDocumentFragment();
     frag.appendChild(makeItemsSection(items));
     frag.appendChild(makeLawnSection(items));
+    frag.appendChild(makeEssentialsSection(items));
     frag.appendChild(makeAttendantSection());
     frag.appendChild(makeEstimateSection(items, stats));
     frag.appendChild(makeFormSection(items, stats));
@@ -648,6 +680,56 @@ function makeLawnSection(items) {
     renderPanel();
   });
   sec.appendChild(chRow);
+  return sec;
+}
+
+// ── Event Essentials section (chairs & tables by quantity) ──────
+function makeEssentialsSection(items) {
+  const sec = document.createElement("section");
+  const title = document.createElement("p"); title.className = "nk-qs-title";
+  title.textContent = "Tables & chairs (optional add-ons)";
+  sec.appendChild(title);
+
+  [
+    { id: EE_CHAIR_ID, label: "Black padded folding chairs", unit: EE_CHAIR_PRICE, max: 15, note: "$3 each · 15 in inventory" },
+    { id: EE_TABLE_ID, label: "6 ft rectangular tables",     unit: EE_TABLE_PRICE, max: 20, note: "$8 each · by request" },
+  ].forEach(function (cfg) {
+    const existing = items.find(function (i) { return i.id === cfg.id; });
+    const qty = existing ? Math.round(existing.price / cfg.unit) : 0;
+
+    const row = document.createElement("div"); row.className = "nk-ee-row";
+    const info = document.createElement("div"); info.className = "nk-ee-info";
+    const lbl = document.createElement("span"); lbl.className = "nk-ee-label"; lbl.textContent = cfg.label;
+    const note = document.createElement("small"); note.className = "nk-ee-note"; note.textContent = cfg.note;
+    info.appendChild(lbl); info.appendChild(note);
+
+    const ctr = document.createElement("div"); ctr.className = "nk-ee-counter";
+    const minus = document.createElement("button"); minus.type = "button"; minus.textContent = "−"; minus.setAttribute("aria-label", "Fewer " + cfg.label);
+    const count = document.createElement("span"); count.className = "nk-ee-count"; count.textContent = String(qty);
+    const plus = document.createElement("button"); plus.type = "button"; plus.textContent = "+"; plus.setAttribute("aria-label", "More " + cfg.label);
+
+    function setQty(n) {
+      n = Math.max(0, Math.min(cfg.max, n));
+      let cart = loadCart().filter(function (i) { return i.id !== cfg.id; });
+      if (n > 0) {
+        cart.push({ id: cfg.id, name: cfg.label + " × " + n, price: cfg.unit * n, isInflatable: false });
+      }
+      saveCart(cart);
+      count.textContent = String(n);
+      updateBar();
+      renderPanel();
+    }
+    minus.addEventListener("click", function () { setQty(parseInt(count.textContent, 10) - 1); });
+    plus.addEventListener("click", function () { setQty(parseInt(count.textContent, 10) + 1); });
+
+    ctr.appendChild(minus); ctr.appendChild(count); ctr.appendChild(plus);
+    row.appendChild(info); row.appendChild(ctr);
+    sec.appendChild(row);
+  });
+
+  const n = document.createElement("p"); n.className = "nk-estimate-note";
+  n.textContent = "Chair and table quantities are confirmed manually with your quote. Standalone table/chair orders have a minimum before travel.";
+  sec.appendChild(n);
   return sec;
 }
 
@@ -1120,6 +1202,17 @@ function enhanceProductCards() {
     const priceEl = card.querySelector(".product-body strong") || card.querySelector("strong");
     const id      = name ? "product-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-") : null;
     if (!name || !priceEl || !id) return;
+    if (TENT_PRICING[id]) {
+      injectTentBtn(card, id, card.querySelector(".button, a"));
+      hideCheckAvailabilityLinks(card);
+      return;
+    }
+    if (id === FOAM_PARTY_ID) {
+      const hasPkg = loadCart().some(function (i) { return i.id.startsWith("pkg-"); });
+      injectAddBtn(card, id, "Kids Foam Party", hasPkg ? FOAM_TIERS[0].addon : FOAM_TIERS[0].standalone, false, card.querySelector(".button, a"), {});
+      hideCheckAvailabilityLinks(card);
+      return;
+    }
     const price = parsePrice(priceEl.textContent);
     if (!price) return;
     injectAddBtn(card, id, name, price, id !== BOOTH_360_ID, card.querySelector(".button, a"), {});
@@ -1182,11 +1275,67 @@ function enhanceProductDetail() {
   const priceEl = hero.querySelector(".detail-meta span");
   const id      = name ? "product-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-") : null;
   if (!name || !priceEl || !id) return;
+  if (TENT_PRICING[id]) {
+    injectTentBtn(hero, id, hero.querySelector(".button-row, .button, a"));
+    hideCheckAvailabilityLinks(hero);
+    return;
+  }
   const price = parsePrice(priceEl.textContent);
   if (!price) return;
   injectAddBtn(hero, id, name, price, id !== BOOTH_360_ID,
     hero.querySelector(".button-row, .button, a"), {});
   hideCheckAvailabilityLinks(hero);
+}
+
+function injectTentBtn(container, id, insertBefore) {
+  if (container.querySelector(".nk-add-to-quote, .nk-tent-quote")) return;
+  const cfg = TENT_PRICING[id];
+  if (!cfg) return;
+
+  const wrap = document.createElement("div");
+  wrap.className = "nk-tent-quote";
+
+  const sel = document.createElement("select");
+  sel.className = "nk-tent-service";
+  sel.setAttribute("aria-label", "Tent service option");
+  [["self", "Self-serve — $" + cfg.self], ["full", "With setup & takedown — $" + cfg.full]].forEach(function (o) {
+    const opt = document.createElement("option");
+    opt.value = o[0]; opt.textContent = o[1];
+    sel.appendChild(opt);
+  });
+
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.dataset.nkId = id;
+  const inCart = loadCart().some(function (i) { return i.id === id; });
+  btn.className = "nk-add-to-quote" + (inCart ? " in-cart" : "");
+  btn.textContent = inCart ? "In Quote ✓" : "Add to Quote";
+
+  btn.addEventListener("click", function () {
+    let cart = loadCart();
+    const nowIn = cart.some(function (i) { return i.id === id; });
+    if (nowIn) {
+      cart = cart.filter(function (i) { return i.id !== id; });
+    } else {
+      const full = sel.value === "full";
+      cart.push({
+        id: id,
+        name: cfg.name + (full ? " (with setup & takedown)" : " (self-serve)"),
+        price: full ? cfg.full : cfg.self,
+        isInflatable: false,
+      });
+    }
+    saveCart(cart);
+    updateBar();
+    const after = loadCart().some(function (i) { return i.id === id; });
+    btn.textContent = after ? "In Quote ✓" : "Add to Quote";
+    btn.classList.toggle("in-cart", after);
+  });
+
+  wrap.appendChild(sel);
+  wrap.appendChild(btn);
+  if (insertBefore) insertBefore.insertAdjacentElement("beforebegin", wrap);
+  else container.appendChild(wrap);
 }
 
 function injectAddBtn(container, id, name, price, isInflatable, insertBefore, meta) {

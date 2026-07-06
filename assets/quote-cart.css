@@ -443,3 +443,18 @@
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.35; }
 }
+
+/* Tent service picker */
+.nk-tent-quote { margin-top: 0.5rem; }
+.nk-tent-service { display: block; width: 100%; margin-bottom: 0.4rem; padding: 0.45rem 0.6rem; border: 2px solid #c9a227; border-radius: 4px; background: transparent; color: inherit; font-size: 0.85rem; font-weight: 600; }
+.nk-tent-service:focus-visible { outline: 2px solid #c9a227; }
+
+/* Event Essentials qty rows */
+.nk-ee-row { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; padding: 0.45rem 0; border-bottom: 1px solid rgba(0,0,0,0.08); }
+.nk-ee-info { display: flex; flex-direction: column; }
+.nk-ee-label { font-weight: 600; font-size: 0.92rem; }
+.nk-ee-note { opacity: 0.7; font-size: 0.8rem; }
+.nk-ee-counter { display: inline-flex; align-items: center; gap: 0.5rem; }
+.nk-ee-counter button { width: 28px; height: 28px; border: 2px solid #c9a227; background: transparent; color: #c9a227; border-radius: 4px; font-size: 1rem; font-weight: 700; cursor: pointer; line-height: 1; }
+.nk-ee-counter button:hover { background: #c9a227; color: #050814; }
+.nk-ee-count { min-width: 1.5em; text-align: center; font-weight: 700; }
