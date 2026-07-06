@@ -458,3 +458,9 @@
 .nk-ee-counter button { width: 28px; height: 28px; border: 2px solid #c9a227; background: transparent; color: #c9a227; border-radius: 4px; font-size: 1rem; font-weight: 700; cursor: pointer; line-height: 1; }
 .nk-ee-counter button:hover { background: #c9a227; color: #050814; }
 .nk-ee-count { min-width: 1.5em; text-align: center; font-weight: 700; }
+
+/* Event Essentials rows: white text on dark panel */
+.nk-ee-label { color: #fff; }
+.nk-ee-note { color: rgba(255,255,255,0.65); }
+.nk-ee-count { color: #fff; }
+.nk-ee-row { border-bottom: 1px solid rgba(255,255,255,0.12); }
