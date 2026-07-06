@@ -44,6 +44,8 @@ const EE_CHAIR_ID = "ee-chairs";
 const EE_TABLE_ID = "ee-tables";
 const EE_CHAIR_PRICE = 3;
 const EE_TABLE_PRICE = 8;
+const EE_WCHAIR_ID = "ee-white-chairs";
+const EE_WCHAIR_PRICE = 3;
 
 // Foam party pricing tiers by guest count
 const FOAM_TIERS = [
@@ -94,6 +96,10 @@ const CART_ITEM_META = {
   [EE_TABLE_ID]: {
     image:    "/images/6ft-rectangular-tables.jpeg",
     subtitle: "6 ft rectangular tables — $8 each (by request)",
+  },
+  [EE_WCHAIR_ID]: {
+    image:    "/images/white-folding-chairs.jpeg",
+    subtitle: "White folding chairs — from $3 each (by request)",
   },
 };
 
@@ -692,6 +698,7 @@ function makeEssentialsSection(items) {
 
   [
     { id: EE_CHAIR_ID, label: "Black padded folding chairs", unit: EE_CHAIR_PRICE, max: 15, note: "$3 each · 15 in inventory" },
+    { id: EE_WCHAIR_ID, label: "White folding chairs", unit: EE_WCHAIR_PRICE, max: 60, note: "from $3 each · by request" },
     { id: EE_TABLE_ID, label: "6 ft rectangular tables",     unit: EE_TABLE_PRICE, max: 20, note: "$8 each · by request" },
   ].forEach(function (cfg) {
     const existing = items.find(function (i) { return i.id === cfg.id; });
@@ -1739,6 +1746,56 @@ function cleanupFoamPartyDetailPage() {
   });
 }
 
+function enhanceEssentialsGallery() {
+  document.querySelectorAll(".seo-gallery-link:not([data-nk-ee])").forEach(function (card) {
+    card.dataset.nkEe = "1";
+    const img = card.querySelector("img");
+    const src = img ? (img.getAttribute("src") || "") : "";
+    let cfg = null;
+    if (src.indexOf("black-padded-folding-chairs") !== -1)      cfg = { type: "ee",   id: EE_CHAIR_ID,  name: "Black padded folding chairs", unit: EE_CHAIR_PRICE };
+    else if (src.indexOf("white-folding-chairs") !== -1)        cfg = { type: "ee",   id: EE_WCHAIR_ID, name: "White folding chairs",        unit: EE_WCHAIR_PRICE };
+    else if (src.indexOf("6ft-rectangular-tables") !== -1)      cfg = { type: "ee",   id: EE_TABLE_ID,  name: "6 ft rectangular tables",     unit: EE_TABLE_PRICE };
+    else if (src.indexOf("10x10-pop-up-tent") !== -1)           cfg = { type: "tent", id: "product-10x10-pop-up-tent" };
+    else if (src.indexOf("20x20-pole-tent") !== -1)             cfg = { type: "tent", id: "product-20x20-pole-tent" };
+    if (!cfg) return;
+    if (card.querySelector(".nk-add-to-quote")) return;
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.dataset.nkId = cfg.id;
+    const inCart = loadCart().some(function (i) { return i.id === cfg.id; });
+    btn.className = "nk-add-to-quote nk-gallery-add" + (inCart ? " in-cart" : "");
+    btn.textContent = inCart ? "In Quote ✓" : "Add to Quote";
+
+    btn.addEventListener("click", function (e) {
+      // Button lives inside the gallery link — stop the navigation.
+      e.preventDefault();
+      e.stopPropagation();
+      let cart = loadCart();
+      const nowIn = cart.some(function (i) { return i.id === cfg.id; });
+      if (nowIn) {
+        saveCart(cart.filter(function (i) { return i.id !== cfg.id; }));
+        updateBar();
+      } else {
+        if (cfg.type === "tent") {
+          const t = TENT_PRICING[cfg.id];
+          cart.push({ id: cfg.id, name: t.name + " (self-serve)", price: t.self, isInflatable: false });
+        } else {
+          cart.push({ id: cfg.id, name: cfg.name + " × 1", price: cfg.unit, isInflatable: false });
+        }
+        saveCart(cart);
+        updateBar();
+        openPanel(); // adjust quantities / service level in the panel
+      }
+      const after = loadCart().some(function (i) { return i.id === cfg.id; });
+      btn.textContent = after ? "In Quote ✓" : "Add to Quote";
+      btn.classList.toggle("in-cart", after);
+    });
+
+    card.appendChild(btn);
+  });
+}
+
 function enhanceAll() {
   cleanupPhotBoothSection();
   cleanupFoamPartySection();
@@ -1746,6 +1803,7 @@ function enhanceAll() {
   enhancePackageCards();
   enhanceProductDetail();
   enhanceLawnGameCards();
+  enhanceEssentialsGallery();
   enhanceCarnivalAddonBtns();
   injectPhotBoothSection();
   injectFoamPartySection();

@@ -464,3 +464,8 @@
 .nk-ee-note { color: rgba(255,255,255,0.65); }
 .nk-ee-count { color: #fff; }
 .nk-ee-row { border-bottom: 1px solid rgba(255,255,255,0.12); }
+
+/* Add-to-Quote inside gallery cards */
+.nk-gallery-add { display: block; width: calc(100% - 1.5rem); margin: 0 auto 0.8rem; }
+a.seo-gallery-link .nk-gallery-add { color: #c9a227; }
+a.seo-gallery-link .nk-gallery-add:hover, a.seo-gallery-link .nk-gallery-add.in-cart { color: #050814; }
