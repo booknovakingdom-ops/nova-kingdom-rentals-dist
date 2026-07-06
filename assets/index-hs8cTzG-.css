@@ -28,3 +28,6 @@ a.seo-gallery-link:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0
 a.seo-gallery-link .seo-gallery-item,a.seo-gallery-link figure{box-shadow:none;border-radius:0;margin:0}
 .seo-gallery-caption{padding:.65rem .75rem;font-size:.95rem;font-weight:600;text-align:center}
 .gallery-view-details{display:block;text-align:center;font-weight:800;font-size:.9rem;padding:.3rem 0 .8rem;color:#b8860b}
+.seo-city-link-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.35rem .9rem;list-style:none;padding:0;max-width:1180px;margin:0 auto}
+.seo-city-link-list a{text-decoration:none;font-weight:600;font-size:.92rem}
+.seo-city-link-list a:hover{text-decoration:underline}

@@ -666,6 +666,13 @@ def render_seo_page_fallback(
             f'<li><a href="{h(l["href"])}">{h(l["label"])}</a></li>' for l in page["links"] if l.get("href")
         )
         parts.append(f'<nav class="seo-hub-links" aria-label="Related rental pages"><ul>{link_items}</ul></nav>')
+    if page.get("cityLinks"):
+        city_items = "".join(
+            f'<li><a href="{h(l["href"])}">{h(l["label"])}</a></li>' for l in page["cityLinks"] if l.get("href")
+        )
+        parts.append(
+            f'<nav class="seo-city-links" aria-label="Delivery areas"><h2>Delivery Areas</h2><ul>{city_items}</ul></nav>'
+        )
     gallery = []
     for img in page.get("images", []):
         if not img.get("src"):

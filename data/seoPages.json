@@ -45435,7 +45435,145 @@
       }
     ],
     "ctaHeading": "Need a tent for your event?",
-    "ctaText": "Send your date, location, and surface details. We confirm availability, setup suitability, delivery, and final pricing manually."
+    "ctaText": "Send your date, location, and surface details. We confirm availability, setup suitability, delivery, and final pricing manually.",
+    "cityLinks": [
+      {
+        "label": "Tent Rentals Amherst",
+        "href": "/tent-rentals-amherst-ns"
+      },
+      {
+        "label": "Tent Rentals Annapolis Royal",
+        "href": "/tent-rentals-annapolis-royal-ns"
+      },
+      {
+        "label": "Tent Rentals Antigonish",
+        "href": "/tent-rentals-antigonish-ns"
+      },
+      {
+        "label": "Tent Rentals Barrington",
+        "href": "/tent-rentals-barrington-ns"
+      },
+      {
+        "label": "Tent Rentals Bedford",
+        "href": "/tent-rentals-bedford-ns"
+      },
+      {
+        "label": "Tent Rentals Bridgetown",
+        "href": "/tent-rentals-bridgetown-ns"
+      },
+      {
+        "label": "Tent Rentals Bridgewater",
+        "href": "/tent-rentals-bridgewater-ns"
+      },
+      {
+        "label": "Tent Rentals Chester",
+        "href": "/tent-rentals-chester-ns"
+      },
+      {
+        "label": "Tent Rentals Cole Harbour",
+        "href": "/tent-rentals-cole-harbour-ns"
+      },
+      {
+        "label": "Tent Rentals Dartmouth",
+        "href": "/tent-rentals-dartmouth-ns"
+      },
+      {
+        "label": "Tent Rentals Digby",
+        "href": "/tent-rentals-digby-ns"
+      },
+      {
+        "label": "Tent Rentals Enfield",
+        "href": "/tent-rentals-enfield-ns"
+      },
+      {
+        "label": "Tent Rentals Fall River",
+        "href": "/tent-rentals-fall-river-ns"
+      },
+      {
+        "label": "Tent Rentals Halifax",
+        "href": "/tent-rentals-halifax-ns"
+      },
+      {
+        "label": "Tent Rentals Hubbards",
+        "href": "/tent-rentals-hubbards-ns"
+      },
+      {
+        "label": "Tent Rentals Kentville",
+        "href": "/tent-rentals-kentville-ns"
+      },
+      {
+        "label": "Tent Rentals Liverpool",
+        "href": "/tent-rentals-liverpool-ns"
+      },
+      {
+        "label": "Tent Rentals Lockeport",
+        "href": "/tent-rentals-lockeport-ns"
+      },
+      {
+        "label": "Tent Rentals Lower Sackville",
+        "href": "/tent-rentals-lower-sackville-ns"
+      },
+      {
+        "label": "Tent Rentals Lunenburg",
+        "href": "/tent-rentals-lunenburg-ns"
+      },
+      {
+        "label": "Tent Rentals Mahone Bay",
+        "href": "/tent-rentals-mahone-bay-ns"
+      },
+      {
+        "label": "Tent Rentals Middleton",
+        "href": "/tent-rentals-middleton-ns"
+      },
+      {
+        "label": "Tent Rentals Musquodoboit Harbour",
+        "href": "/tent-rentals-musquodoboit-harbour-ns"
+      },
+      {
+        "label": "Tent Rentals New Glasgow",
+        "href": "/tent-rentals-new-glasgow-ns"
+      },
+      {
+        "label": "Tent Rentals Pictou",
+        "href": "/tent-rentals-pictou-ns"
+      },
+      {
+        "label": "Tent Rentals Port Hawkesbury",
+        "href": "/tent-rentals-port-hawkesbury-ns"
+      },
+      {
+        "label": "Tent Rentals Sackville",
+        "href": "/tent-rentals-sackville-ns"
+      },
+      {
+        "label": "Tent Rentals Shelburne",
+        "href": "/tent-rentals-shelburne-ns"
+      },
+      {
+        "label": "Tent Rentals Springhill",
+        "href": "/tent-rentals-springhill-ns"
+      },
+      {
+        "label": "Tent Rentals Stewiacke",
+        "href": "/tent-rentals-stewiacke-ns"
+      },
+      {
+        "label": "Tent Rentals Truro",
+        "href": "/tent-rentals-truro-ns"
+      },
+      {
+        "label": "Tent Rentals Windsor",
+        "href": "/tent-rentals-windsor-ns"
+      },
+      {
+        "label": "Tent Rentals Wolfville",
+        "href": "/tent-rentals-wolfville-ns"
+      },
+      {
+        "label": "Tent Rentals Yarmouth",
+        "href": "/tent-rentals-yarmouth-ns"
+      }
+    ]
   },
   {
     "slug": "tent-rentals-bridgewater-ns",
