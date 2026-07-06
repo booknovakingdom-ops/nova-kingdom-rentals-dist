@@ -666,11 +666,17 @@ def render_seo_page_fallback(
             f'<li><a href="{h(l["href"])}">{h(l["label"])}</a></li>' for l in page["links"] if l.get("href")
         )
         parts.append(f'<nav class="seo-hub-links" aria-label="Related rental pages"><ul>{link_items}</ul></nav>')
-    gallery = [
-        f'<figure class="seo-gallery-item"><img src="{h(img["src"])}" alt="{h(img.get("alt", ""))}" loading="lazy"><figcaption>{h(img.get("caption", ""))}</figcaption></figure>'
-        for img in page.get("images", [])
-        if img.get("src")
-    ]
+    gallery = []
+    for img in page.get("images", []):
+        if not img.get("src"):
+            continue
+        figure = (
+            f'<figure class="seo-gallery-item"><img src="{h(img["src"])}" alt="{h(img.get("alt", ""))}" loading="lazy">'
+            f'<figcaption>{h(img.get("caption", ""))}</figcaption></figure>'
+        )
+        if img.get("href"):
+            figure = f'<a href="{h(img["href"])}" class="seo-gallery-link">{figure}<span class="gallery-view-details">View Details</span></a>'
+        gallery.append(figure)
     if gallery:
         parts.append(
             f'<section class="seo-gallery"><h2>Gallery</h2><div class="seo-gallery-grid">{"".join(gallery)}</div></section>'
