@@ -6113,6 +6113,10 @@
       {
         "label": "20x20 Pole Tent",
         "href": "/rentals/20x20-pole-tent"
+      },
+      {
+        "label": "Request a Rental Item",
+        "href": "/request-a-rental"
       }
     ]
   },
@@ -48056,5 +48060,65 @@
     ],
     "ctaHeading": "Need a tent in Springhill?",
     "ctaText": "Send your date, address, and surface details. We confirm availability, setup suitability, delivery, and final pricing manually."
+  },
+  {
+    "slug": "request-a-rental",
+    "regionType": "local",
+    "title": "Request a Rental Item | Nova Kingdom Rentals",
+    "metaTitle": "Request a Rental Item Nova Scotia | Ask About Any Event Rental | Nova Kingdom Rentals",
+    "metaDescription": "Looking for an event rental we don't list yet? Tell us what you need — tents, photo booths, mini golf, concession machines, generators, carnival games, and more. Requests reviewed for future inventory.",
+    "h1": "Looking for Something Else? Request a Rental Item",
+    "intro": "Planning something different? If you don't see the rental item you need on our site, tell us what you're looking for. Nova Kingdom Rentals is always reviewing new event rental items for future inventory, and customer requests decide what we add next. Common requests include larger tents, extra tables and chairs, photo booths, mini golf, concession machines like popcorn and candy floss, generators, carnival games, yard signs, and other event add-ons. Some items may already be available by request or through a partner — and if enough people ask for something, we bring it in. Send your request through our contact form and we'll reply with what's possible for your date and location.",
+    "serviceAreaText": "Nova Kingdom Rentals is based in Bridgewater, Nova Scotia, serving the South Shore, Annapolis Valley, HRM, and Nova Scotia, with selected larger Maritimes events by quote. Requests do not guarantee availability. Final availability, pricing, delivery, and setup requirements are always confirmed manually.",
+    "bestFor": [
+      "Items not listed on our site",
+      "Special event add-ons",
+      "Larger tents and equipment",
+      "Concession and carnival extras",
+      "Future inventory suggestions"
+    ],
+    "featuredProductIds": [],
+    "links": [
+      {
+        "label": "Ask About Other Rentals",
+        "href": "/contact#request-other-rentals"
+      },
+      {
+        "label": "Event Essentials Hub",
+        "href": "/tables-and-chairs"
+      },
+      {
+        "label": "Tent Rentals",
+        "href": "/tent-rentals"
+      },
+      {
+        "label": "Browse All Rentals",
+        "href": "/rentals"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Can I request a rental item you don't list?",
+        "answer": "Yes. Use our contact form and tell us the item or service you're looking for, plus your event date and location. We review every request — some items are already available by request, and popular requests guide what we add to our inventory next."
+      },
+      {
+        "question": "What kinds of items can I ask about?",
+        "answer": "Anything event-related: larger tents, extra tables and chairs, photo booths, mini golf, concession machines (popcorn, candy floss, snow cones), generators, carnival games, yard signs, and other party or event add-ons."
+      },
+      {
+        "question": "Does a request guarantee the item will be available?",
+        "answer": "No. Requests do not guarantee availability. Final availability, pricing, delivery, and setup requirements are confirmed manually. We reply and let you know what's possible for your date and location."
+      },
+      {
+        "question": "How do I send a request?",
+        "answer": "Use the request form on our contact page — there's a dedicated 'Need Something Not Listed?' section. Include your name, email, event date, location, and the item or service you're looking for. Or call/text 902-990-0005."
+      },
+      {
+        "question": "Will you add new items based on requests?",
+        "answer": "Yes. Nova Kingdom Rentals reviews customer requests when choosing new inventory. Recent additions like tents, tables, and chairs came from customer demand — if enough people ask for an item, we work on bringing it in."
+      }
+    ],
+    "ctaHeading": "Tell us what you're looking for",
+    "ctaText": "Send the item or service you need, plus your event date and location. We confirm what's possible manually — requests do not guarantee availability."
   }
 ]
