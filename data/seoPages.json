@@ -6011,7 +6011,7 @@
     "metaTitle": "Table, Chair & Tent Rentals NS | Nova Kingdom Rentals Bridgewater",
     "metaDescription": "Table, chair, and tent rentals across Nova Scotia. Chairs from $3, 6 ft tables from $8, 10x10 pop-up tent from $100. Add-on or standalone by quote.",
     "h1": "Table, Chair, and Tent Rentals Bridgewater NS",
-    "intro": "Nova Kingdom Rentals offers table and chair rentals for events across Nova Scotia. Black padded folding chairs are available at $3 each — with 15 in our inventory. White folding chairs and 6 ft rectangular tables are available by request. Tables and chairs can be added to any inflatable rental, foam party, 360 Video Booth booking, lawn games, or party package, or rented standalone by quote with a minimum order. We also rent a 10 ft × 10 ft white pop-up canopy tent — $100 self-serve (you set up and take down) or $150 with setup and takedown handled by our team. The tent comes with weight bags for anchoring and is a great shade or light-cover option for food tables, welcome tables, and seating areas at backyard parties, community events, and markets.",
+    "intro": "Nova Kingdom Rentals offers table and chair rentals for events across Nova Scotia. Black padded folding chairs are available at $3 each — with 15 in our inventory. White folding chairs and 6 ft rectangular tables are available by request. Tables and chairs can be added to any inflatable rental, foam party, 360 Video Booth booking, lawn games, or party package, or rented standalone by quote with a minimum order. We also rent a 10 ft × 10 ft white pop-up canopy tent — $100 self-serve (you set up and take down) or $150 with setup and takedown handled by our team. The tent comes with weight bags for anchoring and is a great shade or light-cover option for food tables, welcome tables, and seating areas at backyard parties, community events, and markets. For bigger gatherings, our 20 ft × 20 ft white pole tent covers a full seating or dining area — $300 self-serve or $400 with setup and takedown by our team.",
     "serviceAreaText": "Nova Kingdom Rentals is based in Bridgewater, Nova Scotia. We serve the South Shore, Annapolis Valley, HRM, and surrounding areas. Availability, quantity, delivery, and final pricing are confirmed manually based on your event date, location, and order size. A minimum rental order applies for standalone table and chair bookings.",
     "bestFor": [
       "Birthday parties and backyard events",
@@ -6052,11 +6052,11 @@
       },
       {
         "question": "Do you rent tents?",
-        "answer": "Yes. We rent a 10 ft × 10 ft white pop-up canopy tent. Self-serve is $100 — you set it up and take it down. Setup and takedown by our team is $150. Delivery is free for the first 15 km from Bridgewater, then $0.72/km. Weight bags for anchoring are included."
+        "answer": "Yes. We rent two tent sizes. A 10 ft × 10 ft pop-up canopy tent: $100 self-serve (you set up and take down) or $150 with setup and takedown by our team. A 20 ft × 20 ft pole tent: $300 self-serve or $400 with setup and takedown. Delivery is free for the first 15 km from Bridgewater, then $0.72/km. Availability is confirmed manually."
       },
       {
         "question": "What is the pop-up tent good for?",
-        "answer": "The 10×10 pop-up tent works well as shade or light cover for food tables, welcome tables, prize tables, and small seating areas at backyard parties, community events, markets, and fundraisers. It is a canopy tent, not an enclosed event tent. It must stay anchored at all times and should not be used in high winds or storms."
+        "answer": "The 10×10 pop-up tent works well as shade or light cover for food tables, welcome tables, and small seating areas. The 20×20 pole tent covers a full dining or seating area for larger backyard parties, community events, and fundraisers. Both are open-sided canopy tents, not enclosed event tents. Tents must stay anchored at all times and should not be used in high winds or storms."
       }
     ],
     "ctaHeading": "Check availability for tables and chairs",
@@ -6081,6 +6081,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -6150,6 +6155,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -6322,6 +6332,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -6494,6 +6509,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -6666,6 +6686,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -6838,6 +6863,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -7010,6 +7040,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -7182,6 +7217,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -7356,6 +7396,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -7528,6 +7573,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -7700,6 +7750,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -7874,6 +7929,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -8048,6 +8108,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -8222,6 +8287,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -8394,6 +8464,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -8566,6 +8641,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -8738,6 +8818,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -8912,6 +8997,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -9084,6 +9174,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -9258,6 +9353,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -9430,6 +9530,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -9602,6 +9707,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -9774,6 +9884,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -9946,6 +10061,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -10118,6 +10238,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -10290,6 +10415,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -10464,6 +10594,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -10636,6 +10771,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -10810,6 +10950,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -33330,6 +33475,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -33393,6 +33543,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -33456,6 +33611,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -33519,6 +33679,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -33582,6 +33747,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -33645,6 +33815,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -33708,6 +33883,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -33771,6 +33951,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -33834,6 +34019,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -33897,6 +34087,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -33960,6 +34155,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -34023,6 +34223,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -34086,6 +34291,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -34149,6 +34359,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -34212,6 +34427,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -34275,6 +34495,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -34338,6 +34563,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -34401,6 +34631,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -34464,6 +34699,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -34527,6 +34767,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -34590,6 +34835,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -34653,6 +34903,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -34716,6 +34971,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -34779,6 +35039,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -34842,6 +35107,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -34905,6 +35175,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -34968,6 +35243,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -35031,6 +35311,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -35094,6 +35379,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -35157,6 +35447,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -35220,6 +35515,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -35283,6 +35583,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -35346,6 +35651,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -35409,6 +35719,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -35472,6 +35787,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -35535,6 +35855,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -35598,6 +35923,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -35661,6 +35991,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -35724,6 +36059,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -35787,6 +36127,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -35850,6 +36195,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -35913,6 +36263,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -35976,6 +36331,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -36039,6 +36399,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -36102,6 +36467,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -36165,6 +36535,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -36228,6 +36603,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -36291,6 +36671,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -36354,6 +36739,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -36417,6 +36807,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -36480,6 +36875,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -36543,6 +36943,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
@@ -36606,6 +37011,11 @@
         "src": "/images/10x10-pop-up-tent.jpeg",
         "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
         "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
     ]
   },
