@@ -486,6 +486,13 @@ def render_product_fallback(product: dict[str, Any]) -> str:
     parts.append(render_section("Best For", render_list(product.get("bestFor"))))
     parts.append(render_section("Specs", render_list(product.get("specs"))))
     parts.append(render_section("Setup Notes", render_list(product.get("setupNotes"))))
+    if product.get("category") == "Tent":
+        parts.append(
+            '<nav class="seo-hub-links" aria-label="Related rental pages"><ul>'
+            '<li><a href="/tent-rentals">All Tent Rentals</a></li>'
+            '<li><a href="/tables-and-chairs">Event Essentials Hub</a></li>'
+            "</ul></nav>"
+        )
     parts.append(cta_block(f"Check availability for {product['name']}"))
     return "".join(parts)
 
@@ -654,6 +661,11 @@ def render_seo_page_fallback(
     parts = [f"<p>{h(page['intro'])}</p>"]
     if page.get("serviceAreaText"):
         parts.append(f"<p>{h(page['serviceAreaText'])}</p>")
+    if page.get("links"):
+        link_items = "".join(
+            f'<li><a href="{h(l["href"])}">{h(l["label"])}</a></li>' for l in page["links"] if l.get("href")
+        )
+        parts.append(f'<nav class="seo-hub-links" aria-label="Related rental pages"><ul>{link_items}</ul></nav>')
     gallery = [
         f'<figure class="seo-gallery-item"><img src="{h(img["src"])}" alt="{h(img.get("alt", ""))}" loading="lazy"><figcaption>{h(img.get("caption", ""))}</figcaption></figure>'
         for img in page.get("images", [])

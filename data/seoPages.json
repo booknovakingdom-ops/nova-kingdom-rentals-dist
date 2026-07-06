@@ -6087,6 +6087,28 @@
         "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
         "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
       }
+    ],
+    "links": [
+      {
+        "label": "Chair Rentals",
+        "href": "/chair-rentals"
+      },
+      {
+        "label": "Table Rentals",
+        "href": "/table-rentals"
+      },
+      {
+        "label": "Tent Rentals",
+        "href": "/tent-rentals"
+      },
+      {
+        "label": "10x10 Pop-Up Tent",
+        "href": "/rentals/10x10-pop-up-tent"
+      },
+      {
+        "label": "20x20 Pole Tent",
+        "href": "/rentals/20x20-pole-tent"
+      }
     ]
   },
   {
@@ -44562,5 +44584,199 @@
     ],
     "ctaHeading": "Enquire about party rentals for your O'Leary PEI event",
     "ctaText": "Send your event date, location in O'Leary PEI, event type, expected attendance, and rental preferences. We will review feasibility, travel logistics, and cost, then get back to you with availability and a quote."
+  },
+  {
+    "slug": "chair-rentals",
+    "regionType": "local",
+    "title": "Chair Rentals | Nova Kingdom Rentals",
+    "metaTitle": "Chair Rentals Nova Scotia | Folding Chairs from $3 | Nova Kingdom Rentals",
+    "metaDescription": "Chair rentals in Bridgewater and across Nova Scotia. Black padded folding chairs $3 each — 15 in stock. White folding chairs by request from $3 each. Delivery available.",
+    "h1": "Chair Rentals Nova Scotia",
+    "intro": "Nova Kingdom Rentals offers event chair rentals from Bridgewater, Nova Scotia. Black padded folding chairs are $3 each, with 15 currently available in our inventory. White folding chairs are available by request starting at $3 each. Chairs are a simple add-on for birthdays, school events, community events, backyard parties, graduations, church events, and markets — or rent them standalone by quote with a minimum order. Availability and quantity are confirmed manually for every booking.",
+    "serviceAreaText": "Nova Kingdom Rentals is based in Bridgewater, Nova Scotia. We serve the South Shore, Annapolis Valley, HRM, and surrounding areas. Delivery: the first 15 km from Bridgewater is free, then $0.72/km. Availability, quantity, delivery, and final pricing are confirmed manually based on your event date, location, and order size.",
+    "bestFor": [
+      "Birthday parties",
+      "School events",
+      "Community and church events",
+      "Backyard parties and graduations",
+      "Markets and fundraisers"
+    ],
+    "featuredProductIds": [],
+    "images": [
+      {
+        "src": "/images/black-padded-folding-chairs.jpeg",
+        "alt": "Black padded folding chairs for rent in Nova Scotia",
+        "caption": "Black Padded Folding Chairs — $3 each"
+      },
+      {
+        "src": "/images/white-folding-chairs.jpeg",
+        "alt": "White folding chairs for rent in Nova Scotia",
+        "caption": "White Folding Chairs — from $3 each"
+      }
+    ],
+    "links": [
+      {
+        "label": "Event Essentials Hub",
+        "href": "/tables-and-chairs"
+      },
+      {
+        "label": "Table Rentals",
+        "href": "/table-rentals"
+      },
+      {
+        "label": "Tent Rentals",
+        "href": "/tent-rentals"
+      }
+    ],
+    "faq": [
+      {
+        "question": "How much do chair rentals cost?",
+        "answer": "Black padded folding chairs are $3 each — 15 are currently available in our inventory. White folding chairs are available by request starting at $3 each. Final quantity and availability are confirmed manually."
+      },
+      {
+        "question": "Can I rent chairs without an inflatable?",
+        "answer": "Yes. Standalone chair rentals are available by quote, with a minimum rental order before travel. Chairs can also be added to any inflatable, foam party, 360 Video Booth, tent, lawn game, or package booking."
+      },
+      {
+        "question": "Do you deliver chairs?",
+        "answer": "Yes. The first 15 km from Bridgewater is free, then $0.72/km. Delivery, quantity, and final pricing are confirmed manually based on your date, location, and order size."
+      },
+      {
+        "question": "What events are chair rentals good for?",
+        "answer": "Birthdays, school events, community events, backyard parties, graduations, church events, markets, and fundraisers across the South Shore, HRM, Annapolis Valley, and Nova Scotia."
+      }
+    ],
+    "ctaHeading": "Need chairs for your event?",
+    "ctaText": "Send your date, location, and quantity. We confirm availability, delivery, and final pricing manually."
+  },
+  {
+    "slug": "table-rentals",
+    "regionType": "local",
+    "title": "Table Rentals | Nova Kingdom Rentals",
+    "metaTitle": "Table Rentals Nova Scotia | 6 ft Tables from $8 | Nova Kingdom Rentals",
+    "metaDescription": "Table rentals in Bridgewater and across Nova Scotia. 6 ft rectangular folding tables from $8 each by request. Great for food, seating, and registration tables.",
+    "h1": "Table Rentals Nova Scotia",
+    "intro": "Nova Kingdom Rentals offers 6 ft rectangular folding table rentals from Bridgewater, Nova Scotia, available by request starting at $8 each. Tables work well as food tables, seating tables, and registration tables for birthday parties, school events, community events, and markets. Rent tables alone by quote, or add them to inflatables, tents, 360 Video Booth bookings, packages, and lawn games. Availability and final quantity are confirmed manually.",
+    "serviceAreaText": "Nova Kingdom Rentals is based in Bridgewater, Nova Scotia. We serve the South Shore, Annapolis Valley, HRM, and surrounding areas. Delivery: the first 15 km from Bridgewater is free, then $0.72/km. Availability, quantity, delivery, and final pricing are confirmed manually based on your event date, location, and order size.",
+    "bestFor": [
+      "Food and serving tables",
+      "Registration and welcome tables",
+      "Birthday parties",
+      "School and community events",
+      "Markets and fundraisers"
+    ],
+    "featuredProductIds": [],
+    "images": [
+      {
+        "src": "/images/6ft-rectangular-tables.jpeg",
+        "alt": "6 ft white rectangular folding table for rent in Nova Scotia",
+        "caption": "6 ft Rectangular Tables — from $8 each"
+      }
+    ],
+    "links": [
+      {
+        "label": "Event Essentials Hub",
+        "href": "/tables-and-chairs"
+      },
+      {
+        "label": "Chair Rentals",
+        "href": "/chair-rentals"
+      },
+      {
+        "label": "Tent Rentals",
+        "href": "/tent-rentals"
+      }
+    ],
+    "faq": [
+      {
+        "question": "How much do table rentals cost?",
+        "answer": "6 ft rectangular folding tables are available by request starting at $8 each. Final quantity, availability, and pricing are confirmed manually."
+      },
+      {
+        "question": "Can I rent tables alone?",
+        "answer": "Yes. Standalone table rentals are available by quote, with a minimum rental order before travel. Tables can also be added to inflatables, tents, 360 Video Booth bookings, packages, and lawn games."
+      },
+      {
+        "question": "Do you deliver tables?",
+        "answer": "Yes. The first 15 km from Bridgewater is free, then $0.72/km. Delivery, quantity, and final pricing are confirmed manually based on your date, location, and order size."
+      },
+      {
+        "question": "What are 6 ft tables good for?",
+        "answer": "Food and serving tables, seating, registration and welcome tables, prize tables, and vendor tables at birthdays, school events, community events, and markets."
+      }
+    ],
+    "ctaHeading": "Need tables for your event?",
+    "ctaText": "Send your date, location, and quantity. We confirm availability, delivery, and final pricing manually."
+  },
+  {
+    "slug": "tent-rentals",
+    "regionType": "local",
+    "title": "Tent Rentals | Nova Kingdom Rentals",
+    "metaTitle": "Tent Rentals Nova Scotia | 10x10 & 20x20 Tents | Nova Kingdom Rentals",
+    "metaDescription": "Tent rentals in Bridgewater and across Nova Scotia. 10x10 pop-up canopy from $100 and 20x20 pole tent from $300. Self-serve or with setup and takedown.",
+    "h1": "Tent Rentals Nova Scotia",
+    "intro": "Nova Kingdom Rentals offers two tent rentals from Bridgewater, Nova Scotia. The 10x10 Pop-Up Canopy Tent is $100 self-serve or $150 with setup and takedown — weight bags included — and suits shade or light cover for food tables, welcome tables, markets, and small seating areas. The 20x20 Pole Tent is $300 self-serve or $400 with setup and takedown, covers a full dining or seating area for larger backyard parties, community events, and fundraisers, and requires a stakeable grass surface with stakes and guy ropes. Both are open-sided tents, not enclosed event tents. Tents must stay anchored at all times and must not be used in high winds, storms, unsafe weather, or on unsuitable surfaces. Final availability, setup approval, delivery, and pricing are confirmed manually.",
+    "serviceAreaText": "Nova Kingdom Rentals is based in Bridgewater, Nova Scotia. We serve the South Shore, Annapolis Valley, HRM, and surrounding areas. Delivery: the first 15 km from Bridgewater is free, then $0.72/km. Availability, quantity, delivery, and final pricing are confirmed manually based on your event date, location, and order size.",
+    "bestFor": [
+      "Backyard parties",
+      "Community events and fundraisers",
+      "Food and vendor cover",
+      "Dining and seating areas",
+      "Markets"
+    ],
+    "featuredProductIds": [
+      "10x10-pop-up-tent",
+      "20x20-pole-tent"
+    ],
+    "images": [
+      {
+        "src": "/images/10x10-pop-up-tent.jpeg",
+        "alt": "10 ft x 10 ft white pop-up canopy tent for rent in Nova Scotia",
+        "caption": "10×10 Pop-Up Tent — $100 self-serve · $150 with setup"
+      },
+      {
+        "src": "/images/20x20-pole-tent.jpeg",
+        "alt": "20 ft x 20 ft white pole tent for rent in Nova Scotia",
+        "caption": "20×20 Pole Tent — $300 self-serve · $400 with setup"
+      }
+    ],
+    "links": [
+      {
+        "label": "10x10 Pop-Up Tent",
+        "href": "/rentals/10x10-pop-up-tent"
+      },
+      {
+        "label": "20x20 Pole Tent",
+        "href": "/rentals/20x20-pole-tent"
+      },
+      {
+        "label": "Event Essentials Hub",
+        "href": "/tables-and-chairs"
+      }
+    ],
+    "faq": [
+      {
+        "question": "How much does tent rental cost?",
+        "answer": "The 10x10 Pop-Up Canopy Tent is $100 self-serve or $150 with setup and takedown. The 20x20 Pole Tent is $300 self-serve or $400 with setup and takedown. Delivery is free for the first 15 km from Bridgewater, then $0.72/km."
+      },
+      {
+        "question": "What is the difference between self-serve and full-service?",
+        "answer": "Self-serve means you set the tent up and take it down yourself. Full-service means our team handles setup and takedown for you — $150 for the 10x10 and $400 for the 20x20."
+      },
+      {
+        "question": "What surface do the tents need?",
+        "answer": "The 10x10 pop-up comes with weight bags and suits most flat, clear areas. The 20x20 pole tent uses stakes and guy ropes, so it requires a stakeable grass surface with clear space around the perimeter. Setup suitability is confirmed before booking."
+      },
+      {
+        "question": "Are these enclosed event tents?",
+        "answer": "No. Both are open-sided canopy tents for shade and light cover. Tents must stay anchored at all times and must not be used in high winds, storms, unsafe weather, or on unsuitable surfaces."
+      },
+      {
+        "question": "Can I add tables and chairs to a tent rental?",
+        "answer": "Yes. Chairs from $3 each and 6 ft tables from $8 each can be added to any tent booking. See our chair rentals and table rentals pages for details."
+      }
+    ],
+    "ctaHeading": "Need a tent for your event?",
+    "ctaText": "Send your date, location, and surface details. We confirm availability, setup suitability, delivery, and final pricing manually."
   }
 ]

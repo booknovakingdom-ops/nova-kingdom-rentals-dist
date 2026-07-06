@@ -442,5 +442,101 @@
       "Add-on with inflatable or package — 31–80 kids: $350/hour",
       "Add-on with inflatable or package — 80+ kids: from $650/hour"
     ]
+  },
+  {
+    "id": "10x10-pop-up-tent",
+    "slug": "10x10-pop-up-tent",
+    "name": "10x10 Pop-Up Tent",
+    "tagline": "Quick Shade, Easy Cover",
+    "category": "Tent",
+    "price": "$100 self-serve · $150 with setup",
+    "status": "Available Now",
+    "image": "/images/10x10-pop-up-tent.jpeg",
+    "metaTitle": "10x10 Pop-Up Tent Rental Nova Scotia | Nova Kingdom Rentals",
+    "metaDescription": "10x10 pop-up canopy tent rental in Nova Scotia. $100 self-serve or $150 with setup and takedown. Weight bags included. Shade for food tables, markets, and backyard seating.",
+    "shortDescription": "10 ft x 10 ft white pop-up canopy tent — quick shade or light cover for food tables, welcome tables, small vendor setups, and backyard seating.",
+    "fullDescription": "Our 10 ft x 10 ft white pop-up canopy tent is a fast, simple way to add shade or light cover to your event. It works well over food tables, welcome tables, prize tables, small vendor setups, and backyard seating areas.\n\nChoose self-serve for $100 — you pick it up or receive it, set it up, and take it down yourself — or have our team handle setup and takedown for $150. Weight bags for anchoring are included with every rental.\n\nThis is an open-sided canopy, not an enclosed event tent. The tent must stay anchored at all times and must not be used in high winds, storms, or unsafe weather. Final availability, delivery, and setup suitability are confirmed manually before booking.",
+    "bestFor": [
+      "Food and welcome tables",
+      "Markets and vendor setups",
+      "Backyard seating areas",
+      "Birthday parties",
+      "Community events"
+    ],
+    "features": [
+      "10 ft x 10 ft white canopy",
+      "Pop-up frame — fast setup",
+      "Weight bags included",
+      "Self-serve or full-service options",
+      "Open-sided shade / light cover"
+    ],
+    "setupNotes": [
+      "Must stay anchored at all times",
+      "Not for use in high winds, storms, or unsafe weather",
+      "Flat, clear setup area required",
+      "Self-serve: you set up and take down",
+      "Full-service: setup and takedown included ($150)",
+      "Delivery: first 15 km from Bridgewater free, then $0.72/km"
+    ],
+    "duration": "Up to 1 day",
+    "wetUse": false,
+    "specs": [
+      "Size: 10 ft x 10 ft",
+      "Colour: white",
+      "Weight bags included",
+      "Self-serve: $100",
+      "With setup and takedown: $150",
+      "Delivery: first 15 km from Bridgewater free, then $0.72/km",
+      "Availability confirmed manually"
+    ]
+  },
+  {
+    "id": "20x20-pole-tent",
+    "slug": "20x20-pole-tent",
+    "name": "20x20 Pole Tent",
+    "tagline": "Cover the Whole Party",
+    "category": "Tent",
+    "price": "$300 self-serve · $400 with setup",
+    "status": "Available Now",
+    "image": "/images/20x20-pole-tent.jpeg",
+    "metaTitle": "20x20 Pole Tent Rental Nova Scotia | Nova Kingdom Rentals",
+    "metaDescription": "20x20 pole tent rental in Nova Scotia. $300 self-serve or $400 with setup and takedown. Covers dining and seating areas for backyard parties, community events, and fundraisers.",
+    "shortDescription": "20 ft x 20 ft white pole tent — covers a full dining or seating area for larger backyard parties, community events, and fundraisers.",
+    "fullDescription": "Our 20 ft x 20 ft white pole tent covers a full dining or seating area, making it a strong choice for larger backyard parties, community events, fundraisers, and family gatherings.\n\nChoose self-serve for $300 — you set it up and take it down yourself — or have our team handle setup and takedown for $400. The tent uses stakes and guy ropes, so it requires a stakeable grass surface with enough clear space around the perimeter.\n\nThis is an open-sided pole tent, not an enclosed event tent. It must stay anchored at all times and must not be used in high winds, storms, unsafe weather, or on unsuitable surfaces. Final availability, delivery, setup approval, and pricing are confirmed manually before booking.",
+    "bestFor": [
+      "Larger backyard parties",
+      "Community events",
+      "Fundraisers",
+      "Dining and seating areas",
+      "Family gatherings"
+    ],
+    "features": [
+      "20 ft x 20 ft white pole tent",
+      "Covers a full dining or seating area",
+      "Self-serve or full-service options",
+      "Stakes and guy ropes included",
+      "Open-sided canopy design"
+    ],
+    "setupNotes": [
+      "Requires stakeable grass surface",
+      "Uses stakes and guy ropes — clear perimeter space needed",
+      "Must stay anchored at all times",
+      "Not for use in high winds, storms, or unsuitable surfaces",
+      "Self-serve: you set up and take down",
+      "Full-service: setup and takedown included ($400)",
+      "Delivery: first 15 km from Bridgewater free, then $0.72/km"
+    ],
+    "duration": "Up to 1 day",
+    "wetUse": false,
+    "specs": [
+      "Size: 20 ft x 20 ft",
+      "Colour: white",
+      "Stakes and guy ropes",
+      "Grass surface required",
+      "Self-serve: $300",
+      "With setup and takedown: $400",
+      "Delivery: first 15 km from Bridgewater free, then $0.72/km",
+      "Availability confirmed manually"
+    ]
   }
 ]
