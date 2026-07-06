@@ -1806,7 +1806,6 @@ function enhanceAll() {
   enhanceEssentialsGallery();
   enhanceCarnivalAddonBtns();
   injectPhotBoothSection();
-  injectFoamPartySection();
   cleanupBoothDetailPage();
   cleanupFoamPartyDetailPage();
   injectDesktopPhotBoothNav();
