@@ -45577,7 +45577,8 @@
         "label": "Tent Rentals Yarmouth",
         "href": "/tent-rentals-yarmouth-ns"
       }
-    ]
+    ],
+    "cityLinksTitle": "Tent delivery across Nova Scotia."
   },
   {
     "slug": "tent-rentals-bridgewater-ns",
@@ -48073,5 +48074,214 @@
     "featuredProductIds": [],
     "ctaHeading": "Tell us what you're looking for",
     "ctaText": "Send the item or service you need, your date, and your location — we reply with what's possible."
+  },
+  {
+    "slug": "foam-party",
+    "regionType": "local",
+    "title": "Foam Party Rentals | Nova Kingdom Rentals",
+    "metaTitle": "Foam Party Rentals Nova Scotia | Kids Foam Machine Parties | Nova Kingdom Rentals",
+    "metaDescription": "Kids foam party and foam machine rentals across Nova Scotia. From $349/hr standalone or $200/hr as an add-on. Operator, machine, and foam solution included. Children's events only.",
+    "h1": "Foam Party Rentals Nova Scotia",
+    "intro": "Nova Kingdom Rentals brings high-energy kids foam parties to backyards, schools, daycares, summer camps, church events, and community celebrations across Nova Scotia. We run the foam machine, supply the foam solution, and keep the fun going — you provide a grass area, a water source, and power. Pricing is by guest count: up to 30 kids is $349/hr standalone or $200/hr as an add-on with any inflatable or package; 31–80 kids is $599/hr standalone or $350/hr add-on; larger groups of 80+ start from $800/hr standalone or $650/hr add-on. Foam parties are for children's events only — not for adult events or events serving alcohol — and a responsible adult aged 19+ must supervise at all times. Availability, setup suitability, and final pricing are confirmed manually.",
+    "serviceAreaText": "Based in Bridgewater, Nova Scotia. Kids foam parties are best suited to the South Shore, HRM, and nearby areas where foam logistics work well. The first 15 km from Bridgewater is free, then $0.72/km. Final availability, travel, and setup suitability are confirmed manually for every foam booking.",
+    "bestFor": [
+      "Kids birthday parties",
+      "School fun days and daycares",
+      "Summer camps",
+      "Church and community events",
+      "Family celebrations"
+    ],
+    "featuredProductIds": [
+      "kids-foam-party"
+    ],
+    "images": [
+      {
+        "src": "/images/kids-foam-party.jpg",
+        "alt": "Kids foam party rental in Nova Scotia with foam machine",
+        "caption": "Kids Foam Party — from $200/hr add-on · from $349/hr standalone",
+        "href": "/rentals/kids-foam-party"
+      }
+    ],
+    "links": [
+      {
+        "label": "Kids Foam Party Details & Booking",
+        "href": "/rentals/kids-foam-party"
+      },
+      {
+        "label": "Browse All Rentals",
+        "href": "/rentals"
+      },
+      {
+        "label": "Party Packages",
+        "href": "/packages"
+      }
+    ],
+    "cityLinks": [
+      {
+        "label": "Kids Foam Party Bridgewater",
+        "href": "/kids-foam-party-bridgewater-ns"
+      },
+      {
+        "label": "Kids Foam Party Chester",
+        "href": "/kids-foam-party-chester-ns"
+      },
+      {
+        "label": "Kids Foam Party Hubbards",
+        "href": "/kids-foam-party-hubbards-ns"
+      },
+      {
+        "label": "Kids Foam Party Mahone Bay",
+        "href": "/kids-foam-party-mahone-bay-ns"
+      },
+      {
+        "label": "Kids Foam Party Lunenburg",
+        "href": "/kids-foam-party-lunenburg-ns"
+      },
+      {
+        "label": "Kids Foam Party Liverpool",
+        "href": "/kids-foam-party-liverpool-ns"
+      },
+      {
+        "label": "Foam Machine Rental Lockeport",
+        "href": "/foam-machine-rental-lockeport-ns"
+      },
+      {
+        "label": "Kids Foam Party Shelburne",
+        "href": "/kids-foam-party-shelburne-ns"
+      },
+      {
+        "label": "Foam Machine Rental Barrington",
+        "href": "/foam-machine-rental-barrington-ns"
+      },
+      {
+        "label": "Kids Foam Party Yarmouth",
+        "href": "/kids-foam-party-yarmouth-ns"
+      },
+      {
+        "label": "Kids Foam Party Digby",
+        "href": "/kids-foam-party-digby-ns"
+      },
+      {
+        "label": "Foam Machine Rental Annapolis Royal",
+        "href": "/foam-machine-rental-annapolis-royal-ns"
+      },
+      {
+        "label": "Foam Machine Rental Bridgetown",
+        "href": "/foam-machine-rental-bridgetown-ns"
+      },
+      {
+        "label": "Foam Machine Rental Middleton",
+        "href": "/foam-machine-rental-middleton-ns"
+      },
+      {
+        "label": "Foam Machine Rental Kentville",
+        "href": "/foam-machine-rental-kentville-ns"
+      },
+      {
+        "label": "Foam Machine Rental Wolfville",
+        "href": "/foam-machine-rental-wolfville-ns"
+      },
+      {
+        "label": "Foam Machine Rental Windsor",
+        "href": "/foam-machine-rental-windsor-ns"
+      },
+      {
+        "label": "Kids Foam Party Halifax",
+        "href": "/kids-foam-party-halifax-ns"
+      },
+      {
+        "label": "Kids Foam Party Dartmouth",
+        "href": "/kids-foam-party-dartmouth-ns"
+      },
+      {
+        "label": "Kids Foam Party Bedford",
+        "href": "/kids-foam-party-bedford-ns"
+      },
+      {
+        "label": "Foam Machine Rental Lower Sackville",
+        "href": "/foam-machine-rental-lower-sackville-ns"
+      },
+      {
+        "label": "Foam Machine Rental Sackville",
+        "href": "/foam-machine-rental-sackville-ns"
+      },
+      {
+        "label": "Foam Machine Rental Cole Harbour",
+        "href": "/foam-machine-rental-cole-harbour-ns"
+      },
+      {
+        "label": "Foam Machine Rental Fall River",
+        "href": "/foam-machine-rental-fall-river-ns"
+      },
+      {
+        "label": "Foam Machine Rental Musquodoboit Harbour",
+        "href": "/foam-machine-rental-musquodoboit-harbour-ns"
+      },
+      {
+        "label": "Foam Machine Rental Enfield",
+        "href": "/foam-machine-rental-enfield-ns"
+      },
+      {
+        "label": "Foam Machine Rental Stewiacke",
+        "href": "/foam-machine-rental-stewiacke-ns"
+      },
+      {
+        "label": "Foam Machine Rental Truro",
+        "href": "/foam-machine-rental-truro-ns"
+      },
+      {
+        "label": "Foam Machine Rental New Glasgow",
+        "href": "/foam-machine-rental-new-glasgow-ns"
+      },
+      {
+        "label": "Foam Machine Rental Pictou",
+        "href": "/foam-machine-rental-pictou-ns"
+      },
+      {
+        "label": "Foam Machine Rental Antigonish",
+        "href": "/foam-machine-rental-antigonish-ns"
+      },
+      {
+        "label": "Foam Machine Rental Port Hawkesbury",
+        "href": "/foam-machine-rental-port-hawkesbury-ns"
+      },
+      {
+        "label": "Foam Machine Rental Amherst",
+        "href": "/foam-machine-rental-amherst-ns"
+      },
+      {
+        "label": "Foam Machine Rental Springhill",
+        "href": "/foam-machine-rental-springhill-ns"
+      }
+    ],
+    "faq": [
+      {
+        "question": "How much does a foam party cost?",
+        "answer": "Pricing is by guest count. Up to 30 kids: $349/hr standalone or $200/hr as an add-on with any inflatable or package. 31–80 kids: $599/hr standalone or $350/hr add-on. 80+ kids: from $800/hr standalone or from $650/hr add-on. Final pricing is confirmed manually."
+      },
+      {
+        "question": "What is included with a foam party rental?",
+        "answer": "The foam machine, foam solution, and our operator running the foam are included. You provide a clear grass area, a standard water source with hose access, and power. Setup suitability is confirmed before booking."
+      },
+      {
+        "question": "Are foam parties for adults too?",
+        "answer": "No. Our foam parties are for children's events only — they are not available for adult events or events serving alcohol. A responsible adult aged 19+ must actively supervise at all times."
+      },
+      {
+        "question": "What do I need to provide for a foam party?",
+        "answer": "A clear, level grass area, a standard water source with hose access, and power. Kids should wear clothes that can get wet, and eye-sensitive children may want goggles. We confirm setup details with you before the event."
+      },
+      {
+        "question": "Where do you offer foam parties?",
+        "answer": "Foam parties work best across the South Shore — Bridgewater, Lunenburg, Mahone Bay, Chester, Liverpool, Shelburne, Yarmouth, Digby — plus Halifax, Dartmouth, and Bedford. Other Nova Scotia locations are confirmed case by case based on travel and setup logistics."
+      },
+      {
+        "question": "Can I add a foam party to an inflatable rental?",
+        "answer": "Yes — that's the best value. As an add-on with any inflatable or package, foam party pricing starts at $200/hr for up to 30 kids instead of the $349/hr standalone rate."
+      }
+    ],
+    "ctaHeading": "Ready to book a foam party?",
+    "ctaText": "Send your date, location, and approximate number of kids. We confirm availability, travel, setup suitability, and final pricing manually.",
+    "cityLinksTitle": "Foam parties across Nova Scotia."
   }
 ]
