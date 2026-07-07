@@ -508,5 +508,52 @@
       "Delivery: first 15 km from Bridgewater free, then $0.72/km",
       "Availability confirmed manually"
     ]
+  },
+  {
+    "id": "inflatable-foam-pit",
+    "slug": "inflatable-foam-pit",
+    "name": "Inflatable Foam Pit",
+    "tagline": "Contained Foam Fun for Kids",
+    "category": "Foam Party",
+    "price": "Priced with your foam party booking",
+    "status": "Available Now",
+    "image": "/images/events/inflatable-foam-pit-2.jpg",
+    "metaTitle": "Inflatable Foam Pit Rental Nova Scotia | Nova Kingdom Rentals",
+    "metaDescription": "Inflatable foam pit rental in Nova Scotia — 13 ft x 13 ft contained foam play area with 3 ft side walls and 6 ft back wall. A foam party option for kids' parties and backyard events.",
+    "shortDescription": "A compact 13 ft × 13 ft inflatable foam pit with 3 ft side walls and a 6 ft back wall — a contained foam play area for kids' parties and backyard-style events.",
+    "fullDescription": "A compact inflatable foam pit option for kids' parties and backyard-style events. The pit is 13 ft × 13 ft with 3 ft side walls and a 6 ft back wall, creating a contained foam play area for kids to enjoy.\n\nThe foam pit is booked as part of our Kids Foam Party service — foam solution is included based on your booking, and pricing is confirmed with your foam party quote. It is outdoor use only and needs water access and power access at the setup area.\n\nAdult supervision is required at all times, and weather and setup suitability are confirmed before every event.",
+    "bestFor": [
+      "Smaller kids' parties",
+      "Backyard-style events",
+      "Birthday parties",
+      "Daycares and camps",
+      "Foam party add-on"
+    ],
+    "features": [
+      "13 ft × 13 ft inflatable foam pit",
+      "3 ft side walls",
+      "6 ft back wall",
+      "Contained foam play area",
+      "Foam solution included based on booking"
+    ],
+    "setupNotes": [
+      "Outdoor use only",
+      "Water access required",
+      "Power access required",
+      "Adult supervision required",
+      "Weather and setup suitability confirmed before booking"
+    ],
+    "duration": "Booked with your foam party",
+    "wetUse": true,
+    "dimensions": "13 ft × 13 ft; side walls 3 ft; back wall 6 ft",
+    "specs": [
+      "Size: 13 ft × 13 ft",
+      "Side walls: 3 ft",
+      "Back wall: 6 ft",
+      "Outdoor use only",
+      "Water and power access required",
+      "Foam solution included based on booking",
+      "Priced with your foam party booking"
+    ]
   }
 ]
