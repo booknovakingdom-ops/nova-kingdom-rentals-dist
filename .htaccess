@@ -43,6 +43,8 @@ DirectoryIndex index.html
   RewriteRule ^school-inflatable-rentals-nova-scotia/?$ /school-event-inflatable-rentals-nova-scotia [R=301,L]
   RewriteRule ^community-event-rentals-ns/?$ /community-event-rentals-nova-scotia [R=301,L]
 
+  RewriteRule ^rentals/crown-carnival-challenge/?$ /rentals [R=301,L]
+
   RewriteRule ^book-now/?$ /contact [R=301,L]
   RewriteRule ^booking/?$ /contact [R=301,L]
   RewriteRule ^check-availability/?$ /contact [R=301,L]

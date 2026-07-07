@@ -244,44 +244,5 @@
       "First 15 km from Bridgewater free, then $0.72/km unless otherwise quoted.",
       "Final availability and setup suitability are confirmed manually before booking is finalized."
     ]
-  },
-  {
-    "id": "ultimate-kingdom-plus",
-    "name": "Ultimate Kingdom Plus",
-    "price": "$2,099",
-    "savings": "$520",
-    "included": [
-      "Crown Rush 42",
-      "Crown Climber",
-      "Crown Island Combo",
-      "Crown Dino Combo",
-      "Crown Axe Challenge",
-      "Crown Kick Darts",
-      "Crown Carnival Challenge",
-      "5 Lawn Games",
-      "360 Video Booth — 3 hours"
-    ],
-    "badge": "Biggest Event Package",
-    "image": "/images/packages/ultimate-kingdom-plus-package.webp",
-    "regularValue": "$2,619",
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
-    "description": "Our biggest event package, built for schools, festivals, fundraisers, corporate events, municipalities, and large community celebrations. Combines multiple inflatables, interactive games, lawn games, and a 360 Video Booth for maximum event variety.",
-    "includedItems": [
-      "Crown Rush 42",
-      "Crown Climber",
-      "Crown Island Combo",
-      "Crown Dino Combo",
-      "Crown Axe Challenge",
-      "Crown Kick Darts",
-      "Crown Carnival Challenge",
-      "5 Lawn Games",
-      "360 Video Booth — 3 hours"
-    ],
-    "bookingNotes": [
-      "Setup and takedown included.",
-      "Travel, staffing, generator, and venue requirements may be quoted separately where applicable.",
-      "First 15 km from Bridgewater free, then $0.72/km unless otherwise quoted.",
-      "Final availability and setup suitability are confirmed manually before booking is finalized."
-    ]
   }
 ]

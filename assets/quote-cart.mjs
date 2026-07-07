@@ -23,10 +23,6 @@ const NOVA_KINGDOM_BASE_ADDRESS = "598 Upper Branch Rd, Wileville, NS B4V 5M7, C
 
 const DELIVERY_API_URL = "https://nova-delivery-api.booknovakingdom.workers.dev/api/estimate-delivery";
 
-// Crown Carnival Challenge: dynamic pricing based on whether a package is in cart
-const CROWN_CARNIVAL_ID         = "product-crown-carnival-challenge";
-const CROWN_CARNIVAL_STANDALONE = 270;
-const CROWN_CARNIVAL_ADDON      = 200;
 
 const BOOTH_360_ID         = "product-360-video-booth";
 const BOOTH_360_STANDALONE = 249;
@@ -66,11 +62,6 @@ function calc360Price(st, et) {
 
 // Extra display metadata for specific cart items (thumbnail + subtitle in cart panel)
 const CART_ITEM_META = {
-  [CROWN_CARNIVAL_ID]: {
-    image:      "/images/crown-carnival-challenge.jpeg",
-    subtitle:   "Basketball shoot · Elephant toss · Tic Tac Toe · On-point target game",
-    addonLabel: "Add-on",
-  },
   [BOOTH_360_ID]: {
     image:      "/images/360-video-booth.jpg",
     subtitle:   "Standalone: $249 first hr · Add-on with package: $199 first hr · Extra hours available",
@@ -116,7 +107,6 @@ const PKG_INCLUDED_PRODUCTS = {
   "pkg-royal-all-star":   new Set(["product-crown-rush-42", "product-crown-axe-challenge", "product-crown-kick-darts"]),
   "pkg-kingdom-deluxe":   new Set(["product-crown-rush-42", "product-crown-island-combo", "product-crown-axe-challenge", "product-crown-kick-darts"]),
   "pkg-ultimate-kingdom":      new Set(["product-crown-rush-42", "product-crown-climber", "product-crown-island-combo", "product-crown-dino-combo", "product-crown-axe-challenge", "product-crown-kick-darts"]),
-  "pkg-ultimate-kingdom-plus": new Set(["product-crown-rush-42", "product-crown-climber", "product-crown-island-combo", "product-crown-dino-combo", "product-crown-axe-challenge", "product-crown-kick-darts", "product-crown-carnival-challenge", BOOTH_360_ID]),
 };
 
 // Crown Rush 42 is a combined unit — functionally covers Cascade and Quest.
@@ -335,18 +325,9 @@ function getIncludedProductIds(cart) {
   return map;
 }
 
-// Corrects addon prices: Carnival Challenge and 360 Video Booth are cheaper when a package is in cart
-function normalizeCarnivalPrice(cart) {
-  const hasPkg = cart.some((i) => i.id.startsWith("pkg-"));
-  return cart.map((i) => {
-    if (i.id === CROWN_CARNIVAL_ID) return { ...i, price: hasPkg ? CROWN_CARNIVAL_ADDON : CROWN_CARNIVAL_STANDALONE };
-    if (i.id === BOOTH_360_ID)      return { ...i, price: hasPkg ? BOOTH_360_ADDON : BOOTH_360_STANDALONE };
-    return i;
-  });
-}
+// Corrects addon prices: 360 Video Booth is cheaper when a package is in cart
+function normalizeCarnivalPrice(items) { return items; }
 
-// Expands a package's product set by applying PRODUCT_COVERS.
-// Used only for package overlap comparison — NOT for sandbag unit counting.
 function effectiveProductSet(pkgId) {
   const base = PKG_INCLUDED_PRODUCTS[pkgId];
   if (!base) return null;
@@ -1019,7 +1000,7 @@ function makeFormSection(items, stats) {
     // ── 360 Video Booth time-based pricing ────────────────────────
     var booth360Adj = 0;
     var boothItem = items.find(function(i) { return i.id === BOOTH_360_ID; });
-    var hasUKP = items.some(function(i) { return i.id === "pkg-ultimate-kingdom-plus"; });
+    var hasUKP = false;
     var rowEl   = eid("nk-booth360-row");
     var labelEl = eid("nk-booth360-label");
     var priceEl = eid("nk-booth360-price");
@@ -1248,13 +1229,6 @@ function enhancePackageCards() {
   });
 }
 
-function enhanceCarnivalAddonBtns() {
-  document.querySelectorAll("[data-nk-carnival-addon]:not([data-nk-ca-enhanced])").forEach((card) => {
-    card.dataset.nkCaEnhanced = "1";
-    injectAddBtn(card, CROWN_CARNIVAL_ID, "Crown Carnival Challenge", CROWN_CARNIVAL_ADDON, true, null, {});
-  });
-}
-
 function enhanceLawnGameCards() {
   document.querySelectorAll(".lawn-game-card:not([data-nk-lg-enhanced])").forEach((card) => {
     card.dataset.nkLgEnhanced = "1";
@@ -1415,9 +1389,7 @@ function injectAddBtn(container, id, name, price, isInflatable, insertBefore, me
         }
       }
       let actualPrice = price;
-      if (id === CROWN_CARNIVAL_ID) {
-        actualPrice = currentCart.some((i) => i.id.startsWith("pkg-")) ? CROWN_CARNIVAL_ADDON : CROWN_CARNIVAL_STANDALONE;
-      } else if (id === BOOTH_360_ID) {
+      if (id === BOOTH_360_ID) {
         actualPrice = currentCart.some((i) => i.id.startsWith("pkg-")) ? BOOTH_360_ADDON : BOOTH_360_STANDALONE;
       }
       const cartIsInflatable = id === BOOTH_360_ID ? false : isInflatable;
@@ -1774,7 +1746,6 @@ function enhanceAll() {
   enhanceProductDetail();
   enhanceLawnGameCards();
   enhanceEssentialsGallery();
-  enhanceCarnivalAddonBtns();
   injectPhotBoothSection();
   cleanupBoothDetailPage();
   cleanupFoamPartyDetailPage();

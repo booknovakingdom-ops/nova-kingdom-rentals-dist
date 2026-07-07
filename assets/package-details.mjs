@@ -176,21 +176,7 @@ function renderPackagePanel(pkg) {
         <p><strong>Lawn Games:</strong> ${escapeHtml(addonLine)}</p>
         <small>Available lawn game lineup: ${escapeHtml(LAWN_GAMES_LIST.join(", "))}.</small>
 
-        <div class="package-addon-carnival" data-nk-carnival-addon>
-          <img src="/images/crown-carnival-challenge.jpeg" alt="Crown Carnival Challenge inflatable add-on" loading="lazy" onerror="this.style.display='none'">
-          <div class="package-addon-carnival-body">
-            <span class="package-addon-badge">Add-on</span>
-            <h4>Crown Carnival Challenge</h4>
-            <ul class="package-addon-features">
-              <li>Basketball shoot</li>
-              <li>Elephant toss</li>
-              <li>Tic Tac Toe</li>
-              <li>On-point target game</li>
-            </ul>
-            <p class="package-addon-price">Add to any package for <strong>$200</strong></p>
-            <small class="package-addon-standalone">Standalone price: $270</small>
-          </div>
-        </div>
+        
       </div>
 
       <div class="package-upgrades">
