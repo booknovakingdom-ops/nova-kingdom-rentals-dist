@@ -49180,6 +49180,20 @@
     "ctaText": "Send your date, location, and approximate number of kids. We confirm availability, travel, setup suitability, and final pricing manually.",
     "heroText": "Kids foam parties with the machine, foam solution, and operator included. From $200/hr as an add-on or $349/hr standalone.",
     "hideServiceCards": true,
-    "featuredFirst": true
+    "featuredFirst": true,
+    "images": [
+      {
+        "src": "/images/events/inflatable-foam-pit.jpg",
+        "alt": "Inflatable Foam Pit rental in Nova Scotia — 13 ft x 13 ft contained foam play area",
+        "caption": "Inflatable Foam Pit — 13×13 ft with 3 ft side walls and 6 ft back wall",
+        "href": "/rentals/kids-foam-party"
+      },
+      {
+        "src": "/images/events/inflatable-foam-pit-2.jpg",
+        "alt": "Inflatable foam pit set up on grass for a backyard kids party in Nova Scotia",
+        "caption": "Contained foam play area — great for backyard kids' parties",
+        "href": "/rentals/kids-foam-party"
+      }
+    ]
   }
 ]
