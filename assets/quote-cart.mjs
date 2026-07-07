@@ -78,7 +78,7 @@ const CART_ITEM_META = {
   },
   [FOAM_PARTY_ID]: {
     image:      "/images/kids-foam-party.jpg",
-    subtitle:   "Hourly pricing by guest count — confirm tier at booking",
+    subtitle:   "Hourly pricing by guest count — Inflatable Foam Pit option available (13 ft × 13 ft) — confirm at booking",
     addonLabel: "Add-on",
   },
   "product-10x10-pop-up-tent": {
