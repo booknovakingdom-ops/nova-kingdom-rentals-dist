@@ -49173,6 +49173,12 @@
       }
     ],
     "ctaHeading": "Ready to book a booth?",
-    "ctaText": "Send your date and event details and we'll confirm availability for the 360 Video Booth, or notify you when the Mirror Photo Booth launches."
+    "ctaText": "Send your date and event details and we'll confirm availability for the 360 Video Booth, or notify you when the Mirror Photo Booth launches.",
+    "comingSoon": [
+      {
+        "name": "Mirror Photo Booth",
+        "description": "An interactive full-length mirror photo booth joining our booth lineup. Not yet available — contact us to be notified when it launches."
+      }
+    ]
   }
 ]

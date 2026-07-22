@@ -703,8 +703,18 @@ def render_seo_page_fallback(
         product = product_by_id.get(product_id) or product_by_slug.get(product_id)
         if product:
             featured.append(product)
-    if featured:
-        parts.append(render_section("Featured Rentals", render_product_summary_list(featured)))
+    if featured or page.get("comingSoon"):
+        featured_html = render_product_summary_list(featured) if featured else ""
+        soon_items = "".join(
+            f'<li><strong>{h(item["name"])}</strong> — Coming Soon{(" - " + h(item["description"])) if item.get("description") else ""}</li>'
+            for item in page.get("comingSoon", [])
+        )
+        if soon_items:
+            if featured_html.endswith("</ul>"):
+                featured_html = featured_html[: -len("</ul>")] + soon_items + "</ul>"
+            else:
+                featured_html = "<ul>" + soon_items + "</ul>"
+        parts.append(render_section("Featured Rentals", featured_html))
     if page.get("bestFor"):
         parts.append(render_section("Best For", render_list(page["bestFor"])))
     faq_pairs = [
