@@ -31,3 +31,12 @@ a.seo-gallery-link .seo-gallery-item,a.seo-gallery-link figure{box-shadow:none;b
 .seo-city-link-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.35rem .9rem;list-style:none;padding:0;max-width:1180px;margin:0 auto}
 .seo-city-link-list a{text-decoration:none;font-weight:600;font-size:.92rem}
 .seo-city-link-list a:hover{text-decoration:underline}
+.booth-grid{align-items:start}
+.booth-card{position:relative;background:#fff;border-radius:16px;padding:1.25rem;box-shadow:0 2px 12px rgba(0,0,0,.09);display:flex;flex-direction:column;gap:.6rem}
+.booth-card-img{width:100%;height:210px;object-fit:cover;border-radius:12px}
+.booth-card h2{margin:.2rem 0 0}
+.booth-card-pricing{list-style:none;padding:0;margin:.3rem 0;font-size:.92rem;font-weight:600}
+.booth-card-pricing li{padding:.2rem 0;border-bottom:1px solid rgba(0,0,0,.07)}
+.booth-card .button{margin-top:auto;align-self:flex-start}
+.booth-badge{display:inline-block;align-self:flex-start;background:#c9a227;color:#050814;font-weight:800;font-size:.75rem;letter-spacing:.03em;text-transform:uppercase;padding:.3rem .7rem;border-radius:999px}
+.booth-card-soon{background:#f7f7f9}

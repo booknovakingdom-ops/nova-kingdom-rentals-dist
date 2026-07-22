@@ -49144,5 +49144,35 @@
         "href": "/rentals/inflatable-foam-pit"
       }
     ]
+  },
+  {
+    "slug": "photo-video-booths",
+    "regionType": "local",
+    "title": "Photo & Video Booths | Nova Kingdom Rentals",
+    "metaTitle": "Photo & Video Booth Rentals Nova Scotia | 360 Video Booth | Nova Kingdom Rentals",
+    "metaDescription": "Photo and video booth rentals in Nova Scotia. 360 Video Booth from $249 standalone or $199 add-on, operator included. Mirror Photo Booth coming soon.",
+    "h1": "Photo & Video Booths",
+    "heroText": "Interactive booth experiences for weddings, birthdays, and events. 360 Video Booth available now; Mirror Photo Booth coming soon.",
+    "intro": "Nova Kingdom Rentals offers photo and video booth experiences for weddings, birthdays, graduations, school events, corporate events, and community celebrations across Nova Scotia. Our 360 Video Booth is available now — guests stand on a platform while the camera spins around them for a fun slow-motion 360 video, with an operator and props included. Standalone pricing is $249 for the first hour and $125 each additional hour; as an add-on with any inflatable or package it is $199 for the first hour and $70 each additional hour. A Mirror Photo Booth is coming soon — contact us to be notified when it launches.",
+    "hideServiceCards": true,
+    "featuredProductIds": [
+      "360-video-booth"
+    ],
+    "faq": [
+      {
+        "question": "What photo and video booths do you rent?",
+        "answer": "Our 360 Video Booth is available now — guests get a slow-motion 360 video with operator and props included. A Mirror Photo Booth is coming soon."
+      },
+      {
+        "question": "How much is the 360 Video Booth?",
+        "answer": "Standalone is $249 for the first hour and $125 each additional hour. As an add-on with any inflatable or package it is $199 for the first hour and $70 each additional hour. Operator included."
+      },
+      {
+        "question": "Is the Mirror Photo Booth available yet?",
+        "answer": "Not yet — the Mirror Photo Booth is coming soon. Contact us to be notified when it launches, or mention it in your booking request and we'll confirm timing."
+      }
+    ],
+    "ctaHeading": "Ready to book a booth?",
+    "ctaText": "Send your date and event details and we'll confirm availability for the 360 Video Booth, or notify you when the Mirror Photo Booth launches."
   }
 ]
