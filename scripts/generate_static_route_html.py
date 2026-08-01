@@ -523,7 +523,8 @@ def render_homepage_fallback(
     package_items = []
     for pkg in packages:
         included = ", ".join(pkg.get("includedItems") or pkg.get("included") or [])
-        package_items.append(f"{pkg['name']} - {pkg.get('price', '')} (save {pkg.get('savings', '')}): {included}")
+        save_bit = f" (save {pkg['savings']})" if pkg.get("savings") else ""
+        package_items.append(f"{pkg['name']} - {pkg.get('price', '')}{save_bit}: {included}")
     parts.append(render_section("Party Rental Packages", render_list(package_items)))
     safety_items = [f"{title}: {text}" for title, text in faqs.get("importantNotes", [])]
     parts.append(render_section("Safety & Booking Notes", render_list(safety_items)))

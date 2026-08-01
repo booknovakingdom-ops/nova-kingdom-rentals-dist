@@ -104,7 +104,7 @@ const PKG_INCLUDED_PRODUCTS = {
   "pkg-quest-games":      new Set(["product-crown-quest", "product-crown-axe-challenge"]),
   "pkg-dino-party-plus":  new Set(["product-crown-dino-combo", "product-crown-kick-darts", "product-crown-axe-challenge"]),
   "pkg-island-royale":    new Set(["product-crown-island-combo", "product-crown-kick-darts", "product-crown-axe-challenge"]),
-  "pkg-royal-all-star":   new Set(["product-crown-rush-42", "product-crown-axe-challenge", "product-crown-kick-darts"]),
+  "pkg-royal-all-star":   new Set(["product-crown-rush-42", "product-crown-kick-darts"]),
   "pkg-kingdom-deluxe":   new Set(["product-crown-rush-42", "product-crown-island-combo", "product-crown-axe-challenge", "product-crown-kick-darts"]),
   "pkg-ultimate-kingdom":      new Set(["product-crown-rush-42", "product-crown-climber", "product-crown-island-combo", "product-crown-dino-combo", "product-crown-axe-challenge", "product-crown-kick-darts"]),
 };
