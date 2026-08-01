@@ -157,8 +157,10 @@
     "id": "royal-all-star",
     "name": "Royal All-Star",
     "price": "$849",
+    "savings": "$61",
     "included": [
       "Crown Rush 42",
+      "Crown Axe Challenge",
       "Crown Kick Darts",
       "5 Lawn Games"
     ],
@@ -168,6 +170,7 @@
     "description": "A big-event package built for schools, festivals, and community celebrations that need large inflatable impact plus interactive games.",
     "includedItems": [
       "Crown Rush 42",
+      "Crown Axe Challenge",
       "Crown Kick Darts",
       "5 Lawn Games"
     ],
@@ -175,7 +178,8 @@
       "Setup and takedown included.",
       "First 15 km from Bridgewater free, then $0.72/km unless otherwise quoted.",
       "Final availability and setup suitability are confirmed manually before booking is finalized."
-    ]
+    ],
+    "regularValue": "$910"
   },
   {
     "id": "kingdom-deluxe",
