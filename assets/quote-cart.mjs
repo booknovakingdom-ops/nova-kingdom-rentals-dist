@@ -31,8 +31,8 @@ const BOOTH_360_ADDON      = 199;
 const FOAM_PARTY_ID = "product-kids-foam-party";
 // Tents: dual pricing (self-serve vs full-service). Never parse from card text.
 const TENT_PRICING = {
-  "product-10x10-pop-up-tent": { name: "10x10 Pop-Up Tent", self: 100, full: 150, image: "/images/10x10-pop-up-tent.jpeg" },
-  "product-20x20-pole-tent":   { name: "20x20 Pole Tent",   self: 300, full: 400, image: "/images/20x20-pole-tent.jpeg" },
+  "product-10x10-pop-up-tent": { name: "10x10 Pop-Up Tent", base: 175, setup: 50, image: "/images/10x10-pop-up-tent.jpeg" },
+  "product-10x20-pole-tent":   { name: "10x20 Pole Tent",   base: 275, setup: 75, image: "/images/10x20-pole-tent.jpeg" },
 };
 
 // Event Essentials: per-unit add-ons managed in the cart panel
@@ -74,11 +74,11 @@ const CART_ITEM_META = {
   },
   "product-10x10-pop-up-tent": {
     image:    "/images/10x10-pop-up-tent.jpeg",
-    subtitle: "Self-serve $100 · With setup & takedown $150 · Weight bags included",
+    subtitle: "$175 rental · optional setup & takedown +$50 · delivery separate · weight bags included",
   },
-  "product-20x20-pole-tent": {
-    image:    "/images/20x20-pole-tent.jpeg",
-    subtitle: "Self-serve $300 · With setup & takedown $400 · Grass surface required",
+  "product-10x20-pole-tent": {
+    image:    "/images/10x20-pole-tent.jpeg",
+    subtitle: "$275 rental · optional setup & takedown +$75 · delivery separate · grass surface required",
   },
   [EE_CHAIR_ID]: {
     image:    "/images/black-padded-folding-chairs.jpeg",
@@ -1279,7 +1279,7 @@ function injectTentBtn(container, id, insertBefore) {
   const sel = document.createElement("select");
   sel.className = "nk-tent-service";
   sel.setAttribute("aria-label", "Tent service option");
-  [["self", "Self-serve — $" + cfg.self], ["full", "With setup & takedown — $" + cfg.full]].forEach(function (o) {
+  [["base", "Rental only — $" + cfg.base], ["full", "Rental + setup & takedown — $" + (cfg.base + cfg.setup)]].forEach(function (o) {
     const opt = document.createElement("option");
     opt.value = o[0]; opt.textContent = o[1];
     sel.appendChild(opt);
@@ -1301,8 +1301,8 @@ function injectTentBtn(container, id, insertBefore) {
       const full = sel.value === "full";
       cart.push({
         id: id,
-        name: cfg.name + (full ? " (with setup & takedown)" : " (self-serve)"),
-        price: full ? cfg.full : cfg.self,
+        name: cfg.name + (full ? " (rental + setup & takedown)" : " (rental only)"),
+        price: full ? (cfg.base + cfg.setup) : cfg.base,
         isInflatable: false,
       });
     }
@@ -1698,7 +1698,7 @@ function enhanceEssentialsGallery() {
     else if (src.indexOf("white-folding-chairs") !== -1)        cfg = { type: "ee",   id: EE_WCHAIR_ID, name: "White folding chairs",        unit: EE_WCHAIR_PRICE };
     else if (src.indexOf("6ft-rectangular-tables") !== -1)      cfg = { type: "ee",   id: EE_TABLE_ID,  name: "6 ft rectangular tables",     unit: EE_TABLE_PRICE };
     else if (src.indexOf("10x10-pop-up-tent") !== -1)           cfg = { type: "tent", id: "product-10x10-pop-up-tent" };
-    else if (src.indexOf("20x20-pole-tent") !== -1)             cfg = { type: "tent", id: "product-20x20-pole-tent" };
+    else if (src.indexOf("10x20-pole-tent") !== -1)             cfg = { type: "tent", id: "product-10x20-pole-tent" };
     if (!cfg) return;
     if (card.querySelector(".nk-add-to-quote")) return;
 
