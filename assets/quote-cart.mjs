@@ -1186,6 +1186,7 @@ function hideCheckAvailabilityLinks(container) {
 function enhanceProductCards() {
   document.querySelectorAll(".product-card:not(.lawn-feature-card):not([data-nk-enhanced])").forEach((card) => {
     card.dataset.nkEnhanced = "1";
+    if ((card.textContent || "").indexOf("Coming Soon") !== -1) return;
     const name    = card.querySelector("h3")?.textContent?.trim();
     const priceEl = card.querySelector(".product-body strong") || card.querySelector("strong");
     const id      = name ? "product-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-") : null;
@@ -1252,6 +1253,7 @@ function enhanceProductDetail() {
   const hero = document.querySelector(".product-detail-hero:not([data-nk-enhanced])");
   if (!hero) return;
   hero.dataset.nkEnhanced = "1";
+  if ((hero.textContent || "").indexOf("Coming Soon") !== -1) return;
   const name    = hero.querySelector("h1")?.textContent?.trim();
   const priceEl = hero.querySelector(".detail-meta span");
   const id      = name ? "product-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-") : null;
