@@ -870,6 +870,8 @@ def route_metadata(
             "schema": [breadcrumb_schema(path, product["name"]), product_schema(product)],
             "fallback": wrap_fallback(product["name"], render_product_fallback(product)),
         }
+        if product.get("comingSoon"):
+            routes[path]["robots"] = "noindex,follow"
 
     for page in seo_pages:
         path = f"/{page['slug']}"

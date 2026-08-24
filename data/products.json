@@ -556,5 +556,131 @@
       "Foam solution included based on booking",
       "Priced with your foam party booking"
     ]
+  },
+  {
+    "id": "crown-safari",
+    "slug": "crown-safari",
+    "name": "Crown Safari",
+    "tagline": "Coming Soon",
+    "category": "Large Inflatable",
+    "price": "Coming Soon",
+    "status": "Coming Soon",
+    "image": "/images/crown-safari.jpg",
+    "comingSoon": true,
+    "metaTitle": "Crown Safari | Coming Soon | Nova Kingdom Rentals",
+    "metaDescription": "Crown Safari inflatable — coming soon to Nova Kingdom Rentals. Final availability, pricing, delivery, and setup suitability confirmed manually.",
+    "shortDescription": "A large safari-themed inflatable — coming soon to our lineup.",
+    "fullDescription": "Crown Safari is a new large inflatable joining the Nova Kingdom Rentals lineup. It is not available yet. Final availability, pricing, delivery, and setup suitability confirmed manually.",
+    "bestFor": [
+      "Birthday parties",
+      "School events",
+      "Community events",
+      "Festivals"
+    ],
+    "features": [
+      "Coming soon",
+      "Large inflatable"
+    ],
+    "setupNotes": [
+      "Coming soon — details to be announced",
+      "Adult supervision required at all times"
+    ],
+    "duration": "Coming soon",
+    "wetUse": false,
+    "dimensions": "33 ft L × 12 ft W × 14 ft H"
+  },
+  {
+    "id": "crown-ice-palace-combo",
+    "slug": "crown-ice-palace-combo",
+    "name": "Crown Ice Palace Combo",
+    "tagline": "Coming Soon",
+    "category": "Combo Inflatable",
+    "price": "Coming Soon",
+    "status": "Coming Soon",
+    "image": "/images/crown-ice-palace-combo.jpg",
+    "comingSoon": true,
+    "metaTitle": "Crown Ice Palace Combo | Coming Soon | Nova Kingdom Rentals",
+    "metaDescription": "Crown Ice Palace Combo inflatable — coming soon to Nova Kingdom Rentals. Final availability, pricing, delivery, and setup suitability confirmed manually.",
+    "shortDescription": "An ice-palace-themed combo inflatable — coming soon to our lineup.",
+    "fullDescription": "Crown Ice Palace Combo is a new combo inflatable joining the Nova Kingdom Rentals lineup. It is not available yet. Final availability, pricing, delivery, and setup suitability confirmed manually.",
+    "bestFor": [
+      "Birthday parties",
+      "School events",
+      "Community events",
+      "Winter-themed events"
+    ],
+    "features": [
+      "Coming soon",
+      "Combo inflatable"
+    ],
+    "setupNotes": [
+      "Coming soon — details to be announced",
+      "Adult supervision required at all times"
+    ],
+    "duration": "Coming soon",
+    "wetUse": false,
+    "dimensions": "20 ft L × 17 ft W × 18 ft H"
+  },
+  {
+    "id": "crown-dash",
+    "slug": "crown-dash",
+    "name": "Crown Dash",
+    "tagline": "Coming Soon",
+    "category": "Inflatable",
+    "price": "Coming Soon",
+    "status": "Coming Soon",
+    "image": "/images/crown-dash.jpg",
+    "comingSoon": true,
+    "metaTitle": "Crown Dash | Coming Soon | Nova Kingdom Rentals",
+    "metaDescription": "Crown Dash inflatable — coming soon to Nova Kingdom Rentals. Final availability, pricing, delivery, and setup suitability confirmed manually.",
+    "shortDescription": "A new active-play inflatable — coming soon to our lineup.",
+    "fullDescription": "Crown Dash is a new inflatable joining the Nova Kingdom Rentals lineup. It is not available yet. Final availability, pricing, delivery, and setup suitability confirmed manually.",
+    "bestFor": [
+      "Birthday parties",
+      "School events",
+      "Community events"
+    ],
+    "features": [
+      "Coming soon",
+      "Inflatable"
+    ],
+    "setupNotes": [
+      "Coming soon — details to be announced",
+      "Adult supervision required at all times"
+    ],
+    "duration": "Coming soon",
+    "wetUse": false,
+    "dimensions": "13 ft L × 15 ft W × 10 ft H"
+  },
+  {
+    "id": "crown-play-palace",
+    "slug": "crown-play-palace",
+    "name": "Crown Play Palace",
+    "tagline": "Coming Soon",
+    "category": "Inflatable",
+    "price": "Coming Soon",
+    "status": "Coming Soon",
+    "image": "/images/crown-play-palace.jpg",
+    "comingSoon": true,
+    "metaTitle": "Crown Play Palace | Coming Soon | Nova Kingdom Rentals",
+    "metaDescription": "Crown Play Palace inflatable — coming soon to Nova Kingdom Rentals. Final availability, pricing, delivery, and setup suitability confirmed manually.",
+    "shortDescription": "A new play-palace inflatable — coming soon to our lineup.",
+    "fullDescription": "Crown Play Palace is a new inflatable joining the Nova Kingdom Rentals lineup. It is not available yet. Dimensions to be confirmed. Final availability, pricing, delivery, and setup suitability confirmed manually.",
+    "bestFor": [
+      "Birthday parties",
+      "School events",
+      "Community events"
+    ],
+    "features": [
+      "Coming soon",
+      "Inflatable"
+    ],
+    "setupNotes": [
+      "Coming soon — details to be announced",
+      "Adult supervision required at all times"
+    ],
+    "duration": "Coming soon",
+    "wetUse": false,
+    "dimensions": "To be confirmed"
   }
 ]
