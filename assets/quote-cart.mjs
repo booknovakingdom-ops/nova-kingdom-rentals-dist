@@ -793,7 +793,7 @@ function makeEstimateSection(items, stats) {
     "<tr id='nk-booth360-row' hidden><td id='nk-booth360-label' style='font-size:0.82em;color:#888;padding-left:0.8em'></td><td id='nk-booth360-price' style='font-size:0.82em;color:#888'></td></tr>" +
     "<tr><td>Delivery &amp; setup estimate <span class='nk-tooltip-wrap'>" +
       "<button class='nk-tooltip-icon nk-tip-setup' type='button' aria-label='About delivery and setup estimate'>ⓘ</button>" +
-      "<span class='nk-tooltip-body nk-tip-body-setup'>First 15 km is free. Beyond that, distance is charged round-trip at $0.72/km. Staff travel time is included. Anchoring for non-grass surfaces confirmed after setup review. Final logistics reviewed after booking.</span>" +
+      "<span class='nk-tooltip-body nk-tip-body-setup'>Delivery extra. Staff travel time is included. Anchoring for non-grass surfaces confirmed after setup review. Final logistics reviewed after booking.</span>" +
     "</span></td><td id='nk-setup-val'>Enter event address below</td></tr>" +
     "<tr><td>Event attendant estimate</td><td id='nk-attendant-val'>—</td></tr>" +
     "<tr class='total'><td>Estimated total</td><td id='nk-total-val'>" + escHtml(formatMoney(subtotal)) + "</td></tr>";
