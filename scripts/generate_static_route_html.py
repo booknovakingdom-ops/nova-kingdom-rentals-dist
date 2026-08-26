@@ -526,6 +526,18 @@ def render_homepage_fallback(
         save_bit = f" (save {pkg['savings']})" if pkg.get("savings") else ""
         package_items.append(f"{pkg['name']} - {pkg.get('price', '')}{save_bit}: {included}")
     parts.append(render_section("Party Rental Packages", render_list(package_items)))
+    reviews = [
+        "Everything was smooth from start to finish.",
+        "Easy to deal with and very responsive.",
+        "Polite and friendly.",
+        "The kids enjoyed the structure and games very much.",
+        "The value for the cost was well worth it.",
+        "Great tables and chairs.",
+        "Great communication and flexibility regarding delivery and pickup.",
+        "Awesome and super fun.",
+    ]
+    reviews_html = "".join(f"<blockquote>&ldquo;{h(q)}&rdquo;</blockquote>" for q in reviews)
+    parts.append(render_section("What Customers Say", reviews_html))
     safety_items = [f"{title}: {text}" for title, text in faqs.get("importantNotes", [])]
     parts.append(render_section("Safety & Booking Notes", render_list(safety_items)))
     by_question = dict(flatten_faqs(faqs))

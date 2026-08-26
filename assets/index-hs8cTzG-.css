@@ -40,3 +40,7 @@ a.seo-gallery-link .seo-gallery-item,a.seo-gallery-link figure{box-shadow:none;b
 .booth-card .button{margin-top:auto;align-self:flex-start}
 .booth-badge{display:inline-block;align-self:flex-start;background:#c9a227;color:#050814;font-weight:800;font-size:.75rem;letter-spacing:.03em;text-transform:uppercase;padding:.3rem .7rem;border-radius:999px}
 .booth-card-soon{background:#f7f7f9}
+.review-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;max-width:1180px;margin:0 auto}
+.review-card{margin:0;background:#fff;border-radius:14px;padding:1.1rem 1.2rem;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.review-card blockquote{margin:0;font-size:1rem;line-height:1.5;font-style:italic}
+.reviews-section .center-action{margin-top:1.2rem}

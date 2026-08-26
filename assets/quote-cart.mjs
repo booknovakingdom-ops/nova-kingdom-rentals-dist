@@ -969,16 +969,16 @@ function makeFormSection(items, stats) {
         }
       } else {
         const combined     = deliveryCost + sandbags;
-        const deliveryText = deliveryCost === 0 ? "Free delivery (within 15 km)" : "$" + deliveryCost.toFixed(2) + " delivery";
+        const deliveryText = "Delivery extra";
         let mainText, subText;
         if (sandbags > 0) {
           mainText = "$" + combined.toFixed(2) + " est.";
           subText  = deliveryText + " • " + formatMoney(sandbags) + " anchoring (" + sandbagNote + ")";
         } else if (sandbagManual) {
-          mainText = deliveryCost === 0 ? "Free (within 15 km)" : "$" + deliveryCost.toFixed(2) + " est.";
+          mainText = "Delivery extra";
           subText  = (deliverySubText ? deliverySubText + " " : "") + "Anchoring confirmed after setup review.";
         } else {
-          mainText = deliveryCost === 0 ? "Free (within 15 km)" : "$" + deliveryCost.toFixed(2) + " est.";
+          mainText = "Delivery extra";
           subText  = deliverySubText || sandbagNote;
         }
         setupEl.innerHTML = escHtml(mainText) +
@@ -1118,7 +1118,7 @@ function makeFormSection(items, stats) {
       deliveryLookupSource:    hasDeliveryData ? "api" : "manual — api unavailable or address not entered",
       deliveryDistanceKm:      hasDeliveryData ? deliveryState.distanceKm.toFixed(1) + " km" : "Not available",
       deliveryDurationOneWay:  hasDeliveryData ? deliveryState.durationMinutes + " min" : "Not available",
-      distanceFeeEstimate:     hasDeliveryData ? (distFeePayload === 0 ? "Free (within 15 km)" : "$" + distFeePayload.toFixed(2)) : "Manual",
+      distanceFeeEstimate:     hasDeliveryData ? "Delivery extra" : "Manual",
       staffTravelFeeEstimate:  hasDeliveryData ? "$" + staffFeePayload.toFixed(2) + " (" + parseFloat(billableHrPayload.toFixed(2)) + " hr round trip \xd7 $25)" : "Manual",
       combinedDeliveryEstimate: hasDeliveryData ? (combinedFeePayload === 0 ? "Free" : "$" + combinedFeePayload.toFixed(2) + " est.") : "Quoted manually after address review",
       // Sandbag

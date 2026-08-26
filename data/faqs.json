@@ -39,6 +39,22 @@
     [
       "Power required",
       "Most inflatables require suitable power access. Blower must stay powered and running during use."
+    ],
+    [
+      "Deposit and agreement",
+      "A 30% non-refundable deposit and a signed rental agreement are required to confirm your booking. The remaining balance is due before delivery, setup, pickup, or service starts."
+    ],
+    [
+      "Payments non-refundable",
+      "Payments are non-refundable. Eligible weather interruptions may be transferred to a future date or held as a booking credit for up to 12 months."
+    ],
+    [
+      "Customer responsibilities",
+      "The customer/organizer is responsible for site access, a safe setup area, required utilities, supervision, misuse, damage, theft, blocked pickup, and any undisclosed site hazards."
+    ],
+    [
+      "Confirmed manually",
+      "Final availability, delivery, setup suitability, and booking terms are confirmed manually."
     ]
   ],
   "groups": [
@@ -47,7 +63,7 @@
       "items": [
         [
           "Are bookings instantly confirmed online?",
-          "No. Online form submissions are availability requests only. Your booking is confirmed only after Nova Kingdom Rentals confirms availability, travel cost, setup suitability, and deposit/payment details."
+          "No. Online form submissions are availability requests only. Your booking is confirmed only after Nova Kingdom Rentals confirms availability, travel cost, setup suitability, and deposit/payment details. A 30% non-refundable deposit and a signed rental agreement are required to confirm your booking."
         ],
         [
           "How long is the rental?",
@@ -55,7 +71,7 @@
         ],
         [
           "Are deposits required?",
-          "A booking is confirmed only when the required deposit is received. Final deposit/payment details will be confirmed with your quote or booking confirmation."
+          "A 30% non-refundable deposit is required to confirm your booking. Your booking is confirmed only after the required deposit and a signed rental agreement are received. The remaining balance is due before delivery, setup, pickup, or service starts. Payments are non-refundable."
         ],
         [
           "Can I book lawn games only?",
@@ -63,7 +79,7 @@
         ],
         [
           "How much are bouncy castle rentals in Bridgewater NS?",
-          "Pricing depends on the rental or package. Crown Island Combo is $310, Crown Rush 42 is $450, Crown Axe Challenge is $180, and Crown Kick Darts is $160. Travel may apply after the first 15 km from Bridgewater."
+          "Pricing depends on the rental or package. Crown Island Combo is $310, Crown Rush 42 is $450, Crown Axe Challenge is $180, and Crown Kick Darts is $160. Delivery extra."
         ],
         [
           "How do I check availability?",
@@ -71,7 +87,11 @@
         ],
         [
           "Is my booking confirmed after submitting the form?",
-          "No. Submitting the form starts an availability request. Booking is confirmed only after Nova Kingdom Rentals reviews availability, travel cost, setup suitability, staffing requirements, and deposit/payment details."
+          "No. Submitting the form starts an availability request. Booking is confirmed only after Nova Kingdom Rentals reviews availability, travel cost, setup suitability, staffing requirements, and deposit/payment details. A 30% non-refundable deposit and a signed rental agreement are required to confirm your booking."
+        ],
+        [
+          "What is your payment, cancellation, and weather policy?",
+          "Payments are non-refundable. If your event is interrupted by eligible weather, your rental may be transferred to a future date or held as a booking credit for up to 12 months, subject to our rental agreement."
         ]
       ]
     },
@@ -104,7 +124,7 @@
         ],
         [
           "Do you have bouncy castle rentals near me?",
-          "If you're in Bridgewater, the South Shore, the Annapolis Valley, Halifax/HRM, or anywhere in Nova Scotia — yes. Nova Kingdom Rentals is based in Bridgewater with free delivery for the first 15 km and clearly quoted travel beyond that. Setup and takedown are always included."
+          "If you're in Bridgewater, the South Shore, the Annapolis Valley, Halifax/HRM, or anywhere in Nova Scotia — yes. Nova Kingdom Rentals is based in Bridgewater. Delivery extra. Setup and takedown are always included."
         ],
         [
           "Where can I rent a bounce house near Bridgewater?",
