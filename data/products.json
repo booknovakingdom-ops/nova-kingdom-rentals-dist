@@ -95,6 +95,18 @@
       "Capacity: designed for both adults and kids, up to 8 users",
       "Adults max 2 at a time",
       "Adult supervision required"
+    ],
+    "images": [
+      {
+        "src": "/images/crown-island-combo.jpeg",
+        "alt": "Crown Island Combo without pool, dry setup in Nova Scotia",
+        "caption": "Without Pool — $279 (dry use)"
+      },
+      {
+        "src": "/images/crown-island-combo-with-pool.jpg",
+        "alt": "Crown Island Combo with pool, wet setup in Nova Scotia",
+        "caption": "With Pool — $319 (wet use)"
+      }
     ]
   },
   {

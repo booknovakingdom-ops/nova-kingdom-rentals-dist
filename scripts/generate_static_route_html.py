@@ -486,6 +486,12 @@ def render_product_fallback(product: dict[str, Any]) -> str:
     parts.append(render_section("Features", render_list(product.get("features"))))
     parts.append(render_section("Best For", render_list(product.get("bestFor"))))
     parts.append(render_section("Specs", render_list(product.get("specs"))))
+    if product.get("images"):
+        figs = "".join(
+            f'<figure class="seo-gallery-item"><img src="{h(img["src"])}" alt="{h(img.get("alt", ""))}" loading="lazy"><figcaption>{h(img.get("caption", ""))}</figcaption></figure>'
+            for img in product["images"] if img.get("src")
+        )
+        parts.append(f'<section class="seo-gallery"><h2>Photos</h2><div class="seo-gallery-grid">{figs}</div></section>')
     parts.append(render_section("Setup Notes", render_list(product.get("setupNotes"))))
     if product.get("category") == "Tent":
         parts.append(
