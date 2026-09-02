@@ -30,6 +30,43 @@ const BOOTH_360_ADDON      = 199;
 
 const FOAM_PARTY_ID = "product-kids-foam-party";
 // Tents: dual pricing (self-serve vs full-service). Never parse from card text.
+const ISLAND_ID = "product-crown-island-combo";
+const ISLAND_OPTIONS = [
+  { value: "no-pool", label: "Without pool (dry) — $279", name: "Crown Island Combo (without pool)", price: 279 },
+  { value: "pool",    label: "With pool (wet) — $319",    name: "Crown Island Combo (with pool)",    price: 319 },
+];
+function injectIslandBtn(container, insertBefore) {
+  if (container.querySelector(".nk-add-to-quote, .nk-tent-quote")) return;
+  const wrap = document.createElement("div");
+  wrap.className = "nk-tent-quote";
+  const sel = document.createElement("select");
+  sel.className = "nk-tent-service";
+  sel.setAttribute("aria-label", "Crown Island Combo option");
+  ISLAND_OPTIONS.forEach(function (o) {
+    const opt = document.createElement("option");
+    opt.value = o.value; opt.textContent = o.label; sel.appendChild(opt);
+  });
+  const btn = document.createElement("button");
+  btn.type = "button"; btn.dataset.nkId = ISLAND_ID;
+  const inCart = loadCart().some(function (i) { return i.id === ISLAND_ID; });
+  btn.className = "nk-add-to-quote" + (inCart ? " in-cart" : "");
+  btn.textContent = inCart ? "In Quote ✓" : "Add to Quote";
+  btn.addEventListener("click", function () {
+    let cart = loadCart();
+    if (cart.some(function (i) { return i.id === ISLAND_ID; })) {
+      cart = cart.filter(function (i) { return i.id !== ISLAND_ID; });
+    } else {
+      const o = ISLAND_OPTIONS.find(function (x) { return x.value === sel.value; }) || ISLAND_OPTIONS[0];
+      cart.push({ id: ISLAND_ID, name: o.name, price: o.price, isInflatable: true });
+    }
+    saveCart(cart); updateBar();
+    const after = loadCart().some(function (i) { return i.id === ISLAND_ID; });
+    btn.textContent = after ? "In Quote ✓" : "Add to Quote";
+    btn.classList.toggle("in-cart", after);
+  });
+  wrap.appendChild(sel); wrap.appendChild(btn);
+  if (insertBefore) insertBefore.insertAdjacentElement("beforebegin", wrap); else container.appendChild(wrap);
+}
 const TENT_PRICING = {
   "product-10x10-pop-up-tent": { name: "10x10 Pop-Up Tent", base: 175, setup: 50, image: "/images/10x10-pop-up-tent.jpeg" },
   "product-10x20-pole-tent":   { name: "10x20 Pole Tent",   base: 275, setup: 75, image: "/images/10x20-pole-tent.jpeg" },
@@ -1196,6 +1233,11 @@ function enhanceProductCards() {
       hideCheckAvailabilityLinks(card);
       return;
     }
+    if (id === ISLAND_ID) {
+      injectIslandBtn(card, card.querySelector(".button, a"));
+      hideCheckAvailabilityLinks(card);
+      return;
+    }
     if (id === FOAM_PARTY_ID) {
       const hasPkg = loadCart().some(function (i) { return i.id.startsWith("pkg-"); });
       injectAddBtn(card, id, "Kids Foam Party", hasPkg ? FOAM_TIERS[0].addon : FOAM_TIERS[0].standalone, false, card.querySelector(".button, a"), {});
@@ -1258,6 +1300,11 @@ function enhanceProductDetail() {
   const priceEl = hero.querySelector(".detail-meta span");
   const id      = name ? "product-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-") : null;
   if (!name || !priceEl || !id) return;
+  if (id === ISLAND_ID) {
+    injectIslandBtn(hero, hero.querySelector(".button-row, .button, a"));
+    hideCheckAvailabilityLinks(hero);
+    return;
+  }
   if (TENT_PRICING[id]) {
     injectTentBtn(hero, id, hero.querySelector(".button-row, .button, a"));
     hideCheckAvailabilityLinks(hero);

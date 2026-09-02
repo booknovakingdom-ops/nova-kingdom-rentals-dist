@@ -266,7 +266,8 @@ def product_schema(product: dict[str, Any]) -> dict[str, Any]:
             {"@type": "Place", "name": "South Shore Nova Scotia"},
         ],
     }
-    price = money_value(product.get("price"))
+    _pm = re.search(r"[0-9][0-9,]*(?:\.[0-9]+)?", str(product.get("price") or ""))
+    price = _pm.group(0).replace(",", "") if _pm else None
     if price:
         offer["price"] = price
 
