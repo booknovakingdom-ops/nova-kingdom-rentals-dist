@@ -737,5 +737,45 @@
       "Delivery extra",
       "HST extra, if applicable"
     ]
+  },
+  {
+    "id": "generator",
+    "slug": "generator",
+    "name": "Generator Rental",
+    "tagline": "Power for Your Event",
+    "category": "Generator",
+    "price": "$150",
+    "status": "Available Now",
+    "image": "/images/generator.jpg",
+    "metaTitle": "Generator Rental Nova Scotia | $150 | Nova Kingdom Rentals",
+    "metaDescription": "Generator rental in Nova Scotia — $150, includes 1 gas tank. Power your inflatables and event setup where outlets aren't available. Delivery extra. Bridgewater and across Nova Scotia.",
+    "shortDescription": "Generator Rental — $150. Includes 1 gas tank. Power for inflatables and event setups where power outlets aren't available.",
+    "fullDescription": "Generator Rental — $150. Includes 1 gas tank. A reliable power source for inflatables and event setups at parks, fields, and venues without power outlets.\n\nDelivery extra. HST extra, if applicable. Final availability and setup requirements confirmed manually.",
+    "bestFor": [
+      "Parks and fields without power",
+      "Community events",
+      "School and festival setups",
+      "Backyard events far from outlets"
+    ],
+    "features": [
+      "1 gas tank included",
+      "Powers inflatables where no outlet is available",
+      "Delivery extra"
+    ],
+    "setupNotes": [
+      "1 gas tank included",
+      "Delivery extra",
+      "HST extra, if applicable",
+      "Final availability and setup requirements confirmed manually"
+    ],
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
+    "wetUse": false,
+    "specs": [
+      "Generator Rental: $150",
+      "Includes 1 gas tank",
+      "Delivery extra",
+      "HST extra, if applicable",
+      "Final availability and setup requirements confirmed manually"
+    ]
   }
 ]
