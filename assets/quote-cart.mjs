@@ -32,8 +32,8 @@ const FOAM_PARTY_ID = "product-kids-foam-party";
 // Tents: dual pricing (self-serve vs full-service). Never parse from card text.
 const ISLAND_ID = "product-crown-island-combo";
 const ISLAND_OPTIONS = [
-  { value: "no-pool", label: "Without pool (dry) — $279", name: "Crown Island Combo (without pool)", price: 279 },
-  { value: "pool",    label: "With pool (wet) — $319",    name: "Crown Island Combo (with pool)",    price: 319 },
+  { value: "no-pool", label: "Without pool (dry) — $349", name: "Crown Island Combo (without pool)", price: 349 },
+  { value: "pool",    label: "With pool (wet) — $399",    name: "Crown Island Combo (with pool)",    price: 399 },
 ];
 function injectIslandBtn(container, insertBefore) {
   if (container.querySelector(".nk-add-to-quote, .nk-tent-quote")) return;
@@ -185,8 +185,8 @@ const DISCLAIMER =
 const WAIVER_NOTE =
   "Agreement and waiver will be sent after availability is confirmed and deposit/payment details are reviewed.";
 
-// Event attendants: $35/hr per person, confirmed manually
-const ATTENDANT_RATE = 35;
+// Event attendants: $45/hr per person, confirmed manually
+const ATTENDANT_RATE = 45;
 
 // ── Delivery estimate state ──────────────────────────────────────
 // Populated by estimateDeliveryFromAddress() via POST /api/estimate-delivery.
@@ -804,7 +804,7 @@ function makeAttendantSection() {
   detailDiv.appendChild(qfRow);
 
   const attNote = document.createElement("p"); attNote.className = "nk-estimate-note"; attNote.style.marginTop = "0.4rem";
-  attNote.textContent = "Attendants are $35/hour per person. Needs are confirmed manually based on event type, guest count, equipment, and supervision requirements.";
+  attNote.textContent = "Attendants are $45/hour per person. Needs are confirmed manually based on event type, guest count, equipment, and supervision requirements.";
   detailDiv.appendChild(attNote);
 
   detailDiv.addEventListener("input", (e) => {
@@ -1030,7 +1030,7 @@ function makeFormSection(items, stats) {
       const count = Math.max(1, extraState.attendantCount || 1);
       const hours = Math.max(1, extraState.attendantHours || 1);
       attendantCost = count * hours * ATTENDANT_RATE;
-      attendantText = count + " attendant" + (count !== 1 ? "s" : "") + " \xd7 " + hours + " hr" + (hours !== 1 ? "s" : "") + " \xd7 $35 = " + formatMoney(attendantCost) + " est.";
+      attendantText = count + " attendant" + (count !== 1 ? "s" : "") + " \xd7 " + hours + " hr" + (hours !== 1 ? "s" : "") + " \xd7 $45 = " + formatMoney(attendantCost) + " est.";
     }
     if (attendantEl) attendantEl.textContent = attendantText;
 

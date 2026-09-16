@@ -54,13 +54,13 @@
     "name": "Crown Island Combo",
     "tagline": "Island Fun Like Royalty",
     "category": "Combo Inflatable",
-    "price": "$279 without pool · $319 with pool",
+    "price": "$349 without pool · $399 with pool",
     "status": "Available Now",
     "image": "/images/crown-island-combo.jpeg",
     "metaTitle": "Crown Island Combo Rental | Tropical Bounce & Splash | Nova Kingdom Rentals",
-    "metaDescription": "Tropical combo inflatable with bounce and slide. $279 without pool (dry use) or $319 with pool (wet use). Setup included. Bridgewater and across Nova Scotia.",
-    "shortDescription": "Tropical combo with bounce and slide. $279 without pool (dry use) or $319 with pool (wet use).",
-    "fullDescription": "The Crown Island Combo brings tropical party energy with a bounce area and slide. It is a strong choice for backyard birthdays, summer parties, and family events.\n\nTwo options: Without Pool — $279, dry use only. With Pool — $319, can be used wet. Choose the option that fits your event when you request your quote.",
+    "metaDescription": "Tropical combo inflatable with bounce and slide. $349 without pool (dry use) or $399 with pool (wet use). Setup and takedown included. Delivery extra. Bridgewater and across Nova Scotia.",
+    "shortDescription": "Tropical combo with bounce and slide. $349 without pool (dry use) or $399 with pool (wet use).",
+    "fullDescription": "The Crown Island Combo brings tropical party energy with a bounce area and slide. It is a strong choice for backyard birthdays, summer parties, and family events.\n\nTwo options: Without Pool — $349, dry use only. With Pool — $399, can be used wet. Setup and takedown included; delivery extra; HST extra, if applicable. Choose the option that fits your event when you request your quote.",
     "bestFor": [
       "Backyard birthdays",
       "Summer parties",
@@ -81,31 +81,34 @@
       "Adult supervision required at all times",
       "Setup suitability confirmed before booking"
     ],
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
     "wetUse": true,
     "dimensions": "Length: 26 ft; Width: 14 ft; Height: 14.5 ft; Seat height: 4 ft 3 in",
     "capacity": "Designed for both adults and kids, up to 8 users",
     "specs": [
-      "Without Pool: $279 — dry use only",
-      "With Pool: $319 — wet use",
+      "Without Pool: $349 — dry use only",
+      "With Pool: $399 — wet use",
       "Length: 26 ft",
       "Width: 14 ft",
       "Height: 14.5 ft",
       "Seat height: 4 ft 3 in",
       "Capacity: designed for both adults and kids, up to 8 users",
       "Adults max 2 at a time",
-      "Adult supervision required"
+      "Adult supervision required",
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra, if applicable"
     ],
     "images": [
       {
         "src": "/images/crown-island-combo.jpeg",
         "alt": "Crown Island Combo without pool, dry setup in Nova Scotia",
-        "caption": "Without Pool — $279 (dry use)"
+        "caption": "Without Pool — $349 (dry use)"
       },
       {
         "src": "/images/crown-island-combo-with-pool.jpg",
         "alt": "Crown Island Combo with pool, wet setup in Nova Scotia",
-        "caption": "With Pool — $319 (wet use)"
+        "caption": "With Pool — $399 (wet use)"
       }
     ]
   },
@@ -143,7 +146,7 @@
       "Suitable space around game required",
       "Recommended age: 12+"
     ],
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
     "wetUse": false,
     "dimensions": "Width: 11.3 ft; Depth: 7.9 ft; Height: 10.2 ft",
     "capacity": "Suitable for 2-4 people",
@@ -152,7 +155,10 @@
       "Depth: 7.9 ft",
       "Height: 10.2 ft",
       "Suitable for: 2-4 people",
-      "Recommended age: 12+"
+      "Recommended age: 12+",
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra, if applicable"
     ]
   },
   {
@@ -189,7 +195,7 @@
       "Safe play space required",
       "Accessories may vary by event setup"
     ],
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
     "wetUse": false,
     "dimensions": "118.1 x 144.1 x 63 in / 3000 x 3660 x 1600 mm",
     "specs": [
@@ -197,7 +203,10 @@
       "Width: 12 ft / 3660 mm",
       "Depth: 5.3 ft / 1600 mm",
       "Product dimensions: 118.1 x 144.1 x 63 in / 3000 x 3660 x 1600 mm",
-      "Inflation time: about 2 minutes"
+      "Inflation time: about 2 minutes",
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra, if applicable"
     ]
   },
   {
@@ -206,13 +215,13 @@
     "name": "Crown Rush 42",
     "tagline": "Conquer the Course Like Royalty",
     "category": "Large Inflatable",
-    "price": "$450",
+    "price": "$549",
     "status": "Available Now",
     "image": "/images/crown-rush-42.jpeg",
     "metaTitle": "Crown Rush 42 Rental | 42-Foot Water Slide & Obstacle Course | Nova Kingdom Rentals",
-    "metaDescription": "42-foot water slide and obstacle course combo for bigger birthdays, schools, and community events. Delivery and setup included. Available across Nova Scotia.",
-    "shortDescription": "Large 42ft water slide and obstacle course combo.",
-    "fullDescription": "Crown Rush 42 is a large water slide and obstacle course combo built for high-energy fun. It is ideal for bigger birthdays, school events, larger yards, and community celebrations.",
+    "metaDescription": "Crown Rush 42 — our full 42 ft obstacle course (Crown Quest + Crown Cascade combined). $549. Setup and takedown included. Delivery extra. Nova Scotia.",
+    "shortDescription": "Full 42 ft obstacle course — Crown Quest and Crown Cascade combined.",
+    "fullDescription": "Crown Rush 42 is our full 42 ft obstacle course. Crown Quest and Crown Cascade can be rented separately, or combined together as Crown Rush 42.\n\nValue: Crown Quest ($369) + Crown Cascade ($379) separately = $748. Crown Rush 42 as the full combined obstacle course = $549.\n\nSetup and takedown included; delivery extra; HST extra, if applicable.",
     "bestFor": [
       "Big birthdays",
       "Schools",
@@ -231,9 +240,14 @@
       "Water source required for wet use",
       "Adult supervision required at all times"
     ],
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
     "wetUse": true,
-    "dimensions": "12.8m x 2.5m x 3.66m / 42ft x 8.2ft x 12ft"
+    "dimensions": "12.8m x 2.5m x 3.66m / 42ft x 8.2ft x 12ft",
+    "specs": [
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra, if applicable"
+    ]
   },
   {
     "id": "crown-quest",
@@ -241,13 +255,13 @@
     "name": "Crown Quest",
     "tagline": "Conquer Every Challenge Like Royalty",
     "category": "Obstacle Course",
-    "price": "$289",
+    "price": "$369",
     "status": "Available Now",
     "image": "/images/crown-quest.jpeg",
     "metaTitle": "Crown Quest Rental | Inflatable Obstacle Course | Nova Kingdom Rentals",
     "metaDescription": "Inflatable obstacle course for school fun days, community events, and festivals. Setup included. $289. Available from Bridgewater, Nova Scotia.",
     "shortDescription": "Obstacle course attraction for bigger event energy.",
-    "fullDescription": "Crown Quest is an obstacle-course style inflatable built for movement, challenge, and group fun. It is especially useful for schools, community events, festivals, and larger groups.",
+    "fullDescription": "Crown Quest is an obstacle-course style inflatable built for movement, challenge, and group fun. It is especially useful for schools, community events, festivals, and larger groups. Crown Quest and Crown Cascade can be rented separately, or combined together as Crown Rush 42 — our full 42 ft obstacle course.",
     "bestFor": [
       "Schools",
       "Community events",
@@ -265,8 +279,13 @@
       "Power access required",
       "Adult supervision required at all times"
     ],
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
-    "wetUse": false
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
+    "wetUse": false,
+    "specs": [
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra, if applicable"
+    ]
   },
   {
     "id": "crown-cascade",
@@ -274,13 +293,13 @@
     "name": "Crown Cascade",
     "tagline": "Make a Splash Like Royalty",
     "category": "Water Slide",
-    "price": "$319",
+    "price": "$379",
     "status": "Available Now",
     "image": "/images/crown-cascade.jpeg",
     "metaTitle": "Crown Cascade Rental | Water Slide Inflatable | Nova Kingdom Rentals",
     "metaDescription": "Water slide inflatable for summer birthdays and outdoor events. Delivery and setup included. $319. Available in Bridgewater and across Nova Scotia.",
     "shortDescription": "Colourful water slide for splash-ready summer fun.",
-    "fullDescription": "Crown Cascade is designed to bring water-slide excitement to warm-weather events. It is a great option for summer birthdays, backyard parties, and splash-ready celebrations.",
+    "fullDescription": "Crown Cascade is designed to bring water-slide excitement to warm-weather events. It is a great option for summer birthdays, backyard parties, and splash-ready celebrations. Crown Quest and Crown Cascade can be rented separately, or combined together as Crown Rush 42 — our full 42 ft obstacle course.",
     "bestFor": [
       "Summer birthdays",
       "Backyard parties",
@@ -300,8 +319,13 @@
       "Safe drainage area required",
       "Adult supervision required at all times"
     ],
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
-    "wetUse": true
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
+    "wetUse": true,
+    "specs": [
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra, if applicable"
+    ]
   },
   {
     "id": "crown-climber",
@@ -309,7 +333,7 @@
     "name": "Crown Climber",
     "tagline": "Simple Climbing Fun for Younger Kids",
     "category": "Small Climbing Inflatable",
-    "price": "$280",
+    "price": "$349",
     "status": "Available Now",
     "image": "/images/crown-climber.jpeg",
     "metaTitle": "Crown Climber Rental | Small Climbing Inflatable | Nova Kingdom Rentals",
@@ -335,9 +359,14 @@
       "Power access required",
       "Adult supervision required at all times"
     ],
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
     "wetUse": false,
-    "dimensions": "5m x 4m x 4m / 16.4ft x 13.1ft x 13.1ft"
+    "dimensions": "5m x 4m x 4m / 16.4ft x 13.1ft x 13.1ft",
+    "specs": [
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra, if applicable"
+    ]
   },
   {
     "id": "crown-dino-combo",
@@ -345,7 +374,7 @@
     "name": "Crown Dino Combo",
     "tagline": "Bounce Like a Dino, Rule Like a King",
     "category": "Combo Inflatable",
-    "price": "$279",
+    "price": "$329",
     "status": "Available Now",
     "image": "/images/crown-dino-combo.jpeg",
     "metaTitle": "Crown Dino Combo Rental | Dinosaur Inflatable Bouncy Castle | Nova Kingdom Rentals",
@@ -369,9 +398,14 @@
       "Power access required",
       "Adult supervision required at all times"
     ],
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
     "wetUse": false,
-    "dimensions": "4m x 4m x 3m / 13.1ft x 13.1ft x 9.8ft"
+    "dimensions": "4m x 4m x 3m / 13.1ft x 13.1ft x 9.8ft",
+    "specs": [
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra, if applicable"
+    ]
   },
   {
     "id": "kids-foam-party",
@@ -576,7 +610,7 @@
     "name": "Crown Safari",
     "tagline": "Fun for Every Event",
     "category": "Large Inflatable",
-    "price": "$359",
+    "price": "$449",
     "status": "Available Now",
     "image": "/images/crown-safari.jpg",
     "metaTitle": "Crown Safari Rental Nova Scotia | Large Inflatable | Nova Kingdom Rentals",
@@ -595,9 +629,14 @@
     "setupNotes": [
       "Adult supervision required at all times"
     ],
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
     "wetUse": false,
-    "dimensions": "33 ft L × 12 ft W × 14 ft H"
+    "dimensions": "33 ft L × 12 ft W × 14 ft H",
+    "specs": [
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra, if applicable"
+    ]
   },
   {
     "id": "crown-ice-palace-combo",
@@ -605,7 +644,7 @@
     "name": "Crown Ice Palace Combo",
     "tagline": "Fun for Every Event",
     "category": "Combo Inflatable",
-    "price": "$279",
+    "price": "$389",
     "status": "Available Now",
     "image": "/images/crown-ice-palace-combo.jpg",
     "metaTitle": "Crown Ice Palace Combo Rental Nova Scotia | Nova Kingdom Rentals",
@@ -624,9 +663,14 @@
     "setupNotes": [
       "Adult supervision required at all times"
     ],
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
     "wetUse": false,
-    "dimensions": "20 ft L × 17 ft W × 18 ft H"
+    "dimensions": "20 ft L × 17 ft W × 18 ft H",
+    "specs": [
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra, if applicable"
+    ]
   },
   {
     "id": "crown-dash",
@@ -634,7 +678,7 @@
     "name": "Crown Dash",
     "tagline": "Fun for Every Event",
     "category": "Inflatable",
-    "price": "$279",
+    "price": "$349",
     "status": "Available Now",
     "image": "/images/crown-dash.jpg",
     "metaTitle": "Crown Dash Inflatable Rental Nova Scotia | Nova Kingdom Rentals",
@@ -652,9 +696,14 @@
     "setupNotes": [
       "Adult supervision required at all times"
     ],
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
     "wetUse": false,
-    "dimensions": "13 ft L × 15 ft W × 10 ft H"
+    "dimensions": "13 ft L × 15 ft W × 10 ft H",
+    "specs": [
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra, if applicable"
+    ]
   },
   {
     "id": "crown-play-palace",
@@ -680,8 +729,13 @@
     "setupNotes": [
       "Adult supervision required at all times"
     ],
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
     "wetUse": false,
-    "dimensions": "To be confirmed"
+    "dimensions": "To be confirmed",
+    "specs": [
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra, if applicable"
+    ]
   }
 ]
