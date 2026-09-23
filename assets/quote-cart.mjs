@@ -26,7 +26,7 @@ const DELIVERY_API_URL = "https://nova-delivery-api.booknovakingdom.workers.dev/
 
 const BOOTH_360_ID         = "product-360-video-booth";
 const BOOTH_360_STANDALONE = 249;
-const BOOTH_360_ADDON      = 199;
+const BOOTH_360_ADDON      = 249;
 
 const FOAM_PARTY_ID = "product-kids-foam-party";
 // Tents: dual pricing (self-serve vs full-service). Never parse from card text.
@@ -82,9 +82,9 @@ const EE_WCHAIR_PRICE = 3;
 
 // Foam party pricing tiers by guest count
 const FOAM_TIERS = [
-  { label: "Up to 30 kids", standalone: 349, addon: 200, prefix: "" },
-  { label: "31–80 kids",    standalone: 599, addon: 350, prefix: "" },
-  { label: "80+ kids",      standalone: 800, addon: 650, prefix: "from " },
+  { label: "Up to 30 kids", standalone: 349, addon: 349, prefix: "" },
+  { label: "31–80 kids",    standalone: 599, addon: 599, prefix: "" },
+  { label: "80+ kids",      standalone: 800, addon: 800, prefix: "from " },
 ];
 
 // Time-based 360 booth pricing. Returns {hours, standalone, addon} or null if times invalid.
@@ -94,20 +94,18 @@ function calc360Price(st, et) {
   var d = (parseInt(b[0]) * 60 + parseInt(b[1])) - (parseInt(a[0]) * 60 + parseInt(a[1]));
   if (d <= 0) return null;
   var h = Math.ceil(d / 60);
-  return { hours: h, standalone: 249 + (h - 1) * 125, addon: 199 + (h - 1) * 70 };
+  return { hours: h, standalone: 249 + (h - 1) * 125, addon: 249 + (h - 1) * 125 };
 }
 
 // Extra display metadata for specific cart items (thumbnail + subtitle in cart panel)
 const CART_ITEM_META = {
   [BOOTH_360_ID]: {
     image:      "/images/360-video-booth.jpg",
-    subtitle:   "Standalone: $249 first hr · Add-on with package: $199 first hr · Extra hours available",
-    addonLabel: "Add-on",
+    subtitle:   "$249 first hour · $125 each additional hour",
   },
   [FOAM_PARTY_ID]: {
     image:      "/images/kids-foam-party.jpg",
     subtitle:   "Hourly pricing by guest count — Inflatable Foam Pit option available (13 ft × 13 ft) — confirm at booking",
-    addonLabel: "Add-on",
   },
   "product-10x10-pop-up-tent": {
     image:    "/images/10x10-pop-up-tent.jpeg",
@@ -1052,7 +1050,7 @@ function makeFormSection(items, stats) {
         var computed360 = isAddon360 ? p360.addon : p360.standalone;
         booth360Adj = computed360 - base360;
         if (rowEl)   { rowEl.hidden = false; }
-        if (labelEl) { labelEl.textContent = "↳ 360 Booth · " + p360.hours + " hr" + (p360.hours !== 1 ? "s" : "") + (isAddon360 ? " (add-on rate)" : " (standalone)"); }
+        if (labelEl) { labelEl.textContent = "↳ 360 Booth · " + p360.hours + " hr" + (p360.hours !== 1 ? "s" : ""); }
         if (priceEl) { priceEl.textContent = formatMoney(computed360); }
       } else {
         if (rowEl)   { rowEl.hidden = false; }
@@ -1537,8 +1535,7 @@ function injectPhotBoothSection() {
       '<h3>360 Video Booth</h3>' +
       '<p class="nk-booth-tagline">Capture Every Angle, Keep Every Memory</p>' +
       '<ul class="nk-booth-pricing">' +
-        '<li><strong>Standalone:</strong> 1 hr $249 · each additional hr $125</li>' +
-        '<li><strong>Add-on with any inflatable or package:</strong> 1 hr $199 · each additional hr $70</li>' +
+        '<li><strong>$249 first hour</strong> · each additional hour $125</li>' +
         '<li>Operator included</li>' +
         '<li>Setup &amp; takedown included</li>' +
       '</ul>' +

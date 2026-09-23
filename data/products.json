@@ -9,7 +9,7 @@
     "status": "Available Now",
     "image": "/images/360-video-booth.jpg",
     "metaTitle": "360 Video Booth Rental | 360° Spinning Video Booth | Nova Kingdom Rentals",
-    "metaDescription": "360 Video Booth rental for weddings, graduations, birthdays, school events, corporate events, and community celebrations in Nova Scotia. Standalone from $249 or add-on from $199.",
+    "metaDescription": "360 Video Booth rental for weddings, graduations, birthdays, school events, corporate events, and community celebrations in Nova Scotia. $249 for the first hour, $125 each additional hour.",
     "shortDescription": "360 Video Booth rental for weddings, graduations, birthdays, school events, community events, corporate events, church events, and fundraisers in Nova Scotia.",
     "fullDescription": "Our 360 Video Booth creates a short slow-motion video of guests standing on a platform while the camera rotates around them. Guests can pose, dance, smile, or celebrate while the booth records a smooth 360-style video. The final result is a digital slow-motion video made for sharing.\n\nThis is not a traditional printed photo booth. It is a video experience, also commonly called a 360 photo booth, where guests receive a slow-motion digital video instead of printed photos.\n\nAn operator is included to run the booth, guide guests, provide props, and help keep the line moving during the rental.\n\nSetup and takedown included. Indoor setup preferred; outdoor setup available on flat, dry surfaces and weather permitting. Power access required.",
     "bestFor": [
@@ -44,8 +44,7 @@
       "RGB ring light",
       "Remote control",
       "Setup and takedown included",
-      "Standalone: $249 for 1 hour — additional time: $125/hour",
-      "Add-on with any inflatable or package: $199 for 1 hour — additional time: $70/hour"
+      "$249 for the first hour — additional time: $125/hour"
     ]
   },
   {
@@ -413,11 +412,11 @@
     "name": "Kids Foam Party",
     "tagline": "High-Energy Foam Fun for Kids",
     "category": "Foam Party",
-    "price": "From $200/hr add-on · From $349/hr standalone",
+    "price": "From $349/hr",
     "status": "Available Now",
     "image": "/images/kids-foam-party.jpg",
     "metaTitle": "Kids Foam Party Rental Nova Scotia | Bridgewater | Nova Kingdom Rentals",
-    "metaDescription": "Kids Foam Party rental for birthday parties, school fun days, daycares, summer camps, church events, and family celebrations across Nova Scotia. From $200/hr add-on or from $349/hr standalone.",
+    "metaDescription": "Kids Foam Party rental for birthday parties, school fun days, daycares, summer camps, church events, and family celebrations across Nova Scotia. From $349/hr.",
     "shortDescription": "High-energy foam fun for kids' birthdays, school fun days, daycares, summer camps, church events, and family celebrations.",
     "fullDescription": "Make your next kids' event unforgettable with a Nova Kingdom Rentals Kids Foam Party. Our foam machine blasts kid-safe, non-toxic foam into a wild, waist-high foam zone — kids love running through it, playing in it, and splashing around. Setup and takedown included. Water source and power access required. Outdoor only on a flat, grassy area.\n\nKids Foam Party is designed for children's events only — it is not available for adult events or alcohol-serving events. Best for ages 3–14.\n\nFoam Party Options: add the Inflatable Foam Pit — A compact inflatable foam pit option for kids' parties and backyard-style events. The pit is 13 ft × 13 ft with 3 ft side walls and a 6 ft back wall, creating a contained foam play area for kids to enjoy. Outdoor use only; water and power access required; foam solution included based on booking; adult supervision required; weather and setup suitability confirmed.",
     "bestFor": [
@@ -449,12 +448,9 @@
     "duration": "Priced per hour",
     "wetUse": true,
     "specs": [
-      "Standalone — Up to 30 kids: $349/hour + delivery",
-      "Standalone — 31–80 kids: $599/hour + delivery",
-      "Standalone — 80+ kids: from $800/hour + delivery",
-      "Add-on with inflatable or package — Up to 30 kids: $200/hour",
-      "Add-on with inflatable or package — 31–80 kids: $350/hour",
-      "Add-on with inflatable or package — 80+ kids: from $650/hour",
+      "Up to 30 kids: $349/hour + delivery",
+      "31–80 kids: $599/hour + delivery",
+      "80+ kids: from $800/hour + delivery",
       "Foam Pit option: 13 ft × 13 ft inflatable pit",
       "Foam Pit walls: 3 ft sides, 6 ft back wall",
       "Foam Pit: outdoor use only — water and power access required"
@@ -731,7 +727,7 @@
     ],
     "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
     "wetUse": false,
-    "dimensions": "To be confirmed",
+    "dimensions": "24 ft L × 10 ft W × 10 ft H",
     "specs": [
       "Setup and takedown included",
       "Delivery extra",
@@ -750,7 +746,7 @@
     "metaTitle": "Generator Rental Nova Scotia | $150 | Nova Kingdom Rentals",
     "metaDescription": "Generator rental in Nova Scotia — $150, includes 1 gas tank. Power your inflatables and event setup where outlets aren't available. Delivery extra. Bridgewater and across Nova Scotia.",
     "shortDescription": "Generator Rental — $150. Includes 1 gas tank. Power for inflatables and event setups where power outlets aren't available.",
-    "fullDescription": "Generator Rental — $150. Includes 1 gas tank. A reliable power source for inflatables and event setups at parks, fields, and venues without power outlets.\n\nDelivery extra. HST extra. Final availability and setup requirements confirmed manually.",
+    "fullDescription": "Generator Rental — $150. Includes 1 gas tank. A reliable power source for inflatables and event setups at parks, fields, and venues without power outlets.\n\nDelivery extra. Final availability and setup requirements confirmed manually.",
     "bestFor": [
       "Parks and fields without power",
       "Community events",
@@ -765,7 +761,6 @@
     "setupNotes": [
       "1 gas tank included",
       "Delivery extra",
-      "HST extra",
       "Final availability and setup requirements confirmed manually"
     ],
     "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
@@ -774,7 +769,6 @@
       "Generator Rental: $150",
       "Includes 1 gas tank",
       "Delivery extra",
-      "HST extra",
       "Final availability and setup requirements confirmed manually"
     ]
   }
