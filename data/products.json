@@ -735,6 +735,47 @@
     ]
   },
   {
+    "id": "crown-pirate-adventure",
+    "slug": "crown-pirate-adventure",
+    "name": "Crown Pirate Adventure",
+    "tagline": "Bounce & Slide Combo",
+    "category": "Combo Inflatable",
+    "price": "$499",
+    "status": "Coming Soon",
+    "comingSoon": true,
+    "image": "/images/crown-pirate-adventure.png",
+    "metaTitle": "Crown Pirate Adventure Rental Nova Scotia | Bounce & Slide Combo | Nova Kingdom Rentals",
+    "metaDescription": "Crown Pirate Adventure — a pirate-ship-themed bounce and slide combo inflatable. $499. Coming Soon to Nova Kingdom Rentals in Bridgewater and across Nova Scotia.",
+    "shortDescription": "A pirate-ship-themed bounce and slide combo inflatable for birthdays, school events, and community events in Nova Scotia. Coming Soon.",
+    "fullDescription": "Crown Pirate Adventure is a pirate-ship-themed bounce and slide combo inflatable — a big-impact attraction that combines a bounce area with a slide for birthdays, school events, community events, and festivals. Setup and takedown included. Coming Soon — contact us to be notified when it launches. Final availability, delivery, and setup suitability confirmed manually.",
+    "bestFor": [
+      "Birthday parties",
+      "School events",
+      "Community events",
+      "Festivals"
+    ],
+    "features": [
+      "Bounce and slide combination",
+      "Pirate ship theme"
+    ],
+    "setupNotes": [
+      "Maximum capacity: 6–8 kids at one time",
+      "Adult supervision required at all times"
+    ],
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
+    "wetUse": false,
+    "dimensions": "30 ft L × 13 ft W × 16 ft H",
+    "capacity": "Maximum 6–8 kids at one time",
+    "specs": [
+      "Bounce and slide combination",
+      "Pirate ship theme",
+      "Maximum capacity: 6–8 kids at one time",
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra"
+    ]
+  },
+  {
     "id": "generator",
     "slug": "generator",
     "name": "Generator Rental",
