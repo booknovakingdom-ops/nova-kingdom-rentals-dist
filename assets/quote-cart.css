@@ -470,22 +470,7 @@
 a.seo-gallery-link .nk-gallery-add { color: #c9a227; }
 a.seo-gallery-link .nk-gallery-add:hover, a.seo-gallery-link .nk-gallery-add.in-cart { color: #050814; }
 
-/* ── Package meta + customization (swap) ─────────────────────────── */
-.nk-pkg-meta {
-  list-style: none;
-  margin: 0.6rem 0 0.2rem;
-  padding: 0;
-  font-size: 0.8rem;
-  line-height: 1.5;
-  color: #5a5f73;
-}
-.nk-pkg-meta li { position: relative; padding-left: 1rem; }
-.nk-pkg-meta li::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  color: #c9a227;
-}
+/* ── Package customization (swap) ────────────────────────────────── */
 .nk-pkg-customizer { margin: 0.5rem 0 0.2rem; }
 .nk-customize-btn {
   width: 100%;

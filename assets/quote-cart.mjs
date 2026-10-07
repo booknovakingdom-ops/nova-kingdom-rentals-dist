@@ -1298,9 +1298,6 @@ function enhancePackageCards() {
 
     const insertPoint = card.querySelector("[data-package-detail-button], .button, a");
 
-    // Standard package meta (durations, delivery, attendants) on every card.
-    injectPackageMeta(card, insertPoint);
-
     const meta = { includesLawnGames };
     const cfg  = PKG_SWAP_CONFIG[id];
     if (cfg) {
@@ -1312,25 +1309,6 @@ function enhancePackageCards() {
 
     hideCheckAvailabilityLinks(card);
   });
-}
-
-// Static meta lines shown on every package card (durations + delivery + attendants).
-function injectPackageMeta(card, insertPoint) {
-  if (card.querySelector(".nk-pkg-meta")) return;
-  const box = document.createElement("ul");
-  box.className = "nk-pkg-meta";
-  [
-    "Private parties: up to 4 hours",
-    "Events: up to 3 hours",
-    "Delivery extra",
-    "Event attendants additional where required",
-  ].forEach((t) => {
-    const li = document.createElement("li");
-    li.textContent = t;
-    box.appendChild(li);
-  });
-  if (insertPoint) insertPoint.insertAdjacentElement("beforebegin", box);
-  else             card.appendChild(box);
 }
 
 // Builds the "Customize This Package" swap UI for an eligible package card.
