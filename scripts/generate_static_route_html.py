@@ -565,12 +565,13 @@ def render_packages_fallback(packages: list[dict[str, Any]], description: str) -
         parts.append(f"<h2>{h(pkg['name'])}</h2>")
         parts.append(render_dl([
             ("Price", pkg.get("price")),
-            ("Savings", pkg.get("savings")),
             ("Duration", pkg.get("duration")),
         ]))
         if pkg.get("description"):
             parts.append(f"<p>{h(pkg['description'])}</p>")
         parts.append(render_list(pkg.get("includedItems") or pkg.get("included")))
+        if pkg.get("bookingNotes"):
+            parts.append(render_list(pkg.get("bookingNotes")))
     parts.append("<p>Final availability and setup suitability are confirmed manually before booking is finalized.</p>")
     parts.append(cta_block("Check availability for a package"))
     return "".join(parts)
@@ -815,8 +816,8 @@ def route_metadata(
             ),
         },
         "/packages": {
-            "title": "Party Rental Packages from $370 | Nova Kingdom Rentals NS",
-            "description": "Inflatable rental packages for birthdays, schools, and community events in Nova Scotia. Water slides, interactive games, and lawn games bundled. Packages from $370.",
+            "title": "Party Rental Packages from $949 | Nova Kingdom Rentals NS",
+            "description": "Inflatable rental packages for birthdays, schools, and community events in Nova Scotia. Water slides, interactive games, and lawn games bundled. Packages from $949.",
             "image": GENERAL_IMAGE,
             "schema": [
                 item_list_schema("Nova Kingdom Rentals party rental packages", "/packages", package_items),
@@ -824,7 +825,7 @@ def route_metadata(
             ],
             "fallback": wrap_fallback(
                 FIXED_H1["/packages"],
-                render_packages_fallback(packages, "Bundle and save with a Nova Kingdom Rentals party package. Packages combine inflatables, lawn games, and extras for birthdays, schools, and community events. Packages from $370. All packages include setup and takedown."),
+                render_packages_fallback(packages, "Bundle and save with a Nova Kingdom Rentals party package. Packages combine inflatables, lawn games, and extras for birthdays, schools, and community events. Packages from $949. Private parties up to 4 hours; events up to 3 hours. Setup and takedown included. Delivery extra. All packages include setup and takedown."),
             ),
         },
         "/lawn-games": {

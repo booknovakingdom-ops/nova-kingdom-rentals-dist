@@ -1,247 +1,193 @@
 [
   {
-    "id": "cascade-starter",
-    "name": "Cascade Starter",
-    "price": "$379",
-    "savings": "$50",
-    "included": [
-      "Crown Cascade",
-      "5 Lawn Games"
-    ],
-    "badge": "Splash Pick",
-    "image": "/images/packages/cascade-starter-package.jpg",
-    "regularValue": "$429",
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
-    "description": "A splash-ready starter bundle for Bridgewater and South Shore birthdays that pairs Crown Cascade water-slide fun with a hand-picked set of lawn games.",
-    "includedItems": [
-      "Crown Cascade",
-      "5 Lawn Games"
-    ],
-    "bookingNotes": [
-      "Setup and takedown included.",
-      "Delivery extra.",
-      "Final availability and setup suitability are confirmed manually before booking is finalized."
-    ]
-  },
-  {
-    "id": "dino-dash",
-    "name": "Dino Dash",
-    "price": "$379",
-    "savings": "$50",
-    "included": [
-      "Crown Dino Combo",
-      "Crown Kick Darts"
-    ],
-    "badge": "Kids Favourite",
+    "id": "family-kingdom",
+    "name": "Family Kingdom",
+    "price": "$949",
+    "badge": "Family Favourite",
     "image": "/images/packages/dino-dash-package.jpg",
-    "regularValue": "$429",
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
-    "description": "A kid-friendly inflatable package that combines the Crown Dino Combo with Crown Kick Darts for backyard birthdays, school fun days, and family events.",
+    "included": [
+      "Crown Dino Combo",
+      "Crown Island Combo",
+      "Football Darts"
+    ],
     "includedItems": [
       "Crown Dino Combo",
-      "Crown Kick Darts"
+      "Crown Island Combo",
+      "Football Darts"
     ],
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
+    "swapEligible": true,
+    "description": "A family-friendly package that pairs the Crown Dino Combo and Crown Island Combo with Football Darts for backyard birthdays, school fun days, and community events.",
     "bookingNotes": [
       "Setup and takedown included.",
       "Delivery extra.",
+      "Event attendants additional where required ($45/hour per attendant).",
+      "Customize This Package — swap an included attraction for another eligible attraction.",
       "Final availability and setup suitability are confirmed manually before booking is finalized."
     ]
   },
   {
-    "id": "island-splash",
-    "name": "Island Splash",
-    "price": "$370",
-    "savings": "$50",
-    "included": [
-      "Crown Island Combo",
-      "5 Lawn Games"
-    ],
-    "badge": "Summer Favourite",
-    "image": "/images/packages/island-splash-package.jpg",
-    "regularValue": "$420",
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
-    "description": "A summer favourite with Crown Island Combo and lawn games for birthdays, community gatherings, and warm-weather South Shore parties.",
-    "includedItems": [
-      "Crown Island Combo",
-      "5 Lawn Games"
-    ],
-    "bookingNotes": [
-      "Setup and takedown included.",
-      "Delivery extra.",
-      "Final availability and setup suitability are confirmed manually before booking is finalized."
-    ]
-  },
-  {
-    "id": "quest-games",
-    "name": "Quest & Games",
-    "price": "$498",
-    "savings": "$81",
-    "included": [
-      "Crown Quest",
-      "Crown Axe Challenge",
-      "5 Lawn Games"
-    ],
-    "badge": "Great for Schools",
+    "id": "adventure-kingdom",
+    "name": "Adventure Kingdom",
+    "price": "$1,075",
+    "badge": "Adventure Pick",
     "image": "/images/packages/quest-games-package.jpg",
-    "regularValue": "$579",
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
-    "description": "A high-energy school and community event bundle with obstacle-style action, interactive games, and lawn games for better event flow.",
-    "includedItems": [
-      "Crown Quest",
-      "Crown Axe Challenge",
-      "5 Lawn Games"
+    "included": [
+      "Crown Dash",
+      "Crown Safari",
+      "Crown Axe Challenge"
     ],
+    "includedItems": [
+      "Crown Dash",
+      "Crown Safari",
+      "Crown Axe Challenge"
+    ],
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
+    "swapEligible": true,
+    "description": "An action-packed package with Crown Dash, the large Crown Safari, and the Crown Axe Challenge — a strong pick for birthdays, schools, and community events.",
     "bookingNotes": [
       "Setup and takedown included.",
       "Delivery extra.",
+      "Event attendants additional where required ($45/hour per attendant).",
+      "Customize This Package — swap an included attraction for another eligible attraction.",
       "Final availability and setup suitability are confirmed manually before booking is finalized."
     ]
   },
   {
-    "id": "dino-party-plus",
-    "name": "Dino Party Plus",
-    "price": "$618",
-    "savings": "$132",
-    "included": [
-      "Crown Dino Combo",
-      "Crown Kick Darts",
-      "Crown Axe Challenge",
-      "5 Lawn Games"
-    ],
-    "badge": "Best Value",
-    "image": "/images/packages/dino-party-plus-package.jpg",
-    "regularValue": "$750",
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
-    "description": "A strong value package for birthdays and community events that adds multiple interactive attractions beside the Crown Dino Combo.",
-    "includedItems": [
-      "Crown Dino Combo",
-      "Crown Kick Darts",
-      "Crown Axe Challenge",
-      "5 Lawn Games"
-    ],
-    "bookingNotes": [
-      "Setup and takedown included.",
-      "Delivery extra.",
-      "Final availability and setup suitability are confirmed manually before booking is finalized."
-    ]
-  },
-  {
-    "id": "island-royale",
-    "name": "Island Royale",
-    "price": "$649",
-    "savings": "$132",
-    "included": [
-      "Crown Island Combo",
-      "Crown Kick Darts",
-      "Crown Axe Challenge",
-      "5 Lawn Games"
-    ],
-    "badge": "Most Popular",
-    "image": "/images/packages/island-royale-package.jpg",
-    "regularValue": "$781",
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
-    "description": "A popular premium bundle with tropical inflatable fun, competitive games, and lawn games for larger birthdays and outdoor celebrations.",
-    "includedItems": [
-      "Crown Island Combo",
-      "Crown Kick Darts",
-      "Crown Axe Challenge",
-      "5 Lawn Games"
-    ],
-    "bookingNotes": [
-      "Setup and takedown included.",
-      "Delivery extra.",
-      "Final availability and setup suitability are confirmed manually before booking is finalized."
-    ]
-  },
-  {
-    "id": "royal-all-star",
-    "name": "Royal All-Star",
-    "price": "$849",
-    "savings": "$61",
-    "included": [
-      "Crown Rush 42",
-      "Crown Axe Challenge",
-      "Crown Kick Darts",
-      "5 Lawn Games"
-    ],
-    "badge": "Big Event Pick",
+    "id": "rush-party",
+    "name": "Rush Party",
+    "price": "$1,149",
+    "badge": "Obstacle Course",
     "image": "/images/packages/royal-all-star-package.jpg",
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
-    "description": "A big-event package built for schools, festivals, and community celebrations that need large inflatable impact plus interactive games.",
-    "includedItems": [
-      "Crown Rush 42",
-      "Crown Axe Challenge",
-      "Crown Kick Darts",
-      "5 Lawn Games"
-    ],
-    "bookingNotes": [
-      "Setup and takedown included.",
-      "Delivery extra.",
-      "Final availability and setup suitability are confirmed manually before booking is finalized."
-    ],
-    "regularValue": "$910"
-  },
-  {
-    "id": "kingdom-deluxe",
-    "name": "Kingdom Deluxe",
-    "price": "$1,099",
-    "savings": "$121",
     "included": [
       "Crown Rush 42",
       "Crown Island Combo",
-      "Crown Axe Challenge",
-      "Crown Kick Darts",
-      "5 Lawn Games"
+      "Football Darts"
     ],
-    "badge": "Deluxe",
-    "image": "/images/packages/kingdom-deluxe-package.jpg",
-    "regularValue": "$1,220",
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
-    "description": "A deluxe inflatable package for larger South Shore and Nova Scotia events that need variety, water-slide fun, and competitive add-ons.",
     "includedItems": [
       "Crown Rush 42",
       "Crown Island Combo",
-      "Crown Axe Challenge",
-      "Crown Kick Darts",
-      "5 Lawn Games"
+      "Football Darts"
     ],
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
+    "swapEligible": true,
+    "description": "Built around the full Crown Rush 42 obstacle course with the Crown Island Combo and Football Darts — a high-energy package for bigger birthdays and events.",
     "bookingNotes": [
       "Setup and takedown included.",
       "Delivery extra.",
+      "Event attendants additional where required ($45/hour per attendant).",
+      "Customize This Package — swap an included attraction for another eligible attraction.",
       "Final availability and setup suitability are confirmed manually before booking is finalized."
     ]
   },
   {
-    "id": "ultimate-kingdom",
-    "name": "Ultimate Kingdom",
-    "price": "$1,599",
-    "savings": "$180",
+    "id": "royal-fun",
+    "name": "Royal Fun",
+    "price": "$1,949",
+    "badge": "Crowd Pleaser",
+    "image": "/images/packages/island-royale-package.jpg",
     "included": [
-      "Crown Rush 42",
-      "Crown Climber",
-      "Crown Island Combo",
-      "Crown Dino Combo",
+      "Crown Pirate Adventure",
+      "Crown Safari",
+      "Crown Ice Palace Combo",
       "Crown Axe Challenge",
-      "Crown Kick Darts",
+      "Football Darts",
       "5 Lawn Games"
     ],
-    "badge": "Ultimate Event",
-    "image": "/images/packages/ultimate-kingdom-package.jpg",
-    "regularValue": "$1,779",
-    "duration": "Private parties: up to 6 hrs · Events: up to 4 hrs",
-    "description": "Our largest listed package for major birthdays, festivals, school events, and community celebrations that want maximum inflatable variety.",
     "includedItems": [
-      "Crown Rush 42",
-      "Crown Climber",
-      "Crown Island Combo",
-      "Crown Dino Combo",
+      "Crown Pirate Adventure",
+      "Crown Safari",
+      "Crown Ice Palace Combo",
       "Crown Axe Challenge",
-      "Crown Kick Darts",
+      "Football Darts",
       "5 Lawn Games"
     ],
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
+    "swapEligible": true,
+    "description": "A big-event package with the Crown Pirate Adventure, Crown Safari, Crown Ice Palace Combo, Crown Axe Challenge, Football Darts, and a set of 5 lawn games.",
     "bookingNotes": [
       "Setup and takedown included.",
       "Delivery extra.",
+      "Event attendants additional where required ($45/hour per attendant).",
+      "Customize This Package — swap an included inflatable for another eligible inflatable (same number of attractions).",
+      "Final availability and setup suitability are confirmed manually before booking is finalized."
+    ]
+  },
+  {
+    "id": "royal-kingdom",
+    "name": "Royal Kingdom",
+    "price": "$2,599",
+    "badge": "Premium",
+    "image": "/images/packages/kingdom-deluxe-package.jpg",
+    "included": [
+      "Crown Rush 42",
+      "Crown Play Palace",
+      "Crown Pirate Adventure",
+      "Crown Dino Combo",
+      "Football Darts",
+      "Crown Axe Challenge"
+    ],
+    "includedItems": [
+      "Crown Rush 42",
+      "Crown Play Palace",
+      "Crown Pirate Adventure",
+      "Crown Dino Combo",
+      "Football Darts",
+      "Crown Axe Challenge"
+    ],
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
+    "swapEligible": true,
+    "description": "A premium multi-inflatable package with the Crown Rush 42 obstacle course, Crown Play Palace, Crown Pirate Adventure, Crown Dino Combo, Football Darts, and the Crown Axe Challenge.",
+    "bookingNotes": [
+      "Setup and takedown included.",
+      "Delivery extra.",
+      "Event attendants additional where required ($45/hour per attendant).",
+      "Customize This Package — swap an included attraction for another eligible attraction.",
+      "Final availability and setup suitability are confirmed manually before booking is finalized."
+    ]
+  },
+  {
+    "id": "full-kingdom-takeover",
+    "name": "Full Kingdom Takeover",
+    "price": "$4,749",
+    "badge": "Everything Included",
+    "image": "/images/packages/ultimate-kingdom-package.jpg",
+    "included": [
+      "Crown Rush 42",
+      "Crown Play Palace",
+      "Crown Safari",
+      "Crown Pirate Adventure",
+      "Crown Ice Palace Combo",
+      "Crown Island Combo",
+      "Crown Dash",
+      "Crown Climber",
+      "Crown Dino Combo",
+      "Crown Axe Challenge",
+      "Football Darts",
+      "5 Lawn Games"
+    ],
+    "includedItems": [
+      "Crown Rush 42",
+      "Crown Play Palace",
+      "Crown Safari",
+      "Crown Pirate Adventure",
+      "Crown Ice Palace Combo",
+      "Crown Island Combo",
+      "Crown Dash",
+      "Crown Climber",
+      "Crown Dino Combo",
+      "Crown Axe Challenge",
+      "Football Darts",
+      "5 Lawn Games"
+    ],
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
+    "swapEligible": false,
+    "description": "Our complete lineup in one booking — the Crown Rush 42 obstacle course, Crown Play Palace, Crown Safari, Crown Pirate Adventure, Crown Ice Palace Combo, Crown Island Combo, Crown Dash, Crown Climber, Crown Dino Combo, Crown Axe Challenge, Football Darts, and 5 lawn games.",
+    "bookingNotes": [
+      "Setup and takedown included.",
+      "Delivery extra.",
+      "Event attendants additional where required ($45/hour per attendant).",
+      "Includes the full available inflatable lineup — no substitutions needed.",
       "Final availability and setup suitability are confirmed manually before booking is finalized."
     ]
   }

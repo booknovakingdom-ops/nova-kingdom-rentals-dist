@@ -133,15 +133,44 @@ const CART_ITEM_META = {
 // IDs are derived from names via: "pkg-" + name.toLowerCase().replace(/[^a-z0-9]+/g,"-")
 //                             and "product-" + name.toLowerCase().replace(/[^a-z0-9]+/g,"-")
 const PKG_INCLUDED_PRODUCTS = {
-  "pkg-cascade-starter":  new Set(["product-crown-cascade"]),
-  "pkg-dino-dash":        new Set(["product-crown-dino-combo", "product-crown-kick-darts"]),
-  "pkg-island-splash":    new Set(["product-crown-island-combo"]),
-  "pkg-quest-games":      new Set(["product-crown-quest", "product-crown-axe-challenge"]),
-  "pkg-dino-party-plus":  new Set(["product-crown-dino-combo", "product-crown-kick-darts", "product-crown-axe-challenge"]),
-  "pkg-island-royale":    new Set(["product-crown-island-combo", "product-crown-kick-darts", "product-crown-axe-challenge"]),
-  "pkg-royal-all-star":   new Set(["product-crown-rush-42", "product-crown-axe-challenge", "product-crown-kick-darts"]),
-  "pkg-kingdom-deluxe":   new Set(["product-crown-rush-42", "product-crown-island-combo", "product-crown-axe-challenge", "product-crown-kick-darts"]),
-  "pkg-ultimate-kingdom":      new Set(["product-crown-rush-42", "product-crown-climber", "product-crown-island-combo", "product-crown-dino-combo", "product-crown-axe-challenge", "product-crown-kick-darts"]),
+  "pkg-family-kingdom":        new Set(["product-crown-dino-combo", "product-crown-island-combo", "product-crown-kick-darts"]),
+  "pkg-adventure-kingdom":     new Set(["product-crown-dash", "product-crown-safari", "product-crown-axe-challenge"]),
+  "pkg-rush-party":            new Set(["product-crown-rush-42", "product-crown-island-combo", "product-crown-kick-darts"]),
+  "pkg-royal-fun":             new Set(["product-crown-pirate-adventure", "product-crown-safari", "product-crown-ice-palace-combo", "product-crown-axe-challenge", "product-crown-kick-darts"]),
+  "pkg-royal-kingdom":         new Set(["product-crown-rush-42", "product-crown-play-palace", "product-crown-pirate-adventure", "product-crown-dino-combo", "product-crown-kick-darts", "product-crown-axe-challenge"]),
+  "pkg-full-kingdom-takeover": new Set(["product-crown-rush-42", "product-crown-play-palace", "product-crown-safari", "product-crown-pirate-adventure", "product-crown-ice-palace-combo", "product-crown-island-combo", "product-crown-dash", "product-crown-climber", "product-crown-dino-combo", "product-crown-axe-challenge", "product-crown-kick-darts"]),
+};
+
+// ── Package customization (swap) feature ─────────────────────────
+// Eligible swap attractions. `price` is the standalone value used ONLY to
+// compute the swap difference (internal); it is never shown to customers.
+// Crown Quest and Crown Cascade are intentionally excluded (components of Rush 42).
+const SWAP_OPTIONS = [
+  { key: "crown-dino-combo",       label: "Crown Dino Combo",       price: 319 },
+  { key: "crown-climber",          label: "Crown Climber",          price: 329 },
+  { key: "crown-dash",             label: "Crown Dash",             price: 349 },
+  { key: "crown-island-combo",     label: "Crown Island Combo",     price: 349, wetUpgrade: 50 },
+  { key: "crown-ice-palace-combo", label: "Crown Ice Palace Combo", price: 389 },
+  { key: "crown-safari",           label: "Crown Safari",           price: 449 },
+  { key: "crown-pirate-adventure", label: "Crown Pirate Adventure", price: 499 },
+  { key: "crown-rush-42",          label: "Crown Rush 42",          price: 549 },
+  { key: "crown-play-palace",      label: "Crown Play Palace",      price: 699 },
+  { key: "crown-axe-challenge",    label: "Crown Axe Challenge",    price: 199 },
+  { key: "football-darts",         label: "Football Darts",         price: 199, productId: "product-crown-kick-darts" },
+];
+const SWAP_BY_KEY = SWAP_OPTIONS.reduce((m, o) => { m[o.key] = o; return m; }, {});
+const swapProductId = (key) => SWAP_BY_KEY[key]?.productId || ("product-" + key);
+
+// Per-package swap configuration. `base` is the published package price.
+// `slots` are swappable attractions (by SWAP_OPTIONS key). `fixedItems` are
+// non-swappable extras kept as-is (e.g. lawn games). Full Kingdom Takeover is
+// intentionally absent — it has no swap feature.
+const PKG_SWAP_CONFIG = {
+  "pkg-family-kingdom":    { base: 949,  slots: ["crown-dino-combo", "crown-island-combo", "football-darts"], fixedItems: [] },
+  "pkg-adventure-kingdom": { base: 1075, slots: ["crown-dash", "crown-safari", "crown-axe-challenge"], fixedItems: [] },
+  "pkg-rush-party":        { base: 1149, slots: ["crown-rush-42", "crown-island-combo", "football-darts"], fixedItems: [] },
+  "pkg-royal-fun":         { base: 1949, slots: ["crown-pirate-adventure", "crown-safari", "crown-ice-palace-combo", "crown-axe-challenge", "football-darts"], fixedItems: ["5 Lawn Games"] },
+  "pkg-royal-kingdom":     { base: 2599, slots: ["crown-rush-42", "crown-play-palace", "crown-pirate-adventure", "crown-dino-combo", "football-darts", "crown-axe-challenge"], fixedItems: [] },
 };
 
 // Crown Rush 42 is a combined unit — functionally covers Cascade and Quest.
@@ -346,7 +375,7 @@ const formatMoney = (n) => "$" + Number(n).toFixed(0).replace(/\B(?=(\d{3})+(?!\
 function getIncludedProductIds(cart) {
   const map = {};
   for (const item of cart) {
-    const pkgSet = PKG_INCLUDED_PRODUCTS[item.id];
+    const pkgSet = item.includedProducts ? new Set(item.includedProducts) : PKG_INCLUDED_PRODUCTS[item.id];
     if (pkgSet) {
       pkgSet.forEach((pid) => {
         map[pid] = item.name;
@@ -421,7 +450,7 @@ function countPhysicalUnits(items) {
   const seen = new Set();
   for (const item of items) {
     if (item.isInflatable === false) continue;
-    const pkgProducts = PKG_INCLUDED_PRODUCTS[item.id];
+    const pkgProducts = item.includedProducts ? new Set(item.includedProducts) : PKG_INCLUDED_PRODUCTS[item.id];
     if (pkgProducts) {
       pkgProducts.forEach((pid) => seen.add(pid));
     } else {
@@ -596,6 +625,11 @@ function makeItemsSection(items) {
     if (meta?.subtitle) {
       const sub = document.createElement("small"); sub.className = "nk-item-sub";
       sub.textContent = (hasPkg && meta.addonLabel ? meta.addonLabel + " \xb7 " : "") + meta.subtitle;
+      info.appendChild(sub);
+    }
+    if (item.customSummary) {
+      const sub = document.createElement("small"); sub.className = "nk-item-sub";
+      sub.textContent = item.customSummary;
       info.appendChild(sub);
     }
     li.appendChild(info);
@@ -855,7 +889,7 @@ function makeEstimateSection(items, stats) {
 // ── Form section ─────────────────────────────────────────────────
 function makeFormSection(items, stats) {
   const { subtotal, inflatableCount, lawnsOnly, hasWater } = stats;
-  const selectedSummary = items.map((i) => i.name + " (" + formatMoney(i.price) + ")").join("; ") || "No items selected";
+  const selectedSummary = items.map((i) => i.name + " (" + formatMoney(i.price) + ")" + (i.customSummary ? " [" + i.customSummary + "]" : "")).join("; ") || "No items selected";
 
   const sec = document.createElement("section");
   const title = document.createElement("p"); title.className = "nk-qs-title"; title.textContent = "Event & contact details";
@@ -1262,12 +1296,179 @@ function enhancePackageCards() {
     const includedText   = Array.from(card.querySelectorAll("p")).map((p) => p.textContent).join(" ");
     const includesLawnGames = /5\s*lawn\s*games?/i.test(includedText);
 
-    injectAddBtn(card, id, name, price, true,
-      card.querySelector("[data-package-detail-button], .button, a"),
-      { includesLawnGames });
+    const insertPoint = card.querySelector("[data-package-detail-button], .button, a");
+
+    // Standard package meta (durations, delivery, attendants) on every card.
+    injectPackageMeta(card, insertPoint);
+
+    const meta = { includesLawnGames };
+    const cfg  = PKG_SWAP_CONFIG[id];
+    if (cfg) {
+      const customizer = buildPackageCustomizer(card, id, name, cfg, priceEl, insertPoint);
+      if (customizer) meta.getLiveState = customizer.getLiveState;
+    }
+
+    injectAddBtn(card, id, name, price, true, insertPoint, meta);
 
     hideCheckAvailabilityLinks(card);
   });
+}
+
+// Static meta lines shown on every package card (durations + delivery + attendants).
+function injectPackageMeta(card, insertPoint) {
+  if (card.querySelector(".nk-pkg-meta")) return;
+  const box = document.createElement("ul");
+  box.className = "nk-pkg-meta";
+  [
+    "Private parties: up to 4 hours",
+    "Events: up to 3 hours",
+    "Delivery extra",
+    "Event attendants additional where required",
+  ].forEach((t) => {
+    const li = document.createElement("li");
+    li.textContent = t;
+    box.appendChild(li);
+  });
+  if (insertPoint) insertPoint.insertAdjacentElement("beforebegin", box);
+  else             card.appendChild(box);
+}
+
+// Builds the "Customize This Package" swap UI for an eligible package card.
+// Returns { getLiveState } so the Add-to-Quote button records the current selection.
+function buildPackageCustomizer(card, pkgId, pkgName, cfg, priceEl, insertPoint) {
+  if (card.querySelector(".nk-pkg-customizer")) return null;
+
+  // Working selection: one entry per swappable slot.
+  const slots = cfg.slots.map((key) => ({ key, wet: false }));
+  const includedP = card.querySelector("p"); // the "A + B + C" line
+
+  function computeState() {
+    let total = cfg.base;
+    const changes = [];
+    const includedProducts = [];
+    const labels = [];
+    slots.forEach((slot, i) => {
+      const origKey = cfg.slots[i];
+      const opt     = SWAP_BY_KEY[slot.key];
+      const origOpt = SWAP_BY_KEY[origKey];
+      total += (opt.price - origOpt.price);
+      const isIslandWet = slot.wet && opt.key === "crown-island-combo";
+      if (isIslandWet) total += (opt.wetUpgrade || 50);
+      includedProducts.push(swapProductId(slot.key));
+      labels.push(opt.label + (isIslandWet ? " (wet / pool)" : ""));
+      if (slot.key !== origKey) changes.push(origOpt.label + " → " + opt.label);
+      else if (isIslandWet)     changes.push(opt.label + " upgraded to wet / pool");
+    });
+    (cfg.fixedItems || []).forEach((f) => labels.push(f));
+    const customized = changes.length > 0;
+    return {
+      price: total,
+      name: pkgName + (customized ? " (Customized)" : ""),
+      includedProducts,
+      customSummary: customized ? ("Customized: " + changes.join("; ")) : "",
+      labels,
+    };
+  }
+
+  function applyDisplay() {
+    const st = computeState();
+    if (priceEl)   priceEl.textContent = formatMoney(st.price);
+    if (includedP) includedP.textContent = st.labels.join(" + ");
+    // Keep an in-cart copy in sync if this package is already selected.
+    const cart = loadCart();
+    const idx = cart.findIndex((i) => i.id === pkgId);
+    if (idx !== -1) {
+      cart[idx] = {
+        ...cart[idx],
+        name: st.name,
+        price: st.price,
+        includedProducts: st.includedProducts,
+        customSummary: st.customSummary || undefined,
+      };
+      saveCart(cart);
+      updateBar();
+    }
+  }
+
+  function renderPanel(panel) {
+    panel.innerHTML = "";
+    const chosen = slots.map((s) => s.key);
+    slots.forEach((slot, i) => {
+      const row = document.createElement("div");
+      row.className = "nk-swap-row";
+
+      const sel = document.createElement("select");
+      sel.className = "nk-swap-select";
+      sel.setAttribute("aria-label", "Swap attraction " + (i + 1));
+      SWAP_OPTIONS.forEach((opt) => {
+        // No duplicates: hide options already chosen in OTHER slots.
+        if (opt.key !== slot.key && chosen.indexOf(opt.key) !== -1) return;
+        const o = document.createElement("option");
+        o.value = opt.key;
+        o.textContent = opt.label;
+        if (opt.key === slot.key) o.selected = true;
+        sel.appendChild(o);
+      });
+      sel.addEventListener("change", () => {
+        slot.key = sel.value;
+        if (slot.key !== "crown-island-combo") slot.wet = false;
+        renderPanel(panel);
+        applyDisplay();
+      });
+      row.appendChild(sel);
+
+      if (slot.key === "crown-island-combo") {
+        const wrap = document.createElement("label");
+        wrap.className = "nk-swap-wet";
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = slot.wet;
+        cb.addEventListener("change", () => { slot.wet = cb.checked; applyDisplay(); });
+        wrap.appendChild(cb);
+        wrap.appendChild(document.createTextNode(" Wet / pool use (+$50)"));
+        row.appendChild(wrap);
+      }
+      panel.appendChild(row);
+    });
+    if (cfg.fixedItems && cfg.fixedItems.length) {
+      const note = document.createElement("p");
+      note.className = "nk-swap-fixed";
+      note.textContent = "Also included: " + cfg.fixedItems.join(", ");
+      panel.appendChild(note);
+    }
+    const hint = document.createElement("p");
+    hint.className = "nk-swap-hint";
+    hint.textContent = "Swap any attraction for another — the package keeps the same number of attractions. The price updates automatically.";
+    panel.appendChild(hint);
+  }
+
+  const wrap = document.createElement("div");
+  wrap.className = "nk-pkg-customizer";
+
+  const toggle = document.createElement("button");
+  toggle.type = "button";
+  toggle.className = "nk-customize-btn";
+  toggle.setAttribute("aria-expanded", "false");
+  toggle.textContent = "Customize This Package";
+
+  const panel = document.createElement("div");
+  panel.className = "nk-swap-panel";
+  panel.hidden = true;
+
+  toggle.addEventListener("click", () => {
+    const open = panel.hidden;
+    panel.hidden = !open;
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    toggle.classList.toggle("open", open);
+    if (open && !panel.dataset.built) { panel.dataset.built = "1"; renderPanel(panel); }
+  });
+
+  wrap.appendChild(toggle);
+  wrap.appendChild(panel);
+  if (insertPoint) insertPoint.insertAdjacentElement("beforebegin", wrap);
+  else             card.appendChild(wrap);
+
+  return { getLiveState: computeState };
 }
 
 function enhanceLawnGameCards() {
@@ -1401,7 +1602,10 @@ function injectAddBtn(container, id, name, price, isInflatable, insertBefore, me
       if (meta?.includesLawnGames) {
         currentCart = currentCart.filter((i) => i.id !== "lg-5" && i.id !== "lg-10" && i.id !== "lg-12");
       }
-      const pkgIncluded = PKG_INCLUDED_PRODUCTS[id];
+      const liveState = (meta && typeof meta.getLiveState === "function") ? meta.getLiveState() : null;
+      const pkgIncluded = liveState && liveState.includedProducts
+        ? new Set(liveState.includedProducts)
+        : PKG_INCLUDED_PRODUCTS[id];
       if (pkgIncluded) {
         currentCart = currentCart.filter((i) => !pkgIncluded.has(i.id));
         pkgIncluded.forEach((pid) => {
@@ -1440,7 +1644,16 @@ function injectAddBtn(container, id, name, price, isInflatable, insertBefore, me
         actualPrice = currentCart.some((i) => i.id.startsWith("pkg-")) ? BOOTH_360_ADDON : BOOTH_360_STANDALONE;
       }
       const cartIsInflatable = id === BOOTH_360_ID ? false : isInflatable;
-      currentCart.push({ id, name, price: actualPrice, isInflatable: cartIsInflatable, ...meta });
+      const storedMeta = meta ? { ...meta } : {};
+      delete storedMeta.getLiveState;
+      let itemName = name, itemPrice = actualPrice;
+      if (liveState) {
+        itemName  = liveState.name || name;
+        itemPrice = (typeof liveState.price === "number") ? liveState.price : actualPrice;
+        storedMeta.includedProducts = liveState.includedProducts;
+        if (liveState.customSummary) storedMeta.customSummary = liveState.customSummary;
+      }
+      currentCart.push({ id, name: itemName, price: itemPrice, isInflatable: cartIsInflatable, ...storedMeta });
       saveCart(currentCart);
     }
     saveCart(normalizeCarnivalPrice(loadCart()));
