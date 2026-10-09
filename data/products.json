@@ -5,11 +5,11 @@
     "name": "360 Video Booth",
     "tagline": "Capture Every Angle, Keep Every Memory",
     "category": "Video Booth",
-    "price": "From $249",
+    "price": "From $399",
     "status": "Available Now",
     "image": "/images/360-video-booth.jpg",
     "metaTitle": "360 Video Booth Rental | 360° Spinning Video Booth | Nova Kingdom Rentals",
-    "metaDescription": "360 Video Booth rental for weddings, graduations, birthdays, school events, corporate events, and community celebrations in Nova Scotia. $249 for the first hour, $125 each additional hour.",
+    "metaDescription": "360 Video Booth rental for weddings, graduations, birthdays, school events, corporate events, and community celebrations in Nova Scotia. $399 for 2 hours, $125 each additional hour.",
     "shortDescription": "360 Video Booth rental for weddings, graduations, birthdays, school events, community events, corporate events, church events, and fundraisers in Nova Scotia.",
     "fullDescription": "Our 360 Video Booth creates a short slow-motion video of guests standing on a platform while the camera rotates around them. Guests can pose, dance, smile, or celebrate while the booth records a smooth 360-style video. The final result is a digital slow-motion video made for sharing.\n\nThis is not a traditional printed photo booth. It is a video experience, also commonly called a 360 photo booth, where guests receive a slow-motion digital video instead of printed photos.\n\nAn operator is included to run the booth, guide guests, provide props, and help keep the line moving during the rental.\n\nSetup and takedown included. Indoor setup preferred; outdoor setup available on flat, dry surfaces and weather permitting. Power access required.",
     "bestFor": [
@@ -36,15 +36,17 @@
       "Power access required (standard household outlet)",
       "Clear, level setup area required"
     ],
-    "duration": "1 hour minimum",
+    "duration": "2 hour minimum",
     "wetUse": false,
     "specs": [
       "26.8” 360 platform",
       "Rotating camera arm",
       "RGB ring light",
       "Remote control",
+      "Operator and props included",
       "Setup and takedown included",
-      "$249 for the first hour — additional time: $125/hour"
+      "2 hours $399 · 3 hours $524 · 4 hours $649",
+      "Each additional hour $125 (2-hour minimum)"
     ]
   },
   {

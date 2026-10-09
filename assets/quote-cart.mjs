@@ -25,8 +25,8 @@ const DELIVERY_API_URL = "https://nova-delivery-api.booknovakingdom.workers.dev/
 
 
 const BOOTH_360_ID         = "product-360-video-booth";
-const BOOTH_360_STANDALONE = 249;
-const BOOTH_360_ADDON      = 249;
+const BOOTH_360_STANDALONE = 399;  // 2-hour base
+const BOOTH_360_ADDON      = 399;
 
 const FOAM_PARTY_ID = "product-kids-foam-party";
 // Tents: dual pricing (self-serve vs full-service). Never parse from card text.
@@ -87,21 +87,23 @@ const FOAM_TIERS = [
   { label: "80+ kids",      standalone: 800, addon: 800, prefix: "from " },
 ];
 
-// Time-based 360 booth pricing. Returns {hours, standalone, addon} or null if times invalid.
+// Time-based 360 booth pricing. 2-hour minimum: $399 for 2 hours, +$125 each
+// additional hour. Returns {hours, standalone, addon} or null if times invalid.
 function calc360Price(st, et) {
   if (!st || !et) return null;
   var a = st.split(":"), b = et.split(":");
   var d = (parseInt(b[0]) * 60 + parseInt(b[1])) - (parseInt(a[0]) * 60 + parseInt(a[1]));
   if (d <= 0) return null;
-  var h = Math.ceil(d / 60);
-  return { hours: h, standalone: 249 + (h - 1) * 125, addon: 249 + (h - 1) * 125 };
+  var h = Math.max(2, Math.ceil(d / 60));  // 2-hour minimum
+  var price = 399 + (h - 2) * 125;
+  return { hours: h, standalone: price, addon: price };
 }
 
 // Extra display metadata for specific cart items (thumbnail + subtitle in cart panel)
 const CART_ITEM_META = {
   [BOOTH_360_ID]: {
     image:      "/images/360-video-booth.jpg",
-    subtitle:   "$249 first hour · $125 each additional hour",
+    subtitle:   "$399 for 2 hours · $125 each additional hour",
   },
   [FOAM_PARTY_ID]: {
     image:      "/images/kids-foam-party.jpg",
@@ -1089,7 +1091,7 @@ function makeFormSection(items, stats) {
       } else {
         if (rowEl)   { rowEl.hidden = false; }
         if (labelEl) { labelEl.textContent = "↳ 360 Booth · enter start/end time"; }
-        if (priceEl) { priceEl.textContent = "from " + formatMoney(base360) + "/hr"; }
+        if (priceEl) { priceEl.textContent = "from " + formatMoney(base360) + " (2 hrs)"; }
       }
     } else if (hasUKP) {
       if (rowEl)   { rowEl.hidden = false; }
@@ -1726,9 +1728,9 @@ function injectPhotBoothSection() {
       '<h3>360 Video Booth</h3>' +
       '<p class="nk-booth-tagline">Capture Every Angle, Keep Every Memory</p>' +
       '<ul class="nk-booth-pricing">' +
-        '<li><strong>$249 first hour</strong> · each additional hour $125</li>' +
-        '<li>Operator included</li>' +
-        '<li>Setup &amp; takedown included</li>' +
+        '<li><strong>2 hrs $399</strong> · 3 hrs $524 · 4 hrs $649</li>' +
+        '<li>Each additional hour +$125 (2-hour minimum)</li>' +
+        '<li>Operator &amp; props included · Setup &amp; takedown included</li>' +
       '</ul>' +
       '<div class="nk-booth-btns">' +
         '<a class="button button-dark nk-booth-detail-btn" href="/rentals/360-video-booth">View Details</a>' +
