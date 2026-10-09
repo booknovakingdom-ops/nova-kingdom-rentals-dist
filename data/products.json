@@ -50,6 +50,53 @@
     ]
   },
   {
+    "id": "mirror-photo-booth",
+    "slug": "mirror-photo-booth",
+    "name": "Mirror Photo Booth",
+    "tagline": "Tap, Pose, and Capture the Moment",
+    "category": "Photo Booth",
+    "price": "From $500",
+    "status": "Available Now",
+    "image": "/images/mirror-photo-booth.jpg",
+    "metaTitle": "Mirror Photo Booth Rental Nova Scotia | Magic Mirror | Nova Kingdom Rentals",
+    "metaDescription": "Mirror Photo Booth rental in Nova Scotia — a full-length interactive magic mirror. Digital $500 for 2 hours; Printed $600 for 2 hours. Attendant, props, and backdrop included. Delivery extra.",
+    "shortDescription": "An interactive full-length mirror photo booth for weddings, birthdays, graduations, corporate events, and community celebrations in Nova Scotia.",
+    "fullDescription": "Our Mirror Photo Booth is a full-length interactive magic mirror with a colourful RGB light frame. Guests walk up, tap the mirror, follow the fun on-screen animations and prompts, pose, and capture the moment — an elegant, interactive centrepiece for weddings, parties, and events.\n\nChoose the format that fits your event:\n\nDigital — $500 for 2 hours, each additional hour $125. Guests receive a digital gallery with instant sharing (no printed photos).\n\nPrinted — $600 for 2 hours, each additional hour $150. Unlimited photo prints on site plus digital copies, with a custom print design.\n\nAn attendant is included to run the booth, guide guests, and provide props. A backdrop, props, and setup and takedown are included. 2-hour minimum. Indoor setup preferred; power access required. Delivery extra.",
+    "bestFor": [
+      "Weddings",
+      "Graduations",
+      "Birthday Parties",
+      "Corporate Events",
+      "Community Events",
+      "Fundraisers"
+    ],
+    "features": [
+      "Full-length interactive magic mirror",
+      "Colourful RGB light frame",
+      "Touch-screen animations and prompts",
+      "Attendant included",
+      "Fun props and backdrop included",
+      "Digital gallery or unlimited on-site prints",
+      "Professional setup and takedown included"
+    ],
+    "setupNotes": [
+      "Indoor setup preferred",
+      "Power access required (standard household outlet)",
+      "Clear, level setup area required",
+      "2-hour minimum"
+    ],
+    "duration": "2 hour minimum",
+    "wetUse": false,
+    "specs": [
+      "Full-length magic mirror with RGB light frame",
+      "Attendant, props, and backdrop included",
+      "Setup and takedown included",
+      "Digital — $500 for 2 hours · each additional hour $125",
+      "Printed — $600 for 2 hours · each additional hour $150",
+      "2-hour minimum · Delivery extra"
+    ]
+  },
+  {
     "id": "crown-island-combo",
     "slug": "crown-island-combo",
     "name": "Crown Island Combo",

@@ -67,6 +67,47 @@ function injectIslandBtn(container, insertBefore) {
   wrap.appendChild(sel); wrap.appendChild(btn);
   if (insertBefore) insertBefore.insertAdjacentElement("beforebegin", wrap); else container.appendChild(wrap);
 }
+
+const MIRROR_ID = "product-mirror-photo-booth";
+const MIRROR_OPTIONS = [
+  { value: "digital", label: "Digital — $500 for 2 hours", name: "Mirror Photo Booth — Digital (2 hrs)", price: 500 },
+  { value: "printed", label: "Printed — $600 for 2 hours", name: "Mirror Photo Booth — Printed (2 hrs)", price: 600 },
+];
+function injectMirrorBtn(container, insertBefore) {
+  if (container.querySelector(".nk-add-to-quote, .nk-tent-quote")) return;
+  const wrap = document.createElement("div");
+  wrap.className = "nk-tent-quote";
+  const sel = document.createElement("select");
+  sel.className = "nk-tent-service";
+  sel.setAttribute("aria-label", "Mirror Photo Booth option");
+  MIRROR_OPTIONS.forEach(function (o) {
+    const opt = document.createElement("option");
+    opt.value = o.value; opt.textContent = o.label; sel.appendChild(opt);
+  });
+  const btn = document.createElement("button");
+  btn.type = "button"; btn.dataset.nkId = MIRROR_ID;
+  const inCart = loadCart().some(function (i) { return i.id === MIRROR_ID; });
+  btn.className = "nk-add-to-quote" + (inCart ? " in-cart" : "");
+  btn.textContent = inCart ? "In Quote ✓" : "Add to Quote";
+  btn.addEventListener("click", function () {
+    let cart = loadCart();
+    if (cart.some(function (i) { return i.id === MIRROR_ID; })) {
+      cart = cart.filter(function (i) { return i.id !== MIRROR_ID; });
+    } else {
+      const o = MIRROR_OPTIONS.find(function (x) { return x.value === sel.value; }) || MIRROR_OPTIONS[0];
+      cart.push({ id: MIRROR_ID, name: o.name, price: o.price, isInflatable: false });
+    }
+    saveCart(cart); updateBar();
+    const after = loadCart().some(function (i) { return i.id === MIRROR_ID; });
+    btn.textContent = after ? "In Quote ✓" : "Add to Quote";
+    btn.classList.toggle("in-cart", after);
+  });
+  const note = document.createElement("small");
+  note.className = "nk-mirror-note";
+  note.textContent = "2-hour base shown. Additional hours quoted (Digital +$125/hr · Printed +$150/hr).";
+  wrap.appendChild(sel); wrap.appendChild(btn); wrap.appendChild(note);
+  if (insertBefore) insertBefore.insertAdjacentElement("beforebegin", wrap); else container.appendChild(wrap);
+}
 const TENT_PRICING = {
   "product-10x10-pop-up-tent": { name: "10x10 Pop-Up Tent", base: 175, setup: 50, image: "/images/10x10-pop-up-tent.jpeg" },
   "product-10x20-pole-tent":   { name: "10x20 Pole Tent",   base: 275, setup: 75, image: "/images/10x20-pole-tent.jpeg" },
@@ -104,6 +145,10 @@ const CART_ITEM_META = {
   [BOOTH_360_ID]: {
     image:      "/images/360-video-booth.jpg",
     subtitle:   "$399 for 2 hours · $125 each additional hour",
+  },
+  [MIRROR_ID]: {
+    image:      "/images/mirror-photo-booth.jpg",
+    subtitle:   "2-hour base · additional hours quoted",
   },
   [FOAM_PARTY_ID]: {
     image:      "/images/kids-foam-party.jpg",
@@ -1481,6 +1526,11 @@ function enhanceProductDetail() {
   if (!name || !priceEl || !id) return;
   if (id === ISLAND_ID) {
     injectIslandBtn(hero, hero.querySelector(".button-row, .button, a"));
+    hideCheckAvailabilityLinks(hero);
+    return;
+  }
+  if (id === MIRROR_ID) {
+    injectMirrorBtn(hero, hero.querySelector(".button-row, .button, a"));
     hideCheckAvailabilityLinks(hero);
     return;
   }

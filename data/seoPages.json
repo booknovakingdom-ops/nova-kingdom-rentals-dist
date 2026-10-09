@@ -49156,7 +49156,8 @@
   "intro": "Nova Kingdom Rentals offers photo and video booth experiences for weddings, birthdays, graduations, school events, corporate events, and community celebrations across Nova Scotia. Our 360 Video Booth is available now — guests stand on a platform while the camera spins around them for a fun slow-motion 360 video, with an operator and props included. The 360 Video Booth is $399 for 2 hours and $125 each additional hour. The Mirror Photo Booth is available in two formats — Digital ($500 for 2 hours) and Printed ($600 for 2 hours), each with additional hours available.",
   "hideServiceCards": true,
   "featuredProductIds": [
-   "360-video-booth"
+   "360-video-booth",
+   "mirror-photo-booth"
   ],
   "faq": [
    {
