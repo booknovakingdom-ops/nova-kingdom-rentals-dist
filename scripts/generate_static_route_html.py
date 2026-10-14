@@ -812,7 +812,7 @@ def route_metadata(
             ],
             "fallback": wrap_fallback(
                 FIXED_H1["/rentals"],
-                render_rentals_fallback(products, "Browse our full lineup of inflatable rentals available across the South Shore and Nova Scotia. Setup and takedown included with every rental. Travel quoted separately."),
+                render_rentals_fallback(products, "Browse our full lineup of inflatable rentals available across the South Shore and Nova Scotia. For individual inflatables, setup and takedown are extra and depend on the unit; party packages include setup and takedown. Travel quoted separately."),
             ),
         },
         "/packages": {
