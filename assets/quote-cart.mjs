@@ -243,7 +243,7 @@ const UPGRADE_OPTIONS = [
 ];
 
 // Pricing for individual lawn game add-ons (per card on /lawn-games)
-const LG_INDIVIDUAL_PRICES = { "cornhole": 45 }; // all others $25
+const LG_INDIVIDUAL_PRICES = { "cornhole": 45, "giant-connect-4": 45 }; // all others $30
 const LG_GAME_ID_PREFIX    = "lg-game-";
 
 // Cleared as a group when a new lawn-game package/upgrade is selected
@@ -1503,7 +1503,7 @@ function enhanceLawnGameCards() {
     if (!name) return;
     const slug  = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
     const id    = LG_GAME_ID_PREFIX + slug;
-    const price = LG_INDIVIDUAL_PRICES[slug] ?? 25;
+    const price = LG_INDIVIDUAL_PRICES[slug] ?? 30;
     const existingCta = card.querySelector(".button-dark, .button, a");
     const priceEl = document.createElement("p");
     priceEl.className   = "nk-lg-card-price";
