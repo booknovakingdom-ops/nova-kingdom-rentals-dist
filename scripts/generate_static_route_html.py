@@ -515,6 +515,16 @@ def render_homepage_fallback(
     intro_text = homepage.get("intro", {}).get("text")
     if intro_text:
         parts.append(render_paragraphs(intro_text))
+    parts.append(render_section(
+        "Help Choose Our Next Attraction for 2027",
+        "<p>We’re considering adding one or two exciting new attractions for 2027! Choose your favourite below and request our advance booking offer for your next event.</p>"
+        "<ul>"
+        "<li><strong>67-ft Obstacle Course</strong> — advance booking $699 (regular $849, save $150)</li>"
+        "<li><strong>Jump &amp; Slide</strong> — advance booking $599 (regular $749, save $150)</li>"
+        "<li><strong>Meltdown Challenge</strong> — advance booking $999 (regular $1,249, save $250)</li>"
+        "</ul>"
+        "<p>Delivery, staffing and applicable taxes will be outlined in your personalised quote. These are potential additions for 2027 and are not yet confirmed — final selections will depend on demand and advance bookings, and submitting an enquiry does not confirm a reservation. "
+        "<a href=\"/contact\">Contact us</a> to register your interest and advance booking preference.</p>"))
     parts.append(render_section("Service Area", f"<p>{h(site_info['serviceArea'])}</p>"))
     parts.append(
         render_section(
