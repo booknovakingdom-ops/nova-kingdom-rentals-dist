@@ -49,6 +49,17 @@
 .nk27-card-img { display: block; width: 100%; aspect-ratio: 16 / 9; background: #26124d; overflow: hidden; }
 .nk27-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
+.nk27-thumbs { display: flex; gap: .4rem; padding: .5rem .6rem 0; }
+.nk27-thumb {
+  flex: 1 1 0; display: block; border: 2px solid transparent; border-radius: 7px;
+  overflow: hidden; cursor: pointer; background: #eee; aspect-ratio: 16 / 10;
+  transition: border-color .12s ease;
+}
+.nk27-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.nk27-thumb.active { border-color: #6b35b8; }
+.nk27-thumb:hover { border-color: #c9a227; }
+.nk27-thumb:focus-visible { outline: 2px solid #f0d16a; outline-offset: 1px; }
+
 .nk27-card-body { display: flex; flex-direction: column; gap: .35rem; padding: .85rem 1rem 1rem; }
 .nk27-card-name { font-size: 1.12rem; font-weight: 800; color: #2a1250; }
 .nk27-card-dims { font-size: .78rem; color: #6a6f80; }

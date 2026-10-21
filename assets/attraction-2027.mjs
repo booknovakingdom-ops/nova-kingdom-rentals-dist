@@ -6,9 +6,9 @@
 const W3F_KEY = "909ed8f7-78ca-494f-b960-1713b60bc012";
 
 const ATTRACTIONS = [
-  { key: "obstacle-course",   name: "67-ft Obstacle Course", img: "/images/attractions-2027/67-ft-obstacle-course.jpg", reg: 849,  adv: 699, save: 150, dims: "67.2 ft L × 12 ft W × 22 ft H" },
+  { key: "obstacle-course",   name: "67-ft Obstacle Course", img: "/images/attractions-2027/67-ft-obstacle-course.jpg?v=2", gallery: ["/images/attractions-2027/67-ft-obstacle-course.jpg?v=2", "/images/attractions-2027/67-ft-obstacle-course-2.jpg?v=2", "/images/attractions-2027/67-ft-obstacle-course-3.jpg?v=2"], reg: 849,  adv: 699, save: 150, dims: "67.2 ft L × 12 ft W × 22 ft H" },
   { key: "jump-and-slide",    name: "Jump & Slide",          img: "/images/attractions-2027/jump-and-slide.jpg",        reg: 749,  adv: 599, save: 150, dims: "26.2 ft L × 19.7 ft W × 16.4 ft H" },
-  { key: "meltdown-challenge",name: "Meltdown Challenge",    img: "/images/attractions-2027/meltdown-challenge.jpg",    reg: 1249, adv: 999, save: 250, dims: "19.7 × 19.7 ft footprint" },
+  { key: "meltdown-challenge",name: "Meltdown Challenge",    img: "/images/attractions-2027/meltdown-challenge.jpg?v=2", reg: 1249, adv: 999, save: 250, dims: "19.7 × 19.7 ft footprint" },
 ];
 
 const DISCLAIMER = "These are potential additions for 2027 and are not yet confirmed. Final selections will depend on demand and advance bookings. Submitting this form does not confirm a reservation. We’ll confirm availability, your full quote and deposit terms—including what happens if the attraction does not go ahead—before arranging payment.";
@@ -19,11 +19,21 @@ const isHome = () => { const p = window.location.pathname; return p === "/" || p
 
 const selected = new Set();
 
+function thumbsHtml(a) {
+  if (!a.gallery || a.gallery.length < 2) return "";
+  return '<span class="nk27-thumbs">' + a.gallery.map((src, i) =>
+    '<span class="nk27-thumb' + (i === 0 ? ' active' : '') + '" role="button" tabindex="0" aria-label="View photo ' + (i + 1) + ' of ' + esc(a.name) + '" data-src="' + src + '">' +
+      '<img src="' + src + '" alt="' + esc(a.name) + ' — view ' + (i + 1) + '" loading="lazy">' +
+    '</span>'
+  ).join("") + '</span>';
+}
+
 function cardHtml(a) {
   return (
     '<button type="button" class="nk27-card" data-key="' + a.key + '" aria-pressed="false">' +
       '<span class="nk27-card-check" aria-hidden="true">✓</span>' +
-      '<span class="nk27-card-img"><img src="' + a.img + '" alt="' + esc(a.name) + ' — potential 2027 attraction" loading="lazy"></span>' +
+      '<span class="nk27-card-img"><img class="nk27-main-img" src="' + a.img + '" alt="' + esc(a.name) + ' — potential 2027 attraction" loading="lazy"></span>' +
+      thumbsHtml(a) +
       '<span class="nk27-card-body">' +
         '<span class="nk27-card-name">' + esc(a.name) + '</span>' +
         '<span class="nk27-card-dims">' + esc(a.dims) + '</span>' +
@@ -112,6 +122,19 @@ function wire(root) {
       if (selected.has(key)) { selected.delete(key); card.setAttribute("aria-pressed", "false"); card.classList.remove("selected"); }
       else                   { selected.add(key);  card.setAttribute("aria-pressed", "true");  card.classList.add("selected"); }
       refreshSelected(root);
+    });
+
+    // Photo gallery: thumbnails swap the main image without toggling selection
+    const mainImg = card.querySelector(".nk27-main-img");
+    const thumbs = card.querySelectorAll(".nk27-thumb");
+    const showThumb = (t) => {
+      if (!mainImg || !t) return;
+      mainImg.src = t.dataset.src;
+      thumbs.forEach((x) => x.classList.toggle("active", x === t));
+    };
+    thumbs.forEach((t) => {
+      t.addEventListener("click", (e) => { e.stopPropagation(); showThumb(t); });
+      t.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); showThumb(t); } });
     });
   });
 
