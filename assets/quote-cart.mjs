@@ -193,11 +193,11 @@ const PKG_INCLUDED_PRODUCTS = {
 // compute the swap difference (internal); it is never shown to customers.
 // Crown Quest and Crown Cascade are intentionally excluded (components of Rush 42).
 const SWAP_OPTIONS = [
-  { key: "crown-dino-combo",       label: "Crown Dino Combo",       price: 319 },
-  { key: "crown-climber",          label: "Crown Climber",          price: 329 },
+  { key: "crown-dino-combo",       label: "Crown Dino Combo",       price: 349 },
+  { key: "crown-climber",          label: "Crown Climber",          price: 349 },
   { key: "crown-dash",             label: "Crown Dash",             price: 349 },
   { key: "crown-island-combo",     label: "Crown Island Combo",     price: 349, wetUpgrade: 50 },
-  { key: "crown-ice-palace-combo", label: "Crown Ice Palace Combo", price: 389 },
+  { key: "crown-ice-palace-combo", label: "Crown Ice Palace Combo", price: 349 },
   { key: "crown-safari",           label: "Crown Safari",           price: 449 },
   { key: "crown-pirate-adventure", label: "Crown Pirate Adventure", price: 499 },
   { key: "crown-rush-42",          label: "Crown Rush 42",          price: 549 },
@@ -213,11 +213,11 @@ const swapProductId = (key) => SWAP_BY_KEY[key]?.productId || ("product-" + key)
 // non-swappable extras kept as-is (e.g. lawn games). Full Kingdom Takeover is
 // intentionally absent — it has no swap feature.
 const PKG_SWAP_CONFIG = {
-  "pkg-family-kingdom":    { base: 949,  slots: ["crown-dino-combo", "crown-island-combo", "football-darts"], fixedItems: [] },
-  "pkg-adventure-kingdom": { base: 1075, slots: ["crown-dash", "crown-safari", "crown-axe-challenge"], fixedItems: [] },
-  "pkg-rush-party":        { base: 1149, slots: ["crown-rush-42", "crown-island-combo", "football-darts"], fixedItems: [] },
-  "pkg-royal-fun":         { base: 1949, slots: ["crown-pirate-adventure", "crown-safari", "crown-ice-palace-combo", "crown-axe-challenge", "football-darts"], fixedItems: ["5 Lawn Games"] },
-  "pkg-royal-kingdom":     { base: 2599, slots: ["crown-rush-42", "crown-play-palace", "crown-pirate-adventure", "crown-dino-combo", "football-darts", "crown-axe-challenge"], fixedItems: [] },
+  "pkg-family-kingdom":    { base: 824,  slots: ["crown-dino-combo", "crown-island-combo", "football-darts"], fixedItems: [] },
+  "pkg-adventure-kingdom": { base: 950, slots: ["crown-dash", "crown-safari", "crown-axe-challenge"], fixedItems: [] },
+  "pkg-rush-party":        { base: 1024, slots: ["crown-rush-42", "crown-island-combo", "football-darts"], fixedItems: [] },
+  "pkg-royal-fun":         { base: 1754, slots: ["crown-pirate-adventure", "crown-safari", "crown-ice-palace-combo", "crown-axe-challenge", "football-darts"], fixedItems: ["5 Lawn Games"] },
+  "pkg-royal-kingdom":     { base: 2369, slots: ["crown-rush-42", "crown-play-palace", "crown-pirate-adventure", "crown-dino-combo", "football-darts", "crown-axe-challenge"], fixedItems: [] },
 };
 
 // Crown Rush 42 is a combined unit — functionally covers Cascade and Quest.

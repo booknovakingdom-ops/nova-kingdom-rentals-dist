@@ -2,7 +2,7 @@
   {
     "id": "family-kingdom",
     "name": "Family Kingdom",
-    "price": "$949",
+    "price": "$824",
     "badge": "Family Favourite",
     "image": "/images/packages/dino-dash-package.jpg",
     "included": [
@@ -29,7 +29,7 @@
   {
     "id": "adventure-kingdom",
     "name": "Adventure Kingdom",
-    "price": "$1,075",
+    "price": "$950",
     "badge": "Adventure Pick",
     "image": "/images/packages/quest-games-package.jpg",
     "included": [
@@ -56,7 +56,7 @@
   {
     "id": "rush-party",
     "name": "Rush Party",
-    "price": "$1,149",
+    "price": "$1,024",
     "badge": "Obstacle Course",
     "image": "/images/packages/royal-all-star-package.jpg",
     "included": [
@@ -83,7 +83,7 @@
   {
     "id": "royal-fun",
     "name": "Royal Fun",
-    "price": "$1,949",
+    "price": "$1,754",
     "badge": "Crowd Pleaser",
     "image": "/images/packages/island-royale-package.jpg",
     "included": [
@@ -116,7 +116,7 @@
   {
     "id": "royal-kingdom",
     "name": "Royal Kingdom",
-    "price": "$2,599",
+    "price": "$2,369",
     "badge": "Premium",
     "image": "/images/packages/kingdom-deluxe-package.jpg",
     "included": [
@@ -149,7 +149,7 @@
   {
     "id": "full-kingdom-takeover",
     "name": "Full Kingdom Takeover",
-    "price": "$4,749",
+    "price": "$4,344",
     "badge": "Everything Included",
     "image": "/images/packages/ultimate-kingdom-package.jpg",
     "included": [
