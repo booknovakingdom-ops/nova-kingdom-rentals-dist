@@ -1263,6 +1263,7 @@ function makeFormSection(items, stats) {
       const data = await res.json();
       console.log("[NKR quote-cart] status", res.status, data);
       if (!res.ok || !data.success) throw new Error(data.message || "Submission failed");
+      if (typeof window !== "undefined" && window.fbq) window.fbq("track", "Lead");
       if (msgEl) { msgEl.hidden = false; msgEl.className = "nk-form-msg success"; msgEl.textContent = "Request sent! We’ll review your details and follow up shortly."; }
       if (submitBtn) submitBtn.textContent = "Sent!";
       form.reset();

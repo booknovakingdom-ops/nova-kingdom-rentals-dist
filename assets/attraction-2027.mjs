@@ -209,6 +209,7 @@ function wire(root) {
       });
       const data = await res.json();
       if (!res.ok || !data.success) throw new Error(data.message || "Submission failed");
+      if (typeof window !== "undefined" && window.fbq) window.fbq("track", "Lead");
       // Only show success after the submission has actually been delivered.
       if (form) form.hidden = true;
       if (successBox) successBox.hidden = false;
