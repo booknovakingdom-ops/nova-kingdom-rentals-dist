@@ -25,8 +25,11 @@ const DELIVERY_API_URL = "https://nova-delivery-api.booknovakingdom.workers.dev/
 
 
 const BOOTH_360_ID         = "product-360-video-booth";
-const BOOTH_360_STANDALONE = 399;  // 2-hour base
-const BOOTH_360_ADDON      = 399;
+const BOOTH_360_OPTIONS    = [
+  { value: "standard", label: "Standard — $450 for 2 hours", name: "360 Video Booth — Standard (2 hrs)", price: 450 },
+  { value: "premium",  label: "Premium — $600 for 2 hours",  name: "360 Video Booth — Premium (2 hrs)", price: 600 },
+];
+const BOOTH_360_BASE       = 450;  // default 2-hour base (Standard)
 
 const FOAM_PARTY_ID = "product-kids-foam-party";
 // Tents: dual pricing (self-serve vs full-service). Never parse from card text.
@@ -108,6 +111,42 @@ function injectMirrorBtn(container, insertBefore) {
   wrap.appendChild(sel); wrap.appendChild(btn); wrap.appendChild(note);
   if (insertBefore) insertBefore.insertAdjacentElement("beforebegin", wrap); else container.appendChild(wrap);
 }
+
+function injectBooth360Btn(container, insertBefore) {
+  if (container.querySelector(".nk-add-to-quote, .nk-tent-quote")) return;
+  const wrap = document.createElement("div");
+  wrap.className = "nk-tent-quote";
+  const sel = document.createElement("select");
+  sel.className = "nk-tent-service";
+  sel.setAttribute("aria-label", "360 Video Booth option");
+  BOOTH_360_OPTIONS.forEach(function (o) {
+    const opt = document.createElement("option");
+    opt.value = o.value; opt.textContent = o.label; sel.appendChild(opt);
+  });
+  const btn = document.createElement("button");
+  btn.type = "button"; btn.dataset.nkId = BOOTH_360_ID;
+  const inCart = loadCart().some(function (i) { return i.id === BOOTH_360_ID; });
+  btn.className = "nk-add-to-quote" + (inCart ? " in-cart" : "");
+  btn.textContent = inCart ? "In Quote ✓" : "Add to Quote";
+  btn.addEventListener("click", function () {
+    let cart = loadCart();
+    if (cart.some(function (i) { return i.id === BOOTH_360_ID; })) {
+      cart = cart.filter(function (i) { return i.id !== BOOTH_360_ID; });
+    } else {
+      const o = BOOTH_360_OPTIONS.find(function (x) { return x.value === sel.value; }) || BOOTH_360_OPTIONS[0];
+      cart.push({ id: BOOTH_360_ID, name: o.name, price: o.price, isInflatable: false });
+    }
+    saveCart(cart); updateBar();
+    const after = loadCart().some(function (i) { return i.id === BOOTH_360_ID; });
+    btn.textContent = after ? "In Quote ✓" : "Add to Quote";
+    btn.classList.toggle("in-cart", after);
+  });
+  const note = document.createElement("small");
+  note.className = "nk-mirror-note";
+  note.textContent = "2-hour base shown. Each additional hour +$125. Delivery/travel quoted separately.";
+  wrap.appendChild(sel); wrap.appendChild(btn); wrap.appendChild(note);
+  if (insertBefore) insertBefore.insertAdjacentElement("beforebegin", wrap); else container.appendChild(wrap);
+}
 const TENT_PRICING = {
   "product-10x10-pop-up-tent": { name: "10x10 Pop-Up Tent", base: 175, setup: 50, image: "/images/10x10-pop-up-tent.jpeg" },
   "product-10x20-pole-tent":   { name: "10x20 Pole Tent",   base: 275, setup: 75, image: "/images/10x20-pole-tent.jpeg" },
@@ -128,23 +167,22 @@ const FOAM_TIERS = [
   { label: "80+ kids",      standalone: 800, addon: 800, prefix: "from " },
 ];
 
-// Time-based 360 booth pricing. 2-hour minimum: $399 for 2 hours, +$125 each
-// additional hour. Returns {hours, standalone, addon} or null if times invalid.
+// Time-based 360 booth add-on hours. 2-hour minimum base (tier-dependent),
+// each additional hour +$125. Returns {hours, extra} or null if times invalid.
 function calc360Price(st, et) {
   if (!st || !et) return null;
   var a = st.split(":"), b = et.split(":");
   var d = (parseInt(b[0]) * 60 + parseInt(b[1])) - (parseInt(a[0]) * 60 + parseInt(a[1]));
   if (d <= 0) return null;
   var h = Math.max(2, Math.ceil(d / 60));  // 2-hour minimum
-  var price = 399 + (h - 2) * 125;
-  return { hours: h, standalone: price, addon: price };
+  return { hours: h, extra: (h - 2) * 125 };
 }
 
 // Extra display metadata for specific cart items (thumbnail + subtitle in cart panel)
 const CART_ITEM_META = {
   [BOOTH_360_ID]: {
     image:      "/images/360-video-booth.jpg",
-    subtitle:   "$399 for 2 hours · $125 each additional hour",
+    subtitle:   "Standard $450 / Premium $600 for 2 hours · $125 each additional hour",
   },
   [MIRROR_ID]: {
     image:      "/images/mirror-photo-booth.jpg",
@@ -1124,12 +1162,11 @@ function makeFormSection(items, stats) {
       var startInput = eid("nkf-start"), endInput = eid("nkf-end");
       var st360 = startInput ? startInput.value : "";
       var et360 = endInput ? endInput.value : "";
-      var isAddon360 = items.some(function(i) { return i.id !== BOOTH_360_ID && (i.id.startsWith("pkg-") || i.isInflatable !== false); });
       var p360 = calc360Price(st360, et360);
-      var base360 = isAddon360 ? BOOTH_360_ADDON : BOOTH_360_STANDALONE;
+      var base360 = (typeof boothItem.price === "number") ? boothItem.price : BOOTH_360_BASE;
       if (p360) {
-        var computed360 = isAddon360 ? p360.addon : p360.standalone;
-        booth360Adj = computed360 - base360;
+        var computed360 = base360 + p360.extra;
+        booth360Adj = p360.extra;
         if (rowEl)   { rowEl.hidden = false; }
         if (labelEl) { labelEl.textContent = "↳ 360 Booth · " + p360.hours + " hr" + (p360.hours !== 1 ? "s" : ""); }
         if (priceEl) { priceEl.textContent = formatMoney(computed360); }
@@ -1535,6 +1572,11 @@ function enhanceProductDetail() {
     hideCheckAvailabilityLinks(hero);
     return;
   }
+  if (id === BOOTH_360_ID) {
+    injectBooth360Btn(hero, hero.querySelector(".button-row, .button, a"));
+    hideCheckAvailabilityLinks(hero);
+    return;
+  }
   if (TENT_PRICING[id]) {
     injectTentBtn(hero, id, hero.querySelector(".button-row, .button, a"));
     hideCheckAvailabilityLinks(hero);
@@ -1672,7 +1714,7 @@ function injectAddBtn(container, id, name, price, isInflatable, insertBefore, me
       }
       let actualPrice = price;
       if (id === BOOTH_360_ID) {
-        actualPrice = currentCart.some((i) => i.id.startsWith("pkg-")) ? BOOTH_360_ADDON : BOOTH_360_STANDALONE;
+        actualPrice = BOOTH_360_BASE;
       }
       const cartIsInflatable = id === BOOTH_360_ID ? false : isInflatable;
       const storedMeta = meta ? { ...meta } : {};
@@ -1779,9 +1821,9 @@ function injectPhotBoothSection() {
       '<h3>360 Video Booth</h3>' +
       '<p class="nk-booth-tagline">Capture Every Angle, Keep Every Memory</p>' +
       '<ul class="nk-booth-pricing">' +
-        '<li><strong>2 hrs $399</strong> · 3 hrs $524 · 4 hrs $649</li>' +
-        '<li>Each additional hour +$125 (2-hour minimum)</li>' +
-        '<li>Operator &amp; props included · Setup &amp; takedown included</li>' +
+        '<li><strong>Standard — $450 + HST</strong> · 2 hours</li>' +
+        '<li><strong>Premium — $600 + HST</strong> · 2 hours (adds speaker, props &amp; gun machine)</li>' +
+        '<li>Each additional hour +$125 · operator &amp; props included</li>' +
       '</ul>' +
       '<div class="nk-booth-btns">' +
         '<a class="button button-dark nk-booth-detail-btn" href="/rentals/360-video-booth">View Details</a>' +
@@ -1789,32 +1831,9 @@ function injectPhotBoothSection() {
       '</div>' +
     '</div>';
 
-  // Inject "Add to Quote" button
+  // Inject tier selector + "Add to Quote" button (Standard / Premium)
   const btnWrap = card.querySelector(".nk-booth-btns");
-  const qtBtn = document.createElement("button");
-  qtBtn.type = "button";
-  qtBtn.dataset.nkId = BOOTH_360_ID;
-  const cartNow = loadCart();
-  const inCart  = cartNow.some((i) => i.id === BOOTH_360_ID);
-  qtBtn.className = "nk-add-to-quote" + (inCart ? " in-cart" : "");
-  qtBtn.textContent = inCart ? "In Quote ✓" : "Add to Quote";
-  qtBtn.addEventListener("click", () => {
-    const current = loadCart();
-    const nowIn   = current.some((i) => i.id === BOOTH_360_ID);
-    if (nowIn) {
-      saveCart(current.filter((i) => i.id !== BOOTH_360_ID));
-    } else {
-      const hasPkg = current.some((i) => i.id.startsWith("pkg-"));
-      const price  = hasPkg ? BOOTH_360_ADDON : BOOTH_360_STANDALONE;
-      current.push({ id: BOOTH_360_ID, name: "360 Video Booth", price, isInflatable: false });
-      saveCart(normalizeCarnivalPrice(current));
-    }
-    const after = loadCart().some((i) => i.id === BOOTH_360_ID);
-    qtBtn.textContent = after ? "In Quote ✓" : "Add to Quote";
-    qtBtn.classList.toggle("in-cart", after);
-    updateBar();
-  });
-  btnWrap.insertAdjacentElement("afterbegin", qtBtn);
+  injectBooth360Btn(btnWrap, btnWrap.querySelector("a"));
 
   inner.appendChild(card);
   lastLineup.insertAdjacentElement("afterend", section);
