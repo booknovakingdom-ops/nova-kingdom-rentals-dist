@@ -519,7 +519,7 @@ def render_homepage_fallback(
         "Help Choose Our Next Attraction for 2027",
         "<p>We’re considering adding one or two exciting new attractions for 2027! Choose your favourite below and request our advance booking offer for your next event.</p>"
         "<ul>"
-        "<li><strong>67-ft Obstacle Course</strong> — advance booking $699 (regular $849, save $150)</li>"
+        "<li><strong>72-ft Obstacle Course</strong> — advance booking $699 (regular $849, save $150)</li>"
         "<li><strong>Jump &amp; Slide</strong> — advance booking $599 (regular $749, save $150)</li>"
         "<li><strong>Meltdown Challenge</strong> — advance booking $999 (regular $1,249, save $250)</li>"
         "</ul>"
