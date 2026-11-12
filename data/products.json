@@ -784,19 +784,64 @@
     ]
   },
   {
+    "id": "67-ft-obstacle-course",
+    "slug": "67-ft-obstacle-course",
+    "name": "67 ft Obstacle Course",
+    "tagline": "Race, Climb & Splash — End to End",
+    "category": "Obstacle Course",
+    "price": "Contact for pricing",
+    "status": "Coming Soon",
+    "comingSoon": true,
+    "image": "/images/attractions-2027/67-ft-obstacle-course.jpg",
+    "metaTitle": "67 ft Obstacle Course Rental Nova Scotia | Water Slide + Obstacle Combo | Nova Kingdom Rentals",
+    "metaDescription": "67 ft Obstacle Course — a giant inflatable obstacle course with a water slide and pool, 72 ft end to end. Coming Soon to Nova Kingdom Rentals in Bridgewater and across Nova Scotia.",
+    "shortDescription": "A giant inflatable obstacle course combined with a water slide and pool — 72 ft end to end — for schools, festivals, and big community events in Nova Scotia. Coming Soon.",
+    "fullDescription": "The 67 ft Obstacle Course is our biggest challenge attraction yet — a giant inflatable obstacle course paired with a water slide and splash pool for end-to-end racing, climbing, and splashing. It is built for schools, festivals, community events, and larger groups that want a real centrepiece. The full setup runs about 72 ft end to end: a 40.5 ft water slide with pool plus a 31.5 ft obstacle course. Setup and takedown included. Coming Soon — contact us to be notified when it launches. Final availability, delivery, and setup suitability confirmed manually.",
+    "bestFor": [
+      "Schools",
+      "Festivals",
+      "Community events",
+      "Bigger groups"
+    ],
+    "features": [
+      "Giant inflatable obstacle course",
+      "Water slide with pool",
+      "End-to-end racing and climbing",
+      "Big-event centrepiece"
+    ],
+    "setupNotes": [
+      "Large, clear, level setup area required (about 72 ft end to end)",
+      "Power access required",
+      "Water source required",
+      "Safe drainage area required",
+      "Adult supervision required at all times"
+    ],
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
+    "wetUse": true,
+    "dimensions": "Total 72 ft L × 10 ft W × 18 ft H (end to end)",
+    "specs": [
+      "Water slide with pool — 40.5 ft L × 10 ft W × 18 ft H",
+      "Obstacle course — 31.5 ft L × 10 ft W × 9.5 ft H",
+      "Total size (end to end) — 72 ft L × 10 ft W × 18 ft H",
+      "Water slide with pool + obstacle course combo",
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra"
+    ]
+  },
+  {
     "id": "crown-pirate-adventure",
     "slug": "crown-pirate-adventure",
     "name": "Crown Pirate Adventure",
     "tagline": "Bounce & Slide Combo",
     "category": "Combo Inflatable",
     "price": "$499",
-    "status": "Coming Soon",
-    "comingSoon": true,
+    "status": "Available Now",
     "image": "/images/crown-pirate-adventure.png",
     "metaTitle": "Crown Pirate Adventure Rental Nova Scotia | Bounce & Slide Combo | Nova Kingdom Rentals",
-    "metaDescription": "Crown Pirate Adventure — a pirate-ship-themed bounce and slide combo inflatable. $499. Coming Soon to Nova Kingdom Rentals in Bridgewater and across Nova Scotia.",
-    "shortDescription": "A pirate-ship-themed bounce and slide combo inflatable for birthdays, school events, and community events in Nova Scotia. Coming Soon.",
-    "fullDescription": "Crown Pirate Adventure is a pirate-ship-themed bounce and slide combo inflatable — a big-impact attraction that combines a bounce area with a slide for birthdays, school events, community events, and festivals. Setup and takedown included. Coming Soon — contact us to be notified when it launches. Final availability, delivery, and setup suitability confirmed manually.",
+    "metaDescription": "Crown Pirate Adventure — a pirate-ship-themed bounce and slide combo inflatable. $499. Available now from Nova Kingdom Rentals in Bridgewater and across Nova Scotia.",
+    "shortDescription": "A pirate-ship-themed bounce and slide combo inflatable for birthdays, school events, and community events in Nova Scotia.",
+    "fullDescription": "Crown Pirate Adventure is a pirate-ship-themed bounce and slide combo inflatable — a big-impact attraction that combines a bounce area with a slide for birthdays, school events, community events, and festivals. Setup and takedown included. Final availability, delivery, and setup suitability confirmed manually.",
     "bestFor": [
       "Birthday parties",
       "School events",
