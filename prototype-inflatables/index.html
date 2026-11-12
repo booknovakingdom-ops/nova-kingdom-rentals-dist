@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- PROTOTYPE: keep out of search engines. Not for production indexing. -->
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="googlebot" content="noindex, nofollow" />
+  <meta name="theme-color" content="#050814" />
+  <title>Inflatable Catalog Prototype | Nova Kingdom Rentals</title>
+  <meta name="description" content="Prototype — category-first inflatable browsing for Nova Kingdom Rentals. Not the live website." />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#home" aria-label="Nova Kingdom Rentals — prototype home">
+        <img src="/images/nova-kingdom-rentals-logo.png" alt="Nova Kingdom Rentals logo" />
+        <b>Nova Kingdom Rentals</b>
+        <span class="proto-flag" title="This is a prototype, not the live site">Prototype</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Primary">
+        <button data-view="home">Home</button>
+        <button data-view="inflatables">Inflatables</button>
+        <button data-view="packages">Packages</button>
+        <button data-view="foam">Foam Party</button>
+        <button data-view="booths">Photo &amp; Video Booths</button>
+        <button data-view="essentials">Event Essentials</button>
+        <button data-view="other">Other Rentals</button>
+        <button data-view="contact">Contact</button>
+      </nav>
+      <button class="nav-cart" id="cart-open" aria-haspopup="dialog">
+        Quote <span class="count" id="cart-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="wrap" id="view-root" aria-live="polite"><!-- views render here --></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p><strong>Nova Kingdom Rentals</strong> — Bridgewater, Nova Scotia · 902-990-0005 · booknovakingdom@gmail.com</p>
+      <p class="muted">This is an internal <strong>prototype</strong> of a redesigned inflatable browsing experience. It is not the live website and is excluded from search engines. The live site remains at
+        <a href="https://novakingdomrentals.com" rel="noopener">novakingdomrentals.com</a>.</p>
+    </div>
+  </footer>
+
+  <!-- Product detail modal -->
+  <div class="modal-backdrop" id="modal-backdrop" role="presentation">
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-media"><img id="modal-img" src="" alt="" /></div>
+      <div class="modal-body">
+        <button class="close" id="modal-close" aria-label="Close details">×</button>
+        <p class="ptype" id="modal-type" style="color:var(--gold);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:.74rem;margin:0"></p>
+        <h2 id="modal-title"></h2>
+        <div class="row" id="modal-pills"></div>
+        <div id="modal-cfg-wrap" class="hidden">
+          <p style="margin:.2rem 0 .2rem;font-weight:700">Choose a configuration:</p>
+          <div class="cfg" id="modal-cfg" role="group" aria-label="Configuration"></div>
+        </div>
+        <p id="modal-blurb"></p>
+        <dl id="modal-specs"></dl>
+        <div class="card-cta" style="padding-top:.4rem">
+          <button class="btn btn-ghost" id="modal-check">Check Availability</button>
+          <button class="btn btn-primary" id="modal-add">Add to Quote</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quote cart drawer -->
+  <div class="cart-backdrop" id="cart-backdrop"></div>
+  <aside class="cart" id="cart" role="dialog" aria-modal="true" aria-label="Your quote" aria-hidden="true">
+    <header>
+      <h2>Your Quote</h2>
+      <button class="close" id="cart-close" aria-label="Close quote" style="background:none;border:1px solid var(--line);color:var(--text);border-radius:8px;min-height:40px;min-width:40px;cursor:pointer;font-size:1.2rem">×</button>
+    </header>
+    <div class="proto-banner" style="margin:.8rem 1.1rem 0">Prototype quote — nothing is sent. For demonstration only.</div>
+    <div class="cart-items" id="cart-items"></div>
+    <footer>
+      <div class="total"><span>Estimated rental</span><span id="cart-total">$0</span></div>
+      <p class="note">Estimate only — delivery extra, HST extra. Availability, delivery and final pricing are confirmed manually on the live site.</p>
+      <button class="btn btn-primary" id="cart-submit">View Quote Summary</button>
+    </footer>
+  </aside>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
