@@ -1,54 +1,64 @@
-# Inflatable Catalog — Prototype
+# Inflatable Catalog — Prototype (multi-page)
 
-A **standalone prototype** of a category-first inflatable browsing experience for
-Nova Kingdom Rentals. It is **not** the live website and is **not** wired to
-production. It ships with `noindex, nofollow` and is not referenced from the
-production sitemap, navigation, or any production file.
+A **standalone prototype** of a category-first browsing experience for Nova
+Kingdom Rentals, built as **real separate web pages** (a page per product, plus
+section pages). It is **not** the live website and is **not** wired to
+production: every page is `noindex, nofollow`, nothing is referenced from the
+production sitemap/nav, and the quote cart is local-only (sends nothing).
 
 - **Branch:** `inflatable-catalog-prototype` (do **not** merge to `main`)
 - **Location:** `/prototype-inflatables/` (isolated folder)
-- **Nothing in the live site was changed** to build this.
+- No production file was changed to build this.
 
-## What it demonstrates
-- Six category filters: All Inflatables, Bounce & Slide Combos, Obstacle Courses,
-  Slides & Water Fun, Interactive Games, Play & Climb.
-- One canonical record per rental (same ID/name/image/detail URL as production);
-  products appear under multiple filters via tags, never duplicated.
-- Card → detail modal, a local-only quote cart that survives category switches,
-  Crown Island dry/wet configuration, and package customization (swaps only).
+## Pages
+- `index.html` — Home
+- `inflatables.html` — catalog with the six type filters
+- `products/<slug>.html` — a real detail page for each of the 13 inflatables
+- `packages.html` — six packages with swap-only customization
+- `foam-party.html`, `photo-video-booths.html`, `event-essentials.html`,
+  `other-rentals.html`, `contact.html` — simplified section pages
+- Shared: `styles.css`, `cart.js` (cart + filtering + customize), `data.js`
 
 ## Run it locally
-The prototype reuses the live site's optimized images under `/images/...`, so
-serve from the **repository root** (one directory above this folder):
+The pages reuse the live site's optimized images under `/images/...`, so serve
+from the **repository root** (one level above this folder):
 
 ```bash
-# from the repo root: /home/user/nova-kingdom-rentals-dist
+cd /home/user/nova-kingdom-rentals-dist
 python3 -m http.server 8080
-# then open:
-#   http://localhost:8080/prototype-inflatables/
+# open http://localhost:8080/prototype-inflatables/
 ```
 
-Any static file server rooted at the repo root works. Opening `index.html`
-directly off disk also loads, but product images resolve only when served from
-the repo root (because they use `/images/...` paths).
+## Editing / rebuilding
+All content lives in **`data.json`** (single source of truth). After editing it,
+regenerate every page:
 
-## Data
-All prototype inventory lives in `data.js` (`window.NKR_DATA`). Prices are the
-"latest approved" prototype standalone prices supplied for this experiment and
-may differ from current production display in a couple of cases (noted below).
+```bash
+cd prototype-inflatables
+python3 build.py
+```
+`build.py` writes the HTML pages and `data.js` from `data.json`.
 
-## Notes / ambiguous classifications
-- **Crown Dash, Crown Safari, Crown Play Palace** are kept in *All Inflatables*
-  only — their canonical specs don't confirm a bounce-and-slide combo or a
-  climb product, so they were not forced into a sub-category.
-- **Crown Kick Darts** is the single canonical darts product (alias "Football
-  Darts"); no duplicate was created.
-- Wet-use is shown only for **Crown Island Combo, Crown Cascade, Crown Rush 42**
-  (the canonical `wetUse:true` records).
-- **Crown Pirate Adventure** is Coming Soon (not bookable; "Check Availability").
+## Categories (6)
+All Inflatables · Bounce & Slide Combos · Obstacle Courses · Slides & Water Fun ·
+Interactive Games · Play & Climb. One canonical record per rental; products carry
+multiple tags and are never duplicated.
 
-## Files
-- `index.html` — shell (noindex), header/nav, cart drawer, detail modal, footer
-- `styles.css` — NKR brand tokens, responsive grid, mobile chip row, focus states
-- `data.js` — canonical prototype inventory, categories, packages
-- `app.js` — routing, filtering, cart, detail modal, package customize, a11y
+| Product | Categories |
+|---|---|
+| Crown Dino Combo | Combos |
+| Crown Island Combo | Combos, Slides & Water (Dry $349 / Wet $399) |
+| Crown Ice Palace Combo | Combos |
+| Crown Pirate Adventure | Combos — **Coming Soon** |
+| Crown Play Palace | **Combos + Obstacle** (park-style: obstacles, bounce & slides) |
+| Crown Quest | Obstacle |
+| Crown Rush 42 | Obstacle, Slides & Water (Quest + Cascade combined) |
+| Crown Dash | **Obstacle** (confirmed) |
+| Crown Safari | **Obstacle** (confirmed) |
+| Crown Cascade | Slides & Water |
+| Crown Axe Challenge | Interactive Games |
+| Crown Kick Darts (Football Darts) | Interactive Games — single canonical product |
+| Crown Climber | Play & Climb |
+
+Wet-use only on Crown Island, Crown Cascade, Crown Rush 42 (canonical
+`wetUse:true`). Crown Kick Darts is the one darts product (no duplicate).
