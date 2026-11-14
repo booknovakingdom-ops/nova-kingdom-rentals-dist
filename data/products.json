@@ -390,6 +390,7 @@
       "skipShoesRule": true,
       "included": [
         "Crown Kick Darts giant dartboard",
+        "Soccer balls",
         "Blowers",
         "Stakes or sandbags",
         "Extension cords",
@@ -632,8 +633,8 @@
       "HST extra"
     ],
     "pageDetails": {
-      "capacity": "Up to 8 kids or 2 teens at one time",
-      "ages": "Kids & teens",
+      "capacity": "Kids only — up to 6 at one time",
+      "ages": "Young kids",
       "outlets": "1",
       "itemSize": "16.4 ft L × 13.1 ft W × 13.1 ft H (5 × 4 × 4 m)",
       "spaceNeeded": "25 ft × 21 ft",
@@ -651,7 +652,7 @@
         "A clear, level area",
         "1 power outlet within 100 ft"
       ],
-      "about": "Up, up and over! Crown Climber is a compact climbing inflatable that turns climbing into a game — simple, active fun that fits nicely in a backyard. A great add-on for birthdays, school groups and family events."
+      "about": "Up, up and over! Crown Climber is a compact climbing inflatable made for young kids — simple, active climbing fun that's not too big or intimidating. A great fit for backyard birthdays, daycare events and younger school groups."
     }
   },
   {
@@ -1175,7 +1176,31 @@
       "Setup and takedown included",
       "Delivery extra",
       "HST extra"
-    ]
+    ],
+    "pageDetails": {
+      "capacity": "Up to 8 kids or 2 teens at one time",
+      "ages": "Kids & teens",
+      "outlets": "2 (separate circuits)",
+      "itemSize": "72 ft L × 10 ft W × 18 ft H (end to end): 40.5 ft water slide with pool + 31.5 ft obstacle course",
+      "spaceNeeded": "80 ft × 18 ft",
+      "wetDry": "Both",
+      "included": [
+        "Nova Reef Runner obstacle course",
+        "Nova Surf Slide with splash pool",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A large, clear, level area",
+        "2 power outlets (separate circuits) within 100 ft",
+        "A garden hose (for wet use)",
+        "A spot where water can drain (for wet use)"
+      ],
+      "about": "Our biggest challenge yet. The 72 ft Obstacle Course joins Nova Reef Runner and Nova Surf Slide end to end — race through the pop-up obstacles, climb the 18 ft slide and finish with a splash in the pool. A real centrepiece for schools, festivals, community events and big groups."
+    }
   },
   {
     "id": "nova-surf-slide",
@@ -1212,7 +1237,7 @@
     ],
     "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
     "wetUse": true,
-    "dimensions": "18 ft tall · tropical water slide with splash pool",
+    "dimensions": "40.5 ft L × 10 ft W × 18 ft H · tropical water slide with splash pool",
     "specs": [
       "18 ft tall tropical water slide",
       "Splash pool",
@@ -1221,7 +1246,31 @@
       "Setup and takedown included",
       "Delivery extra",
       "HST extra"
-    ]
+    ],
+    "pageDetails": {
+      "capacity": "Up to 8 kids or 2 teens at one time",
+      "ages": "Kids & teens",
+      "outlets": "2 (separate circuits)",
+      "itemSize": "40.5 ft L × 10 ft W × 18 ft H",
+      "spaceNeeded": "48.5 ft × 18 ft",
+      "wetDry": "Both",
+      "priceNote": "Dry $449 · Wet with pool $499 · HST extra",
+      "included": [
+        "Nova Surf Slide with splash pool",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A large, clear, level area",
+        "2 power outlets (separate circuits) within 100 ft",
+        "A garden hose (for wet use)",
+        "A spot where water can drain (for wet use)"
+      ],
+      "about": "Surf's up! Nova Surf Slide is an 18 ft tall tropical water slide that lands in a refreshing splash pool. Run it wet on hot days or set it up dry — a summer favourite for birthdays, backyard parties and hot-weather events. Pair it with Nova Reef Runner for our full 72 ft Obstacle Course."
+    }
   },
   {
     "id": "nova-reef-runner",
@@ -1255,7 +1304,7 @@
     ],
     "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
     "wetUse": false,
-    "dimensions": "31.5 ft long · tropical obstacle course",
+    "dimensions": "31.5 ft L × 10 ft W × 9.5 ft H · tropical obstacle course",
     "specs": [
       "31.5 ft tropical obstacle course",
       "Pop-up obstacles to climb and dodge",
@@ -1263,7 +1312,29 @@
       "Setup and takedown included",
       "Delivery extra",
       "HST extra"
-    ]
+    ],
+    "pageDetails": {
+      "capacity": "Up to 8 kids or 2 teens at one time",
+      "ages": "Kids & teens",
+      "outlets": "2 (separate circuits)",
+      "itemSize": "31.5 ft L × 10 ft W × 9.5 ft H",
+      "spaceNeeded": "39.5 ft × 18 ft",
+      "wetDry": "Dry",
+      "priceNote": "HST extra",
+      "included": [
+        "Nova Reef Runner obstacle course",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A large, clear, level area",
+        "2 power outlets (separate circuits) within 100 ft"
+      ],
+      "about": "Race the reef! Nova Reef Runner is a 31.5 ft tropical obstacle course packed with pop-up obstacles to climb, dodge and race through — built for schools, festivals, community events and bigger groups. Pair it with Nova Surf Slide for our full 72 ft Obstacle Course."
+    }
   },
   {
     "id": "crown-pirate-adventure",
