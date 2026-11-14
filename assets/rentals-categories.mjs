@@ -72,9 +72,24 @@ function buildCss() {
     "#nk-cat-block .nk-lawn-grid{display:none}" + P + '[data-nkcat="lawn"] #nk-cat-block .nk-lawn-grid{display:grid}' +
     ".nk-cat-in{max-width:1180px;margin:0 auto;padding:0 16px}" +
     ".nk-cat-title{text-align:center;margin:0 0 1rem}" +
-    ".nk-cat-chips{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;padding:.15rem}" +
-    "@media(max-width:620px){.nk-cat-chips{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;-webkit-overflow-scrolling:touch}}" +
-    ".nk-cat-chip{flex:0 0 auto;min-height:44px;display:inline-flex;align-items:center;white-space:nowrap;font:inherit;font-weight:700;font-size:.92rem;cursor:pointer;border-radius:999px;padding:.5rem 1.1rem;background:#fff;color:#16203a;border:1px solid #d9cf9f;box-shadow:0 1px 2px rgba(10,16,32,.06)}" +
+    ".nk-cat-title{font-size:clamp(1.15rem,4vw,1.6rem)!important;margin:0 0 .7rem!important}" +
+    P + " #nk-cat-block{padding-top:16px!important;padding-bottom:4px!important}" +
+    ".nk-cat-chips{display:flex!important;gap:7px;flex-wrap:wrap!important;justify-content:center;padding:0!important;margin:0!important;width:100%;box-sizing:border-box}" +
+    ".nk-cat-in{padding-left:12px!important;padding-right:12px!important}" +
+    "@media(max-width:620px){.nk-cat-chips{justify-content:flex-start}}" +
+    ".nk-cat-chip{flex:0 0 auto;min-height:44px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font:inherit;font-weight:700;font-size:.84rem;cursor:pointer;border-radius:999px;margin:0!important;padding:.3rem .65rem .3rem .35rem;background:#fff;color:#16203a;border:1px solid #d9cf9f;box-shadow:0 1px 2px rgba(10,16,32,.06)}" +
+    ".nk-cat-chip img{width:26px;height:26px;border-radius:50%;object-fit:cover;background:#f3efe2;flex-shrink:0}" +
+    ".nk-cat-chip .n{background:#16203a;color:#fff;border-radius:999px;font-size:.72rem;min-width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;padding:0 6px}" +
+    '.nk-cat-chip[aria-pressed="true"] .n{background:#1a1300;color:#f0d16a}' +
+    ".nk-cat-chip .n:empty{display:none}" +
+    // order (CSS only): hero, buttons, product lists, other sections, then the fact boxes
+    P + " #nk-cat-block{order:1}" +
+    P + " main:has(> #nk-cat-block){display:flex!important;flex-direction:column}" +
+    P + " main:has(> #nk-cat-block) > *{order:5}" +
+    P + " main:has(> #nk-cat-block) > :first-child{order:0}" +
+    P + " main:has(> #nk-cat-block) > #nk-cat-block{order:1}" +
+    P + " main:has(> #nk-cat-block) > .lineup-section:has(.product-card){order:2;padding-top:14px!important}" +
+    P + " main:has(> #nk-cat-block) > :has(.local-fact-grid){order:9}" +
     ".nk-cat-chip:hover{border-color:#caa63a}" +
     '.nk-cat-chip[aria-pressed="true"]{background:#f0d16a;color:#1a1300;border-color:#e0bd45}' +
     ".nk-cat-chip:focus-visible{outline:3px solid #caa63a;outline-offset:2px}" +
@@ -97,14 +112,40 @@ function setCat(id) {
   });
 }
 
+const IMGS = {
+  all: "/images/events/community-event-inflatables.jpg", combos: "/images/crown-dino-combo.jpeg",
+  slides: "/images/crown-cascade.jpeg", obstacle: "/images/crown-rush-42.jpeg",
+  water: "/images/crown-island-combo-pool.jpg", games: "/images/crown-axe-challenge.jpeg",
+  lawn: "/images/lawn-games/cornhole.png",
+};
+// Counts from the product cards actually on the page (so they always match what shows).
+function counts() {
+  const slugs = new Set([...document.querySelectorAll(SEC + " .product-card a[href^='/rentals/']")]
+    .map((a) => a.getAttribute("href").split("/").filter(Boolean).pop()).filter((s) => TAGS[s]));
+  const out = { all: slugs.size };
+  slugs.forEach((s) => TAGS[s].forEach((t) => { out[t] = (out[t] || 0) + 1; }));
+  return out;
+}
+function refreshCounts() {
+  const c = counts();
+  document.querySelectorAll("#nk-cat-block .nk-cat-chip").forEach((b) => {
+    const id = b.getAttribute("data-type"); if (id === "lawn") return;
+    const el = b.querySelector(".n"); const v = c[id] ? String(c[id]) : "";
+    if (el && el.textContent !== v) el.textContent = v; // only write on change (no observer loop)
+  });
+}
+function setLawnCount(n) { const el = document.querySelector('#nk-cat-block .nk-cat-chip[data-type="lawn"] .n'); if (el) el.textContent = n ? String(n) : ""; }
+
 let lawnHtml = null;
+let lawnCount = 0;
 function loadLawn(block) {
   const grid = block.querySelector(".nk-lawn-grid");
-  if (lawnHtml !== null) { grid.innerHTML = lawnHtml; return; }
+  if (lawnHtml !== null) { grid.innerHTML = lawnHtml; setLawnCount(lawnCount); return; }
   fetch("/data/lawnGames.json").then((r) => (r.ok ? r.json() : [])).then((list) => {
     lawnHtml = (Array.isArray(list) ? list : []).map((g) =>
       '<a class="nk-lawn-card" href="/lawn-games"><img src="' + esc(encodeURI(g.image || "")) + '" alt="' + esc(g.name) + ' lawn game rental" loading="lazy">' +
       "<div><b>" + esc(g.name) + "</b>" + (g.bestFor ? "<small>Best for: " + esc(g.bestFor) + "</small>" : "") + "</div></a>").join("");
+    lawnCount = Array.isArray(list) ? list.length : 0; setLawnCount(lawnCount);
     const live = document.querySelector("#nk-cat-block .nk-lawn-grid");
     if (live) live.innerHTML = lawnHtml;
   }).catch(() => { lawnHtml = null; });
@@ -117,7 +158,7 @@ function sync() {
     if (old) old.remove();
     return;
   }
-  if (document.getElementById("nk-cat-block")) return;
+  if (document.getElementById("nk-cat-block")) { refreshCounts(); return; }
   // anchor: the main inflatables section (contains Crown Quest)
   const link = document.querySelector('.lineup-section .product-card a[href="/rentals/crown-quest"]');
   const mainSec = link && link.closest(".lineup-section");
@@ -128,7 +169,8 @@ function sync() {
   block.setAttribute("aria-label", "Browse inflatables by type");
   block.innerHTML = '<div class="nk-cat-in"><h2 class="nk-cat-title">Browse Inflatables by Type</h2>' +
     '<div class="nk-cat-chips" role="group" aria-label="Filter by type">' +
-    CATS.map((c) => '<button type="button" class="nk-cat-chip" data-type="' + c.id + '" aria-pressed="' + (c.id === "all") + '">' + esc(c.label) + "</button>").join("") +
+    CATS.map((c) => '<button type="button" class="nk-cat-chip" data-type="' + c.id + '" aria-pressed="' + (c.id === "all") + '">' +
+      '<img src="' + IMGS[c.id] + '" alt="" loading="lazy">' + esc(c.label) + ' <span class="n">' + (counts()[c.id] || "") + "</span></button>").join("") +
     '</div><div class="nk-lawn-grid"></div></div>';
   block.addEventListener("click", (e) => {
     const b = e.target.closest(".nk-cat-chip");
