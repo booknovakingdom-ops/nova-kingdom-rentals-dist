@@ -113,7 +113,7 @@ def business_schema(site_info: dict[str, Any], *, homepage: bool = False) -> dic
         "priceRange": "$$",
         "currenciesAccepted": "CAD",
         "paymentAccepted": "Cash, e-Transfer, Deposit",
-        "description": "Bridgewater-based inflatable and party rental business offering bouncy castle rentals, water slides, interactive games, lawn games, 360 Video Booth, and party packages across the South Shore and Nova Scotia, with selected larger Maritimes / Atlantic Canada bookings by quote.",
+        "description": "Bridgewater-based inflatable and party rental business offering bouncy castle rentals, water slides, interactive games, lawn games, 360 Video Booth, and party packages across the South Shore, Nova Scotia and Atlantic Canada.",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "Bridgewater",
@@ -786,7 +786,7 @@ def route_metadata(
     routes: dict[str, dict[str, Any]] = {
         "/": {
             "title": "Bouncy Castle & Inflatable Rentals Bridgewater NS | Nova Kingdom Rentals",
-            "description": "Bouncy castle rentals near you — Bridgewater, the South Shore, and across Nova Scotia. Water slides, foam parties, 360 Video Booth, tents, and packages. Setup included.",
+            "description": "Bouncy castle rentals near you — Bridgewater, the South Shore, and across Nova Scotia and Atlantic Canada. Water slides, foam parties, 360 Video Booth, tents, and packages. Setup included.",
             "image": GENERAL_IMAGE,
             "schema": [
                 website_schema(site_info),
@@ -804,7 +804,7 @@ def route_metadata(
         },
         "/rentals": {
             "title": "Inflatable Rentals & Bouncy Castles | Nova Kingdom Rentals NS",
-            "description": "Browse bouncy castles, water slides, inflatable games, and add-ons from Nova Kingdom Rentals. Setup included. Available from Bridgewater across the South Shore and Nova Scotia.",
+            "description": "Browse bouncy castles, water slides, inflatable games, and add-ons from Nova Kingdom Rentals. Setup included. Available from Bridgewater across the South Shore, Nova Scotia and Atlantic Canada.",
             "image": RENTALS_IMAGE,
             "schema": [
                 item_list_schema("Nova Kingdom Rentals inflatable rentals", "/rentals", product_items),
@@ -812,7 +812,7 @@ def route_metadata(
             ],
             "fallback": wrap_fallback(
                 FIXED_H1["/rentals"],
-                render_rentals_fallback(products, "Browse our full lineup of inflatable rentals available across the South Shore and Nova Scotia. Setup and takedown included with every rental. Travel quoted separately."),
+                render_rentals_fallback(products, "Browse our full lineup of inflatable rentals available across the South Shore, Nova Scotia and Atlantic Canada. Setup and takedown included with every rental. Travel quoted separately."),
             ),
         },
         "/packages": {
@@ -830,12 +830,12 @@ def route_metadata(
         },
         "/lawn-games": {
             "title": "Lawn Game Rentals Bridgewater NS | 12 Games | Nova Kingdom Rentals",
-            "description": "12 lawn games for rent across Nova Scotia. Cornhole, Giant Connect 4, Giant Jenga, Ladder Toss, and more. Packages from $175. Bridgewater-based, South Shore and NS.",
+            "description": "12 lawn games for rent across Nova Scotia and Atlantic Canada. Cornhole, Giant Connect 4, Giant Jenga, Ladder Toss, and more. Packages from $175. Bridgewater-based, South Shore and NS.",
             "image": LAWN_IMAGE,
             "schema": [breadcrumb_schema("/lawn-games", "Lawn Game Rentals")],
             "fallback": wrap_fallback(
                 FIXED_H1["/lawn-games"],
-                render_lawn_games_fallback(lawn_games, "Nova Kingdom Rentals offers 12 lawn games available for rent across the South Shore and Nova Scotia. Games can be rented in packages of 5, 10, or all 12 — or added on to an inflatable rental."),
+                render_lawn_games_fallback(lawn_games, "Nova Kingdom Rentals offers 12 lawn games available for rent across the South Shore, Nova Scotia and Atlantic Canada. Games can be rented in packages of 5, 10, or all 12 — or added on to an inflatable rental."),
             ),
         },
         "/tables-and-chairs": {
@@ -850,14 +850,14 @@ def route_metadata(
         },
         "/about": {
             "title": "About Nova Kingdom Rentals | Bridgewater Inflatable Rentals NS",
-            "description": "Nova Kingdom Rentals is a fully insured Bridgewater-based inflatable and party rental company. Serving families, schools, and community events across Nova Scotia.",
+            "description": "Nova Kingdom Rentals is a fully insured Bridgewater-based inflatable and party rental company. Serving families, schools, and community events across Nova Scotia and Atlantic Canada.",
             "image": RENTALS_IMAGE,
             "schema": [organization_schema(site_info), breadcrumb_schema("/about", "About Nova Kingdom Rentals")],
             "fallback": wrap_fallback(FIXED_H1["/about"], render_about_fallback(site_info)),
         },
         "/service-areas": {
             "title": "Service Areas | Inflatable Rentals from Bridgewater NS | Nova Kingdom Rentals",
-            "description": "Nova Kingdom Rentals is based in Bridgewater, serving the South Shore and Nova Scotia. Larger events and selected Maritimes / Atlantic Canada bookings available by quote.",
+            "description": "Nova Kingdom Rentals is based in Bridgewater, serving the South Shore, Nova Scotia and Atlantic Canada.",
             "image": RENTALS_IMAGE,
             "schema": [
                 business_schema(site_info),
