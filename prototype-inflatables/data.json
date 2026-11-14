@@ -80,11 +80,11 @@
 
     { "id": "crown-pirate-adventure", "slug": "crown-pirate-adventure", "name": "Crown Pirate Adventure",
       "type": "Bounce & Slide Combo", "price": 499, "image": "/images/crown-pirate-adventure.png",
-      "status": "coming-soon", "wet": false, "tags": ["bounce", "slides"],
+      "status": "available", "wet": false, "tags": ["bounce", "slides"],
       "dims": "30 ft L × 13 ft W × 16 ft H",
       "capacity": "Maximum 6–8 kids at one time",
       "bestFor": ["Birthdays", "Schools", "Community events"],
-      "blurb": "A pirate-ship-themed bounce-and-slide combo. Coming soon — contact us to be notified when it launches." },
+      "blurb": "A pirate-ship-themed bounce-and-slide combo — a big-impact attraction for birthdays, school events and community events." },
 
     { "id": "crown-rush-42", "slug": "crown-rush-42", "name": "Crown Rush 42",
       "type": "Obstacle Course", "price": 549, "image": "/images/crown-rush-42.jpeg",
