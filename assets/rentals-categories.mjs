@@ -13,7 +13,7 @@ const CATS = [
   { id: "combos",   label: "Bounce & Slide Combos" },
   { id: "slides",   label: "Slides" },
   { id: "obstacle", label: "Obstacle Course" },
-  { id: "water",    label: "Water" },
+  { id: "water",    label: "Water Fun" },
   { id: "games",    label: "Inflatable Games" },
   { id: "lawn",     label: "Lawn Games" },
 ];
