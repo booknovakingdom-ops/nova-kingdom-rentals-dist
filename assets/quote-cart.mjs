@@ -1124,11 +1124,11 @@ function makeFormSection(items, stats) {
           setupEl.textContent = "Quoted manually after address review" + suffix;
         }
       } else {
-        const combined     = deliveryCost + sandbags;
-        const deliveryText = "Delivery extra";
+        // Travel cost is never shown to customers — it is quoted by Nova Kingdom.
+        const deliveryText = "Delivery quoted separately";
         let mainText, subText;
         if (sandbags > 0) {
-          mainText = "$" + combined.toFixed(2) + " est.";
+          mainText = formatMoney(sandbags) + " anchoring est. + delivery (quoted)";
           subText  = deliveryText + " • " + formatMoney(sandbags) + " anchoring (" + sandbagNote + ")";
         } else if (sandbagManual) {
           mainText = "Delivery extra";
@@ -1195,9 +1195,9 @@ function makeFormSection(items, stats) {
     } else if (deliveryManual) {
       totalEl.textContent = formatMoney(effectiveSubtotal + sandbags + attendantCost) + " + delivery (manual)";
     } else if (sandbagManual) {
-      totalEl.textContent = formatMoney(effectiveSubtotal + deliveryCost + attendantCost) + " + anchoring (manual)";
+      totalEl.textContent = formatMoney(effectiveSubtotal + attendantCost) + " + delivery (quoted) & anchoring (manual)";
     } else {
-      totalEl.textContent = formatMoney(effectiveSubtotal + deliveryCost + sandbags + attendantCost);
+      totalEl.textContent = formatMoney(effectiveSubtotal + sandbags + attendantCost) + " + delivery (quoted)";
     }
   }
 
