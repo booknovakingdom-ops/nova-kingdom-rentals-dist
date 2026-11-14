@@ -151,7 +151,29 @@
         "alt": "Crown Island Combo without pool, dry setup in Nova Scotia",
         "caption": "Without Pool — $349 (dry use)"
       }
-    ]
+    ],
+    "pageDetails": {
+      "capacity": "Up to 8 people at one time (adults max 2 at a time)",
+      "ages": "Kids & adults",
+      "outlets": "1",
+      "itemSize": "26 ft L × 14 ft W × 14.5 ft H",
+      "spaceNeeded": "34 ft × 22 ft",
+      "wetDry": "Dry",
+      "priceNote": "HST extra",
+      "included": [
+        "Crown Island Combo (bounce area + slide)",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A clear, level area",
+        "1 power outlet within 100 ft"
+      ],
+      "about": "Bring the tropics to your backyard. Crown Island Combo has a bounce area and a slide in a bright island theme — and it's built for kids and adults to enjoy together. A strong pick for backyard birthdays, summer parties and family events. Want a splash? See Crown Island Combo with Pool."
+    }
   },
   {
     "id": "crown-island-combo-with-pool",
@@ -215,7 +237,30 @@
         "alt": "Crown Island Combo with pool, wet setup in Nova Scotia",
         "caption": "With Pool — $399 (wet use)"
       }
-    ]
+    ],
+    "pageDetails": {
+      "capacity": "Up to 8 people at one time (adults max 2 at a time)",
+      "ages": "Kids & adults",
+      "outlets": "1",
+      "itemSize": "26 ft L × 14 ft W × 14.5 ft H",
+      "spaceNeeded": "34 ft × 22 ft",
+      "wetDry": "Wet (with pool)",
+      "priceNote": "HST extra",
+      "included": [
+        "Crown Island Combo with splash pool",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A clear, level area",
+        "1 power outlet within 100 ft",
+        "A garden hose to fill the pool"
+      ],
+      "about": "Bounce, slide, splash! The Crown Island Combo with Pool is the wet version of our tropical combo — the slide ends in a splash pool. A summer favourite for hot-weather birthdays and family parties, made for kids and adults to enjoy together. Prefer it dry? See Crown Island Combo."
+    }
   },
   {
     "id": "crown-axe-challenge",
@@ -354,7 +399,7 @@
       "HST extra"
     ],
     "pageDetails": {
-      "capacity": "Up to 12 kids at one time",
+      "capacity": "Up to 8 kids or 2 teens at one time",
       "ages": "Kids & teens",
       "outlets": "2 (separate circuits)",
       "itemSize": "42 ft L × 8.2 ft W × 12 ft H (12.8 × 2.5 × 3.66 m)",
@@ -416,7 +461,7 @@
       "HST extra"
     ],
     "pageDetails": {
-      "capacity": "Up to 8 kids at one time",
+      "capacity": "Up to 8 kids or 2 teens at one time",
       "ages": "Kids & teens",
       "outlets": "1",
       "itemSize": "About 21 ft L × 8.2 ft W",
@@ -478,7 +523,7 @@
       "HST extra"
     ],
     "pageDetails": {
-      "capacity": "Up to 6 kids at one time",
+      "capacity": "Up to 8 kids or 2 teens at one time",
       "ages": "Kids & teens",
       "outlets": "1",
       "itemSize": "About 21 ft L × 8.2 ft W × 12 ft H",
@@ -580,7 +625,29 @@
       "Setup and takedown included",
       "Delivery extra",
       "HST extra"
-    ]
+    ],
+    "pageDetails": {
+      "capacity": "Up to 8 kids or 2 teens at one time",
+      "ages": "Ages 3–12",
+      "outlets": "1",
+      "itemSize": "13.1 ft L × 13.1 ft W × 9.8 ft H (4 × 4 × 3 m)",
+      "spaceNeeded": "21 ft × 21 ft",
+      "wetDry": "Dry",
+      "priceNote": "HST extra",
+      "included": [
+        "Crown Dino Combo (bounce area + slide)",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A clear, level area",
+        "1 power outlet within 100 ft"
+      ],
+      "about": "Roar into the party! Crown Dino Combo is a colourful dinosaur bounce house with its own slide, sized just right for younger kids. A perfect fit for dinosaur birthdays and backyard parties."
+    }
   },
   {
     "id": "kids-foam-party",
