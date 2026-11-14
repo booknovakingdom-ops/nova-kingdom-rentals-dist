@@ -15,7 +15,8 @@ const DISCLAIMER = "These are potential additions for 2027 and are not yet confi
 
 const money = (n) => "$" + Number(n).toLocaleString("en-CA");
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-const isHome = () => { const p = window.location.pathname; return p === "/" || p === "" || p === "/index.html"; };
+// Now lives on its own page (/future-add-ons) instead of the homepage.
+const isHome = () => { const p = window.location.pathname.replace(/\/+$/, ""); return p === "/future-add-ons"; };
 
 const selected = new Set();
 
@@ -224,7 +225,7 @@ function wire(root) {
 function inject() {
   if (!isHome()) { cleanup(); return; }
   if (document.getElementById("nk-2027-attractions")) return;
-  const hero = document.querySelector(".home-hero-scroll") || document.querySelector(".home-hero");
+  const hero = document.getElementById("nk-2027-mount");
   if (!hero) return;
   const sec = document.createElement("section");
   sec.id = "nk-2027-attractions";

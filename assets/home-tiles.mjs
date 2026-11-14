@@ -11,6 +11,7 @@ const TILES = [
   { t: "Event Essentials",     href: "/tables-and-chairs",  img: "/images/10x20-pole-tent.jpeg",                   c: "#8a63d2" },
   { t: "Party Packages",       href: "/packages",           img: "/images/packages/royal-all-star-package.jpg",    c: "#e86a2c" },
   { t: "Concession Rentals",   href: "/contact", soon: true, items: ["Popcorn", "Cotton Candy", "Snow Cones"],     c: "#1f8a9e" },
+  { t: "Future Add-Ons 2027",  href: "/future-add-ons", full: true, img: "/images/attractions-2027/67-ft-obstacle-course.jpg?v=2", c: "#5b3fb0" },
   { t: "Generator Rental",     href: "/rentals/generator",  img: "/images/generator-benchmark.jpg", fit: "contain", bg: "#fff", c: "#c9427e" },
 ];
 const MORE = [
@@ -52,7 +53,7 @@ function sectionHtml() {
         '<div class="nkht-soon"><span class="nkht-badge">Coming Soon</span><ul>' +
         x.items.map((i) => "<li>" + esc(i) + "</li>").join("") + '</ul><span class="nkht-go">Ask about it ›</span></div></a>';
     }
-    return '<a class="nkht-tile" href="' + x.href + '"><div class="nkht-banner" style="background:' + x.c + '"><span>' + esc(x.t) + "</span></div>" +
+    return '<a class="nkht-tile" href="' + x.href + '"' + (x.full ? ' data-full="1"' : "") + '><div class="nkht-banner" style="background:' + x.c + '"><span>' + esc(x.t) + "</span></div>" +
       '<div class="nkht-media"' + (x.bg ? ' style="background:' + x.bg + '"' : "") + '><img src="' + x.img + '" alt="' + esc(x.t) + ' — Nova Kingdom Rentals" loading="lazy" style="object-fit:' + (x.fit || "cover") + '">' +
       '<span class="nkht-go">View ›</span></div></a>';
   }).join("");
@@ -77,6 +78,10 @@ function inject() {
   sec.className = "nkht";
   sec.setAttribute("aria-label", "Browse rentals by category");
   sec.innerHTML = sectionHtml();
+  // Standalone pages (not app routes) must load as a normal full page.
+  sec.querySelectorAll('a[data-full]').forEach((a) => a.addEventListener("click", (e) => {
+    e.preventDefault(); e.stopPropagation(); window.location.assign(a.getAttribute("href"));
+  }));
   hero.insertAdjacentElement("afterend", sec);
 }
 
