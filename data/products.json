@@ -830,6 +830,94 @@
     ]
   },
   {
+    "id": "nova-surf-slide",
+    "slug": "nova-surf-slide",
+    "name": "Nova Surf Slide",
+    "tagline": "Make a Tropical Splash",
+    "category": "Water Slide",
+    "price": "From $449",
+    "status": "Coming Soon",
+    "comingSoon": true,
+    "image": "/images/nova-surf-slide.png",
+    "metaTitle": "Nova Surf Slide Rental Nova Scotia | Tropical Water Slide with Pool | Nova Kingdom Rentals",
+    "metaDescription": "Nova Surf Slide — an 18 ft tall tropical water slide with a splash pool. Dry $449 or wet $499. Coming Soon to Nova Kingdom Rentals in Bridgewater and across Nova Scotia.",
+    "shortDescription": "An 18 ft tall tropical water slide with a splash pool for summer birthdays and backyard parties in Nova Scotia. Coming Soon.",
+    "fullDescription": "Nova Surf Slide is an 18 ft tall tropical-themed water slide that ends in a refreshing splash pool — a summer favourite for birthdays, backyard parties, and hot-weather events. Run it wet with the pool, or set it up dry. It also pairs with the Nova Reef Runner to create our full 72 ft Obstacle Course. Setup and takedown included. Coming Soon — contact us to be notified when it launches. Final availability, delivery, and setup suitability confirmed manually.",
+    "bestFor": [
+      "Summer birthdays",
+      "Backyard parties",
+      "Hot-weather events",
+      "Water fun"
+    ],
+    "features": [
+      "18 ft tall tropical water slide",
+      "Splash pool",
+      "Dry or wet setup",
+      "Pairs with Nova Reef Runner for the full 72 ft Obstacle Course"
+    ],
+    "setupNotes": [
+      "Clear, level setup area required",
+      "Power access required",
+      "Water source required (wet use)",
+      "Safe drainage area required (wet use)",
+      "Adult supervision required at all times"
+    ],
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
+    "wetUse": true,
+    "dimensions": "18 ft tall · tropical water slide with splash pool",
+    "specs": [
+      "18 ft tall tropical water slide",
+      "Splash pool",
+      "Dry $449 · Wet / with pool $499",
+      "Part of the full 72 ft Obstacle Course (with Nova Reef Runner)",
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra"
+    ]
+  },
+  {
+    "id": "nova-reef-runner",
+    "slug": "nova-reef-runner",
+    "name": "Nova Reef Runner",
+    "tagline": "Race Through the Reef",
+    "category": "Obstacle Course",
+    "price": "$449",
+    "status": "Coming Soon",
+    "comingSoon": true,
+    "image": "/images/nova-reef-runner.png",
+    "metaTitle": "Nova Reef Runner Rental Nova Scotia | Tropical Obstacle Course | Nova Kingdom Rentals",
+    "metaDescription": "Nova Reef Runner — a 31.5 ft tropical inflatable obstacle course for schools, festivals, and community events. $449. Coming Soon to Nova Kingdom Rentals in Nova Scotia.",
+    "shortDescription": "A 31.5 ft tropical inflatable obstacle course for schools, festivals, and community events in Nova Scotia. Coming Soon.",
+    "fullDescription": "Nova Reef Runner is a 31.5 ft tropical-themed inflatable obstacle course packed with pop-up obstacles to climb, dodge, and race through — built for schools, festivals, community events, and bigger groups. It also pairs with the Nova Surf Slide to create our full 72 ft Obstacle Course. Setup and takedown included. Coming Soon — contact us to be notified when it launches. Final availability, delivery, and setup suitability confirmed manually.",
+    "bestFor": [
+      "Schools",
+      "Festivals",
+      "Community events",
+      "Bigger groups"
+    ],
+    "features": [
+      "31.5 ft tropical obstacle course",
+      "Pop-up obstacles",
+      "Pairs with Nova Surf Slide for the full 72 ft Obstacle Course"
+    ],
+    "setupNotes": [
+      "Clear, level setup area required",
+      "Power access required",
+      "Adult supervision required at all times"
+    ],
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
+    "wetUse": false,
+    "dimensions": "31.5 ft long · tropical obstacle course",
+    "specs": [
+      "31.5 ft tropical obstacle course",
+      "Pop-up obstacles to climb and dodge",
+      "Part of the full 72 ft Obstacle Course (with Nova Surf Slide)",
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra"
+    ]
+  },
+  {
     "id": "crown-pirate-adventure",
     "slug": "crown-pirate-adventure",
     "name": "Crown Pirate Adventure",
