@@ -59,7 +59,7 @@ function html(p) {
   return '<h2>Quick facts</h2><ul class="pd-facts">' +
     fact("👧", d.capacity ? "Capacity" : "Rules", (d.capacity ? esc(d.capacity) + ". Rules:" : "") + "<ul class=\"pd-rules\">" +
       RULES.filter((r) => !(d.skipShoesRule && r === "No shoes")).map((r) => "<li>" + r + "</li>").join("") + "</ul>") +
-    fact("🚚", "Delivery", "From Bridgewater, across Nova Scotia. Delivery quoted based on your address.") +
+    fact("🚚", "Delivery", "From Bridgewater, across Atlantic Canada. Delivery quoted based on your address.") +
     fact("🛠️", "Setup &amp; takedown included", "We set it up, check it, and take it down.") +
     fact("🧽", "Cleaned &amp; sanitized", "Before every rental.") +
     fact("🛡️", "Fully insured") +
