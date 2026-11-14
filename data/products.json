@@ -352,7 +352,31 @@
       "Setup and takedown included",
       "Delivery extra",
       "HST extra"
-    ]
+    ],
+    "pageDetails": {
+      "capacity": "Up to 12 kids at one time",
+      "ages": "Kids & teens",
+      "outlets": "2 (separate circuits)",
+      "itemSize": "42 ft L × 8.2 ft W × 12 ft H (12.8 × 2.5 × 3.66 m)",
+      "spaceNeeded": "50 ft × 15 ft",
+      "wetDry": "Both",
+      "priceNote": "HST extra",
+      "included": [
+        "Crown Rush 42 (Crown Quest + Crown Cascade)",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A large, clear, level area",
+        "2 power outlets (separate circuits) within 100 ft",
+        "A garden hose (for wet use)"
+      ],
+      "about": "Two attractions, one epic course. Crown Rush 42 joins Crown Quest and Crown Cascade into one 42-ft run — climb, crawl and dodge through the obstacles, then finish on the big slide. Run it dry, or add water on hot days for a splash finish. A crowd-pleaser for big birthdays, school fun days and community events.",
+      "save": "Save $199 vs renting both separately"
+    }
   },
   {
     "id": "crown-quest",
