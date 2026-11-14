@@ -102,12 +102,16 @@
 
     { "id": "72-ft-obstacle-course", "slug": "72-ft-obstacle-course", "name": "72 ft Obstacle Course",
       "type": "Obstacle Course + Water Slide", "priceText": "Contact for pricing", "price": 0,
-      "image": "/prototype-inflatables/images/72ft-obstacle-part.png",
-      "gallery": ["/prototype-inflatables/images/72ft-obstacle-part.png", "/prototype-inflatables/images/72ft-waterslide-part.png"],
+      "image": "/prototype-inflatables/images/72ft-full.jpg",
+      "gallery": [
+        { "src": "/prototype-inflatables/images/72ft-full.jpg", "caption": "Full 72 ft setup, end to end" },
+        { "src": "/prototype-inflatables/images/nova-reef-runner.png", "caption": "Nova Reef Runner — 31.5 ft tropical obstacle course" },
+        { "src": "/prototype-inflatables/images/nova-surf-slide.png", "caption": "Nova Surf Slide — 18 ft tall tropical water slide with splash pool" }
+      ],
       "status": "coming-soon", "wet": true, "tags": ["obstacle", "slides", "water"],
-      "dims": "Total 72 ft L × 10 ft W × 18 ft H (end to end)",
+      "dims": "~72 ft end to end · Nova Reef Runner obstacle 31.5 ft long · Nova Surf Slide 18 ft tall",
       "bestFor": ["Schools", "Festivals", "Community events"],
-      "blurb": "Our biggest attraction — a giant obstacle course section plus a water slide with a splash pool, about 72 ft end to end (a 31.5 ft obstacle course + a 40.5 ft water slide with pool). Coming soon." },
+      "blurb": "Our biggest attraction — the full 72 ft setup combines two tropical parts: the Nova Reef Runner (a 31.5 ft obstacle course) and the Nova Surf Slide (an 18 ft tall water slide with a splash pool). Coming soon." },
 
     { "id": "crown-axe-challenge", "slug": "crown-axe-challenge", "name": "Crown Axe Challenge",
       "type": "Inflatable Game", "price": 199, "image": "/images/crown-axe-challenge.jpeg",

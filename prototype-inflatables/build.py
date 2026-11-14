@@ -244,9 +244,14 @@ def build_product(p):
 
     gallery_html = ""
     if p.get("gallery") and len(p["gallery"]) > 1:
-        gallery_html = '<div class="detail-gallery">' + "".join(
-            '<img src="%s" alt="%s" loading="lazy" />' % (e(g), e(p["name"] + " view")) for g in p["gallery"]
-        ) + '</div>'
+        figs = []
+        for g in p["gallery"]:
+            src = g["src"] if isinstance(g, dict) else g
+            cap = g.get("caption") if isinstance(g, dict) else ""
+            figs.append('<figure><img src="%s" alt="%s" loading="lazy" />%s</figure>' % (
+                e(src), e(cap or (p["name"] + " view")),
+                ('<figcaption>%s</figcaption>' % e(cap)) if cap else ""))
+        gallery_html = '<div class="detail-gallery">' + "".join(figs) + '</div>'
     body = (
         '<nav class="crumbs" aria-label="Breadcrumb" style="padding:1rem 0 .2rem;font-size:.86rem">'
         '<a href="%s/inflatables.html">← All inflatables</a></nav>'
