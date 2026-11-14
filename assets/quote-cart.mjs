@@ -33,7 +33,9 @@ const BOOTH_360_BASE       = 450;  // default 2-hour base (Standard)
 
 const FOAM_PARTY_ID = "product-kids-foam-party";
 // Tents: dual pricing (self-serve vs full-service). Never parse from card text.
-const ISLAND_ID = "product-crown-island-combo";
+// Crown Island is now two separate products (dry / with pool), so the old
+// dry-wet selector is retired: this id intentionally matches nothing.
+const ISLAND_ID = "__crown-island-split__";
 const ISLAND_OPTIONS = [
   { value: "no-pool", label: "Without pool (dry) — $349", name: "Crown Island Combo (without pool)", price: 349 },
   { value: "pool",    label: "With pool (wet) — $399",    name: "Crown Island Combo (with pool)",    price: 399 },
