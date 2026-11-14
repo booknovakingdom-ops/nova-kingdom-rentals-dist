@@ -14,7 +14,6 @@ const CATS = [
   { id: "slides",   label: "Slides" },
   { id: "obstacle", label: "Obstacle Course" },
   { id: "water",    label: "Water" },
-  { id: "climb",    label: "Climbing & Play" },
   { id: "games",    label: "Inflatable Games" },
   { id: "lawn",     label: "Lawn Games" },
 ];
@@ -33,7 +32,7 @@ const TAGS = {
   "72-ft-obstacle-course": ["obstacle", "slides", "water"],
   "nova-surf-slide": ["slides", "water"],
   "nova-reef-runner": ["obstacle"],
-  "crown-climber": ["climb"],
+  "crown-climber": ["games"],
   "crown-axe-challenge": ["games"],
   "crown-kick-darts": ["games"],
 };
