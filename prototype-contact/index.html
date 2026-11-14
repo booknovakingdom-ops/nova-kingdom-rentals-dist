@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Contact form mockup | Nova Kingdom Rentals</title>
+<style>
+:root{--navy:#0b1020;--gold:#f0d16a;--ink:#16203a;--muted:#5b6475;--line:#e3dcc4;--cream:#f8f4ea}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--cream);color:var(--ink)}
+.top{background:var(--navy);color:#fff;text-align:center;padding:22px 16px 18px}
+.top p{margin:0;color:var(--gold);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800}
+.top h1{margin:6px 0 4px;font-size:1.6rem}.top span{color:#c9cede;font-size:.92rem}
+.wrap{max-width:640px;margin:0 auto;padding:16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
+.card h2{margin:0 0 4px;font-size:1.1rem}.card .sub{margin:0 0 12px;color:var(--muted);font-size:.86rem}
+.step{display:inline-block;background:var(--gold);color:#1a1300;font-weight:800;font-size:.7rem;border-radius:999px;padding:.2rem .55rem;margin-bottom:6px;letter-spacing:.04em}
+.opt{background:#eef0f5;color:var(--muted)}
+.picks{display:flex;flex-direction:column;gap:8px}
+.pick{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:8px}
+.pick img{width:56px;height:42px;object-fit:cover;border-radius:8px}
+.pick b{font-size:.92rem;display:block}.pick small{color:var(--muted)}
+.pick .x{margin-left:auto;color:var(--muted);font-size:.8rem}
+label{display:block;font-weight:700;font-size:.86rem;margin:10px 0 4px}
+label i{color:#c0392b;font-style:normal}label em{color:var(--muted);font-weight:500;font-style:normal}
+input,select,textarea{width:100%;font:inherit;border:1px solid #d6d9e3;border-radius:10px;padding:.7rem;min-height:46px;background:#fff}
+textarea{min-height:80px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid #d6d9e3;border-radius:999px;padding:.5rem .85rem;font-weight:700;font-size:.86rem;background:#fff}
+.chip.on{background:var(--gold);border-color:#e0bd45}
+.more{display:flex;justify-content:space-between;align-items:center;font-weight:800;border:1px dashed #c9b97a;border-radius:12px;padding:12px 14px;background:#fffbea}
+.btn{display:block;width:100%;border:0;border-radius:12px;background:var(--gold);color:#1a1300;font-weight:900;font-size:1.05rem;padding:15px;margin-top:6px}
+.note{color:var(--muted);font-size:.78rem;text-align:center;margin:8px 0 0}
+.tag{position:relative}.tag:before{content:attr(data-tag);position:absolute;top:-10px;right:10px;background:#2f7fd6;color:#fff;font-size:.66rem;font-weight:800;border-radius:6px;padding:2px 6px}
+.strip{background:var(--navy);color:#fff;border-radius:16px;padding:18px;text-align:center;margin-top:24px}
+.strip h3{margin:0 0 4px}.strip p{margin:0 0 12px;color:#c9cede;font-size:.9rem}
+.strip a{display:inline-block;background:var(--gold);color:#1a1300;font-weight:900;border-radius:999px;padding:.75rem 1.3rem;text-decoration:none;margin:4px}
+.strip a.ghost{background:#fff}
+.label{font-size:.75rem;font-weight:800;color:#2f7fd6;text-transform:uppercase;letter-spacing:.06em;text-align:center;margin:26px 0 6px}
+</style></head><body>
+<div class="top"><p>Free quote · No obligation</p><h1>Request Availability</h1><span>Takes about 1 minute. We reply with availability and a full quote.</span></div>
+<div class="wrap" id="part1">
+
+<div class="card tag" data-tag="AUTO from Quote cart">
+  <h2>Your picks</h2><p class="sub">Added while browsing — edit anytime.</p>
+  <div class="picks">
+    <div class="pick"><img src="/images/crown-rush-42.jpeg" alt=""><div><b>Crown Rush 42</b><small>$549</small></div><span class="x">Remove</span></div>
+    <div class="pick"><img src="/images/crown-island-combo-pool.jpg" alt=""><div><b>Crown Island Combo with Pool</b><small>$399</small></div><span class="x">Remove</span></div>
+  </div>
+</div>
+
+<div class="card">
+  <span class="step">STEP 1 · REQUIRED</span>
+  <h2>Your event</h2>
+  <label>What are you interested in? <em>(tap all that apply — shows if cart is empty)</em></label>
+  <div class="chips"><span class="chip on">Inflatables</span><span class="chip">Water Slides</span><span class="chip">Foam Party</span><span class="chip">Photo / Video Booth</span><span class="chip">Lawn Games</span><span class="chip">Tables &amp; Chairs</span><span class="chip">Packages</span><span class="chip">Not sure yet</span></div>
+  <div class="row"><div><label>First name <i>*</i></label><input placeholder="First name"></div><div><label>Last name <i>*</i></label><input placeholder="Last name"></div></div>
+  <div class="row"><div><label>Phone <i>*</i></label><input placeholder="902-…"></div><div><label>Email <i>*</i></label><input placeholder="you@email.com"></div></div>
+  <label>Event date <i>*</i></label><input type="date">
+  <label>Event address <i>*</i></label><input placeholder="Street, town">
+</div>
+
+<div class="more">＋ Add more details (optional) <span>▾</span></div>
+</div>
+
+<div class="wrap" id="part2">
+<div class="card">
+  <span class="step opt">STEP 2 · OPTIONAL</span>
+  <h2>More details</h2><p class="sub">Helps us quote faster — skip anything.</p>
+  <label>Type of event</label>
+  <div class="chips"><span class="chip on">Birthday</span><span class="chip">School function</span><span class="chip">Community event</span><span class="chip">Festival</span><span class="chip">Fundraiser</span><span class="chip">Corporate</span><span class="chip">Church</span><span class="chip">Grand opening</span><span class="chip">Other</span></div>
+  <div class="row"><div><label>Start time</label><input type="time"></div><div><label>End time</label><input type="time"></div></div>
+  <label>Estimated number of guests</label><input placeholder="e.g. 40 kids">
+  <label>Setup surface</label>
+  <div class="chips"><span class="chip on">Grass</span><span class="chip">Indoor (gym, hall)</span><span class="chip">Asphalt / concrete</span><span class="chip">Not sure</span></div>
+  <div class="row"><div><label>Power nearby?</label><select><option>Yes</option><option>No</option><option>Not sure</option></select></div><div><label>Water hose nearby?</label><select><option>Yes</option><option>No</option><option>Not sure</option></select></div></div>
+  <label>Attendants / supervisors</label>
+  <div class="chips"><span class="chip">Nova Kingdom attendant (extra cost)</span><span class="chip on">Our own adult volunteers</span><span class="chip">Not sure</span></div>
+  <label>School / organization <em>(if any)</em></label><input placeholder="e.g. Bridgewater Elementary">
+  <label>Approximate budget <em>(optional)</em></label><input placeholder="e.g. $500–$800">
+  <label>How did you find us?</label>
+  <div class="chips"><span class="chip">Google</span><span class="chip on">Facebook / Instagram</span><span class="chip">Word of mouth</span><span class="chip">Saw us at an event</span><span class="chip">Other</span></div>
+  <label>Would you like a call from us?</label>
+  <div class="chips"><span class="chip on">Yes, please call</span><span class="chip">Text or email is fine</span></div>
+  <label>Anything else?</label><textarea placeholder="Theme, age of kids, questions…"></textarea>
+</div>
+<button class="btn">Send Request</button>
+<p class="note">Requests are not a confirmed booking. We confirm availability, delivery and setup with you first.</p>
+
+<div class="label">↓ This strip appears just above the footer on every page</div>
+<div class="strip"><h3>Planning an event?</h3><p>Tell us your date — we'll check availability and send a free quote.</p>
+<a href="#">Get a Free Quote</a><a class="ghost" href="#">Call 902-990-0005</a></div>
+</div>
+</body></html>
