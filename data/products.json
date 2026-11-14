@@ -309,7 +309,29 @@
       "Setup and takedown included",
       "Delivery extra",
       "HST extra"
-    ]
+    ],
+    "pageDetails": {
+      "ages": "All ages",
+      "outlets": "1",
+      "itemSize": "11.3 ft W × 7.9 ft D × 10.2 ft H",
+      "spaceNeeded": "Unit size + 10 ft of open space in front",
+      "wetDry": "Dry",
+      "priceNote": "HST extra",
+      "skipShoesRule": true,
+      "included": [
+        "Crown Axe Challenge inflatable target",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A clear, level area with open space in front",
+        "1 power outlet within 100 ft"
+      ],
+      "about": "Take your best shot! Crown Axe Challenge is a giant inflatable target for a safe, competitive throwing game. Friends and families love keeping score — it works as a standalone game or as an add-on with an inflatable."
+    }
   },
   {
     "id": "crown-kick-darts",
@@ -357,7 +379,29 @@
       "Setup and takedown included",
       "Delivery extra",
       "HST extra"
-    ]
+    ],
+    "pageDetails": {
+      "ages": "All ages",
+      "outlets": "1",
+      "itemSize": "118.1 × 144.1 × 63 in (3000 × 3660 × 1600 mm)",
+      "spaceNeeded": "Unit size + 10 ft of open space in front",
+      "wetDry": "Dry",
+      "priceNote": "HST extra",
+      "skipShoesRule": true,
+      "included": [
+        "Crown Kick Darts giant dartboard",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A clear, level area with open space in front",
+        "1 power outlet within 100 ft"
+      ],
+      "about": "Kick it for the bullseye! Crown Kick Darts is a giant inflatable dartboard where players kick soccer balls to score. Simple, competitive and fun for sports parties, schools, community events, teens and adults."
+    }
   },
   {
     "id": "crown-rush-42",
@@ -586,7 +630,29 @@
       "Setup and takedown included",
       "Delivery extra",
       "HST extra"
-    ]
+    ],
+    "pageDetails": {
+      "capacity": "Up to 8 kids or 2 teens at one time",
+      "ages": "Kids & teens",
+      "outlets": "1",
+      "itemSize": "16.4 ft L × 13.1 ft W × 13.1 ft H (5 × 4 × 4 m)",
+      "spaceNeeded": "25 ft × 21 ft",
+      "wetDry": "Dry",
+      "priceNote": "HST extra",
+      "included": [
+        "Crown Climber",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A clear, level area",
+        "1 power outlet within 100 ft"
+      ],
+      "about": "Up, up and over! Crown Climber is a compact climbing inflatable that turns climbing into a game — simple, active fun that fits nicely in a backyard. A great add-on for birthdays, school groups and family events."
+    }
   },
   {
     "id": "crown-dino-combo",

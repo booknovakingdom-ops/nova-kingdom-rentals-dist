@@ -40,7 +40,7 @@ const RULES = [
 
 let products = null, loading = false;
 
-function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+function esc(s) { return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
 function slugNow() { const m = window.location.pathname.match(/^\/rentals\/([^/]+)\/?$/); return m ? m[1] : null; }
 function li(a) { return a.map((x) => "<li>" + esc(x) + "</li>").join(""); }
 
@@ -57,7 +57,8 @@ function html(p) {
     ["Wet or dry", esc(d.wetDry)],
   ].filter((r) => r[1]);
   return '<h2>Quick facts</h2><ul class="pd-facts">' +
-    fact("👧", "Capacity", esc(d.capacity) + ". Rules:<ul class=\"pd-rules\">" + RULES.map((r) => "<li>" + r + "</li>").join("") + "</ul>") +
+    fact("👧", d.capacity ? "Capacity" : "Rules", (d.capacity ? esc(d.capacity) + ". Rules:" : "") + "<ul class=\"pd-rules\">" +
+      RULES.filter((r) => !(d.skipShoesRule && r === "No shoes")).map((r) => "<li>" + r + "</li>").join("") + "</ul>") +
     fact("🚚", "Delivery", "From Bridgewater, across Nova Scotia. Delivery quoted based on your address.") +
     fact("🛠️", "Setup &amp; takedown included", "We set it up, check it, and take it down.") +
     fact("🧽", "Cleaned &amp; sanitized", "Before every rental.") +
