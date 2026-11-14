@@ -628,7 +628,7 @@
     ],
     "pageDetails": {
       "capacity": "Up to 8 kids or 2 teens at one time",
-      "ages": "Ages 3–12",
+      "ages": "Kids & teens",
       "outlets": "1",
       "itemSize": "13.1 ft L × 13.1 ft W × 9.8 ft H (4 × 4 × 3 m)",
       "spaceNeeded": "21 ft × 21 ft",
@@ -875,7 +875,29 @@
       "Setup and takedown included",
       "Delivery extra",
       "HST extra"
-    ]
+    ],
+    "pageDetails": {
+      "capacity": "Up to 8 kids or 2 teens at one time",
+      "ages": "Kids & teens",
+      "outlets": "2 (separate circuits)",
+      "itemSize": "33 ft L × 12 ft W × 14 ft H",
+      "spaceNeeded": "41 ft × 20 ft",
+      "wetDry": "Dry",
+      "priceNote": "HST extra",
+      "included": [
+        "Crown Safari",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A clear, level area",
+        "2 power outlets (separate circuits) within 100 ft"
+      ],
+      "about": "Head out on safari! Crown Safari is a large safari-themed inflatable that makes a big impact at any event — great for birthdays, school events, community events and festivals."
+    }
   },
   {
     "id": "crown-ice-palace-combo",
@@ -909,7 +931,29 @@
       "Setup and takedown included",
       "Delivery extra",
       "HST extra"
-    ]
+    ],
+    "pageDetails": {
+      "capacity": "Kids only — up to 6 at one time",
+      "ages": "Kids only",
+      "outlets": "2 (separate circuits)",
+      "itemSize": "20 ft L × 17 ft W × 18 ft H",
+      "spaceNeeded": "28 ft × 25 ft",
+      "wetDry": "Dry",
+      "priceNote": "HST extra",
+      "included": [
+        "Crown Ice Palace Combo (bounce + slide)",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A clear, level area",
+        "2 power outlets (separate circuits) within 100 ft"
+      ],
+      "about": "Step inside a frosty castle! Crown Ice Palace Combo is an ice-palace-themed bounce and slide combo made just for kids. A cool pick for birthdays, school events and community events."
+    }
   },
   {
     "id": "crown-dash",
@@ -942,7 +986,29 @@
       "Setup and takedown included",
       "Delivery extra",
       "HST extra"
-    ]
+    ],
+    "pageDetails": {
+      "capacity": "Kids only — up to 6 at one time",
+      "ages": "Kids only",
+      "outlets": "2 (separate circuits)",
+      "itemSize": "13 ft L × 15 ft W × 10 ft H",
+      "spaceNeeded": "21 ft × 23 ft",
+      "wetDry": "Dry",
+      "priceNote": "HST extra",
+      "included": [
+        "Crown Dash obstacle inflatable",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A clear, level area",
+        "2 power outlets (separate circuits) within 100 ft"
+      ],
+      "about": "On your marks! Crown Dash is an active-play obstacle inflatable that keeps kids moving — a compact, high-energy pick for birthdays, school events and community events."
+    }
   },
   {
     "id": "crown-play-palace",
@@ -975,7 +1041,29 @@
       "Setup and takedown included",
       "Delivery extra",
       "HST extra"
-    ]
+    ],
+    "pageDetails": {
+      "capacity": "Up to 8 kids or 2 teens at one time",
+      "ages": "Kids & teens",
+      "outlets": "2 (separate circuits)",
+      "itemSize": "24 ft L × 10 ft W × 10 ft H",
+      "spaceNeeded": "32 ft × 18 ft",
+      "wetDry": "Dry",
+      "priceNote": "HST extra",
+      "included": [
+        "Crown Play Palace",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A clear, level area",
+        "2 power outlets (separate circuits) within 100 ft"
+      ],
+      "about": "A whole playground in one castle. Crown Play Palace mixes obstacles, bouncing and slides into one colourful play park, so there's always something to climb, jump or slide down. A hit for birthdays, school events and community events."
+    }
   },
   {
     "id": "72-ft-obstacle-course",
@@ -1149,7 +1237,29 @@
       "Setup and takedown included",
       "Delivery extra",
       "HST extra"
-    ]
+    ],
+    "pageDetails": {
+      "capacity": "Up to 8 kids or 2 teens at one time",
+      "ages": "Kids & teens",
+      "outlets": "1",
+      "itemSize": "30 ft L × 13 ft W × 16 ft H",
+      "spaceNeeded": "38 ft × 21 ft",
+      "wetDry": "Dry",
+      "priceNote": "HST extra",
+      "included": [
+        "Crown Pirate Adventure (bounce + slide)",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A clear, level area",
+        "1 power outlet within 100 ft"
+      ],
+      "about": "Ahoy, mateys! Crown Pirate Adventure is a pirate-ship bounce and slide combo with big wow factor — bounce on deck, then slide down the side. A crowd-pleaser for birthdays, school events, community events and festivals."
+    }
   },
   {
     "id": "generator",
