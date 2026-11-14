@@ -2032,7 +2032,7 @@ function enhanceEssentialsGallery() {
       } else {
         if (cfg.type === "tent") {
           const t = TENT_PRICING[cfg.id];
-          cart.push({ id: cfg.id, name: t.name + " (self-serve)", price: t.self, isInflatable: false });
+          cart.push({ id: cfg.id, name: t.name + " (rental only)", price: t.base, isInflatable: false });
         } else {
           cart.push({ id: cfg.id, name: cfg.name + " × 1", price: cfg.unit, isInflatable: false });
         }
