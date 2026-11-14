@@ -116,13 +116,13 @@
     // Tiles: bold banner + real photo, each links to the real section.
     var TILES = [
       { t:"Inflatable Rentals",   href:"/rentals",             img:"/images/events/community-event-inflatables.jpg", c:"#e2443b" },
-      { t:"Photo & Video Booths", href:"/photo-video-booths",  img:"/images/360-video-booth.jpg",                    c:"#2f7fd6" },
-      { t:"Foam Party",           href:"/foam-party",          img:"/images/kids-foam-party.jpg",                    c:"#11111a" },
+      { t:"Photo & Video Booths", href:"/photo-video-booths",  img:"/images/events/360-booth-event-setup.jpg",       c:"#2f7fd6" },
+      { t:"Foam Party",           href:"/foam-party",          img:"/images/kids-foam-party.jpg", fit:"contain",     c:"#11111a" },
       { t:"Lawn Games",           href:"/lawn-games",          img:"/images/lawn-games/cornhole.png",                c:"#3aa76d" },
       { t:"Event Essentials",     href:"/tables-and-chairs",   img:"/images/10x20-pole-tent.jpeg",                   c:"#8a63d2" },
       { t:"Party Packages",       href:"/packages",            img:"/images/packages/royal-all-star-package.jpg",    c:"#e86a2c" },
       { t:"Concession Rentals",   href:"/contact",             soon:true, items:["Popcorn","Cotton Candy","Snow Cones"], c:"#1f8a9e" },
-      { t:"Generator Rental",     href:"/rentals/generator",   img:"/images/generator.jpg",                          c:"#c9427e" }
+      { t:"Generator Rental",     href:"/rentals/generator",   img:"/images/generator-benchmark.jpg", fit:"contain", bg:"#fff", c:"#c9427e" }
     ];
     var html = TILES.map(function(x){
       if(x.soon){
@@ -134,7 +134,8 @@
       }
       return '<a class="tile" href="'+x.href+'">'+
         '<div class="banner" style="background:'+x.c+'"><h2>'+x.t+'</h2></div>'+
-        '<div class="tile-media"><img src="'+x.img+'" alt="'+x.t+' — Nova Kingdom Rentals" loading="lazy">'+
+        '<div class="tile-media"'+(x.bg?' style="background:'+x.bg+'"':'')+'>'+
+        '<img src="'+x.img+'" alt="'+x.t+' — Nova Kingdom Rentals" loading="lazy" style="object-fit:'+(x.fit||'cover')+'">'+
         '<span class="go">View ›</span></div></a>';
     }).join("");
     document.getElementById("tiles").innerHTML = html;
