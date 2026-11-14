@@ -58,6 +58,7 @@ function sectionHtml() {
       '<h2 class="nk27-title">Help Choose Our Next Attraction for 2027</h2>' +
       '<p class="nk27-intro">We’re considering adding one or two exciting new attractions for 2027! Choose your favourite below and request our advance booking offer for your next event.</p>' +
       '<div class="nk27-cards">' + ATTRACTIONS.map(cardHtml).join("") + '</div>' +
+      '<p class="nk27-more"><a href="#cities">Find the future attractions page for your city →</a></p>' +
       '<p class="nk27-taxnote">Delivery, staffing and applicable taxes will be outlined in your personalised quote.</p>' +
       '<form class="nk27-form" novalidate>' +
         '<div class="nk27-field nk27-full">' +

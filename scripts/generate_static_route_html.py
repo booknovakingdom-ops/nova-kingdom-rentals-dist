@@ -1003,6 +1003,9 @@ def validate_sitemap_routes(routes: dict[str, dict[str, Any]]) -> None:
         path = loc.text.replace(BASE_URL, "") or "/"
         if path == "/llms.txt":
             continue
+        # Hand-built standalone pages (not app routes) carry their own metadata.
+        if path.startswith(("/future-add-ons", "/future-attractions-")) or path == "/privacy-policy":
+            continue
         if path not in routes:
             missing.append(path)
     if missing:

@@ -54,6 +54,12 @@
     "alt": "Nova Kingdom Rentals inflatables at a community event in Nova Scotia",
     "caption": "Community event day — our inflatable lineup in action"
    }
+  ],
+  "links": [
+   {
+    "label": "Future attractions in Bridgewater (2027)",
+    "href": "/future-attractions-bridgewater-ns"
+   }
   ]
  },
  {
@@ -136,7 +142,13 @@
    }
   ],
   "ctaHeading": "Check availability for Chester",
-  "ctaText": "Send your Chester event details and we’ll confirm availability, travel cost, setup suitability, and deposit details."
+  "ctaText": "Send your Chester event details and we’ll confirm availability, travel cost, setup suitability, and deposit details.",
+  "links": [
+   {
+    "label": "Future attractions in Chester (2027)",
+    "href": "/future-attractions-chester-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-lunenburg-ns",
@@ -177,7 +189,13 @@
    }
   ],
   "ctaHeading": "Check a Lunenburg event date",
-  "ctaText": "Send your date, address, and event details so we can quote travel and confirm availability."
+  "ctaText": "Send your date, address, and event details so we can quote travel and confirm availability.",
+  "links": [
+   {
+    "label": "Future attractions in Lunenburg (2027)",
+    "href": "/future-attractions-lunenburg-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-mahone-bay-ns",
@@ -218,7 +236,13 @@
    }
   ],
   "ctaHeading": "Check Mahone Bay availability",
-  "ctaText": "Share your event details and we’ll confirm availability, travel cost, and setup suitability."
+  "ctaText": "Share your event details and we’ll confirm availability, travel cost, and setup suitability.",
+  "links": [
+   {
+    "label": "Future attractions in Mahone Bay (2027)",
+    "href": "/future-attractions-mahone-bay-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-liverpool-ns",
@@ -259,7 +283,13 @@
    }
   ],
   "ctaHeading": "Request a Liverpool party rental quote",
-  "ctaText": "Send your date, address, and event details for an availability and travel quote."
+  "ctaText": "Send your date, address, and event details for an availability and travel quote.",
+  "links": [
+   {
+    "label": "Future attractions in Liverpool (2027)",
+    "href": "/future-attractions-liverpool-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-shelburne-ns",
@@ -300,7 +330,13 @@
    }
   ],
   "ctaHeading": "Check Shelburne rental availability",
-  "ctaText": "Send your event details and we’ll review availability, travel cost, staffing needs, and setup suitability."
+  "ctaText": "Send your event details and we’ll review availability, travel cost, staffing needs, and setup suitability.",
+  "links": [
+   {
+    "label": "Future attractions in Shelburne (2027)",
+    "href": "/future-attractions-shelburne-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-yarmouth-ns",
@@ -341,7 +377,13 @@
    }
   ],
   "ctaHeading": "Request a Yarmouth event quote",
-  "ctaText": "Send your event date, address, expected attendance, and rental interests so we can review travel and availability."
+  "ctaText": "Send your event date, address, expected attendance, and rental interests so we can review travel and availability.",
+  "links": [
+   {
+    "label": "Future attractions in Yarmouth (2027)",
+    "href": "/future-attractions-yarmouth-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-digby-ns",
@@ -383,7 +425,13 @@
   ],
   "ctaHeading": "Check Digby event availability",
   "ctaText": "Send the event address, date, rental interests, and event size so we can review the best options.",
-  "heroText": "Nova Kingdom Rentals offers party rentals for events in Digby, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages."
+  "heroText": "Nova Kingdom Rentals offers party rentals for events in Digby, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages.",
+  "links": [
+   {
+    "label": "Future attractions in Digby (2027)",
+    "href": "/future-attractions-digby-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-kentville-ns",
@@ -426,7 +474,13 @@
   ],
   "ctaHeading": "Request a Kentville inflatable quote",
   "ctaText": "Share your event details so we can confirm availability, travel cost, and setup requirements.",
-  "heroText": "Nova Kingdom Rentals offers inflatables, lawn games, water slides, 360 Video Booth, Kids Foam Party, and bundled party packages for events in Kentville and the Annapolis Valley."
+  "heroText": "Nova Kingdom Rentals offers inflatables, lawn games, water slides, 360 Video Booth, Kids Foam Party, and bundled party packages for events in Kentville and the Annapolis Valley.",
+  "links": [
+   {
+    "label": "Future attractions in Kentville (2027)",
+    "href": "/future-attractions-kentville-ns"
+   }
+  ]
  },
  {
   "slug": "water-slide-rentals-nova-scotia",
@@ -759,6 +813,10 @@
    {
     "label": "Halifax Tent Rentals",
     "href": "/tent-rentals-halifax-ns"
+   },
+   {
+    "label": "Future attractions in Halifax (2027)",
+    "href": "/future-attractions-halifax-ns"
    }
   ]
  },
@@ -801,7 +859,13 @@
    }
   ],
   "ctaHeading": "Check Dartmouth availability",
-  "ctaText": "Send your event date, address, event size, timing, and rental interests so we can review whether travel, staffing, and availability work for your booking."
+  "ctaText": "Send your event date, address, event size, timing, and rental interests so we can review whether travel, staffing, and availability work for your booking.",
+  "links": [
+   {
+    "label": "Future attractions in Dartmouth (2027)",
+    "href": "/future-attractions-dartmouth-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-truro-ns",
@@ -842,7 +906,13 @@
    }
   ],
   "ctaHeading": "Request a Truro event quote",
-  "ctaText": "Send your event date, address, event size, timing, and rental interests so we can review whether travel, staffing, and availability work for your booking."
+  "ctaText": "Send your event date, address, event size, timing, and rental interests so we can review whether travel, staffing, and availability work for your booking.",
+  "links": [
+   {
+    "label": "Future attractions in Truro (2027)",
+    "href": "/future-attractions-truro-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-sydney-ns",
@@ -883,7 +953,13 @@
    }
   ],
   "ctaHeading": "Request a Sydney event quote",
-  "ctaText": "Send your event date, address, event size, timing, and rental interests so we can review whether travel, staffing, and availability work for your booking."
+  "ctaText": "Send your event date, address, event size, timing, and rental interests so we can review whether travel, staffing, and availability work for your booking.",
+  "links": [
+   {
+    "label": "Future attractions in Sydney (2027)",
+    "href": "/future-attractions-sydney-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-atlantic-canada",
@@ -1862,7 +1938,13 @@
   ],
   "ctaHeading": "Check availability for your Windsor event",
   "ctaText": "Send your event date, address in Windsor, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Windsor and surrounding Nova Scotia."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Windsor and surrounding Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in Windsor (2027)",
+    "href": "/future-attractions-windsor-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-wolfville-ns",
@@ -1904,7 +1986,13 @@
   ],
   "ctaHeading": "Check availability for your Wolfville event",
   "ctaText": "Send your event date, address in Wolfville, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Wolfville and surrounding Nova Scotia."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Wolfville and surrounding Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in Wolfville (2027)",
+    "href": "/future-attractions-wolfville-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-annapolis-royal-ns",
@@ -1946,7 +2034,13 @@
   ],
   "ctaHeading": "Check availability for your Annapolis Royal event",
   "ctaText": "Send your event date, address in Annapolis Royal, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Annapolis Royal and surrounding Nova Scotia."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Annapolis Royal and surrounding Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in Annapolis Royal (2027)",
+    "href": "/future-attractions-annapolis-royal-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-middleton-ns",
@@ -1988,7 +2082,13 @@
   ],
   "ctaHeading": "Check availability for your Middleton event",
   "ctaText": "Send your event date, address in Middleton, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Middleton and surrounding Nova Scotia."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Middleton and surrounding Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in Middleton (2027)",
+    "href": "/future-attractions-middleton-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-bridgetown-ns",
@@ -2030,7 +2130,13 @@
   ],
   "ctaHeading": "Check availability for your Bridgetown event",
   "ctaText": "Send your event date, address in Bridgetown, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Bridgetown is a welcoming Annapolis Valley town on the Annapolis River, known for its apple orchards and tight-knit community events."
+  "heroText": "Bridgetown is a welcoming Annapolis Valley town on the Annapolis River, known for its apple orchards and tight-knit community events.",
+  "links": [
+   {
+    "label": "Future attractions in Bridgetown (2027)",
+    "href": "/future-attractions-bridgetown-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-bedford-ns",
@@ -2072,7 +2178,13 @@
   ],
   "ctaHeading": "Check availability for your Bedford event",
   "ctaText": "Send your event date, address in Bedford, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Bedford and surrounding Nova Scotia."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Bedford and surrounding Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in Bedford (2027)",
+    "href": "/future-attractions-bedford-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-lower-sackville-ns",
@@ -2114,7 +2226,13 @@
   ],
   "ctaHeading": "Check availability for your Lower Sackville event",
   "ctaText": "Send your event date, address in Lower Sackville, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Lower Sackville and surrounding Nova Scotia."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Lower Sackville and surrounding Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in Lower Sackville (2027)",
+    "href": "/future-attractions-lower-sackville-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-cole-harbour-ns",
@@ -2156,7 +2274,13 @@
   ],
   "ctaHeading": "Check availability for your Cole Harbour event",
   "ctaText": "Send your event date, address in Cole Harbour, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Cole Harbour and surrounding Nova Scotia."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Cole Harbour and surrounding Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in Cole Harbour (2027)",
+    "href": "/future-attractions-cole-harbour-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-fall-river-ns",
@@ -2198,7 +2322,13 @@
   ],
   "ctaHeading": "Check availability for your Fall River event",
   "ctaText": "Send your event date, address in Fall River, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Fall River is a growing lakeside community northeast of Halifax, popular with families for its natural lakes and semi-rural lifestyle."
+  "heroText": "Fall River is a growing lakeside community northeast of Halifax, popular with families for its natural lakes and semi-rural lifestyle.",
+  "links": [
+   {
+    "label": "Future attractions in Fall River (2027)",
+    "href": "/future-attractions-fall-river-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-new-glasgow-ns",
@@ -2240,7 +2370,13 @@
   ],
   "ctaHeading": "Check availability for your New Glasgow event",
   "ctaText": "Send your event date, address in New Glasgow, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in New Glasgow and surrounding Nova Scotia."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in New Glasgow and surrounding Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in New Glasgow (2027)",
+    "href": "/future-attractions-new-glasgow-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-stellarton-ns",
@@ -2282,7 +2418,13 @@
   ],
   "ctaHeading": "Check availability for your Stellarton event",
   "ctaText": "Send your event date, address in Stellarton, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Stellarton is a Pictou County community home to the Museum of Industry, Nova Scotia's largest museum."
+  "heroText": "Stellarton is a Pictou County community home to the Museum of Industry, Nova Scotia's largest museum.",
+  "links": [
+   {
+    "label": "Future attractions in Stellarton (2027)",
+    "href": "/future-attractions-stellarton-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-pictou-ns",
@@ -2324,7 +2466,13 @@
   ],
   "ctaHeading": "Check availability for your Pictou event",
   "ctaText": "Send your event date, address in Pictou, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Pictou, the Birthplace of New Scotland, is a historic Northumberland Shore town where Scottish settlers first arrived."
+  "heroText": "Pictou, the Birthplace of New Scotland, is a historic Northumberland Shore town where Scottish settlers first arrived.",
+  "links": [
+   {
+    "label": "Future attractions in Pictou (2027)",
+    "href": "/future-attractions-pictou-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-antigonish-ns",
@@ -2366,7 +2514,13 @@
   ],
   "ctaHeading": "Check availability for your Antigonish event",
   "ctaText": "Send your event date, address in Antigonish, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Antigonish and surrounding Nova Scotia."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Antigonish and surrounding Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in Antigonish (2027)",
+    "href": "/future-attractions-antigonish-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-amherst-ns",
@@ -2408,7 +2562,13 @@
   ],
   "ctaHeading": "Check availability for your Amherst event",
   "ctaText": "Send your event date, address in Amherst, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Amherst and surrounding Nova Scotia."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Amherst and surrounding Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in Amherst (2027)",
+    "href": "/future-attractions-amherst-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-port-hawkesbury-ns",
@@ -2450,7 +2610,13 @@
   ],
   "ctaHeading": "Check availability for your Port Hawkesbury event",
   "ctaText": "Send your event date, address in Port Hawkesbury, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Port Hawkesbury and surrounding Nova Scotia."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Port Hawkesbury and surrounding Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in Port Hawkesbury (2027)",
+    "href": "/future-attractions-port-hawkesbury-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-baddeck-ns",
@@ -2492,7 +2658,13 @@
   ],
   "ctaHeading": "Check availability for your Baddeck event",
   "ctaText": "Send your event date, address in Baddeck, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Baddeck and surrounding Nova Scotia."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Baddeck and surrounding Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in Baddeck (2027)",
+    "href": "/future-attractions-baddeck-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-north-sydney-ns",
@@ -2534,7 +2706,13 @@
   ],
   "ctaHeading": "Check availability for your North Sydney event",
   "ctaText": "Send your event date, address in North Sydney, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in North Sydney and surrounding Nova Scotia."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in North Sydney and surrounding Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in North Sydney (2027)",
+    "href": "/future-attractions-north-sydney-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-glace-bay-ns",
@@ -2576,7 +2754,13 @@
   ],
   "ctaHeading": "Check availability for your Glace Bay event",
   "ctaText": "Send your event date, address in Glace Bay, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Glace Bay and surrounding Nova Scotia."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Glace Bay and surrounding Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in Glace Bay (2027)",
+    "href": "/future-attractions-glace-bay-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-new-waterford-ns",
@@ -2618,7 +2802,13 @@
   ],
   "ctaHeading": "Check availability for your New Waterford event",
   "ctaText": "Send your event date, address in New Waterford, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in New Waterford and surrounding Nova Scotia."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in New Waterford and surrounding Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in New Waterford (2027)",
+    "href": "/future-attractions-new-waterford-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-inverness-ns",
@@ -2660,7 +2850,13 @@
   ],
   "ctaHeading": "Check availability for your Inverness event",
   "ctaText": "Send your event date, address in Inverness, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Inverness and surrounding Nova Scotia."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Inverness and surrounding Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in Inverness (2027)",
+    "href": "/future-attractions-inverness-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-sackville-nb",
@@ -2702,7 +2898,13 @@
   ],
   "ctaHeading": "Check availability for your Sackville event",
   "ctaText": "Send your event date, address in Sackville, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Sackville and surrounding New Brunswick."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Sackville and surrounding New Brunswick.",
+  "links": [
+   {
+    "label": "Future attractions in Sackville (2027)",
+    "href": "/future-attractions-sackville-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-moncton-nb",
@@ -2744,7 +2946,13 @@
   ],
   "ctaHeading": "Check availability for your Moncton event",
   "ctaText": "Send your event date, address in Moncton, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Moncton and surrounding New Brunswick."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Moncton and surrounding New Brunswick.",
+  "links": [
+   {
+    "label": "Future attractions in Moncton (2027)",
+    "href": "/future-attractions-moncton-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-fredericton-nb",
@@ -2786,7 +2994,13 @@
   ],
   "ctaHeading": "Check availability for your Fredericton event",
   "ctaText": "Send your event date, address in Fredericton, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Fredericton and surrounding New Brunswick."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Fredericton and surrounding New Brunswick.",
+  "links": [
+   {
+    "label": "Future attractions in Fredericton (2027)",
+    "href": "/future-attractions-fredericton-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-sussex-nb",
@@ -2828,7 +3042,13 @@
   ],
   "ctaHeading": "Check availability for your Sussex event",
   "ctaText": "Send your event date, address in Sussex, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Sussex, the Dairy Capital of the Maritimes, is a welcoming Kings County NB community surrounded by rolling farmland."
+  "heroText": "Sussex, the Dairy Capital of the Maritimes, is a welcoming Kings County NB community surrounded by rolling farmland.",
+  "links": [
+   {
+    "label": "Future attractions in Sussex (2027)",
+    "href": "/future-attractions-sussex-nb"
+   }
+  ]
  },
  {
   "slug": "photo-booth-rental-truro-ns",
@@ -4943,7 +5163,13 @@
   ],
   "ctaHeading": "Plan your Wolfville party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and Wolfville address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Nova Kingdom Rentals offers party rentals for events in Wolfville, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages."
+  "heroText": "Nova Kingdom Rentals offers party rentals for events in Wolfville, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages.",
+  "links": [
+   {
+    "label": "Future attractions in Wolfville (2027)",
+    "href": "/future-attractions-wolfville-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-annapolis-royal-ns",
@@ -4985,7 +5211,13 @@
   ],
   "ctaHeading": "Plan your Annapolis Royal party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and Annapolis Royal address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Nova Kingdom Rentals offers party rentals for events in Annapolis Royal, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages."
+  "heroText": "Nova Kingdom Rentals offers party rentals for events in Annapolis Royal, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages.",
+  "links": [
+   {
+    "label": "Future attractions in Annapolis Royal (2027)",
+    "href": "/future-attractions-annapolis-royal-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-middleton-ns",
@@ -5027,7 +5259,13 @@
   ],
   "ctaHeading": "Plan your Middleton party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and Middleton address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Nova Kingdom Rentals offers party rentals for events in Middleton, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages."
+  "heroText": "Nova Kingdom Rentals offers party rentals for events in Middleton, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages.",
+  "links": [
+   {
+    "label": "Future attractions in Middleton (2027)",
+    "href": "/future-attractions-middleton-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-bridgetown-ns",
@@ -5069,7 +5307,13 @@
   ],
   "ctaHeading": "Plan your Bridgetown party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and Bridgetown address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Bridgetown is a welcoming Annapolis Valley town on the Annapolis River, known for its apple orchards and tight-knit community events."
+  "heroText": "Bridgetown is a welcoming Annapolis Valley town on the Annapolis River, known for its apple orchards and tight-knit community events.",
+  "links": [
+   {
+    "label": "Future attractions in Bridgetown (2027)",
+    "href": "/future-attractions-bridgetown-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-new-glasgow-ns",
@@ -5111,7 +5355,13 @@
   ],
   "ctaHeading": "Plan your New Glasgow party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and New Glasgow address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Nova Kingdom Rentals offers party rentals for events in New Glasgow, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages."
+  "heroText": "Nova Kingdom Rentals offers party rentals for events in New Glasgow, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages.",
+  "links": [
+   {
+    "label": "Future attractions in New Glasgow (2027)",
+    "href": "/future-attractions-new-glasgow-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-antigonish-ns",
@@ -5153,7 +5403,13 @@
   ],
   "ctaHeading": "Plan your Antigonish party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and Antigonish address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Nova Kingdom Rentals offers party rentals for events in Antigonish, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages."
+  "heroText": "Nova Kingdom Rentals offers party rentals for events in Antigonish, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages.",
+  "links": [
+   {
+    "label": "Future attractions in Antigonish (2027)",
+    "href": "/future-attractions-antigonish-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-amherst-ns",
@@ -5195,7 +5451,13 @@
   ],
   "ctaHeading": "Plan your Amherst party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and Amherst address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Nova Kingdom Rentals offers party rentals for events in Amherst, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages."
+  "heroText": "Nova Kingdom Rentals offers party rentals for events in Amherst, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages.",
+  "links": [
+   {
+    "label": "Future attractions in Amherst (2027)",
+    "href": "/future-attractions-amherst-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-bedford-ns",
@@ -5237,7 +5499,13 @@
   ],
   "ctaHeading": "Plan your Bedford party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and Bedford address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Nova Kingdom Rentals offers party rentals for events in Bedford, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages."
+  "heroText": "Nova Kingdom Rentals offers party rentals for events in Bedford, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages.",
+  "links": [
+   {
+    "label": "Future attractions in Bedford (2027)",
+    "href": "/future-attractions-bedford-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-lower-sackville-ns",
@@ -5279,7 +5547,13 @@
   ],
   "ctaHeading": "Plan your Lower Sackville party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and Lower Sackville address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Nova Kingdom Rentals offers party rentals for events in Lower Sackville, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages."
+  "heroText": "Nova Kingdom Rentals offers party rentals for events in Lower Sackville, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages.",
+  "links": [
+   {
+    "label": "Future attractions in Lower Sackville (2027)",
+    "href": "/future-attractions-lower-sackville-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-cole-harbour-ns",
@@ -5321,7 +5595,13 @@
   ],
   "ctaHeading": "Plan your Cole Harbour party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and Cole Harbour address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Nova Kingdom Rentals offers party rentals for events in Cole Harbour, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages."
+  "heroText": "Nova Kingdom Rentals offers party rentals for events in Cole Harbour, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages.",
+  "links": [
+   {
+    "label": "Future attractions in Cole Harbour (2027)",
+    "href": "/future-attractions-cole-harbour-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-fall-river-ns",
@@ -5363,7 +5643,13 @@
   ],
   "ctaHeading": "Plan your Fall River party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and Fall River address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Fall River is a growing lakeside community northeast of Halifax, popular with families for its natural lakes and semi-rural lifestyle."
+  "heroText": "Fall River is a growing lakeside community northeast of Halifax, popular with families for its natural lakes and semi-rural lifestyle.",
+  "links": [
+   {
+    "label": "Future attractions in Fall River (2027)",
+    "href": "/future-attractions-fall-river-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-glace-bay-ns",
@@ -5405,7 +5691,13 @@
   ],
   "ctaHeading": "Plan your Glace Bay party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and Glace Bay address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Nova Kingdom Rentals offers party rentals for events in Glace Bay, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages."
+  "heroText": "Nova Kingdom Rentals offers party rentals for events in Glace Bay, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages.",
+  "links": [
+   {
+    "label": "Future attractions in Glace Bay (2027)",
+    "href": "/future-attractions-glace-bay-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-north-sydney-ns",
@@ -5447,7 +5739,13 @@
   ],
   "ctaHeading": "Plan your North Sydney party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and North Sydney address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Nova Kingdom Rentals offers party rentals for events in North Sydney, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages."
+  "heroText": "Nova Kingdom Rentals offers party rentals for events in North Sydney, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages.",
+  "links": [
+   {
+    "label": "Future attractions in North Sydney (2027)",
+    "href": "/future-attractions-north-sydney-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-port-hawkesbury-ns",
@@ -5489,7 +5787,13 @@
   ],
   "ctaHeading": "Plan your Port Hawkesbury party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and Port Hawkesbury address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Nova Kingdom Rentals offers party rentals for events in Port Hawkesbury, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages."
+  "heroText": "Nova Kingdom Rentals offers party rentals for events in Port Hawkesbury, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages.",
+  "links": [
+   {
+    "label": "Future attractions in Port Hawkesbury (2027)",
+    "href": "/future-attractions-port-hawkesbury-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-inverness-ns",
@@ -5531,7 +5835,13 @@
   ],
   "ctaHeading": "Plan your Inverness party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and Inverness address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Nova Kingdom Rentals offers party rentals for events in Inverness, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages."
+  "heroText": "Nova Kingdom Rentals offers party rentals for events in Inverness, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages.",
+  "links": [
+   {
+    "label": "Future attractions in Inverness (2027)",
+    "href": "/future-attractions-inverness-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-baddeck-ns",
@@ -5573,7 +5883,13 @@
   ],
   "ctaHeading": "Plan your Baddeck party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and Baddeck address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Nova Kingdom Rentals offers party rentals for events in Baddeck, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages."
+  "heroText": "Nova Kingdom Rentals offers party rentals for events in Baddeck, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages.",
+  "links": [
+   {
+    "label": "Future attractions in Baddeck (2027)",
+    "href": "/future-attractions-baddeck-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-pictou-ns",
@@ -5615,7 +5931,13 @@
   ],
   "ctaHeading": "Plan your Pictou party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and Pictou address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Pictou, the Birthplace of New Scotland, is a historic Northumberland Shore town where Scottish settlers first arrived."
+  "heroText": "Pictou, the Birthplace of New Scotland, is a historic Northumberland Shore town where Scottish settlers first arrived.",
+  "links": [
+   {
+    "label": "Future attractions in Pictou (2027)",
+    "href": "/future-attractions-pictou-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-stellarton-ns",
@@ -5657,7 +5979,13 @@
   ],
   "ctaHeading": "Plan your Stellarton party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and Stellarton address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Stellarton is a Pictou County community home to the Museum of Industry, Nova Scotia's largest museum."
+  "heroText": "Stellarton is a Pictou County community home to the Museum of Industry, Nova Scotia's largest museum.",
+  "links": [
+   {
+    "label": "Future attractions in Stellarton (2027)",
+    "href": "/future-attractions-stellarton-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-windsor-ns",
@@ -5699,7 +6027,13 @@
   ],
   "ctaHeading": "Plan your Windsor party with Nova Kingdom Rentals",
   "ctaText": "Send your event date and Windsor address. We'll confirm availability, recommend the best rentals for your crowd, and quote travel cost.",
-  "heroText": "Nova Kingdom Rentals offers party rentals for events in Windsor, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages."
+  "heroText": "Nova Kingdom Rentals offers party rentals for events in Windsor, Nova Scotia — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled packages.",
+  "links": [
+   {
+    "label": "Future attractions in Windsor (2027)",
+    "href": "/future-attractions-windsor-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-moncton-nb",
@@ -5788,7 +6122,13 @@
     "href": "/party-rentals-alma-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Moncton (2027)",
+    "href": "/future-attractions-moncton-nb"
+   }
+  ]
  },
  {
   "slug": "party-rentals-fredericton-nb",
@@ -5869,7 +6209,13 @@
     "href": "/party-rentals-doaktown-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Fredericton (2027)",
+    "href": "/future-attractions-fredericton-nb"
+   }
+  ]
  },
  {
   "slug": "party-rentals-sackville-nb",
@@ -5918,7 +6264,13 @@
     "href": "/party-rentals-memramcook-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Sackville (2027)",
+    "href": "/future-attractions-sackville-nb"
+   }
+  ]
  },
  {
   "slug": "party-rentals-sussex-nb",
@@ -5991,7 +6343,13 @@
     "href": "/party-rentals-alma-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Sussex (2027)",
+    "href": "/future-attractions-sussex-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-kentville-ns",
@@ -6034,7 +6392,13 @@
   ],
   "ctaHeading": "Book Bouncy Castle Rentals in Kentville",
   "ctaText": "Contact Nova Kingdom Rentals for a fast quote delivered to Kentville and the Annapolis Valley.",
-  "heroText": "Nova Kingdom Rentals delivers bouncy castles, combo inflatables, water slides, lawn games, and full party packages to Kentville and the Annapolis Valley."
+  "heroText": "Nova Kingdom Rentals delivers bouncy castles, combo inflatables, water slides, lawn games, and full party packages to Kentville and the Annapolis Valley.",
+  "links": [
+   {
+    "label": "Future attractions in Kentville (2027)",
+    "href": "/future-attractions-kentville-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-new-minas-ns",
@@ -6077,7 +6441,13 @@
   ],
   "ctaHeading": "Book Bouncy Castle Rentals in New Minas",
   "ctaText": "Contact Nova Kingdom Rentals for a fast quote for New Minas and the Annapolis Valley.",
-  "heroText": "Nova Kingdom Rentals delivers bouncy castles, combo inflatables, water slides, lawn games, and party packages to New Minas and the greater Kentville / Coldbrook area."
+  "heroText": "Nova Kingdom Rentals delivers bouncy castles, combo inflatables, water slides, lawn games, and party packages to New Minas and the greater Kentville / Coldbrook area.",
+  "links": [
+   {
+    "label": "Future attractions in New Minas (2027)",
+    "href": "/future-attractions-new-minas-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-berwick-ns",
@@ -6119,7 +6489,13 @@
   ],
   "ctaHeading": "Book Bouncy Castle Rentals in Berwick",
   "ctaText": "Contact Nova Kingdom Rentals for a fast quote for Berwick and the Annapolis Valley.",
-  "heroText": "Nova Kingdom Rentals delivers bouncy castles, combo inflatables, water slides, and party packages to Berwick and surrounding Annapolis Valley communities."
+  "heroText": "Nova Kingdom Rentals delivers bouncy castles, combo inflatables, water slides, and party packages to Berwick and surrounding Annapolis Valley communities.",
+  "links": [
+   {
+    "label": "Future attractions in Berwick (2027)",
+    "href": "/future-attractions-berwick-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-hantsport-ns",
@@ -6161,7 +6537,13 @@
   ],
   "ctaHeading": "Book Bouncy Castle Rentals in Hantsport",
   "ctaText": "Contact Nova Kingdom Rentals for a fast quote for Hantsport and the Windsor/Valley area.",
-  "heroText": "Hantsport is a small Hants County town on the Avon River with a rich shipbuilding history and community spirit."
+  "heroText": "Hantsport is a small Hants County town on the Avon River with a rich shipbuilding history and community spirit.",
+  "links": [
+   {
+    "label": "Future attractions in Hantsport (2027)",
+    "href": "/future-attractions-hantsport-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-coldbrook-ns",
@@ -6203,7 +6585,13 @@
   ],
   "ctaHeading": "Book Bouncy Castle Rentals in Coldbrook",
   "ctaText": "Contact Nova Kingdom Rentals for a fast quote for Coldbrook and the Annapolis Valley.",
-  "heroText": "Nova Kingdom Rentals delivers bouncy castles, combo inflatables, water slides, and party packages to Coldbrook and the greater New Minas / Kentville area."
+  "heroText": "Nova Kingdom Rentals delivers bouncy castles, combo inflatables, water slides, and party packages to Coldbrook and the greater New Minas / Kentville area.",
+  "links": [
+   {
+    "label": "Future attractions in Coldbrook (2027)",
+    "href": "/future-attractions-coldbrook-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-greenwood-ns",
@@ -6245,7 +6633,13 @@
   ],
   "ctaHeading": "Book Bouncy Castle Rentals in Greenwood",
   "ctaText": "Contact Nova Kingdom Rentals for a fast quote for Greenwood, Kingston, and the Valley.",
-  "heroText": "Nova Kingdom Rentals delivers bouncy castles, combo inflatables, water slides, and party packages to Greenwood, Kingston, and the southern Annapolis Valley."
+  "heroText": "Nova Kingdom Rentals delivers bouncy castles, combo inflatables, water slides, and party packages to Greenwood, Kingston, and the southern Annapolis Valley.",
+  "links": [
+   {
+    "label": "Future attractions in Greenwood (2027)",
+    "href": "/future-attractions-greenwood-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-windsor-ns",
@@ -6288,7 +6682,13 @@
   ],
   "ctaHeading": "Book Inflatable Rentals in Windsor NS",
   "ctaText": "Contact Nova Kingdom Rentals for a fast quote for Windsor and the surrounding Hants County area.",
-  "heroText": "Nova Kingdom Rentals delivers inflatables, bouncy castles, water slides, lawn games, 360 Video Booth, Kids Foam Party, and full party packages to Windsor, Nova Scotia."
+  "heroText": "Nova Kingdom Rentals delivers inflatables, bouncy castles, water slides, lawn games, 360 Video Booth, Kids Foam Party, and full party packages to Windsor, Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in your area (2027)",
+    "href": "/future-attractions-windsor-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-wolfville-ns",
@@ -6331,7 +6731,13 @@
   ],
   "ctaHeading": "Book Inflatable Rentals in Wolfville NS",
   "ctaText": "Contact Nova Kingdom Rentals for a fast quote for Wolfville and the Annapolis Valley.",
-  "heroText": "Nova Kingdom Rentals delivers inflatables, bouncy castles, water slides, lawn games, 360 Video Booth, Kids Foam Party, and full party packages to Wolfville, Nova Scotia."
+  "heroText": "Nova Kingdom Rentals delivers inflatables, bouncy castles, water slides, lawn games, 360 Video Booth, Kids Foam Party, and full party packages to Wolfville, Nova Scotia.",
+  "links": [
+   {
+    "label": "Future attractions in your area (2027)",
+    "href": "/future-attractions-wolfville-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-new-minas-ns",
@@ -6374,7 +6780,13 @@
   ],
   "ctaHeading": "Book Inflatable Rentals in New Minas NS",
   "ctaText": "Contact Nova Kingdom Rentals for a fast quote for New Minas and the Annapolis Valley.",
-  "heroText": "Nova Kingdom Rentals delivers inflatables, bouncy castles, water slides, lawn games, 360 Video Booth, Kids Foam Party, and bundled party packages to New Minas and the Kentville corridor."
+  "heroText": "Nova Kingdom Rentals delivers inflatables, bouncy castles, water slides, lawn games, 360 Video Booth, Kids Foam Party, and bundled party packages to New Minas and the Kentville corridor.",
+  "links": [
+   {
+    "label": "Future attractions in your area (2027)",
+    "href": "/future-attractions-new-minas-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-annapolis-royal-ns",
@@ -6416,7 +6828,13 @@
   ],
   "ctaHeading": "Book Inflatable Rentals in Annapolis Royal NS",
   "ctaText": "Contact Nova Kingdom Rentals for a fast quote for Annapolis Royal and surrounding communities.",
-  "heroText": "Nova Kingdom Rentals delivers inflatables, bouncy castles, water slides, lawn games, 360 Video Booth, and party packages to Annapolis Royal and surrounding communities."
+  "heroText": "Nova Kingdom Rentals delivers inflatables, bouncy castles, water slides, lawn games, 360 Video Booth, and party packages to Annapolis Royal and surrounding communities.",
+  "links": [
+   {
+    "label": "Future attractions in your area (2027)",
+    "href": "/future-attractions-annapolis-royal-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-kentville-ns",
@@ -6460,7 +6878,13 @@
   ],
   "ctaHeading": "Book Party Rentals in Kentville NS",
   "ctaText": "Contact Nova Kingdom Rentals for a custom party package quote for Kentville and the Annapolis Valley.",
-  "heroText": "Nova Kingdom Rentals offers full party rental packages for events in Kentville — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled event packages."
+  "heroText": "Nova Kingdom Rentals offers full party rental packages for events in Kentville — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled event packages.",
+  "links": [
+   {
+    "label": "Future attractions in your area (2027)",
+    "href": "/future-attractions-kentville-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-new-minas-ns",
@@ -6503,7 +6927,13 @@
   ],
   "ctaHeading": "Book Party Rentals in New Minas NS",
   "ctaText": "Contact Nova Kingdom Rentals for a custom party package quote for New Minas and the Valley.",
-  "heroText": "Nova Kingdom Rentals offers full party rental packages for events in New Minas — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled event packages."
+  "heroText": "Nova Kingdom Rentals offers full party rental packages for events in New Minas — inflatables, water slides, interactive games, lawn games, 360 Video Booth, Kids Foam Party, and bundled event packages.",
+  "links": [
+   {
+    "label": "Future attractions in your area (2027)",
+    "href": "/future-attractions-new-minas-ns"
+   }
+  ]
  },
  {
   "slug": "school-event-rentals-kentville-ns",
@@ -6803,7 +7233,13 @@
   ],
   "ctaHeading": "Book Bouncy Castle Rentals in Timberlea NS",
   "ctaText": "Contact Nova Kingdom Rentals for a fast quote for Timberlea and surrounding HRM communities.",
-  "heroText": "Timberlea is a suburban community southwest of Halifax on the St."
+  "heroText": "Timberlea is a suburban community southwest of Halifax on the St.",
+  "links": [
+   {
+    "label": "Future attractions in Timberlea (2027)",
+    "href": "/future-attractions-timberlea-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-hammonds-plains-ns",
@@ -6845,7 +7281,13 @@
   ],
   "ctaHeading": "Book Bouncy Castle Rentals in Hammonds Plains NS",
   "ctaText": "Contact Nova Kingdom Rentals for a fast quote for Hammonds Plains and surrounding HRM communities.",
-  "heroText": "Nova Kingdom Rentals delivers bouncy castles, combo inflatables, water slides, lawn games, and party packages to Hammonds Plains and the surrounding HRM area."
+  "heroText": "Nova Kingdom Rentals delivers bouncy castles, combo inflatables, water slides, lawn games, and party packages to Hammonds Plains and the surrounding HRM area.",
+  "links": [
+   {
+    "label": "Future attractions in Hammonds Plains (2027)",
+    "href": "/future-attractions-hammonds-plains-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-tantallon-ns",
@@ -6887,7 +7329,13 @@
   ],
   "ctaHeading": "Book Bouncy Castle Rentals in Tantallon NS",
   "ctaText": "Contact Nova Kingdom Rentals for a fast quote for Tantallon and surrounding HRM communities.",
-  "heroText": "Nova Kingdom Rentals delivers bouncy castles, combo inflatables, water slides, lawn games, and party packages to Tantallon and the surrounding HRM area."
+  "heroText": "Nova Kingdom Rentals delivers bouncy castles, combo inflatables, water slides, lawn games, and party packages to Tantallon and the surrounding HRM area.",
+  "links": [
+   {
+    "label": "Future attractions in Tantallon (2027)",
+    "href": "/future-attractions-tantallon-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-hubbards-ns",
@@ -6930,7 +7378,13 @@
   ],
   "ctaHeading": "Book Inflatable Rentals in Hubbards NS",
   "ctaText": "Contact Nova Kingdom Rentals for a fast quote for Hubbards and the South Shore.",
-  "heroText": "Nova Kingdom Rentals delivers inflatables, bouncy castles, water slides, lawn games, 360 Video Booth, and party packages to Hubbards and the St."
+  "heroText": "Nova Kingdom Rentals delivers inflatables, bouncy castles, water slides, lawn games, 360 Video Booth, and party packages to Hubbards and the St.",
+  "links": [
+   {
+    "label": "Future attractions in your area (2027)",
+    "href": "/future-attractions-hubbards-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-new-ross-ns",
@@ -6972,7 +7426,13 @@
   ],
   "ctaHeading": "Book Inflatable Rentals in New Ross NS",
   "ctaText": "Contact Nova Kingdom Rentals for a fast quote for New Ross and surrounding communities.",
-  "heroText": "Nova Kingdom Rentals delivers inflatables, bouncy castles, lawn games, and party packages to New Ross and surrounding inland communities."
+  "heroText": "Nova Kingdom Rentals delivers inflatables, bouncy castles, lawn games, and party packages to New Ross and surrounding inland communities.",
+  "links": [
+   {
+    "label": "Future attractions in your area (2027)",
+    "href": "/future-attractions-new-ross-ns"
+   }
+  ]
  },
  {
   "slug": "tables-and-chairs",
@@ -22542,7 +23002,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Moncton",
   "ctaText": "Send your event date, address in Moncton, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Moncton NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Moncton NB.",
+  "links": [
+   {
+    "label": "Future attractions in Moncton (2027)",
+    "href": "/future-attractions-moncton-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-fredericton-nb",
@@ -22584,7 +23050,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Fredericton",
   "ctaText": "Send your event date, address in Fredericton, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Fredericton NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Fredericton NB.",
+  "links": [
+   {
+    "label": "Future attractions in Fredericton (2027)",
+    "href": "/future-attractions-fredericton-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-saint-john-nb",
@@ -22626,7 +23098,13 @@
   ],
   "ctaHeading": "Check availability for your Saint John event",
   "ctaText": "Send your event date, address in Saint John, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Saint John NB and surrounding New Brunswick."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Saint John NB and surrounding New Brunswick.",
+  "links": [
+   {
+    "label": "Future attractions in Saint John (2027)",
+    "href": "/future-attractions-saint-john-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-saint-john-nb",
@@ -22668,7 +23146,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Saint John",
   "ctaText": "Send your event date, address in Saint John, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Saint John NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Saint John NB.",
+  "links": [
+   {
+    "label": "Future attractions in Saint John (2027)",
+    "href": "/future-attractions-saint-john-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-sackville-nb",
@@ -22710,7 +23194,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Sackville",
   "ctaText": "Send your event date, address in Sackville, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Sackville NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Sackville NB.",
+  "links": [
+   {
+    "label": "Future attractions in Sackville (2027)",
+    "href": "/future-attractions-sackville-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-sussex-nb",
@@ -22752,7 +23242,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Sussex",
   "ctaText": "Send your event date, address in Sussex, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Sussex NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Sussex NB.",
+  "links": [
+   {
+    "label": "Future attractions in Sussex (2027)",
+    "href": "/future-attractions-sussex-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-riverview-nb",
@@ -22794,7 +23290,13 @@
   ],
   "ctaHeading": "Check availability for your Riverview event",
   "ctaText": "Send your event date, address in Riverview, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Riverview NB and surrounding New Brunswick."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Riverview NB and surrounding New Brunswick.",
+  "links": [
+   {
+    "label": "Future attractions in Riverview (2027)",
+    "href": "/future-attractions-riverview-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-riverview-nb",
@@ -22836,7 +23338,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Riverview",
   "ctaText": "Send your event date, address in Riverview, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Riverview NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Riverview NB.",
+  "links": [
+   {
+    "label": "Future attractions in Riverview (2027)",
+    "href": "/future-attractions-riverview-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-dieppe-nb",
@@ -22878,7 +23386,13 @@
   ],
   "ctaHeading": "Check availability for your Dieppe event",
   "ctaText": "Send your event date, address in Dieppe, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Dieppe NB and surrounding New Brunswick."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Dieppe NB and surrounding New Brunswick.",
+  "links": [
+   {
+    "label": "Future attractions in Dieppe (2027)",
+    "href": "/future-attractions-dieppe-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-dieppe-nb",
@@ -22920,7 +23434,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Dieppe",
   "ctaText": "Send your event date, address in Dieppe, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Dieppe NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Dieppe NB.",
+  "links": [
+   {
+    "label": "Future attractions in Dieppe (2027)",
+    "href": "/future-attractions-dieppe-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-bathurst-nb",
@@ -22962,7 +23482,13 @@
   ],
   "ctaHeading": "Check availability for your Bathurst event",
   "ctaText": "Send your event date, address in Bathurst, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Bathurst NB and surrounding New Brunswick."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Bathurst NB and surrounding New Brunswick.",
+  "links": [
+   {
+    "label": "Future attractions in Bathurst (2027)",
+    "href": "/future-attractions-bathurst-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-bathurst-nb",
@@ -23004,7 +23530,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Bathurst",
   "ctaText": "Send your event date, address in Bathurst, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Bathurst NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Bathurst NB.",
+  "links": [
+   {
+    "label": "Future attractions in Bathurst (2027)",
+    "href": "/future-attractions-bathurst-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-miramichi-nb",
@@ -23046,7 +23578,13 @@
   ],
   "ctaHeading": "Check availability for your Miramichi event",
   "ctaText": "Send your event date, address in Miramichi, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Miramichi NB and surrounding New Brunswick."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Miramichi NB and surrounding New Brunswick.",
+  "links": [
+   {
+    "label": "Future attractions in Miramichi (2027)",
+    "href": "/future-attractions-miramichi-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-miramichi-nb",
@@ -23088,7 +23626,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Miramichi",
   "ctaText": "Send your event date, address in Miramichi, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Miramichi NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Miramichi NB.",
+  "links": [
+   {
+    "label": "Future attractions in Miramichi (2027)",
+    "href": "/future-attractions-miramichi-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-edmundston-nb",
@@ -23130,7 +23674,13 @@
   ],
   "ctaHeading": "Check availability for your Edmundston event",
   "ctaText": "Send your event date, address in Edmundston, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Edmundston NB and surrounding New Brunswick."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Edmundston NB and surrounding New Brunswick.",
+  "links": [
+   {
+    "label": "Future attractions in Edmundston (2027)",
+    "href": "/future-attractions-edmundston-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-edmundston-nb",
@@ -23172,7 +23722,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Edmundston",
   "ctaText": "Send your event date, address in Edmundston, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Edmundston NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Edmundston NB.",
+  "links": [
+   {
+    "label": "Future attractions in Edmundston (2027)",
+    "href": "/future-attractions-edmundston-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-campbellton-nb",
@@ -23214,7 +23770,13 @@
   ],
   "ctaHeading": "Check availability for your Campbellton event",
   "ctaText": "Send your event date, address in Campbellton, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Campbellton NB and surrounding New Brunswick."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Campbellton NB and surrounding New Brunswick.",
+  "links": [
+   {
+    "label": "Future attractions in Campbellton (2027)",
+    "href": "/future-attractions-campbellton-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-campbellton-nb",
@@ -23256,7 +23818,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Campbellton",
   "ctaText": "Send your event date, address in Campbellton, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Campbellton NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Campbellton NB.",
+  "links": [
+   {
+    "label": "Future attractions in Campbellton (2027)",
+    "href": "/future-attractions-campbellton-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-woodstock-nb",
@@ -23298,7 +23866,13 @@
   ],
   "ctaHeading": "Check availability for your Woodstock event",
   "ctaText": "Send your event date, address in Woodstock, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Woodstock NB and surrounding New Brunswick."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Woodstock NB and surrounding New Brunswick.",
+  "links": [
+   {
+    "label": "Future attractions in Woodstock (2027)",
+    "href": "/future-attractions-woodstock-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-woodstock-nb",
@@ -23340,7 +23914,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Woodstock",
   "ctaText": "Send your event date, address in Woodstock, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Woodstock NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Woodstock NB.",
+  "links": [
+   {
+    "label": "Future attractions in Woodstock (2027)",
+    "href": "/future-attractions-woodstock-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-oromocto-nb",
@@ -23382,7 +23962,13 @@
   ],
   "ctaHeading": "Check availability for your Oromocto event",
   "ctaText": "Send your event date, address in Oromocto, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Oromocto NB and surrounding New Brunswick."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Oromocto NB and surrounding New Brunswick.",
+  "links": [
+   {
+    "label": "Future attractions in Oromocto (2027)",
+    "href": "/future-attractions-oromocto-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-oromocto-nb",
@@ -23424,7 +24010,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Oromocto",
   "ctaText": "Send your event date, address in Oromocto, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Oromocto NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Oromocto NB.",
+  "links": [
+   {
+    "label": "Future attractions in Oromocto (2027)",
+    "href": "/future-attractions-oromocto-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-quispamsis-nb",
@@ -23466,7 +24058,13 @@
   ],
   "ctaHeading": "Check availability for your Quispamsis event",
   "ctaText": "Send your event date, address in Quispamsis, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Quispamsis NB and surrounding New Brunswick."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Quispamsis NB and surrounding New Brunswick.",
+  "links": [
+   {
+    "label": "Future attractions in Quispamsis (2027)",
+    "href": "/future-attractions-quispamsis-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-quispamsis-nb",
@@ -23508,7 +24106,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Quispamsis",
   "ctaText": "Send your event date, address in Quispamsis, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Quispamsis NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Quispamsis NB.",
+  "links": [
+   {
+    "label": "Future attractions in Quispamsis (2027)",
+    "href": "/future-attractions-quispamsis-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-rothesay-nb",
@@ -23550,7 +24154,13 @@
   ],
   "ctaHeading": "Check availability for your Rothesay event",
   "ctaText": "Send your event date, address in Rothesay, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Rothesay NB and surrounding New Brunswick."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Rothesay NB and surrounding New Brunswick.",
+  "links": [
+   {
+    "label": "Future attractions in Rothesay (2027)",
+    "href": "/future-attractions-rothesay-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-rothesay-nb",
@@ -23592,7 +24202,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Rothesay",
   "ctaText": "Send your event date, address in Rothesay, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Rothesay NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Rothesay NB.",
+  "links": [
+   {
+    "label": "Future attractions in Rothesay (2027)",
+    "href": "/future-attractions-rothesay-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-tracadie-nb",
@@ -23634,7 +24250,13 @@
   ],
   "ctaHeading": "Check availability for your Tracadie event",
   "ctaText": "Send your event date, address in Tracadie, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Tracadie NB and surrounding New Brunswick."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Tracadie NB and surrounding New Brunswick.",
+  "links": [
+   {
+    "label": "Future attractions in Tracadie (2027)",
+    "href": "/future-attractions-tracadie-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-tracadie-nb",
@@ -23676,7 +24298,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Tracadie",
   "ctaText": "Send your event date, address in Tracadie, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Tracadie NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Tracadie NB.",
+  "links": [
+   {
+    "label": "Future attractions in Tracadie (2027)",
+    "href": "/future-attractions-tracadie-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-caraquet-nb",
@@ -23718,7 +24346,13 @@
   ],
   "ctaHeading": "Check availability for your Caraquet event",
   "ctaText": "Send your event date, address in Caraquet, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Caraquet NB and surrounding New Brunswick."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Caraquet NB and surrounding New Brunswick.",
+  "links": [
+   {
+    "label": "Future attractions in Caraquet (2027)",
+    "href": "/future-attractions-caraquet-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-caraquet-nb",
@@ -23760,7 +24394,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Caraquet",
   "ctaText": "Send your event date, address in Caraquet, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Caraquet NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Caraquet NB.",
+  "links": [
+   {
+    "label": "Future attractions in Caraquet (2027)",
+    "href": "/future-attractions-caraquet-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-st-stephen-nb",
@@ -23802,7 +24442,13 @@
   ],
   "ctaHeading": "Check availability for your St. Stephen event",
   "ctaText": "Send your event date, address in St. Stephen, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in St."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in St.",
+  "links": [
+   {
+    "label": "Future attractions in St. Stephen (2027)",
+    "href": "/future-attractions-st-stephen-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-st-stephen-nb",
@@ -23844,7 +24490,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in St. Stephen",
   "ctaText": "Send your event date, address in St. Stephen, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in St."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in St.",
+  "links": [
+   {
+    "label": "Future attractions in St. Stephen (2027)",
+    "href": "/future-attractions-st-stephen-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-grand-bay-westfield-nb",
@@ -23886,7 +24538,13 @@
   ],
   "ctaHeading": "Check availability for your Grand Bay-Westfield event",
   "ctaText": "Send your event date, address in Grand Bay-Westfield, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Grand Bay-Westfield NB and."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Grand Bay-Westfield NB and.",
+  "links": [
+   {
+    "label": "Future attractions in Grand Bay-Westfield (2027)",
+    "href": "/future-attractions-grand-bay-westfield-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-grand-bay-westfield-nb",
@@ -23928,7 +24586,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Grand Bay-Westfield",
   "ctaText": "Send your event date, address in Grand Bay-Westfield, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Grand Bay-Westfield NB."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Grand Bay-Westfield NB.",
+  "links": [
+   {
+    "label": "Future attractions in Grand Bay-Westfield (2027)",
+    "href": "/future-attractions-grand-bay-westfield-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-charlottetown-pei",
@@ -23970,7 +24634,13 @@
   ],
   "ctaHeading": "Check availability for your Charlottetown event",
   "ctaText": "Send your event date, address in Charlottetown, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Charlottetown PEI and surrounding communities."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Charlottetown PEI and surrounding communities.",
+  "links": [
+   {
+    "label": "Future attractions in Charlottetown (2027)",
+    "href": "/future-attractions-charlottetown-pei"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-charlottetown-pei",
@@ -24012,7 +24682,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Charlottetown",
   "ctaText": "Send your event date, address in Charlottetown, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Charlottetown PEI."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Charlottetown PEI.",
+  "links": [
+   {
+    "label": "Future attractions in Charlottetown (2027)",
+    "href": "/future-attractions-charlottetown-pei"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-summerside-pei",
@@ -24054,7 +24730,13 @@
   ],
   "ctaHeading": "Check availability for your Summerside event",
   "ctaText": "Send your event date, address in Summerside, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Summerside PEI and surrounding communities."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Summerside PEI and surrounding communities.",
+  "links": [
+   {
+    "label": "Future attractions in Summerside (2027)",
+    "href": "/future-attractions-summerside-pei"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-summerside-pei",
@@ -24096,7 +24778,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Summerside",
   "ctaText": "Send your event date, address in Summerside, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Summerside PEI."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Summerside PEI.",
+  "links": [
+   {
+    "label": "Future attractions in Summerside (2027)",
+    "href": "/future-attractions-summerside-pei"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-stratford-pei",
@@ -24138,7 +24826,13 @@
   ],
   "ctaHeading": "Check availability for your Stratford event",
   "ctaText": "Send your event date, address in Stratford, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Stratford PEI and surrounding communities."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Stratford PEI and surrounding communities.",
+  "links": [
+   {
+    "label": "Future attractions in Stratford (2027)",
+    "href": "/future-attractions-stratford-pei"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-stratford-pei",
@@ -24180,7 +24874,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Stratford",
   "ctaText": "Send your event date, address in Stratford, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Stratford PEI."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Stratford PEI.",
+  "links": [
+   {
+    "label": "Future attractions in Stratford (2027)",
+    "href": "/future-attractions-stratford-pei"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-cornwall-pei",
@@ -24222,7 +24922,13 @@
   ],
   "ctaHeading": "Check availability for your Cornwall event",
   "ctaText": "Send your event date, address in Cornwall, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Cornwall PEI and surrounding communities."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Cornwall PEI and surrounding communities.",
+  "links": [
+   {
+    "label": "Future attractions in Cornwall (2027)",
+    "href": "/future-attractions-cornwall-pei"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-cornwall-pei",
@@ -24264,7 +24970,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Cornwall",
   "ctaText": "Send your event date, address in Cornwall, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Cornwall PEI."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Cornwall PEI.",
+  "links": [
+   {
+    "label": "Future attractions in Cornwall (2027)",
+    "href": "/future-attractions-cornwall-pei"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-montague-pei",
@@ -24306,7 +25018,13 @@
   ],
   "ctaHeading": "Check availability for your Montague event",
   "ctaText": "Send your event date, address in Montague, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Montague PEI and surrounding communities."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Montague PEI and surrounding communities.",
+  "links": [
+   {
+    "label": "Future attractions in Montague (2027)",
+    "href": "/future-attractions-montague-pei"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-montague-pei",
@@ -24348,7 +25066,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Montague",
   "ctaText": "Send your event date, address in Montague, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Montague PEI."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Montague PEI.",
+  "links": [
+   {
+    "label": "Future attractions in Montague (2027)",
+    "href": "/future-attractions-montague-pei"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-kensington-pei",
@@ -24390,7 +25114,13 @@
   ],
   "ctaHeading": "Check availability for your Kensington event",
   "ctaText": "Send your event date, address in Kensington, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Kensington PEI and surrounding communities."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Kensington PEI and surrounding communities.",
+  "links": [
+   {
+    "label": "Future attractions in Kensington (2027)",
+    "href": "/future-attractions-kensington-pei"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-kensington-pei",
@@ -24432,7 +25162,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Kensington",
   "ctaText": "Send your event date, address in Kensington, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Kensington PEI."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Kensington PEI.",
+  "links": [
+   {
+    "label": "Future attractions in Kensington (2027)",
+    "href": "/future-attractions-kensington-pei"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-souris-pei",
@@ -24474,7 +25210,13 @@
   ],
   "ctaHeading": "Check availability for your Souris event",
   "ctaText": "Send your event date, address in Souris, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Souris PEI and surrounding Prince."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Souris PEI and surrounding Prince.",
+  "links": [
+   {
+    "label": "Future attractions in Souris (2027)",
+    "href": "/future-attractions-souris-pei"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-souris-pei",
@@ -24516,7 +25258,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Souris",
   "ctaText": "Send your event date, address in Souris, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Souris PEI."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Souris PEI.",
+  "links": [
+   {
+    "label": "Future attractions in Souris (2027)",
+    "href": "/future-attractions-souris-pei"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-alberton-pei",
@@ -24558,7 +25306,13 @@
   ],
   "ctaHeading": "Check availability for your Alberton event",
   "ctaText": "Send your event date, address in Alberton, and details. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Alberton PEI and surrounding communities."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals, inflatable rentals, water slides, interactive games, lawn games, and party packages for events in Alberton PEI and surrounding communities.",
+  "links": [
+   {
+    "label": "Future attractions in Alberton (2027)",
+    "href": "/future-attractions-alberton-pei"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-alberton-pei",
@@ -24600,7 +25354,13 @@
   ],
   "ctaHeading": "Book a bouncy castle in Alberton",
   "ctaText": "Send your event date, address in Alberton, and inflatable choice. We'll confirm availability, travel cost, and deposit requirements.",
-  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Alberton PEI."
+  "heroText": "Nova Kingdom Rentals offers bouncy castle rentals for events in Alberton PEI.",
+  "links": [
+   {
+    "label": "Future attractions in Alberton (2027)",
+    "href": "/future-attractions-alberton-pei"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-mahone-bay-ns",
@@ -24646,7 +25406,13 @@
   ],
   "ctaHeading": "Check availability for your Mahone Bay NS event",
   "ctaText": "Send your event date, address in Mahone Bay NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Mahone Bay NS — a charming waterfront village famous for its three churches and artisan community on Mahone Bay — with bouncy castle rentals."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Mahone Bay NS — a charming waterfront village famous for its three churches and artisan community on Mahone Bay — with bouncy castle rentals.",
+  "links": [
+   {
+    "label": "Future attractions in Mahone Bay (2027)",
+    "href": "/future-attractions-mahone-bay-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-chester-ns",
@@ -24692,7 +25458,13 @@
   ],
   "ctaHeading": "Check availability for your Chester NS event",
   "ctaText": "Send your event date, address in Chester NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Chester NS — a picturesque sailing village and summer community on the shores of Mahone Bay — with bouncy castle rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Chester NS — a picturesque sailing village and summer community on the shores of Mahone Bay — with bouncy castle rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Chester (2027)",
+    "href": "/future-attractions-chester-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-liverpool-ns",
@@ -24738,7 +25510,13 @@
   ],
   "ctaHeading": "Check availability for your Liverpool NS event",
   "ctaText": "Send your event date, address in Liverpool NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Liverpool NS — a historic South Shore town at the mouth of the Mersey River, once a privateering hub — with bouncy castle rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Liverpool NS — a historic South Shore town at the mouth of the Mersey River, once a privateering hub — with bouncy castle rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Liverpool (2027)",
+    "href": "/future-attractions-liverpool-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-milton-ns",
@@ -24784,7 +25562,13 @@
   ],
   "ctaHeading": "Check availability for your Milton NS event",
   "ctaText": "Send your event date, address in Milton NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Milton NS — a small community on the Mersey River adjacent to Liverpool — with bouncy castle rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Milton NS — a small community on the Mersey River adjacent to Liverpool — with bouncy castle rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Milton (2027)",
+    "href": "/future-attractions-milton-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-caledonia-ns",
@@ -24830,7 +25614,13 @@
   ],
   "ctaHeading": "Check availability for your Caledonia NS event",
   "ctaText": "Send your event date, address in Caledonia NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Caledonia NS — a rural Queens County community in the heart of Nova Scotia's interior forests — with bouncy castle rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Caledonia NS — a rural Queens County community in the heart of Nova Scotia's interior forests — with bouncy castle rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Caledonia (2027)",
+    "href": "/future-attractions-caledonia-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-lockeport-ns",
@@ -24876,7 +25666,13 @@
   ],
   "ctaHeading": "Check availability for your Lockeport NS event",
   "ctaText": "Send your event date, address in Lockeport NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Lockeport NS — a coastal South Shore town known for its sandy beaches and lobster fishing — with bouncy castle rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Lockeport NS — a coastal South Shore town known for its sandy beaches and lobster fishing — with bouncy castle rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Lockeport (2027)",
+    "href": "/future-attractions-lockeport-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-barrington-ns",
@@ -24922,7 +25718,13 @@
   ],
   "ctaHeading": "Check availability for your Barrington NS event",
   "ctaText": "Send your event date, address in Barrington NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Barrington NS — a small Shelburne County community known for its wool industry museum and coastal character — with bouncy castle rentals."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Barrington NS — a small Shelburne County community known for its wool industry museum and coastal character — with bouncy castle rentals.",
+  "links": [
+   {
+    "label": "Future attractions in Barrington (2027)",
+    "href": "/future-attractions-barrington-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-yarmouth-ns",
@@ -24968,7 +25770,13 @@
   ],
   "ctaHeading": "Check availability for your Yarmouth NS event",
   "ctaText": "Send your event date, address in Yarmouth NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Yarmouth NS — a major Southwest Nova ferry gateway and commercial centre — with bouncy castle rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Yarmouth NS — a major Southwest Nova ferry gateway and commercial centre — with bouncy castle rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Yarmouth (2027)",
+    "href": "/future-attractions-yarmouth-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-digby-ns",
@@ -25014,7 +25822,13 @@
   ],
   "ctaHeading": "Check availability for your Digby NS event",
   "ctaText": "Send your event date, address in Digby NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and provides bouncy castle rentals for Digby NS, a famous for its scallop fleet and the world's largest tidal bore, gateway to the Annapolis Valley by ferry."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and provides bouncy castle rentals for Digby NS, a famous for its scallop fleet and the world's largest tidal bore, gateway to the Annapolis Valley by ferry.",
+  "links": [
+   {
+    "label": "Future attractions in Digby (2027)",
+    "href": "/future-attractions-digby-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-truro-ns",
@@ -25060,7 +25874,13 @@
   ],
   "ctaHeading": "Check availability for your Truro NS event",
   "ctaText": "Send your event date, address in Truro NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals provides bouncy castle rentals to Truro NS — the Hub of Nova Scotia at the convergence of major highways, a key commercial crossroads — from our Bridgewater base."
+  "heroText": "Nova Kingdom Rentals provides bouncy castle rentals to Truro NS — the Hub of Nova Scotia at the convergence of major highways, a key commercial crossroads — from our Bridgewater base.",
+  "links": [
+   {
+    "label": "Future attractions in Truro (2027)",
+    "href": "/future-attractions-truro-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-springhill-ns",
@@ -25106,7 +25926,13 @@
   ],
   "ctaHeading": "Check availability for your Springhill NS event",
   "ctaText": "Send your event date, address in Springhill NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals provides bouncy castle rentals to Springhill NS — a Cumberland County town known for its coal mining history and the Anne Murray Centre — from our Bridgewater base."
+  "heroText": "Nova Kingdom Rentals provides bouncy castle rentals to Springhill NS — a Cumberland County town known for its coal mining history and the Anne Murray Centre — from our Bridgewater base.",
+  "links": [
+   {
+    "label": "Future attractions in Springhill (2027)",
+    "href": "/future-attractions-springhill-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-oxford-ns",
@@ -25152,7 +25978,13 @@
   ],
   "ctaHeading": "Check availability for your Oxford NS event",
   "ctaText": "Send your event date, address in Oxford NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals provides bouncy castle rentals to Oxford NS — the Wild Blueberry Capital of Canada in Cumberland County — from our Bridgewater base."
+  "heroText": "Nova Kingdom Rentals provides bouncy castle rentals to Oxford NS — the Wild Blueberry Capital of Canada in Cumberland County — from our Bridgewater base.",
+  "links": [
+   {
+    "label": "Future attractions in Oxford (2027)",
+    "href": "/future-attractions-oxford-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-stewiacke-ns",
@@ -25198,7 +26030,13 @@
   ],
   "ctaHeading": "Check availability for your Stewiacke NS event",
   "ctaText": "Send your event date, address in Stewiacke NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals provides bouncy castle rentals to Stewiacke NS — a small Colchester County town on the Stewiacke River known for its dinosaur fossil discoveries — from our Bridgewater base."
+  "heroText": "Nova Kingdom Rentals provides bouncy castle rentals to Stewiacke NS — a small Colchester County town on the Stewiacke River known for its dinosaur fossil discoveries — from our Bridgewater base.",
+  "links": [
+   {
+    "label": "Future attractions in Stewiacke (2027)",
+    "href": "/future-attractions-stewiacke-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-sydney-mines-ns",
@@ -25244,7 +26082,13 @@
   ],
   "ctaHeading": "Check availability for your Sydney Mines NS event",
   "ctaText": "Send your event date, address in Sydney Mines NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers bouncy castle rentals to Sydney Mines NS, a Cape Breton community near the Cabot Strait known for its industrial heritage."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers bouncy castle rentals to Sydney Mines NS, a Cape Breton community near the Cabot Strait known for its industrial heritage.",
+  "links": [
+   {
+    "label": "Future attractions in Sydney Mines (2027)",
+    "href": "/future-attractions-sydney-mines-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-halifax-ns",
@@ -25401,6 +26245,10 @@
    {
     "label": "Halifax Tent Rentals",
     "href": "/tent-rentals-halifax-ns"
+   },
+   {
+    "label": "Future attractions in Halifax (2027)",
+    "href": "/future-attractions-halifax-ns"
    }
   ]
  },
@@ -25448,7 +26296,13 @@
   ],
   "ctaHeading": "Check availability for your Sackville NS event",
   "ctaText": "Send your event date, address in Sackville NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Sackville NS — a major residential and commercial corridor in the heart of HRM — with bouncy castle rentals, inflatables, foam parties, lawn games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Sackville NS — a major residential and commercial corridor in the heart of HRM — with bouncy castle rentals, inflatables, foam parties, lawn games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Sackville (2027)",
+    "href": "/future-attractions-sackville-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-elmsdale-ns",
@@ -25494,7 +26348,13 @@
   ],
   "ctaHeading": "Check availability for your Elmsdale NS event",
   "ctaText": "Send your event date, address in Elmsdale NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Elmsdale NS — a East Hants commercial hub and fast-growing community near Highway 102 — with bouncy castle rentals, inflatables, foam parties, lawn games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Elmsdale NS — a East Hants commercial hub and fast-growing community near Highway 102 — with bouncy castle rentals, inflatables, foam parties, lawn games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Elmsdale (2027)",
+    "href": "/future-attractions-elmsdale-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-enfield-ns",
@@ -25540,7 +26400,13 @@
   ],
   "ctaHeading": "Check availability for your Enfield NS event",
   "ctaText": "Send your event date, address in Enfield NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Enfield NS — a gateway community to East Hants along the Shubenacadie River — with bouncy castle rentals, inflatables, foam parties, lawn games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Enfield NS — a gateway community to East Hants along the Shubenacadie River — with bouncy castle rentals, inflatables, foam parties, lawn games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Enfield (2027)",
+    "href": "/future-attractions-enfield-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-musquodoboit-harbour-ns",
@@ -25586,7 +26452,13 @@
   ],
   "ctaHeading": "Check availability for your Musquodoboit Harbour NS event",
   "ctaText": "Send your event date, address in Musquodoboit Harbour NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Musquodoboit Harbour NS — a rural Eastern Shore community on a tidal estuary with a strong fishing and farming character — with bouncy castle."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Musquodoboit Harbour NS — a rural Eastern Shore community on a tidal estuary with a strong fishing and farming character — with bouncy castle.",
+  "links": [
+   {
+    "label": "Future attractions in Musquodoboit Harbour (2027)",
+    "href": "/future-attractions-musquodoboit-harbour-ns"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-shediac-nb",
@@ -25632,7 +26504,13 @@
   ],
   "ctaHeading": "Enquire about bouncy castle rentals for your Shediac NB event",
   "ctaText": "Send your event date, location in Shediac NB, event type, expected attendance, and rental preferences. We will review feasibility, travel logistics, and cost, then get back to you with availability and a quote.",
-  "heroText": "Shediac, the Lobster Capital of the World, is a beloved summer destination on New Brunswick's Northumberland Strait, famous for its warm beaches and seafood festivals."
+  "heroText": "Shediac, the Lobster Capital of the World, is a beloved summer destination on New Brunswick's Northumberland Strait, famous for its warm beaches and seafood festivals.",
+  "links": [
+   {
+    "label": "Future attractions in Shediac (2027)",
+    "href": "/future-attractions-shediac-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-amherst-sackville-area-nb",
@@ -25724,7 +26602,13 @@
   ],
   "ctaHeading": "Enquire about bouncy castle rentals for your Grand Falls NB event",
   "ctaText": "Send your event date, location in Grand Falls NB, event type, expected attendance, and rental preferences. We will review feasibility, travel logistics, and cost, then get back to you with availability and a quote.",
-  "heroText": "Grand Falls is a bilingual New Brunswick community on the Saint John River, known for the impressive Grand Falls Gorge and its hydro-electric history."
+  "heroText": "Grand Falls is a bilingual New Brunswick community on the Saint John River, known for the impressive Grand Falls Gorge and its hydro-electric history.",
+  "links": [
+   {
+    "label": "Future attractions in Grand Falls (2027)",
+    "href": "/future-attractions-grand-falls-nb"
+   }
+  ]
  },
  {
   "slug": "bouncy-castle-rentals-o-leary-pei",
@@ -25770,7 +26654,13 @@
   ],
   "ctaHeading": "Enquire about bouncy castle rentals for your O'Leary PEI event",
   "ctaText": "Send your event date, location in O'Leary PEI, event type, expected attendance, and rental preferences. We will review feasibility, travel logistics, and cost, then get back to you with availability and a quote.",
-  "heroText": "O'Leary is a small western PEI community at the heart of Prince County's potato-growing region, home to the Canadian Potato Museum."
+  "heroText": "O'Leary is a small western PEI community at the heart of Prince County's potato-growing region, home to the Canadian Potato Museum.",
+  "links": [
+   {
+    "label": "Future attractions in O'Leary (2027)",
+    "href": "/future-attractions-o-leary-pei"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-bridgewater-ns",
@@ -25817,7 +26707,13 @@
   ],
   "ctaHeading": "Check availability for your Bridgewater NS event",
   "ctaText": "Send your event date, address in Bridgewater NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Bridgewater NS — a South Shore commercial hub at the mouth of the LaHave River — with inflatable rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Bridgewater NS — a South Shore commercial hub at the mouth of the LaHave River — with inflatable rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Bridgewater (2027)",
+    "href": "/future-attractions-bridgewater-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-lunenburg-ns",
@@ -25864,7 +26760,13 @@
   ],
   "ctaHeading": "Check availability for your Lunenburg NS event",
   "ctaText": "Send your event date, address in Lunenburg NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Lunenburg NS — a UNESCO World Heritage town known for its colourful architecture and fishing heritage on the South Shore — with inflatable."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Lunenburg NS — a UNESCO World Heritage town known for its colourful architecture and fishing heritage on the South Shore — with inflatable.",
+  "links": [
+   {
+    "label": "Future attractions in Lunenburg (2027)",
+    "href": "/future-attractions-lunenburg-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-chester-ns",
@@ -25911,7 +26813,13 @@
   ],
   "ctaHeading": "Check availability for your Chester NS event",
   "ctaText": "Send your event date, address in Chester NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Chester NS — a picturesque sailing village and summer community on the shores of Mahone Bay — with inflatable rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Chester NS — a picturesque sailing village and summer community on the shores of Mahone Bay — with inflatable rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Chester (2027)",
+    "href": "/future-attractions-chester-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-liverpool-ns",
@@ -25958,7 +26866,13 @@
   ],
   "ctaHeading": "Check availability for your Liverpool NS event",
   "ctaText": "Send your event date, address in Liverpool NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Liverpool NS — a historic South Shore town at the mouth of the Mersey River, once a privateering hub — with inflatable rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Liverpool NS — a historic South Shore town at the mouth of the Mersey River, once a privateering hub — with inflatable rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Liverpool (2027)",
+    "href": "/future-attractions-liverpool-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-milton-ns",
@@ -26005,7 +26919,13 @@
   ],
   "ctaHeading": "Check availability for your Milton NS event",
   "ctaText": "Send your event date, address in Milton NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Milton NS — a small community on the Mersey River adjacent to Liverpool — with inflatable rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Milton NS — a small community on the Mersey River adjacent to Liverpool — with inflatable rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Milton (2027)",
+    "href": "/future-attractions-milton-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-caledonia-ns",
@@ -26052,7 +26972,13 @@
   ],
   "ctaHeading": "Check availability for your Caledonia NS event",
   "ctaText": "Send your event date, address in Caledonia NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Caledonia NS — a rural Queens County community in the heart of Nova Scotia's interior forests — with inflatable rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Caledonia NS — a rural Queens County community in the heart of Nova Scotia's interior forests — with inflatable rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Caledonia (2027)",
+    "href": "/future-attractions-caledonia-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-lockeport-ns",
@@ -26099,7 +27025,13 @@
   ],
   "ctaHeading": "Check availability for your Lockeport NS event",
   "ctaText": "Send your event date, address in Lockeport NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Lockeport NS — a coastal South Shore town known for its sandy beaches and lobster fishing — with inflatable rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Lockeport NS — a coastal South Shore town known for its sandy beaches and lobster fishing — with inflatable rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Lockeport (2027)",
+    "href": "/future-attractions-lockeport-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-shelburne-ns",
@@ -26146,7 +27078,13 @@
   ],
   "ctaHeading": "Check availability for your Shelburne NS event",
   "ctaText": "Send your event date, address in Shelburne NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Shelburne NS — a historic harbour town on one of the world's largest natural harbours, founded by Loyalists in 1783 — with inflatable rentals."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Shelburne NS — a historic harbour town on one of the world's largest natural harbours, founded by Loyalists in 1783 — with inflatable rentals.",
+  "links": [
+   {
+    "label": "Future attractions in Shelburne (2027)",
+    "href": "/future-attractions-shelburne-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-barrington-ns",
@@ -26193,7 +27131,13 @@
   ],
   "ctaHeading": "Check availability for your Barrington NS event",
   "ctaText": "Send your event date, address in Barrington NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Barrington NS — a small Shelburne County community known for its wool industry museum and coastal character — with inflatable rentals."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Barrington NS — a small Shelburne County community known for its wool industry museum and coastal character — with inflatable rentals.",
+  "links": [
+   {
+    "label": "Future attractions in Barrington (2027)",
+    "href": "/future-attractions-barrington-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-digby-ns",
@@ -26240,7 +27184,13 @@
   ],
   "ctaHeading": "Check availability for your Digby NS event",
   "ctaText": "Send your event date, address in Digby NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and provides inflatable rentals for Digby NS, a famous for its scallop fleet and the world's largest tidal bore, gateway to the Annapolis Valley by ferry."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and provides inflatable rentals for Digby NS, a famous for its scallop fleet and the world's largest tidal bore, gateway to the Annapolis Valley by ferry.",
+  "links": [
+   {
+    "label": "Future attractions in Digby (2027)",
+    "href": "/future-attractions-digby-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-middleton-ns",
@@ -26287,7 +27237,13 @@
   ],
   "ctaHeading": "Check availability for your Middleton NS event",
   "ctaText": "Send your event date, address in Middleton NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and provides inflatable rentals for Middleton NS, the heart of the Annapolis Valley apple country, a compact service town on Highway 101."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and provides inflatable rentals for Middleton NS, the heart of the Annapolis Valley apple country, a compact service town on Highway 101.",
+  "links": [
+   {
+    "label": "Future attractions in Middleton (2027)",
+    "href": "/future-attractions-middleton-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-berwick-ns",
@@ -26334,7 +27290,13 @@
   ],
   "ctaHeading": "Check availability for your Berwick NS event",
   "ctaText": "Send your event date, address in Berwick NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and provides inflatable rentals for Berwick NS, the Apple Capital of Canada, a family-focused town in the Annapolis Valley."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and provides inflatable rentals for Berwick NS, the Apple Capital of Canada, a family-focused town in the Annapolis Valley.",
+  "links": [
+   {
+    "label": "Future attractions in Berwick (2027)",
+    "href": "/future-attractions-berwick-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-hantsport-ns",
@@ -26381,7 +27343,13 @@
   ],
   "ctaHeading": "Check availability for your Hantsport NS event",
   "ctaText": "Send your event date, address in Hantsport NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and provides inflatable rentals for Hantsport NS, a small Hants County town on the Avon River known for its shipbuilding history."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and provides inflatable rentals for Hantsport NS, a small Hants County town on the Avon River known for its shipbuilding history.",
+  "links": [
+   {
+    "label": "Future attractions in Hantsport (2027)",
+    "href": "/future-attractions-hantsport-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-new-glasgow-ns",
@@ -26428,7 +27396,13 @@
   ],
   "ctaHeading": "Check availability for your New Glasgow NS event",
   "ctaText": "Send your event date, address in New Glasgow NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals provides inflatable rentals to New Glasgow NS — a major Pictou County industrial and commercial centre on the East River — from our Bridgewater base."
+  "heroText": "Nova Kingdom Rentals provides inflatable rentals to New Glasgow NS — a major Pictou County industrial and commercial centre on the East River — from our Bridgewater base.",
+  "links": [
+   {
+    "label": "Future attractions in New Glasgow (2027)",
+    "href": "/future-attractions-new-glasgow-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-pictou-ns",
@@ -26475,7 +27449,13 @@
   ],
   "ctaHeading": "Check availability for your Pictou NS event",
   "ctaText": "Send your event date, address in Pictou NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals provides inflatable rentals to Pictou NS — the Birthplace of New Scotland on Pictou Harbour, known for its Scottish heritage and lobster — from our Bridgewater base."
+  "heroText": "Nova Kingdom Rentals provides inflatable rentals to Pictou NS — the Birthplace of New Scotland on Pictou Harbour, known for its Scottish heritage and lobster — from our Bridgewater base.",
+  "links": [
+   {
+    "label": "Future attractions in Pictou (2027)",
+    "href": "/future-attractions-pictou-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-amherst-ns",
@@ -26522,7 +27502,13 @@
   ],
   "ctaHeading": "Check availability for your Amherst NS event",
   "ctaText": "Send your event date, address in Amherst NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals provides inflatable rentals to Amherst NS — the gateway to Nova Scotia at the New Brunswick border, overlooking the Tantramar Marshes — from our Bridgewater base."
+  "heroText": "Nova Kingdom Rentals provides inflatable rentals to Amherst NS — the gateway to Nova Scotia at the New Brunswick border, overlooking the Tantramar Marshes — from our Bridgewater base.",
+  "links": [
+   {
+    "label": "Future attractions in Amherst (2027)",
+    "href": "/future-attractions-amherst-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-springhill-ns",
@@ -26569,7 +27555,13 @@
   ],
   "ctaHeading": "Check availability for your Springhill NS event",
   "ctaText": "Send your event date, address in Springhill NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals provides inflatable rentals to Springhill NS — a Cumberland County town known for its coal mining history and the Anne Murray Centre — from our Bridgewater base."
+  "heroText": "Nova Kingdom Rentals provides inflatable rentals to Springhill NS — a Cumberland County town known for its coal mining history and the Anne Murray Centre — from our Bridgewater base.",
+  "links": [
+   {
+    "label": "Future attractions in Springhill (2027)",
+    "href": "/future-attractions-springhill-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-oxford-ns",
@@ -26616,7 +27608,13 @@
   ],
   "ctaHeading": "Check availability for your Oxford NS event",
   "ctaText": "Send your event date, address in Oxford NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals provides inflatable rentals to Oxford NS — the Wild Blueberry Capital of Canada in Cumberland County — from our Bridgewater base."
+  "heroText": "Nova Kingdom Rentals provides inflatable rentals to Oxford NS — the Wild Blueberry Capital of Canada in Cumberland County — from our Bridgewater base.",
+  "links": [
+   {
+    "label": "Future attractions in Oxford (2027)",
+    "href": "/future-attractions-oxford-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-antigonish-ns",
@@ -26663,7 +27661,13 @@
   ],
   "ctaHeading": "Check availability for your Antigonish NS event",
   "ctaText": "Send your event date, address in Antigonish NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals provides inflatable rentals to Antigonish NS — a home to St."
+  "heroText": "Nova Kingdom Rentals provides inflatable rentals to Antigonish NS — a home to St.",
+  "links": [
+   {
+    "label": "Future attractions in Antigonish (2027)",
+    "href": "/future-attractions-antigonish-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-stewiacke-ns",
@@ -26710,7 +27714,13 @@
   ],
   "ctaHeading": "Check availability for your Stewiacke NS event",
   "ctaText": "Send your event date, address in Stewiacke NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals provides inflatable rentals to Stewiacke NS — a small Colchester County town on the Stewiacke River known for its dinosaur fossil discoveries — from our Bridgewater base."
+  "heroText": "Nova Kingdom Rentals provides inflatable rentals to Stewiacke NS — a small Colchester County town on the Stewiacke River known for its dinosaur fossil discoveries — from our Bridgewater base.",
+  "links": [
+   {
+    "label": "Future attractions in Stewiacke (2027)",
+    "href": "/future-attractions-stewiacke-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-port-hawkesbury-ns",
@@ -26757,7 +27767,13 @@
   ],
   "ctaHeading": "Check availability for your Port Hawkesbury NS event",
   "ctaText": "Send your event date, address in Port Hawkesbury NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers inflatable rentals to Port Hawkesbury NS, a industrial and commercial gateway to Cape Breton on the Strait of Canso."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers inflatable rentals to Port Hawkesbury NS, a industrial and commercial gateway to Cape Breton on the Strait of Canso.",
+  "links": [
+   {
+    "label": "Future attractions in Port Hawkesbury (2027)",
+    "href": "/future-attractions-port-hawkesbury-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-sydney-ns",
@@ -26804,7 +27820,13 @@
   ],
   "ctaHeading": "Check availability for your Sydney NS event",
   "ctaText": "Send your event date, address in Sydney NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers inflatable rentals to Sydney NS, a Cape Breton's largest city and cultural heart, home to the world's largest fiddle and Celtic music scene."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers inflatable rentals to Sydney NS, a Cape Breton's largest city and cultural heart, home to the world's largest fiddle and Celtic music scene.",
+  "links": [
+   {
+    "label": "Future attractions in Sydney (2027)",
+    "href": "/future-attractions-sydney-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-glace-bay-ns",
@@ -26851,7 +27873,13 @@
   ],
   "ctaHeading": "Check availability for your Glace Bay NS event",
   "ctaText": "Send your event date, address in Glace Bay NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers inflatable rentals to Glace Bay NS, a historic Cape Breton coal mining community on the Atlantic coast."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers inflatable rentals to Glace Bay NS, a historic Cape Breton coal mining community on the Atlantic coast.",
+  "links": [
+   {
+    "label": "Future attractions in Glace Bay (2027)",
+    "href": "/future-attractions-glace-bay-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-new-waterford-ns",
@@ -26898,7 +27926,13 @@
   ],
   "ctaHeading": "Check availability for your New Waterford NS event",
   "ctaText": "Send your event date, address in New Waterford NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers inflatable rentals to New Waterford NS, a Cape Breton community with deep coal mining roots and a tight-knit community spirit."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers inflatable rentals to New Waterford NS, a Cape Breton community with deep coal mining roots and a tight-knit community spirit.",
+  "links": [
+   {
+    "label": "Future attractions in New Waterford (2027)",
+    "href": "/future-attractions-new-waterford-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-north-sydney-ns",
@@ -26945,7 +27979,13 @@
   ],
   "ctaHeading": "Check availability for your North Sydney NS event",
   "ctaText": "Send your event date, address in North Sydney NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers inflatable rentals to North Sydney NS, a Cape Breton's ferry terminal to Newfoundland, a working harbour community."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers inflatable rentals to North Sydney NS, a Cape Breton's ferry terminal to Newfoundland, a working harbour community.",
+  "links": [
+   {
+    "label": "Future attractions in North Sydney (2027)",
+    "href": "/future-attractions-north-sydney-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-sydney-mines-ns",
@@ -26992,7 +28032,13 @@
   ],
   "ctaHeading": "Check availability for your Sydney Mines NS event",
   "ctaText": "Send your event date, address in Sydney Mines NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers inflatable rentals to Sydney Mines NS, a Cape Breton community near the Cabot Strait known for its industrial heritage."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers inflatable rentals to Sydney Mines NS, a Cape Breton community near the Cabot Strait known for its industrial heritage.",
+  "links": [
+   {
+    "label": "Future attractions in Sydney Mines (2027)",
+    "href": "/future-attractions-sydney-mines-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-baddeck-ns",
@@ -27039,7 +28085,13 @@
   ],
   "ctaHeading": "Check availability for your Baddeck NS event",
   "ctaText": "Send your event date, address in Baddeck NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers inflatable rentals to Baddeck NS, the gateway to the Cabot Trail on the shores of Bras d'Or Lake, where Alexander Graham Bell made his home."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers inflatable rentals to Baddeck NS, the gateway to the Cabot Trail on the shores of Bras d'Or Lake, where Alexander Graham Bell made his home.",
+  "links": [
+   {
+    "label": "Future attractions in Baddeck (2027)",
+    "href": "/future-attractions-baddeck-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-inverness-ns",
@@ -27086,7 +28138,13 @@
   ],
   "ctaHeading": "Check availability for your Inverness NS event",
   "ctaText": "Send your event date, address in Inverness NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers inflatable rentals to Inverness NS, a Cape Breton's golf mecca on the Gulf of St."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers inflatable rentals to Inverness NS, a Cape Breton's golf mecca on the Gulf of St.",
+  "links": [
+   {
+    "label": "Future attractions in Inverness (2027)",
+    "href": "/future-attractions-inverness-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-dartmouth-ns",
@@ -27133,7 +28191,13 @@
   ],
   "ctaHeading": "Check availability for your Dartmouth NS event",
   "ctaText": "Send your event date, address in Dartmouth NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Dartmouth NS — the City of Lakes across the harbour from Halifax, known for its Shubie Canal and vibrant arts scene — with inflatable."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Dartmouth NS — the City of Lakes across the harbour from Halifax, known for its Shubie Canal and vibrant arts scene — with inflatable.",
+  "links": [
+   {
+    "label": "Future attractions in Dartmouth (2027)",
+    "href": "/future-attractions-dartmouth-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-bedford-ns",
@@ -27180,7 +28244,13 @@
   ],
   "ctaHeading": "Check availability for your Bedford NS event",
   "ctaText": "Send your event date, address in Bedford NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Bedford NS — a fast-growing suburban community at the head of Bedford Basin in HRM — with inflatable rentals, inflatables, foam parties, lawn games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Bedford NS — a fast-growing suburban community at the head of Bedford Basin in HRM — with inflatable rentals, inflatables, foam parties, lawn games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Bedford (2027)",
+    "href": "/future-attractions-bedford-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-sackville-ns",
@@ -27227,7 +28297,13 @@
   ],
   "ctaHeading": "Check availability for your Sackville NS event",
   "ctaText": "Send your event date, address in Sackville NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Sackville NS — a major residential and commercial corridor in the heart of HRM — with inflatable rentals, inflatables, foam parties, lawn games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Sackville NS — a major residential and commercial corridor in the heart of HRM — with inflatable rentals, inflatables, foam parties, lawn games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Sackville (2027)",
+    "href": "/future-attractions-sackville-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-fall-river-ns",
@@ -27274,7 +28350,13 @@
   ],
   "ctaHeading": "Check availability for your Fall River NS event",
   "ctaText": "Send your event date, address in Fall River NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Fall River NS — a growing suburban community northeast of Halifax in HRM — with inflatable rentals, inflatables, foam parties, lawn games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Fall River NS — a growing suburban community northeast of Halifax in HRM — with inflatable rentals, inflatables, foam parties, lawn games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Fall River (2027)",
+    "href": "/future-attractions-fall-river-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-elmsdale-ns",
@@ -27321,7 +28403,13 @@
   ],
   "ctaHeading": "Check availability for your Elmsdale NS event",
   "ctaText": "Send your event date, address in Elmsdale NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Elmsdale NS — a East Hants commercial hub and fast-growing community near Highway 102 — with inflatable rentals, inflatables, foam parties, lawn games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Elmsdale NS — a East Hants commercial hub and fast-growing community near Highway 102 — with inflatable rentals, inflatables, foam parties, lawn games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Elmsdale (2027)",
+    "href": "/future-attractions-elmsdale-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-enfield-ns",
@@ -27368,7 +28456,13 @@
   ],
   "ctaHeading": "Check availability for your Enfield NS event",
   "ctaText": "Send your event date, address in Enfield NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Enfield NS — a gateway community to East Hants along the Shubenacadie River — with inflatable rentals, inflatables, foam parties, lawn games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Enfield NS — a gateway community to East Hants along the Shubenacadie River — with inflatable rentals, inflatables, foam parties, lawn games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Enfield (2027)",
+    "href": "/future-attractions-enfield-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-musquodoboit-harbour-ns",
@@ -27415,7 +28509,13 @@
   ],
   "ctaHeading": "Check availability for your Musquodoboit Harbour NS event",
   "ctaText": "Send your event date, address in Musquodoboit Harbour NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Musquodoboit Harbour NS — a rural Eastern Shore community on a tidal estuary with a strong fishing and farming character — with inflatable."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Musquodoboit Harbour NS — a rural Eastern Shore community on a tidal estuary with a strong fishing and farming character — with inflatable.",
+  "links": [
+   {
+    "label": "Future attractions in Musquodoboit Harbour (2027)",
+    "href": "/future-attractions-musquodoboit-harbour-ns"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-shediac-nb",
@@ -27462,7 +28562,13 @@
   ],
   "ctaHeading": "Enquire about inflatable rentals for your Shediac NB event",
   "ctaText": "Send your event date, location in Shediac NB, event type, expected attendance, and rental preferences. We will review feasibility, travel logistics, and cost, then get back to you with availability and a quote.",
-  "heroText": "Shediac, the Lobster Capital of the World, is a beloved summer destination on New Brunswick's Northumberland Strait, famous for its warm beaches and seafood festivals."
+  "heroText": "Shediac, the Lobster Capital of the World, is a beloved summer destination on New Brunswick's Northumberland Strait, famous for its warm beaches and seafood festivals.",
+  "links": [
+   {
+    "label": "Future attractions in Shediac (2027)",
+    "href": "/future-attractions-shediac-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-amherst-sackville-area-nb",
@@ -27556,7 +28662,13 @@
   ],
   "ctaHeading": "Enquire about inflatable rentals for your Grand Falls NB event",
   "ctaText": "Send your event date, location in Grand Falls NB, event type, expected attendance, and rental preferences. We will review feasibility, travel logistics, and cost, then get back to you with availability and a quote.",
-  "heroText": "Grand Falls is a bilingual New Brunswick community on the Saint John River, known for the impressive Grand Falls Gorge and its hydro-electric history."
+  "heroText": "Grand Falls is a bilingual New Brunswick community on the Saint John River, known for the impressive Grand Falls Gorge and its hydro-electric history.",
+  "links": [
+   {
+    "label": "Future attractions in Grand Falls (2027)",
+    "href": "/future-attractions-grand-falls-nb"
+   }
+  ]
  },
  {
   "slug": "inflatable-rentals-o-leary-pei",
@@ -27603,7 +28715,13 @@
   ],
   "ctaHeading": "Enquire about inflatable rentals for your O'Leary PEI event",
   "ctaText": "Send your event date, location in O'Leary PEI, event type, expected attendance, and rental preferences. We will review feasibility, travel logistics, and cost, then get back to you with availability and a quote.",
-  "heroText": "O'Leary is a small western PEI community at the heart of Prince County's potato-growing region, home to the Canadian Potato Museum."
+  "heroText": "O'Leary is a small western PEI community at the heart of Prince County's potato-growing region, home to the Canadian Potato Museum.",
+  "links": [
+   {
+    "label": "Future attractions in O'Leary (2027)",
+    "href": "/future-attractions-o-leary-pei"
+   }
+  ]
  },
  {
   "slug": "water-slide-rentals-mahone-bay-ns",
@@ -47055,7 +48173,13 @@
   ],
   "ctaHeading": "Check availability for your Bridgewater NS event",
   "ctaText": "Send your event date, address in Bridgewater NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Bridgewater NS — a South Shore commercial hub at the mouth of the LaHave River — with party rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Bridgewater NS — a South Shore commercial hub at the mouth of the LaHave River — with party rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Bridgewater (2027)",
+    "href": "/future-attractions-bridgewater-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-lunenburg-ns",
@@ -47101,7 +48225,13 @@
   ],
   "ctaHeading": "Check availability for your Lunenburg NS event",
   "ctaText": "Send your event date, address in Lunenburg NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Lunenburg NS — a UNESCO World Heritage town known for its colourful architecture and fishing heritage on the South Shore — with party rentals."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Lunenburg NS — a UNESCO World Heritage town known for its colourful architecture and fishing heritage on the South Shore — with party rentals.",
+  "links": [
+   {
+    "label": "Future attractions in Lunenburg (2027)",
+    "href": "/future-attractions-lunenburg-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-mahone-bay-ns",
@@ -47147,7 +48277,13 @@
   ],
   "ctaHeading": "Check availability for your Mahone Bay NS event",
   "ctaText": "Send your event date, address in Mahone Bay NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Mahone Bay NS — a charming waterfront village famous for its three churches and artisan community on Mahone Bay — with party rentals."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Mahone Bay NS — a charming waterfront village famous for its three churches and artisan community on Mahone Bay — with party rentals.",
+  "links": [
+   {
+    "label": "Future attractions in Mahone Bay (2027)",
+    "href": "/future-attractions-mahone-bay-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-milton-ns",
@@ -47193,7 +48329,13 @@
   ],
   "ctaHeading": "Check availability for your Milton NS event",
   "ctaText": "Send your event date, address in Milton NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Milton NS — a small community on the Mersey River adjacent to Liverpool — with party rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Milton NS — a small community on the Mersey River adjacent to Liverpool — with party rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Milton (2027)",
+    "href": "/future-attractions-milton-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-caledonia-ns",
@@ -47239,7 +48381,13 @@
   ],
   "ctaHeading": "Check availability for your Caledonia NS event",
   "ctaText": "Send your event date, address in Caledonia NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Caledonia NS — a rural Queens County community in the heart of Nova Scotia's interior forests — with party rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Caledonia NS — a rural Queens County community in the heart of Nova Scotia's interior forests — with party rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Caledonia (2027)",
+    "href": "/future-attractions-caledonia-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-lockeport-ns",
@@ -47285,7 +48433,13 @@
   ],
   "ctaHeading": "Check availability for your Lockeport NS event",
   "ctaText": "Send your event date, address in Lockeport NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Lockeport NS — a coastal South Shore town known for its sandy beaches and lobster fishing — with party rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Lockeport NS — a coastal South Shore town known for its sandy beaches and lobster fishing — with party rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Lockeport (2027)",
+    "href": "/future-attractions-lockeport-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-shelburne-ns",
@@ -47331,7 +48485,13 @@
   ],
   "ctaHeading": "Check availability for your Shelburne NS event",
   "ctaText": "Send your event date, address in Shelburne NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Shelburne NS — a historic harbour town on one of the world's largest natural harbours, founded by Loyalists in 1783 — with party rentals."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Shelburne NS — a historic harbour town on one of the world's largest natural harbours, founded by Loyalists in 1783 — with party rentals.",
+  "links": [
+   {
+    "label": "Future attractions in Shelburne (2027)",
+    "href": "/future-attractions-shelburne-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-barrington-ns",
@@ -47377,7 +48537,13 @@
   ],
   "ctaHeading": "Check availability for your Barrington NS event",
   "ctaText": "Send your event date, address in Barrington NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Barrington NS — a small Shelburne County community known for its wool industry museum and coastal character — with party rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Barrington NS — a small Shelburne County community known for its wool industry museum and coastal character — with party rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Barrington (2027)",
+    "href": "/future-attractions-barrington-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-yarmouth-ns",
@@ -47423,7 +48589,13 @@
   ],
   "ctaHeading": "Check availability for your Yarmouth NS event",
   "ctaText": "Send your event date, address in Yarmouth NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Yarmouth NS — a major Southwest Nova ferry gateway and commercial centre — with party rentals, inflatables, water slides, games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Yarmouth NS — a major Southwest Nova ferry gateway and commercial centre — with party rentals, inflatables, water slides, games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Yarmouth (2027)",
+    "href": "/future-attractions-yarmouth-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-berwick-ns",
@@ -47469,7 +48641,13 @@
   ],
   "ctaHeading": "Check availability for your Berwick NS event",
   "ctaText": "Send your event date, address in Berwick NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and provides party rentals for Berwick NS, the Apple Capital of Canada, a family-focused town in the Annapolis Valley."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and provides party rentals for Berwick NS, the Apple Capital of Canada, a family-focused town in the Annapolis Valley.",
+  "links": [
+   {
+    "label": "Future attractions in Berwick (2027)",
+    "href": "/future-attractions-berwick-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-hantsport-ns",
@@ -47515,7 +48693,13 @@
   ],
   "ctaHeading": "Check availability for your Hantsport NS event",
   "ctaText": "Send your event date, address in Hantsport NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and provides party rentals for Hantsport NS, a small Hants County town on the Avon River known for its shipbuilding history."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and provides party rentals for Hantsport NS, a small Hants County town on the Avon River known for its shipbuilding history.",
+  "links": [
+   {
+    "label": "Future attractions in Hantsport (2027)",
+    "href": "/future-attractions-hantsport-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-truro-ns",
@@ -47561,7 +48745,13 @@
   ],
   "ctaHeading": "Check availability for your Truro NS event",
   "ctaText": "Send your event date, address in Truro NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals provides party rentals to Truro NS — the Hub of Nova Scotia at the convergence of major highways, a key commercial crossroads — from our Bridgewater base."
+  "heroText": "Nova Kingdom Rentals provides party rentals to Truro NS — the Hub of Nova Scotia at the convergence of major highways, a key commercial crossroads — from our Bridgewater base.",
+  "links": [
+   {
+    "label": "Future attractions in Truro (2027)",
+    "href": "/future-attractions-truro-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-springhill-ns",
@@ -47607,7 +48797,13 @@
   ],
   "ctaHeading": "Check availability for your Springhill NS event",
   "ctaText": "Send your event date, address in Springhill NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals provides party rentals to Springhill NS — a Cumberland County town known for its coal mining history and the Anne Murray Centre — from our Bridgewater base."
+  "heroText": "Nova Kingdom Rentals provides party rentals to Springhill NS — a Cumberland County town known for its coal mining history and the Anne Murray Centre — from our Bridgewater base.",
+  "links": [
+   {
+    "label": "Future attractions in Springhill (2027)",
+    "href": "/future-attractions-springhill-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-oxford-ns",
@@ -47653,7 +48849,13 @@
   ],
   "ctaHeading": "Check availability for your Oxford NS event",
   "ctaText": "Send your event date, address in Oxford NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals provides party rentals to Oxford NS — the Wild Blueberry Capital of Canada in Cumberland County — from our Bridgewater base."
+  "heroText": "Nova Kingdom Rentals provides party rentals to Oxford NS — the Wild Blueberry Capital of Canada in Cumberland County — from our Bridgewater base.",
+  "links": [
+   {
+    "label": "Future attractions in Oxford (2027)",
+    "href": "/future-attractions-oxford-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-stewiacke-ns",
@@ -47699,7 +48901,13 @@
   ],
   "ctaHeading": "Check availability for your Stewiacke NS event",
   "ctaText": "Send your event date, address in Stewiacke NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals provides party rentals to Stewiacke NS — a small Colchester County town on the Stewiacke River known for its dinosaur fossil discoveries — from our Bridgewater base."
+  "heroText": "Nova Kingdom Rentals provides party rentals to Stewiacke NS — a small Colchester County town on the Stewiacke River known for its dinosaur fossil discoveries — from our Bridgewater base.",
+  "links": [
+   {
+    "label": "Future attractions in Stewiacke (2027)",
+    "href": "/future-attractions-stewiacke-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-sydney-ns",
@@ -47745,7 +48953,13 @@
   ],
   "ctaHeading": "Check availability for your Sydney NS event",
   "ctaText": "Send your event date, address in Sydney NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers party rentals to Sydney NS, a Cape Breton's largest city and cultural heart, home to the world's largest fiddle and Celtic music scene."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers party rentals to Sydney NS, a Cape Breton's largest city and cultural heart, home to the world's largest fiddle and Celtic music scene.",
+  "links": [
+   {
+    "label": "Future attractions in Sydney (2027)",
+    "href": "/future-attractions-sydney-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-new-waterford-ns",
@@ -47791,7 +49005,13 @@
   ],
   "ctaHeading": "Check availability for your New Waterford NS event",
   "ctaText": "Send your event date, address in New Waterford NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers party rentals to New Waterford NS, a Cape Breton community with deep coal mining roots and a tight-knit community spirit."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers party rentals to New Waterford NS, a Cape Breton community with deep coal mining roots and a tight-knit community spirit.",
+  "links": [
+   {
+    "label": "Future attractions in New Waterford (2027)",
+    "href": "/future-attractions-new-waterford-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-sydney-mines-ns",
@@ -47837,7 +49057,13 @@
   ],
   "ctaHeading": "Check availability for your Sydney Mines NS event",
   "ctaText": "Send your event date, address in Sydney Mines NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers party rentals to Sydney Mines NS, a Cape Breton community near the Cabot Strait known for its industrial heritage."
+  "heroText": "Nova Kingdom Rentals is Bridgewater-based and delivers party rentals to Sydney Mines NS, a Cape Breton community near the Cabot Strait known for its industrial heritage.",
+  "links": [
+   {
+    "label": "Future attractions in Sydney Mines (2027)",
+    "href": "/future-attractions-sydney-mines-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-dartmouth-ns",
@@ -47883,7 +49109,13 @@
   ],
   "ctaHeading": "Check availability for your Dartmouth NS event",
   "ctaText": "Send your event date, address in Dartmouth NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Dartmouth NS — the City of Lakes across the harbour from Halifax, known for its Shubie Canal and vibrant arts scene — with party rentals."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Dartmouth NS — the City of Lakes across the harbour from Halifax, known for its Shubie Canal and vibrant arts scene — with party rentals.",
+  "links": [
+   {
+    "label": "Future attractions in Dartmouth (2027)",
+    "href": "/future-attractions-dartmouth-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-halifax-ns",
@@ -48026,6 +49258,10 @@
    {
     "label": "Halifax Tent Rentals",
     "href": "/tent-rentals-halifax-ns"
+   },
+   {
+    "label": "Future attractions in Halifax (2027)",
+    "href": "/future-attractions-halifax-ns"
    }
   ]
  },
@@ -48073,7 +49309,13 @@
   ],
   "ctaHeading": "Check availability for your Sackville NS event",
   "ctaText": "Send your event date, address in Sackville NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Sackville NS — a major residential and commercial corridor in the heart of HRM — with party rentals, inflatables, foam parties, lawn games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Sackville NS — a major residential and commercial corridor in the heart of HRM — with party rentals, inflatables, foam parties, lawn games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Sackville (2027)",
+    "href": "/future-attractions-sackville-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-elmsdale-ns",
@@ -48119,7 +49361,13 @@
   ],
   "ctaHeading": "Check availability for your Elmsdale NS event",
   "ctaText": "Send your event date, address in Elmsdale NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Elmsdale NS — a East Hants commercial hub and fast-growing community near Highway 102 — with party rentals, inflatables, foam parties, lawn games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Elmsdale NS — a East Hants commercial hub and fast-growing community near Highway 102 — with party rentals, inflatables, foam parties, lawn games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Elmsdale (2027)",
+    "href": "/future-attractions-elmsdale-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-enfield-ns",
@@ -48165,7 +49413,13 @@
   ],
   "ctaHeading": "Check availability for your Enfield NS event",
   "ctaText": "Send your event date, address in Enfield NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Enfield NS — a gateway community to East Hants along the Shubenacadie River — with party rentals, inflatables, foam parties, lawn games, and party packages."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Enfield NS — a gateway community to East Hants along the Shubenacadie River — with party rentals, inflatables, foam parties, lawn games, and party packages.",
+  "links": [
+   {
+    "label": "Future attractions in Enfield (2027)",
+    "href": "/future-attractions-enfield-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-musquodoboit-harbour-ns",
@@ -48211,7 +49465,13 @@
   ],
   "ctaHeading": "Check availability for your Musquodoboit Harbour NS event",
   "ctaText": "Send your event date, address in Musquodoboit Harbour NS, event type, number of guests, setup surface, and rental preference. We will confirm availability, travel cost, setup suitability, and deposit details.",
-  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Musquodoboit Harbour NS — a rural Eastern Shore community on a tidal estuary with a strong fishing and farming character — with party rentals."
+  "heroText": "Nova Kingdom Rentals is based in Bridgewater and serves Musquodoboit Harbour NS — a rural Eastern Shore community on a tidal estuary with a strong fishing and farming character — with party rentals.",
+  "links": [
+   {
+    "label": "Future attractions in Musquodoboit Harbour (2027)",
+    "href": "/future-attractions-musquodoboit-harbour-ns"
+   }
+  ]
  },
  {
   "slug": "party-rentals-saint-john-nb",
@@ -48280,7 +49540,13 @@
     "href": "/party-rentals-blacks-harbour-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Saint John (2027)",
+    "href": "/future-attractions-saint-john-nb"
+   }
+  ]
  },
  {
   "slug": "party-rentals-dieppe-nb",
@@ -48349,7 +49615,13 @@
     "href": "/party-rentals-hillsborough-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Dieppe (2027)",
+    "href": "/future-attractions-dieppe-nb"
+   }
+  ]
  },
  {
   "slug": "party-rentals-riverview-nb",
@@ -48414,7 +49686,13 @@
     "href": "/party-rentals-alma-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Riverview (2027)",
+    "href": "/future-attractions-riverview-nb"
+   }
+  ]
  },
  {
   "slug": "party-rentals-shediac-nb",
@@ -48483,7 +49761,13 @@
     "href": "/party-rentals-cap-pele-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Shediac (2027)",
+    "href": "/future-attractions-shediac-nb"
+   }
+  ]
  },
  {
   "slug": "party-rentals-amherst-sackville-area-nb",
@@ -48598,7 +49882,13 @@
     "href": "/party-rentals-rexton-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Miramichi (2027)",
+    "href": "/future-attractions-miramichi-nb"
+   }
+  ]
  },
  {
   "slug": "party-rentals-bathurst-nb",
@@ -48659,7 +49949,13 @@
     "href": "/party-rentals-beresford-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Bathurst (2027)",
+    "href": "/future-attractions-bathurst-nb"
+   }
+  ]
  },
  {
   "slug": "party-rentals-edmundston-nb",
@@ -48716,7 +50012,13 @@
     "href": "/party-rentals-kedgwick-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Edmundston (2027)",
+    "href": "/future-attractions-edmundston-nb"
+   }
+  ]
  },
  {
   "slug": "party-rentals-campbellton-nb",
@@ -48781,7 +50083,13 @@
     "href": "/party-rentals-petit-rocher-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Campbellton (2027)",
+    "href": "/future-attractions-campbellton-nb"
+   }
+  ]
  },
  {
   "slug": "party-rentals-woodstock-nb",
@@ -48854,7 +50162,13 @@
     "href": "/party-rentals-plaster-rock-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Woodstock (2027)",
+    "href": "/future-attractions-woodstock-nb"
+   }
+  ]
  },
  {
   "slug": "party-rentals-oromocto-nb",
@@ -48923,7 +50237,13 @@
     "href": "/party-rentals-minto-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Oromocto (2027)",
+    "href": "/future-attractions-oromocto-nb"
+   }
+  ]
  },
  {
   "slug": "party-rentals-grand-falls-nb",
@@ -48996,7 +50316,13 @@
     "href": "/party-rentals-saint-quentin-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Grand Falls (2027)",
+    "href": "/future-attractions-grand-falls-nb"
+   }
+  ]
  },
  {
   "slug": "party-rentals-quispamsis-nb",
@@ -49057,7 +50383,13 @@
     "href": "/party-rentals-st-martins-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Quispamsis (2027)",
+    "href": "/future-attractions-quispamsis-nb"
+   }
+  ]
  },
  {
   "slug": "party-rentals-rothesay-nb",
@@ -49114,7 +50446,13 @@
     "href": "/party-rentals-norton-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Rothesay (2027)",
+    "href": "/future-attractions-rothesay-nb"
+   }
+  ]
  },
  {
   "slug": "party-rentals-tracadie-nb",
@@ -49175,7 +50513,13 @@
     "href": "/party-rentals-neguac-nb"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Tracadie (2027)",
+    "href": "/future-attractions-tracadie-nb"
+   }
+  ]
  },
  {
   "slug": "party-rentals-charlottetown-pei",
@@ -49264,7 +50608,13 @@
     "href": "/party-rentals-st-peters-bay-pei"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Charlottetown (2027)",
+    "href": "/future-attractions-charlottetown-pei"
+   }
+  ]
  },
  {
   "slug": "party-rentals-summerside-pei",
@@ -49329,7 +50679,13 @@
     "href": "/party-rentals-borden-carleton-pei"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Summerside (2027)",
+    "href": "/future-attractions-summerside-pei"
+   }
+  ]
  },
  {
   "slug": "party-rentals-stratford-pei",
@@ -49386,7 +50742,13 @@
     "href": "/party-rentals-belfast-pei"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Stratford (2027)",
+    "href": "/future-attractions-stratford-pei"
+   }
+  ]
  },
  {
   "slug": "party-rentals-cornwall-pei",
@@ -49451,7 +50813,13 @@
     "href": "/party-rentals-hunter-river-pei"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Cornwall (2027)",
+    "href": "/future-attractions-cornwall-pei"
+   }
+  ]
  },
  {
   "slug": "party-rentals-montague-pei",
@@ -49524,7 +50892,13 @@
     "href": "/party-rentals-st-peters-bay-pei"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Montague (2027)",
+    "href": "/future-attractions-montague-pei"
+   }
+  ]
  },
  {
   "slug": "party-rentals-souris-pei",
@@ -49589,7 +50963,13 @@
     "href": "/party-rentals-st-peters-bay-pei"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Souris (2027)",
+    "href": "/future-attractions-souris-pei"
+   }
+  ]
  },
  {
   "slug": "party-rentals-alberton-pei",
@@ -49642,7 +51022,13 @@
     "href": "/party-rentals-tignish-pei"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in Alberton (2027)",
+    "href": "/future-attractions-alberton-pei"
+   }
+  ]
  },
  {
   "slug": "party-rentals-o-leary-pei",
@@ -49703,7 +51089,13 @@
     "href": "/party-rentals-tyne-valley-pei"
    }
   ],
-  "cityLinksTitle": "Nearby communities we serve"
+  "cityLinksTitle": "Nearby communities we serve",
+  "links": [
+   {
+    "label": "Future attractions in O'Leary (2027)",
+    "href": "/future-attractions-o-leary-pei"
+   }
+  ]
  },
  {
   "slug": "chair-rentals",
@@ -52867,6 +54259,10 @@
    {
     "label": "Lawn games near Hampton",
     "href": "/lawn-game-rentals-quispamsis-nb"
+   },
+   {
+    "label": "Future attractions in Hampton (2027)",
+    "href": "/future-attractions-hampton-nb"
    }
   ]
  },
@@ -52959,6 +54355,10 @@
    {
     "label": "Lawn games near Norton",
     "href": "/lawn-game-rentals-sussex-nb"
+   },
+   {
+    "label": "Future attractions in Norton (2027)",
+    "href": "/future-attractions-norton-nb"
    }
   ]
  },
@@ -53051,6 +54451,10 @@
    {
     "label": "Lawn games near St. Martins",
     "href": "/lawn-game-rentals-saint-john-nb"
+   },
+   {
+    "label": "Future attractions in St. Martins (2027)",
+    "href": "/future-attractions-st-martins-nb"
    }
   ]
  },
@@ -53123,6 +54527,10 @@
    {
     "label": "360 Video Booth near Saint Andrews",
     "href": "/360-video-booth-rental-st-stephen-nb"
+   },
+   {
+    "label": "Future attractions in Saint Andrews (2027)",
+    "href": "/future-attractions-saint-andrews-nb"
    }
   ]
  },
@@ -53195,6 +54603,10 @@
    {
     "label": "360 Video Booth near St. George",
     "href": "/360-video-booth-rental-st-stephen-nb"
+   },
+   {
+    "label": "Future attractions in St. George (2027)",
+    "href": "/future-attractions-st-george-nb"
    }
   ]
  },
@@ -53267,6 +54679,10 @@
    {
     "label": "360 Video Booth near Blacks Harbour",
     "href": "/360-video-booth-rental-st-stephen-nb"
+   },
+   {
+    "label": "Future attractions in Blacks Harbour (2027)",
+    "href": "/future-attractions-blacks-harbour-nb"
    }
   ]
  },
@@ -53343,6 +54759,10 @@
    {
     "label": "360 Video Booth near McAdam",
     "href": "/360-video-booth-rental-st-stephen-nb"
+   },
+   {
+    "label": "Future attractions in McAdam (2027)",
+    "href": "/future-attractions-mcadam-nb"
    }
   ]
  },
@@ -53431,6 +54851,10 @@
    {
     "label": "Lawn games near New Maryland",
     "href": "/lawn-game-rentals-fredericton-nb"
+   },
+   {
+    "label": "Future attractions in New Maryland (2027)",
+    "href": "/future-attractions-new-maryland-nb"
    }
   ]
  },
@@ -53519,6 +54943,10 @@
    {
     "label": "Lawn games near Hanwell",
     "href": "/lawn-game-rentals-fredericton-nb"
+   },
+   {
+    "label": "Future attractions in Hanwell (2027)",
+    "href": "/future-attractions-hanwell-nb"
    }
   ]
  },
@@ -53607,6 +55035,10 @@
    {
     "label": "Lawn games near Fredericton Junction",
     "href": "/lawn-game-rentals-oromocto-nb"
+   },
+   {
+    "label": "Future attractions in Fredericton Junction (2027)",
+    "href": "/future-attractions-fredericton-junction-nb"
    }
   ]
  },
@@ -53695,6 +55127,10 @@
    {
     "label": "Lawn games near Gagetown",
     "href": "/lawn-game-rentals-oromocto-nb"
+   },
+   {
+    "label": "Future attractions in Gagetown (2027)",
+    "href": "/future-attractions-gagetown-nb"
    }
   ]
  },
@@ -53783,6 +55219,10 @@
    {
     "label": "Lawn games near Minto",
     "href": "/lawn-game-rentals-fredericton-nb"
+   },
+   {
+    "label": "Future attractions in Minto (2027)",
+    "href": "/future-attractions-minto-nb"
    }
   ]
  },
@@ -53871,6 +55311,10 @@
    {
     "label": "Lawn games near Chipman",
     "href": "/lawn-game-rentals-fredericton-nb"
+   },
+   {
+    "label": "Future attractions in Chipman (2027)",
+    "href": "/future-attractions-chipman-nb"
    }
   ]
  },
@@ -53959,6 +55403,10 @@
    {
     "label": "Lawn games near Nackawic",
     "href": "/lawn-game-rentals-woodstock-nb"
+   },
+   {
+    "label": "Future attractions in Nackawic (2027)",
+    "href": "/future-attractions-nackawic-nb"
    }
   ]
  },
@@ -54047,6 +55495,10 @@
    {
     "label": "Lawn games near Hartland",
     "href": "/lawn-game-rentals-woodstock-nb"
+   },
+   {
+    "label": "Future attractions in Hartland (2027)",
+    "href": "/future-attractions-hartland-nb"
    }
   ]
  },
@@ -54135,6 +55587,10 @@
    {
     "label": "Lawn games near Florenceville-Bristol",
     "href": "/lawn-game-rentals-woodstock-nb"
+   },
+   {
+    "label": "Future attractions in Florenceville-Bristol (2027)",
+    "href": "/future-attractions-florenceville-bristol-nb"
    }
   ]
  },
@@ -54219,6 +55675,10 @@
    {
     "label": "Lawn games near Perth-Andover",
     "href": "/lawn-game-rentals-grand-falls-nb"
+   },
+   {
+    "label": "Future attractions in Perth-Andover (2027)",
+    "href": "/future-attractions-perth-andover-nb"
    }
   ]
  },
@@ -54303,6 +55763,10 @@
    {
     "label": "Lawn games near Plaster Rock",
     "href": "/lawn-game-rentals-grand-falls-nb"
+   },
+   {
+    "label": "Future attractions in Plaster Rock (2027)",
+    "href": "/future-attractions-plaster-rock-nb"
    }
   ]
  },
@@ -54387,6 +55851,10 @@
    {
     "label": "Lawn games near Saint-Léonard",
     "href": "/lawn-game-rentals-grand-falls-nb"
+   },
+   {
+    "label": "Future attractions in Saint-Léonard (2027)",
+    "href": "/future-attractions-saint-leonard-nb"
    }
   ]
  },
@@ -54475,6 +55943,10 @@
    {
     "label": "Lawn games near Saint-Quentin",
     "href": "/lawn-game-rentals-campbellton-nb"
+   },
+   {
+    "label": "Future attractions in Saint-Quentin (2027)",
+    "href": "/future-attractions-saint-quentin-nb"
    }
   ]
  },
@@ -54563,6 +56035,10 @@
    {
     "label": "Lawn games near Kedgwick",
     "href": "/lawn-game-rentals-campbellton-nb"
+   },
+   {
+    "label": "Future attractions in Kedgwick (2027)",
+    "href": "/future-attractions-kedgwick-nb"
    }
   ]
  },
@@ -54651,6 +56127,10 @@
    {
     "label": "Lawn games near Dalhousie",
     "href": "/lawn-game-rentals-campbellton-nb"
+   },
+   {
+    "label": "Future attractions in Dalhousie (2027)",
+    "href": "/future-attractions-dalhousie-nb"
    }
   ]
  },
@@ -54739,6 +56219,10 @@
    {
     "label": "Lawn games near Petit-Rocher",
     "href": "/lawn-game-rentals-bathurst-nb"
+   },
+   {
+    "label": "Future attractions in Petit-Rocher (2027)",
+    "href": "/future-attractions-petit-rocher-nb"
    }
   ]
  },
@@ -54823,6 +56307,10 @@
    {
     "label": "Lawn games near Beresford",
     "href": "/lawn-game-rentals-bathurst-nb"
+   },
+   {
+    "label": "Future attractions in Beresford (2027)",
+    "href": "/future-attractions-beresford-nb"
    }
   ]
  },
@@ -54895,6 +56383,10 @@
    {
     "label": "360 Video Booth near Shippagan",
     "href": "/360-video-booth-rental-caraquet-nb"
+   },
+   {
+    "label": "Future attractions in Shippagan (2027)",
+    "href": "/future-attractions-shippagan-nb"
    }
   ]
  },
@@ -54967,6 +56459,10 @@
    {
     "label": "360 Video Booth near Lamèque",
     "href": "/360-video-booth-rental-caraquet-nb"
+   },
+   {
+    "label": "Future attractions in Lamèque (2027)",
+    "href": "/future-attractions-lameque-nb"
    }
   ]
  },
@@ -55055,6 +56551,10 @@
    {
     "label": "Lawn games near Neguac",
     "href": "/lawn-game-rentals-miramichi-nb"
+   },
+   {
+    "label": "Future attractions in Neguac (2027)",
+    "href": "/future-attractions-neguac-nb"
    }
   ]
  },
@@ -55143,6 +56643,10 @@
    {
     "label": "Lawn games near Doaktown",
     "href": "/lawn-game-rentals-miramichi-nb"
+   },
+   {
+    "label": "Future attractions in Doaktown (2027)",
+    "href": "/future-attractions-doaktown-nb"
    }
   ]
  },
@@ -55231,6 +56735,10 @@
    {
     "label": "Lawn games near Rogersville",
     "href": "/lawn-game-rentals-miramichi-nb"
+   },
+   {
+    "label": "Future attractions in Rogersville (2027)",
+    "href": "/future-attractions-rogersville-nb"
    }
   ]
  },
@@ -55323,6 +56831,10 @@
    {
     "label": "Lawn games near Richibucto",
     "href": "/lawn-game-rentals-moncton-nb"
+   },
+   {
+    "label": "Future attractions in Richibucto (2027)",
+    "href": "/future-attractions-richibucto-nb"
    }
   ]
  },
@@ -55415,6 +56927,10 @@
    {
     "label": "Lawn games near Rexton",
     "href": "/lawn-game-rentals-moncton-nb"
+   },
+   {
+    "label": "Future attractions in Rexton (2027)",
+    "href": "/future-attractions-rexton-nb"
    }
   ]
  },
@@ -55503,6 +57019,10 @@
    {
     "label": "Lawn games near Bouctouche",
     "href": "/lawn-game-rentals-shediac-nb"
+   },
+   {
+    "label": "Future attractions in Bouctouche (2027)",
+    "href": "/future-attractions-bouctouche-nb"
    }
   ]
  },
@@ -55595,6 +57115,10 @@
    {
     "label": "Lawn games near Saint-Antoine",
     "href": "/lawn-game-rentals-moncton-nb"
+   },
+   {
+    "label": "Future attractions in Saint-Antoine (2027)",
+    "href": "/future-attractions-saint-antoine-nb"
    }
   ]
  },
@@ -55683,6 +57207,10 @@
    {
     "label": "Lawn games near Cap-Pelé",
     "href": "/lawn-game-rentals-shediac-nb"
+   },
+   {
+    "label": "Future attractions in Cap-Pelé (2027)",
+    "href": "/future-attractions-cap-pele-nb"
    }
   ]
  },
@@ -55775,6 +57303,10 @@
    {
     "label": "Lawn games near Memramcook",
     "href": "/lawn-game-rentals-dieppe-nb"
+   },
+   {
+    "label": "Future attractions in Memramcook (2027)",
+    "href": "/future-attractions-memramcook-nb"
    }
   ]
  },
@@ -55867,6 +57399,10 @@
    {
     "label": "Lawn games near Salisbury",
     "href": "/lawn-game-rentals-moncton-nb"
+   },
+   {
+    "label": "Future attractions in Salisbury (2027)",
+    "href": "/future-attractions-salisbury-nb"
    }
   ]
  },
@@ -55959,6 +57495,10 @@
    {
     "label": "Lawn games near Petitcodiac",
     "href": "/lawn-game-rentals-sussex-nb"
+   },
+   {
+    "label": "Future attractions in Petitcodiac (2027)",
+    "href": "/future-attractions-petitcodiac-nb"
    }
   ]
  },
@@ -56051,6 +57591,10 @@
    {
     "label": "Lawn games near Hillsborough",
     "href": "/lawn-game-rentals-riverview-nb"
+   },
+   {
+    "label": "Future attractions in Hillsborough (2027)",
+    "href": "/future-attractions-hillsborough-nb"
    }
   ]
  },
@@ -56143,6 +57687,10 @@
    {
     "label": "Lawn games near Alma",
     "href": "/lawn-game-rentals-riverview-nb"
+   },
+   {
+    "label": "Future attractions in Alma (2027)",
+    "href": "/future-attractions-alma-nb"
    }
   ]
  },
@@ -56231,6 +57779,10 @@
    {
     "label": "Lawn games near Tignish",
     "href": "/lawn-game-rentals-alberton-pei"
+   },
+   {
+    "label": "Future attractions in Tignish (2027)",
+    "href": "/future-attractions-tignish-pei"
    }
   ]
  },
@@ -56319,6 +57871,10 @@
    {
     "label": "Lawn games near Wellington",
     "href": "/lawn-game-rentals-summerside-pei"
+   },
+   {
+    "label": "Future attractions in Wellington (2027)",
+    "href": "/future-attractions-wellington-pei"
    }
   ]
  },
@@ -56403,6 +57959,10 @@
    {
     "label": "Lawn games near Miscouche",
     "href": "/lawn-game-rentals-summerside-pei"
+   },
+   {
+    "label": "Future attractions in Miscouche (2027)",
+    "href": "/future-attractions-miscouche-pei"
    }
   ]
  },
@@ -56491,6 +58051,10 @@
    {
     "label": "Lawn games near Tyne Valley",
     "href": "/lawn-game-rentals-summerside-pei"
+   },
+   {
+    "label": "Future attractions in Tyne Valley (2027)",
+    "href": "/future-attractions-tyne-valley-pei"
    }
   ]
  },
@@ -56579,6 +58143,10 @@
    {
     "label": "Lawn games near Borden-Carleton",
     "href": "/lawn-game-rentals-summerside-pei"
+   },
+   {
+    "label": "Future attractions in Borden-Carleton (2027)",
+    "href": "/future-attractions-borden-carleton-pei"
    }
   ]
  },
@@ -56667,6 +58235,10 @@
    {
     "label": "Lawn games near Victoria-by-the-Sea",
     "href": "/lawn-game-rentals-cornwall-pei"
+   },
+   {
+    "label": "Future attractions in Victoria-by-the-Sea (2027)",
+    "href": "/future-attractions-victoria-pei"
    }
   ]
  },
@@ -56755,6 +58327,10 @@
    {
     "label": "Lawn games near Crapaud",
     "href": "/lawn-game-rentals-cornwall-pei"
+   },
+   {
+    "label": "Future attractions in Crapaud (2027)",
+    "href": "/future-attractions-crapaud-pei"
    }
   ]
  },
@@ -56843,6 +58419,10 @@
    {
     "label": "Lawn games near Hunter River",
     "href": "/lawn-game-rentals-charlottetown-pei"
+   },
+   {
+    "label": "Future attractions in Hunter River (2027)",
+    "href": "/future-attractions-hunter-river-pei"
    }
   ]
  },
@@ -56927,6 +58507,10 @@
    {
     "label": "Lawn games near North Rustico",
     "href": "/lawn-game-rentals-charlottetown-pei"
+   },
+   {
+    "label": "Future attractions in North Rustico (2027)",
+    "href": "/future-attractions-north-rustico-pei"
    }
   ]
  },
@@ -57011,6 +58595,10 @@
    {
     "label": "Lawn games near Cavendish",
     "href": "/lawn-game-rentals-charlottetown-pei"
+   },
+   {
+    "label": "Future attractions in Cavendish (2027)",
+    "href": "/future-attractions-cavendish-pei"
    }
   ]
  },
@@ -57099,6 +58687,10 @@
    {
     "label": "Lawn games near Brackley",
     "href": "/lawn-game-rentals-charlottetown-pei"
+   },
+   {
+    "label": "Future attractions in Brackley (2027)",
+    "href": "/future-attractions-brackley-pei"
    }
   ]
  },
@@ -57191,6 +58783,10 @@
    {
     "label": "Lawn games near Belfast",
     "href": "/lawn-game-rentals-charlottetown-pei"
+   },
+   {
+    "label": "Future attractions in Belfast (2027)",
+    "href": "/future-attractions-belfast-pei"
    }
   ]
  },
@@ -57279,6 +58875,10 @@
    {
     "label": "Lawn games near Wood Islands",
     "href": "/lawn-game-rentals-montague-pei"
+   },
+   {
+    "label": "Future attractions in Wood Islands (2027)",
+    "href": "/future-attractions-wood-islands-pei"
    }
   ]
  },
@@ -57367,6 +58967,10 @@
    {
     "label": "Lawn games near Murray River",
     "href": "/lawn-game-rentals-montague-pei"
+   },
+   {
+    "label": "Future attractions in Murray River (2027)",
+    "href": "/future-attractions-murray-river-pei"
    }
   ]
  },
@@ -57455,6 +59059,10 @@
    {
     "label": "Lawn games near Georgetown",
     "href": "/lawn-game-rentals-montague-pei"
+   },
+   {
+    "label": "Future attractions in Georgetown (2027)",
+    "href": "/future-attractions-georgetown-pei"
    }
   ]
  },
@@ -57547,6 +59155,10 @@
    {
     "label": "Lawn games near Morell",
     "href": "/lawn-game-rentals-souris-pei"
+   },
+   {
+    "label": "Future attractions in Morell (2027)",
+    "href": "/future-attractions-morell-pei"
    }
   ]
  },
@@ -57639,6 +59251,10 @@
    {
     "label": "Lawn games near St. Peters Bay",
     "href": "/lawn-game-rentals-souris-pei"
+   },
+   {
+    "label": "Future attractions in St. Peters Bay (2027)",
+    "href": "/future-attractions-st-peters-bay-pei"
    }
   ]
  }
