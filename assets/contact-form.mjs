@@ -18,7 +18,17 @@ const ATTENDANTS = ["Nova Kingdom attendant (extra cost)", "Our own adult volunt
 const CALL = ["Yes, please call", "Text or email is fine"];
 
 const CSS = `
-html[data-nkcontact] .contact-layout > form.booking-form{display:none!important}
+html[data-nkcontact] .contact-layout > form.booking-form,html[data-nkcontact] .contact-layout > aside{display:none!important}
+html[data-nkcontact] .contact-layout{display:block!important;max-width:680px;margin-left:auto;margin-right:auto}
+#nk-cf .cf-reach{background:#fff;border:1px solid #e3dcc4;border-radius:16px;padding:14px;margin-bottom:14px;text-align:center;color:#16203a}
+#nk-cf .cf-reach p{margin:0 0 10px;font-weight:700}
+#nk-cf .cf-reach-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#nk-cf .cf-reach a{display:flex;align-items:center;justify-content:center;gap:6px;min-height:46px;border-radius:12px;font-weight:800;text-decoration:none;font-size:.95rem;border:1px solid #cfd3de;color:#16203a;background:#fff}
+#nk-cf .cf-reach a.call{background:#0b1020;color:#fff;border-color:#0b1020}
+#nk-cf .cf-reach a.text{background:#f0d16a;color:#1a1300;border-color:#e0bd45}
+#nk-cf .cf-reach .cf-mail{grid-column:1/-1;font-size:.88rem;word-break:break-all}
+#nk-cf .cf-after{text-align:center;color:#5b6475;font-size:.9rem;margin:14px 0 0}
+#nk-cf .cf-after a{color:#2f62b5;font-weight:700}
 #nk-cf{min-width:0}
 #nk-cf .cf-card{background:#fff;border:1px solid #e3dcc4;border-radius:16px;padding:16px;margin-bottom:14px;color:#16203a}
 #nk-cf h2{margin:0 0 4px;font-size:1.15rem;color:#16203a}
@@ -77,8 +87,19 @@ function chips(name, opts, multi) {
     opts.map((o) => '<button type="button" class="cf-chip" aria-pressed="false" data-val="' + esc(o) + '">' + esc(o) + "</button>").join("") + "</div>";
 }
 
+const MAIL = ["booknovakingdom", "gmail.com"].join("@");
+function reachHtml() {
+  return '<div class="cf-reach"><p>Prefer to talk? Reach us directly</p><div class="cf-reach-row">' +
+    '<a class="call" href="tel:+19029900005">📞 Call 902-990-0005</a>' +
+    '<a class="text" href="sms:+19029900005">💬 Text us</a>' +
+    '<a href="https://www.facebook.com/novakingdomrentals" target="_blank" rel="noopener">Facebook</a>' +
+    '<a href="https://www.instagram.com/novakingdomrentals/" target="_blank" rel="noopener">Instagram</a>' +
+    '<a class="cf-mail" href="mailto:' + MAIL + '">✉️ ' + MAIL + '</a>' +
+    '</div></div>';
+}
+
 function formHtml() {
-  return '<div class="cf-card" id="cf-picks-card" hidden><h2>Your picks</h2><p class="cf-sub">From your quote — <button type="button" class="cf-link" id="cf-edit">edit your quote</button></p><div id="cf-picks"></div></div>' +
+  return reachHtml() + '<div class="cf-card" id="cf-picks-card" hidden><h2>Your picks</h2><p class="cf-sub">From your quote — <button type="button" class="cf-link" id="cf-edit">edit your quote</button></p><div id="cf-picks"></div></div>' +
   '<form id="cf-form" novalidate>' +
   '<div class="cf-card"><span class="cf-step">STEP 1 · REQUIRED</span><h2>Your event</h2>' +
   '<div id="cf-interest-wrap"><span class="cf-q">What are you interested in? <em>(tap all that apply)</em></span>' + chips("interestedIn", INTERESTS, true) + "</div>" +
@@ -107,7 +128,8 @@ function formHtml() {
   '<div class="cf-msg err" id="cf-err" role="alert" hidden></div>' +
   '<button type="submit" class="cf-send" id="cf-send">Send Request</button>' +
   '<p class="cf-note">Requests are not a confirmed booking. We confirm availability, delivery and setup with you first.</p>' +
-  "</form>";
+  "</form>" +
+  '<p class="cf-after">Looking for something not listed? <a href="/request-a-rental">Ask about other rentals</a></p>';
 }
 
 function chosen(form, group) {
