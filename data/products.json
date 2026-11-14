@@ -414,7 +414,29 @@
       "Setup and takedown included",
       "Delivery extra",
       "HST extra"
-    ]
+    ],
+    "pageDetails": {
+      "capacity": "Up to 8 kids at one time",
+      "ages": "Kids & teens",
+      "outlets": "1",
+      "itemSize": "About 21 ft L × 8.2 ft W",
+      "spaceNeeded": "29 ft × 16 ft",
+      "wetDry": "Dry",
+      "priceNote": "HST extra",
+      "included": [
+        "Crown Quest obstacle course",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A clear, level area",
+        "1 power outlet within 100 ft"
+      ],
+      "about": "Ready, set, go! Crown Quest is a royal obstacle course built for climbing, crawling and racing through. It keeps kids moving and lines flowing, which makes it a favourite for school fun days, community events and big birthdays. Want the full 42-ft run? Pair it with Crown Cascade as Crown Rush 42."
+    }
   },
   {
     "id": "crown-cascade",
@@ -454,7 +476,31 @@
       "Setup and takedown included",
       "Delivery extra",
       "HST extra"
-    ]
+    ],
+    "pageDetails": {
+      "capacity": "Up to 6 kids at one time",
+      "ages": "Kids & teens",
+      "outlets": "1",
+      "itemSize": "About 21 ft L × 8.2 ft W × 12 ft H",
+      "spaceNeeded": "29 ft × 16 ft",
+      "wetDry": "Both",
+      "priceNote": "HST extra",
+      "included": [
+        "Crown Cascade slide",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A clear, level area",
+        "1 power outlet within 100 ft",
+        "A garden hose (for wet use)",
+        "A spot where water can drain (for wet use)"
+      ],
+      "about": "Climb up, slide down, do it again. Crown Cascade is a colourful slide that works dry or wet, so it's a hit all season — add water on hot days for a splash finish. Great for summer birthdays and backyard parties. Want more? Pair it with Crown Quest as Crown Rush 42, our full 42-ft course."
+    }
   },
   {
     "id": "crown-climber",
