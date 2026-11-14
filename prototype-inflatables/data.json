@@ -114,7 +114,9 @@
       "blurb": "Our biggest attraction — the full 72 ft setup combines two tropical parts that each also rent on their own: the Nova Reef Runner (a 31.5 ft obstacle course) and the Nova Surf Slide (an 18 ft tall water slide with a splash pool). Coming soon." },
 
     { "id": "nova-surf-slide", "slug": "nova-surf-slide", "name": "Nova Surf Slide",
-      "type": "Water Slide", "priceText": "Contact for pricing", "price": 0,
+      "type": "Water Slide",
+      "configs": [ { "id": "dry", "label": "Dry / Without pool", "price": 449 }, { "id": "wet", "label": "Wet / With pool", "price": 499 } ],
+      "price": 449, "fromPrice": true,
       "image": "/prototype-inflatables/images/nova-surf-slide.png",
       "status": "coming-soon", "wet": true, "tags": ["slides", "water"],
       "dims": "18 ft tall · tropical water slide with splash pool",
@@ -122,7 +124,7 @@
       "blurb": "A tropical water slide with a splash pool, 18 ft tall. Rents on its own, or combines with the Nova Reef Runner to form the full 72 ft Obstacle Course. Coming soon." },
 
     { "id": "nova-reef-runner", "slug": "nova-reef-runner", "name": "Nova Reef Runner",
-      "type": "Obstacle Course", "priceText": "Contact for pricing", "price": 0,
+      "type": "Obstacle Course", "price": 449,
       "image": "/prototype-inflatables/images/nova-reef-runner.png",
       "status": "coming-soon", "wet": false, "tags": ["obstacle"],
       "dims": "31.5 ft long · tropical obstacle course",
