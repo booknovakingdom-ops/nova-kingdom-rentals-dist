@@ -97,13 +97,13 @@
       var shown = 0;
       grid.querySelectorAll(".card").forEach(function (card) {
         var tags = (card.getAttribute("data-tags") || "").split(" ");
-        var match = type === "all" || tags.indexOf(type) !== -1;
+        var match = (type === "all") ? !card.hasAttribute("data-exclude-all") : tags.indexOf(type) !== -1;
         card.classList.toggle("hidden", !match); if (match) shown++;
       });
       document.querySelectorAll(".chip").forEach(function (ch) { ch.setAttribute("aria-pressed", ch.getAttribute("data-type") === type ? "true" : "false"); });
       var empty = qs("empty"); if (empty) empty.classList.toggle("hidden", shown > 0);
       var rc = qs("result-count"); var label = ((D.categories || []).filter(function (c) { return c.id === type; })[0] || {}).label || "";
-      if (rc) rc.textContent = "Showing " + shown + " inflatable" + (shown === 1 ? "" : "s") + (type !== "all" ? " · " + label : "");
+      if (rc) rc.textContent = "Showing " + shown + " rental" + (shown === 1 ? "" : "s") + (type !== "all" ? " · " + label : "");
     }
     document.querySelectorAll(".chip").forEach(function (ch) {
       ch.addEventListener("click", function (e) {
@@ -140,7 +140,7 @@
         var pkg = D.packages.filter(function (p) { return p.id === pid; })[0]; if (!pkg) return;
         var box = document.querySelector('.pkg-customize[data-pkg="' + pid + '"]'); if (!box) return;
         if (box.getAttribute("data-built")) { box.classList.toggle("hidden"); return; }
-        var choices = D.products.filter(function (p) { return p.status !== "coming-soon"; });
+        var choices = D.products.filter(function (p) { return p.status !== "coming-soon" && !p.excludeFromAll; });
         var rows = pkg.items.filter(function (id) { return id !== "5-lawn-games"; }).map(function (origId) {
           var orig = byId[origId];
           var opts = '<option value="">Keep ' + esc(orig ? orig.name : origId) + '</option>' +

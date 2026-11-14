@@ -1,12 +1,14 @@
 {
   "detailBase": "https://novakingdomrentals.com/rentals/",
   "categories": [
-    { "id": "all",      "label": "All Inflatables",       "short": "All" },
-    { "id": "combos",   "label": "Bounce & Slide Combos", "short": "Combos" },
-    { "id": "obstacle", "label": "Obstacle Courses",      "short": "Obstacle" },
-    { "id": "water",    "label": "Slides & Water Fun",    "short": "Slides & Water" },
-    { "id": "games",    "label": "Interactive Games",     "short": "Games" },
-    { "id": "play",     "label": "Play & Climb",          "short": "Play & Climb" }
+    { "id": "all",      "label": "All",             "short": "All" },
+    { "id": "bounce",   "label": "Bounce & Slide Combos", "short": "Combos" },
+    { "id": "slides",   "label": "Slides",          "short": "Slides" },
+    { "id": "obstacle", "label": "Obstacle Course", "short": "Obstacle" },
+    { "id": "water",    "label": "Water",           "short": "Water" },
+    { "id": "climb",    "label": "Climbing & Play", "short": "Climb & Play" },
+    { "id": "games",    "label": "Inflatable Games","short": "Inflatable Games" },
+    { "id": "lawn",     "label": "Lawn Games",      "short": "Lawn Games" }
   ],
   "policy": {
     "duration": "Private parties: up to 4 hours. Events, schools, community & festivals: up to 3 hours. Setup and takedown do not reduce your rental time.",
@@ -14,18 +16,17 @@
     "setupDry": "Setup and takedown included. Clear, level setup area and power access required. Adult supervision required at all times.",
     "setupWet": "Setup and takedown included. Clear, level setup area, power access, a water source and safe drainage required. Adult supervision required at all times."
   },
-  "lawnGames": { "id": "5-lawn-games", "name": "5 Lawn Games", "price": 100 },
   "products": [
     { "id": "crown-dino-combo", "slug": "crown-dino-combo", "name": "Crown Dino Combo",
       "type": "Bounce & Slide Combo", "price": 319, "image": "/images/crown-dino-combo.jpeg",
-      "status": "available", "wet": false, "tags": ["combos"],
+      "status": "available", "wet": false, "tags": ["bounce"],
       "dims": "13.1 ft L × 13.1 ft W × 9.8 ft H",
       "bestFor": ["Dinosaur birthdays", "Younger kids", "Backyard parties"],
       "blurb": "Dinosaur-themed combo with a bounce area and slide — a favourite for younger kids' birthdays and backyard parties." },
 
     { "id": "crown-climber", "slug": "crown-climber", "name": "Crown Climber",
-      "type": "Play & Climb", "price": 329, "image": "/images/crown-climber.jpeg",
-      "status": "available", "wet": false, "tags": ["play"],
+      "type": "Climbing & Play", "price": 329, "image": "/images/crown-climber.jpeg",
+      "status": "available", "wet": false, "tags": ["climb"],
       "dims": "16.4 ft L × 13.1 ft W × 13.1 ft H",
       "bestFor": ["Younger kids", "Backyard birthdays", "Daycare events"],
       "blurb": "A compact climbing inflatable built for younger children who love to climb and play." },
@@ -39,7 +40,7 @@
 
     { "id": "crown-island-combo", "slug": "crown-island-combo", "name": "Crown Island Combo",
       "type": "Bounce & Slide Combo", "image": "/images/crown-island-combo.jpeg",
-      "status": "available", "wet": true, "tags": ["combos", "water"],
+      "status": "available", "wet": true, "tags": ["bounce", "water"],
       "configs": [
         { "id": "dry", "label": "Dry / Without pool", "price": 349 },
         { "id": "wet", "label": "Wet / With pool",    "price": 399 }
@@ -58,14 +59,14 @@
 
     { "id": "crown-cascade", "slug": "crown-cascade", "name": "Crown Cascade",
       "type": "Water Slide", "price": 379, "image": "/images/crown-cascade.jpeg",
-      "status": "available", "wet": true, "tags": ["water"],
+      "status": "available", "wet": true, "tags": ["slides", "water"],
       "dims": "",
       "bestFor": ["Summer birthdays", "Backyard parties", "Water fun"],
       "blurb": "A colourful water slide for warm-weather events. Rents on its own, or combines with Crown Quest to form the full Crown Rush 42." },
 
     { "id": "crown-ice-palace-combo", "slug": "crown-ice-palace-combo", "name": "Crown Ice Palace Combo",
       "type": "Bounce & Slide Combo", "price": 389, "image": "/images/crown-ice-palace-combo.jpg",
-      "status": "available", "wet": false, "tags": ["combos"],
+      "status": "available", "wet": false, "tags": ["bounce"],
       "dims": "20 ft L × 17 ft W × 18 ft H",
       "bestFor": ["Birthdays", "Schools", "Community events"],
       "blurb": "An ice-palace-themed bounce-and-slide combo for birthdays, school events and community events." },
@@ -79,7 +80,7 @@
 
     { "id": "crown-pirate-adventure", "slug": "crown-pirate-adventure", "name": "Crown Pirate Adventure",
       "type": "Bounce & Slide Combo", "price": 499, "image": "/images/crown-pirate-adventure.png",
-      "status": "coming-soon", "wet": false, "tags": ["combos"],
+      "status": "coming-soon", "wet": false, "tags": ["bounce", "slides"],
       "dims": "30 ft L × 13 ft W × 16 ft H",
       "capacity": "Maximum 6–8 kids at one time",
       "bestFor": ["Birthdays", "Schools", "Community events"],
@@ -94,25 +95,41 @@
 
     { "id": "crown-play-palace", "slug": "crown-play-palace", "name": "Crown Play Palace",
       "type": "Bounce, Slide & Obstacle", "price": 699, "image": "/images/crown-play-palace.jpg",
-      "status": "available", "wet": false, "tags": ["combos", "obstacle"],
+      "status": "available", "wet": false, "tags": ["bounce"],
       "dims": "24 ft L × 10 ft W × 10 ft H",
       "bestFor": ["Birthdays", "Schools", "Community events"],
       "blurb": "A park-style play structure with obstacles, bounce areas and slides all in one — a big hit for birthdays, school events and community events." },
 
+    { "id": "72-ft-obstacle-course", "slug": "72-ft-obstacle-course", "name": "72 ft Obstacle Course",
+      "type": "Obstacle Course + Water Slide", "priceText": "Contact for pricing", "price": 0,
+      "image": "/prototype-inflatables/images/72ft-obstacle-part.png",
+      "gallery": ["/prototype-inflatables/images/72ft-obstacle-part.png", "/prototype-inflatables/images/72ft-waterslide-part.png"],
+      "status": "coming-soon", "wet": true, "tags": ["obstacle", "slides", "water"],
+      "dims": "Total 72 ft L × 10 ft W × 18 ft H (end to end)",
+      "bestFor": ["Schools", "Festivals", "Community events"],
+      "blurb": "Our biggest attraction — a giant obstacle course section plus a water slide with a splash pool, about 72 ft end to end (a 31.5 ft obstacle course + a 40.5 ft water slide with pool). Coming soon." },
+
     { "id": "crown-axe-challenge", "slug": "crown-axe-challenge", "name": "Crown Axe Challenge",
-      "type": "Interactive Game", "price": 199, "image": "/images/crown-axe-challenge.jpeg",
+      "type": "Inflatable Game", "price": 199, "image": "/images/crown-axe-challenge.jpeg",
       "status": "available", "wet": false, "tags": ["games"],
       "dims": "11.3 ft W × 7.9 ft D × 10.2 ft H",
       "bestFor": ["Teens", "Adults", "Schools"],
       "blurb": "Inflatable axe-throwing for friendly competition — great for teens, adults and school events." },
 
     { "id": "crown-kick-darts", "slug": "crown-kick-darts", "name": "Crown Kick Darts",
-      "altName": "Football Darts", "type": "Interactive Game", "price": 199,
+      "altName": "Football Darts", "type": "Inflatable Game", "price": 199,
       "image": "/images/crown-kick-darts.jpeg",
       "status": "available", "wet": false, "tags": ["games"],
       "dims": "12 ft L × 9.8 ft W × 5.3 ft H",
       "bestFor": ["Sports parties", "Schools", "Teens"],
-      "blurb": "Giant inflatable football darts (also called Crown Kick Darts) — kick the ball and stick the target. One canonical rental." }
+      "blurb": "Giant inflatable football darts (also called Crown Kick Darts) — kick the ball and stick the target. One canonical rental." },
+
+    { "id": "5-lawn-games", "slug": "5-lawn-games", "name": "5 Lawn Games",
+      "type": "Lawn Games", "price": 100, "image": "/images/lawn-games/cornhole.png",
+      "status": "available", "wet": false, "tags": ["lawn"], "excludeFromAll": true,
+      "dims": "",
+      "bestFor": ["Backyard parties", "Schools", "Community events"],
+      "blurb": "A set of five classic lawn games (cornhole, giant Connect 4, ladder toss, and more) — easy add-on fun for all ages. Not an inflatable." }
   ],
   "packages": [
     { "id": "family-kingdom", "name": "Family Kingdom", "price": 949, "customizable": true,

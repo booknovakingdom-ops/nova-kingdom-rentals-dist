@@ -17,7 +17,6 @@ with open(os.path.join(HERE, "data.json"), encoding="utf-8") as f:
     D = json.load(f)
 
 PROD = {p["id"]: p for p in D["products"]}
-PROD.update({D["lawnGames"]["id"]: D["lawnGames"]})
 
 
 def e(s):
@@ -102,6 +101,8 @@ def badge(p):
 
 
 def price_html(p):
+    if p.get("priceText"):
+        return e(p["priceText"])
     return ('From ' + money(p["price"])) if p.get("fromPrice") else money(p["price"])
 
 
@@ -131,7 +132,8 @@ def card(p):
            ('<div class="dims">%s</div>' % e(p["dims"])) if p.get("dims") else "",
            e(" • ".join(p["bestFor"])), BASE, slug, add_button(p))
     )
-    return '<article class="card" data-tags="%s" data-pid="%s">%s%s</article>' % (e(" ".join(p["tags"])), e(p["id"]), media, body)
+    exclude = ' data-exclude-all="1"' if p.get("excludeFromAll") else ""
+    return '<article class="card" data-tags="%s" data-pid="%s"%s>%s%s</article>' % (e(" ".join(p["tags"])), e(p["id"]), exclude, media, body)
 
 
 # ---------- pages ----------
@@ -160,7 +162,9 @@ def build_home():
 
 
 def cat_count(cid):
-    return sum(1 for p in D["products"] if cid == "all" or cid in p["tags"])
+    if cid == "all":
+        return sum(1 for p in D["products"] if not p.get("excludeFromAll"))
+    return sum(1 for p in D["products"] if cid in p["tags"])
 
 
 def build_inflatables():
@@ -180,7 +184,7 @@ def build_inflatables():
         '<div class="filterbar"><div class="chips" role="group" aria-label="Filter inflatables by type">%s</div></div>'
         '<div class="grid" id="catalog-grid">%s</div>'
         '<div class="empty hidden" id="empty"><p>No rentals are currently listed in this category.</p>'
-        '<a class="btn btn-primary" href="inflatables.html" style="max-width:240px;margin:0 auto">View All Inflatables</a></div>'
+        '<a class="btn btn-primary" href="inflatables.html" style="max-width:240px;margin:0 auto">View All</a></div>'
         '</section>%s'
         '<div class="cta-band"><h2>Ready to build your quote?</h2>'
         '<p class="muted">Add items as you browse, then review your estimate. Delivery extra · HST extra.</p>'
@@ -215,7 +219,7 @@ def build_product(p):
                        % (c["id"], "true" if i == 0 else "false", e(c["label"]), money(c["price"])) for i, c in enumerate(p["configs"]))
         cfg = ('<div data-config-group="%s"><p style="font-weight:700;margin:.4rem 0 .3rem">Choose a configuration:</p>'
                '<div class="cfg">%s</div></div>' % (e(p["id"]), btns))
-    specs = [("Price", ("From " + money(p["price"])) if p.get("configs") else money(p["price"])),
+    specs = [("Price", p.get("priceText") or (("From " + money(p["price"])) if p.get("configs") else money(p["price"]))),
              ("Category", p["type"]),
              ("Availability", "Coming Soon" if soon else "Available Now")]
     if p.get("dims"):
@@ -238,16 +242,21 @@ def build_product(p):
         ctas = ('<button class="btn btn-primary" data-add="%s" aria-pressed="false">Add to Quote</button>'
                 '<a class="btn btn-ghost" href="%s/contact.html">Check Availability</a>' % (e(p["id"]), BASE))
 
+    gallery_html = ""
+    if p.get("gallery") and len(p["gallery"]) > 1:
+        gallery_html = '<div class="detail-gallery">' + "".join(
+            '<img src="%s" alt="%s" loading="lazy" />' % (e(g), e(p["name"] + " view")) for g in p["gallery"]
+        ) + '</div>'
     body = (
         '<nav class="crumbs" aria-label="Breadcrumb" style="padding:1rem 0 .2rem;font-size:.86rem">'
         '<a href="%s/inflatables.html">← All inflatables</a></nav>'
         '<article class="detail"><div class="detail-media"><img src="%s" alt="%s inflatable rental" /></div>'
         '<div class="detail-info"><p class="ptype">%s</p><h1>%s</h1>'
-        '<div class="row">%s</div>%s<p class="detail-blurb">%s</p>'
+        '<div class="row">%s</div>%s<p class="detail-blurb">%s</p>%s'
         '<div class="card-cta" style="max-width:420px">%s</div>'
         '<dl class="specs">%s</dl></div></article>'
         % (BASE, e(p["image"]), e(p["name"]), e(p["type"]), e(p["name"] + ((" (" + p["altName"] + ")") if p.get("altName") else "")),
-           pills, cfg, e(p["blurb"]), ctas, specs_html)
+           pills, cfg, e(p["blurb"]), gallery_html, ctas, specs_html)
     )
     return page(p["name"] + " Rental", p["blurb"][:150], "inflatables", body)
 

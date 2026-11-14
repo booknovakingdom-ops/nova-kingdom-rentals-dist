@@ -145,6 +145,8 @@ p{margin:0 0 1rem}
 .specs dt{color:var(--muted)}
 .specs dd{margin:0;min-width:0;overflow-wrap:anywhere;word-break:break-word}
 .specs a{overflow-wrap:anywhere}
+.detail-gallery{display:flex;gap:.5rem;margin:.1rem 0 .5rem;flex-wrap:wrap}
+.detail-gallery img{width:104px;height:78px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
 @media(min-width:860px){.detail-media{position:sticky;top:76px}}
 .other-card h3{font-size:1.05rem;margin:0 0 .25rem;color:#fff}
 .other-card p{margin:0;color:var(--muted);font-size:.88rem}
