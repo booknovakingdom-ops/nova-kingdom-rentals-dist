@@ -6,7 +6,7 @@
 const W3F_KEY = "909ed8f7-78ca-494f-b960-1713b60bc012";
 
 const ATTRACTIONS = [
-  { key: "obstacle-course",   name: "72-ft Obstacle Course", img: "/images/attractions-2027/67-ft-obstacle-course.jpg?v=2", gallery: ["/images/attractions-2027/67-ft-obstacle-course.jpg?v=2", "/images/attractions-2027/67-ft-obstacle-course-2.jpg?v=2", "/images/attractions-2027/67-ft-obstacle-course-3.jpg?v=2"], reg: 849,  adv: 699, save: 150, dims: "67.2 ft L × 12 ft W × 22 ft H" },
+  { key: "obstacle-course",   name: "72-ft Obstacle Course", img: "/images/attractions-2027/67-ft-obstacle-course.jpg?v=2", gallery: ["/images/attractions-2027/67-ft-obstacle-course.jpg?v=2", "/images/attractions-2027/67-ft-obstacle-course-2.jpg?v=2", "/images/attractions-2027/67-ft-obstacle-course-3.jpg?v=2"], reg: 849,  adv: 699, save: 150, dims: "72 ft L × 10 ft W × 18 ft H · needs 2 blowers" },
   { key: "jump-and-slide",    name: "Jump & Slide",          img: "/images/attractions-2027/jump-and-slide.jpg",        reg: 749,  adv: 599, save: 150, dims: "26.2 ft L × 19.7 ft W × 16.4 ft H" },
   { key: "meltdown-challenge",name: "Meltdown Challenge",    img: "/images/attractions-2027/meltdown-challenge.jpg?v=2", reg: 1249, adv: 999, save: 250, dims: "19.7 × 19.7 ft footprint" },
 ];
