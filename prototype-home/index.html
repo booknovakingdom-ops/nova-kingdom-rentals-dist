@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="googlebot" content="noindex, nofollow" />
+<meta name="theme-color" content="#050814" />
+<title>Home Prototype | Nova Kingdom Rentals</title>
+<meta name="description" content="Prototype tile homepage for Nova Kingdom Rentals — not the live site." />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<style>
+  :root{--navy:#050814;--navy2:#0b1020;--gold:#f0d16a;--text:#e7e9f2;--muted:#aab0c4;--line:#232a44;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--navy);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:900px;margin:0 auto;padding:0 14px}
+  /* header */
+  .hdr{position:sticky;top:0;z-index:40;background:rgba(11,16,32,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .hdr-in{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px}
+  .brand{display:flex;align-items:center;gap:9px}
+  .brand img{height:40px;width:auto}
+  .brand b{color:#fff;font-size:1rem;line-height:1.05}
+  .brand span{display:block;color:var(--gold);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;font-weight:800}
+  .hdr-cta{background:var(--gold);color:#1a1300;font-weight:800;border-radius:999px;padding:.5rem .9rem;font-size:.85rem}
+  /* hero */
+  .hero{text-align:center;padding:26px 14px 10px}
+  .hero .eyebrow{color:var(--gold);text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;font-weight:800;margin:0 0 6px}
+  .hero h1{margin:0 0 8px;font-size:clamp(1.6rem,6vw,2.4rem);color:#fff;line-height:1.08}
+  .hero p{margin:0 auto;max-width:34ch;color:var(--muted);font-size:1rem}
+  .hero .phone{display:inline-block;margin-top:12px;background:#fff;color:#0b1020;font-weight:800;border-radius:999px;padding:.55rem 1.1rem;font-size:.95rem}
+  /* tiles */
+  .tiles{display:grid;grid-template-columns:1fr;gap:18px;padding:16px 0 8px}
+  @media(min-width:720px){.tiles{grid-template-columns:1fr 1fr}}
+  .tile{display:block;border-radius:16px;overflow:hidden;background:var(--navy2);border:1px solid var(--line);
+    box-shadow:0 8px 22px rgba(0,0,0,.35);transition:transform .12s,box-shadow .12s}
+  .tile:active{transform:scale(.99)}
+  .tile:hover{box-shadow:0 10px 28px rgba(0,0,0,.5)}
+  .banner{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 10px;text-align:center}
+  .banner h2{margin:0;font-size:clamp(1.25rem,5.2vw,1.7rem);font-weight:900;letter-spacing:.02em;text-transform:uppercase;
+    color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.45);line-height:1}
+  .tile-media{position:relative;aspect-ratio:16/10;background:#0a0f1e}
+  .tile-media img{width:100%;height:100%;object-fit:cover}
+  .tile-media .go{position:absolute;right:12px;bottom:12px;background:rgba(5,8,20,.82);color:var(--gold);
+    font-weight:800;font-size:.85rem;border-radius:999px;padding:.4rem .8rem;border:1px solid rgba(240,209,106,.5)}
+  /* coming-soon tile (no photo yet) */
+  .soon-body{position:relative;padding:18px 16px 16px;background:linear-gradient(135deg,#131a30,#0a0f1e)}
+  .soon-badge{display:inline-block;background:rgba(240,180,95,.16);color:#f0b45f;border:1px solid rgba(240,180,95,.5);
+    font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;border-radius:999px;padding:.25rem .6rem;margin-bottom:10px}
+  .soon-body ul{margin:0 0 10px;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+  .soon-body li{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:999px;padding:.4rem .8rem;font-weight:700;font-size:.9rem}
+  .soon-body .go{display:inline-block;background:rgba(5,8,20,.82);color:var(--gold);font-weight:800;font-size:.85rem;border-radius:999px;padding:.4rem .8rem;border:1px solid rgba(240,209,106,.5)}
+  /* more links */
+  .more{padding:10px 0 4px}
+  .more h3{color:#fff;text-align:center;font-size:1.05rem;margin:14px 0 10px}
+  .chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+  .chip{background:var(--navy2);border:1px solid var(--line);border-radius:999px;padding:.6rem 1rem;font-weight:700;font-size:.92rem;color:var(--text)}
+  .chip:hover{border-color:var(--gold);color:#fff}
+  /* floating quote */
+  .fab{position:fixed;right:14px;bottom:16px;z-index:50;background:var(--gold);color:#1a1300;border-radius:16px;
+    padding:12px 14px;font-weight:900;box-shadow:0 10px 24px rgba(0,0,0,.45);display:flex;align-items:center;gap:8px}
+  .fab .n{background:#1a1300;color:var(--gold);border-radius:999px;min-width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:.8rem}
+  /* footer */
+  .ft{border-top:1px solid var(--line);background:var(--navy2);margin-top:22px;color:var(--muted);font-size:.9rem}
+  .ft .wrap{padding:18px 14px}
+  .ft a{color:var(--gold)}
+  .proto{background:rgba(240,209,106,.12);border:1px solid rgba(240,209,106,.4);color:#f7e6a8;font-size:.78rem;
+    text-align:center;padding:.5rem;border-radius:0}
+</style>
+</head>
+<body>
+  <div class="proto">PROTOTYPE — demo of a new tile homepage. Not the live website.</div>
+  <header class="hdr"><div class="hdr-in">
+    <a class="brand" href="#top"><img src="/images/nova-kingdom-rentals-logo.png" alt="Nova Kingdom Rentals logo">
+      <b>Nova Kingdom<br>Rentals<span>Bridgewater, NS</span></b></a>
+    <a class="hdr-cta" href="/contact">Request a Quote</a>
+  </div></header>
+
+  <a id="top"></a>
+  <section class="hero">
+    <p class="eyebrow">Nova Kingdom Rentals</p>
+    <h1>Party &amp; Event Rentals<br>in Nova Scotia</h1>
+    <p>Bouncy castles, booths, foam parties, lawn games and more — delivered and set up across the South Shore &amp; NS.</p>
+    <a class="phone" href="tel:+19029900005">📞 902-990-0005</a>
+  </section>
+
+  <main class="wrap">
+    <div class="tiles" id="tiles">
+      <!-- tiles injected -->
+    </div>
+
+    <section class="more">
+      <h3>More from Nova Kingdom Rentals</h3>
+      <div class="chips">
+        <a class="chip" href="/packages">Packages</a>
+        <a class="chip" href="/about">About Us</a>
+        <a class="chip" href="/service-areas">Service Areas</a>
+        <a class="chip" href="/faq">FAQ</a>
+        <a class="chip" href="/request-a-rental">Request an Item</a>
+        <a class="chip" href="/contact">Contact</a>
+      </div>
+    </section>
+  </main>
+
+  <a class="fab" href="/contact">🛒 Quote <span class="n">0</span></a>
+
+  <footer class="ft"><div class="wrap">
+    <p><strong style="color:#fff">Nova Kingdom Rentals</strong> — Bridgewater, Nova Scotia · <a href="tel:+19029900005">902-990-0005</a> · <a href="mailto:booknovakingdom@gmail.com">email us</a></p>
+    <p>This is a <strong>prototype</strong> homepage concept. The live site is at <a href="https://novakingdomrentals.com">novakingdomrentals.com</a>.</p>
+  </div></footer>
+
+  <script>
+    // Tiles: bold banner + real photo, each links to the real section.
+    var TILES = [
+      { t:"Inflatable Rentals",   href:"/rentals",             img:"/images/events/community-event-inflatables.jpg", c:"#e2443b" },
+      { t:"Photo & Video Booths", href:"/photo-video-booths",  img:"/images/360-video-booth.jpg",                    c:"#2f7fd6" },
+      { t:"Foam Party",           href:"/foam-party",          img:"/images/kids-foam-party.jpg",                    c:"#11111a" },
+      { t:"Lawn Games",           href:"/lawn-games",          img:"/images/lawn-games/cornhole.png",                c:"#3aa76d" },
+      { t:"Event Essentials",     href:"/tables-and-chairs",   img:"/images/10x20-pole-tent.jpeg",                   c:"#8a63d2" },
+      { t:"Party Packages",       href:"/packages",            img:"/images/packages/royal-all-star-package.jpg",    c:"#e86a2c" },
+      { t:"Concession Rentals",   href:"/contact",             soon:true, items:["Popcorn","Cotton Candy","Snow Cones"], c:"#1f8a9e" },
+      { t:"Generator Rental",     href:"/rentals/generator",   img:"/images/generator.jpg",                          c:"#c9427e" }
+    ];
+    var html = TILES.map(function(x){
+      if(x.soon){
+        return '<a class="tile tile-soon" href="'+x.href+'">'+
+          '<div class="banner" style="background:'+x.c+'"><h2>'+x.t+'</h2></div>'+
+          '<div class="soon-body"><span class="soon-badge">Coming Soon</span>'+
+          '<ul>'+x.items.map(function(i){return '<li>'+i+'</li>';}).join('')+'</ul>'+
+          '<span class="go">Notify me ›</span></div></a>';
+      }
+      return '<a class="tile" href="'+x.href+'">'+
+        '<div class="banner" style="background:'+x.c+'"><h2>'+x.t+'</h2></div>'+
+        '<div class="tile-media"><img src="'+x.img+'" alt="'+x.t+' — Nova Kingdom Rentals" loading="lazy">'+
+        '<span class="go">View ›</span></div></a>';
+    }).join("");
+    document.getElementById("tiles").innerHTML = html;
+  </script>
+</body>
+</html>
