@@ -405,6 +405,69 @@
     }
   },
   {
+    "id": "nova-hoops-challenge",
+    "slug": "nova-hoops-challenge",
+    "name": "Nova Hoops Challenge",
+    "tagline": "Shoot for the Crown",
+    "category": "Interactive Game",
+    "price": "$199",
+    "status": "Coming Soon",
+    "comingSoon": true,
+    "image": "/images/nova-hoops-challenge.jpg",
+    "metaTitle": "Nova Hoops Challenge Rental | Inflatable Basketball Game | Nova Kingdom Rentals",
+    "metaDescription": "Inflatable basketball shooting game with 10, 20 and 30-point hoops. $199. Coming Soon to Nova Kingdom Rentals — Nova Scotia and Atlantic Canada.",
+    "shortDescription": "Giant inflatable basketball shooting game for all ages. Coming Soon.",
+    "fullDescription": "Who's the best shooter? Players race to sink basketballs into the 10, 20 and 30-point hoops on this giant inflatable backboard. Great for birthdays, school events, sports parties and corporate events. Coming Soon — contact us to be notified when it launches.",
+    "bestFor": [
+      "Birthdays",
+      "School events",
+      "Sports parties",
+      "Corporate events"
+    ],
+    "features": [
+      "Giant inflatable backboard",
+      "10, 20 and 30-point hoops",
+      "All-age fun"
+    ],
+    "setupNotes": [
+      "Clear level setup area required",
+      "Power access required",
+      "Adult supervision required"
+    ],
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
+    "wetUse": false,
+    "dimensions": "13 ft L × 10 ft W × 10 ft H",
+    "specs": [
+      "13 ft L × 10 ft W × 10 ft H",
+      "Basketballs included",
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra"
+    ],
+    "pageDetails": {
+      "ages": "All ages",
+      "outlets": "1",
+      "itemSize": "13 ft L × 10 ft W × 10 ft H",
+      "spaceNeeded": "Unit size + 10 ft of open space in front",
+      "wetDry": "Dry",
+      "priceNote": "HST extra",
+      "skipShoesRule": true,
+      "included": [
+        "Nova Hoops Challenge inflatable backboard",
+        "Basketballs",
+        "Blower",
+        "Stakes or sandbags",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A clear, level area with open space in front",
+        "1 power outlet within 100 ft"
+      ],
+      "about": "Who's the best shooter? Players race to sink basketballs into the 10, 20 and 30-point hoops on this giant inflatable backboard. Great for birthdays, school events, sports parties and corporate events."
+    }
+  },
+  {
     "id": "crown-rush-42",
     "slug": "crown-rush-42",
     "name": "Crown Rush 42",

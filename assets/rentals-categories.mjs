@@ -35,6 +35,7 @@ const TAGS = {
   "crown-climber": ["games"],
   "crown-axe-challenge": ["games"],
   "crown-kick-darts": ["games"],
+  "nova-hoops-challenge": ["games"],
 };
 
 const P = 'html[data-nkpage="rentals"]';
