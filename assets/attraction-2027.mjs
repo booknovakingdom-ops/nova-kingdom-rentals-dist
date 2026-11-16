@@ -11,6 +11,7 @@ const ATTRACTIONS = [
   { key: "meltdown-challenge",name: "Meltdown Challenge",    img: "/images/attractions-2027/meltdown-challenge.jpg?v=2", reg: 1249, adv: 999, save: 250, dims: "19.7 × 19.7 ft footprint" },
   { key: "glow-mini-golf",    name: "Glow Mini Golf (9 Holes)", img: "/images/attractions-2027/glow-mini-golf.jpg", reg: 999, adv: 899, save: 100, dims: "9 holes · indoor & outdoor · 1-day rental" },
   { key: "mechanical-bull",   name: "Mechanical Bull",       img: "/images/attractions-2027/mechanical-bull.jpg", reg: 1249, adv: 999, save: 250, dims: "Kids, teens & adults · operator included · setup & takedown" },
+  { key: "toddler-soft-play", name: "Toddler Soft Play",     img: "/images/attractions-2027/toddler-soft-play.jpg", reg: null, adv: null, save: null, dims: "Babies & toddlers (0–5) · indoor & outdoor" },
 ];
 
 const DISCLAIMER = "These are potential future additions and are not yet confirmed. Final selections will depend on demand and advance bookings. Submitting this form does not confirm a reservation. We’ll confirm availability, your full quote and deposit terms—including what happens if the attraction does not go ahead—before arranging payment.";
@@ -40,12 +41,14 @@ function cardHtml(a) {
       '<span class="nk27-card-body">' +
         '<span class="nk27-card-name">' + esc(a.name) + '</span>' +
         '<span class="nk27-card-dims">' + esc(a.dims) + '</span>' +
+        (a.reg ? (
         '<span class="nk27-card-pricing">' +
           '<span class="nk27-reg">' + money(a.reg) + '</span>' +
           '<span class="nk27-adv">' + money(a.adv) + '</span>' +
           '<span class="nk27-adv-label">advance booking</span>' +
         '</span>' +
-        '<span class="nk27-save">Save ' + money(a.save) + '</span>' +
+        '<span class="nk27-save">Save ' + money(a.save) + '</span>') :
+        '<span class="nk27-card-pricing"><span class="nk27-adv-label">Price coming soon</span></span>') +
         '<span class="nk27-pick"><span class="pick-off">Tap to select</span><span class="pick-on">Selected</span></span>' +
       '</span>' +
     '</button>'
@@ -111,9 +114,9 @@ function refreshSelected(root) {
     display.classList.remove("has-selection");
     input.value = "";
   } else {
-    display.textContent = chosen.map((a) => a.name + " (advance " + money(a.adv) + ", reg " + money(a.reg) + ")").join("  •  ");
+    display.textContent = chosen.map((a) => a.reg ? a.name + " (advance " + money(a.adv) + ", reg " + money(a.reg) + ")" : a.name + " (price coming soon)").join("  •  ");
     display.classList.add("has-selection");
-    input.value = chosen.map((a) => a.name + " — advance " + money(a.adv) + " / regular " + money(a.reg) + " (save " + money(a.save) + ")").join("; ");
+    input.value = chosen.map((a) => a.reg ? a.name + " — advance " + money(a.adv) + " / regular " + money(a.reg) + " (save " + money(a.save) + ")" : a.name + " — price coming soon").join("; ");
   }
 }
 
@@ -189,7 +192,7 @@ function wire(root) {
       replyto: email,
       business: "Nova Kingdom Rentals",
       enquiryType: "Future Attraction Enquiry — potential future addition, not a confirmed booking",
-      selectedAttractions: chosen.map((a) => a.name + " (advance " + money(a.adv) + " / regular " + money(a.reg) + ", save " + money(a.save) + ")").join("; "),
+      selectedAttractions: chosen.map((a) => a.reg ? a.name + " (advance " + money(a.adv) + " / regular " + money(a.reg) + ", save " + money(a.save) + ")" : a.name + " (price coming soon)").join("; "),
       name: name,
       email: email,
       phone: form.phone.value.trim() || "Not provided",
