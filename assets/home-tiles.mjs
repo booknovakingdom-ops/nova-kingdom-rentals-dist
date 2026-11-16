@@ -41,6 +41,15 @@ const CSS = `
 .nkht-more{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:1.2rem}
 .nkht-more a{background:#0b1020;border:1px solid #232a44;border-radius:999px;padding:.6rem 1rem;font-weight:700;font-size:.92rem;color:#e7e9f2;text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
 .nkht-more a:hover{border-color:#f0d16a;color:#fff}
+.nkht-cta{grid-column:1/-1;background:linear-gradient(135deg,#1b2238,#0b1020);border:2px solid #f0d16a;border-radius:18px;padding:22px 16px;text-align:center;box-shadow:0 10px 26px rgba(0,0,0,.4)}
+.nkht-cta h3{margin:0 0 6px;color:#fff;font-size:clamp(1.4rem,5.5vw,1.9rem);line-height:1.15}
+.nkht-cta p{margin:0 0 14px;color:#c9cede;font-size:.98rem;line-height:1.5}
+.nkht-cta .b{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.nkht-cta a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;border-radius:999px;padding:.7rem 1.4rem;font-weight:900;text-decoration:none;font-size:1rem}
+.nkht-cta a.q{background:#f0d16a;color:#1a1300}
+.nkht-cta a.c{background:#fff;color:#0b1020}
+main:has(> #nk-home-tiles) > section.final-cta{display:none!important}
+body:has(#nk-home-tiles) #nk-quote-strip{display:none!important}
 `;
 
 function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;"); }
@@ -57,9 +66,15 @@ function sectionHtml() {
       '<div class="nkht-media"' + (x.bg ? ' style="background:' + x.bg + '"' : "") + '><img src="' + x.img + '" alt="' + esc(x.t) + ' — Nova Kingdom Rentals" loading="lazy" style="object-fit:' + (x.fit || "cover") + '">' +
       '<span class="nkht-go">View ›</span></div></a>';
   }).join("");
+  const cta = '<div class="nkht-cta" id="nk-home-cta"><h3>Ready to check your date?</h3>' +
+    '<p>Send your event date and address — we’ll check availability and send you a free quote.</p>' +
+    '<div class="b"><a class="q" href="/contact">Get a Free Quote</a><a class="c" href="tel:+19029900005">Call 902-990-0005</a></div></div>';
+  const fi = tiles.indexOf('>Foam Party<');
+  const i = fi > -1 ? tiles.indexOf('</a>', fi) : -1;
+  const grid = i > -1 ? tiles.slice(0, i + 4) + cta + tiles.slice(i + 4) : cta + tiles;
   const more = MORE.map((m) => '<a href="' + m[1] + '">' + esc(m[0]) + "</a>").join("");
   return '<div class="nkht-in"><p class="nkht-eyebrow">Browse Rentals</p><h2 class="nkht-title">What are you looking for?</h2>' +
-    '<div class="nkht-grid">' + tiles + '</div><nav class="nkht-more" aria-label="More pages">' + more + "</nav></div>";
+    '<div class="nkht-grid">' + grid + '</div><nav class="nkht-more" aria-label="More pages">' + more + "</nav></div>";
 }
 
 function inject() {
