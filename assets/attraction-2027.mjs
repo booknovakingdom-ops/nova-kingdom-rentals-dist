@@ -1,4 +1,4 @@
-// Nova Kingdom Rentals — "Help Choose Our Next Attraction for 2027"
+// Nova Kingdom Rentals — "Help Choose Our Next Attraction"
 // A homepage demand-gauging section injected below the hero. Potential 2027
 // additions only — NOT confirmed inventory, no payment / confirmed booking.
 // Submits to the existing Web3Forms enquiry system as a "2027 Attraction Enquiry".
@@ -12,7 +12,7 @@ const ATTRACTIONS = [
   { key: "glow-mini-golf",    name: "Glow Mini Golf (9 Holes)", img: "/images/attractions-2027/glow-mini-golf.jpg", reg: 999, adv: 899, save: 100, dims: "9 holes · indoor & outdoor · 1-day rental" },
 ];
 
-const DISCLAIMER = "These are potential additions for 2027 and are not yet confirmed. Final selections will depend on demand and advance bookings. Submitting this form does not confirm a reservation. We’ll confirm availability, your full quote and deposit terms—including what happens if the attraction does not go ahead—before arranging payment.";
+const DISCLAIMER = "These are potential future additions and are not yet confirmed. Final selections will depend on demand and advance bookings. Submitting this form does not confirm a reservation. We’ll confirm availability, your full quote and deposit terms—including what happens if the attraction does not go ahead—before arranging payment.";
 
 const money = (n) => "$" + Number(n).toLocaleString("en-CA");
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -34,7 +34,7 @@ function cardHtml(a) {
   return (
     '<button type="button" class="nk27-card" data-key="' + a.key + '" aria-pressed="false">' +
       '<span class="nk27-card-check" aria-hidden="true">✓</span>' +
-      '<span class="nk27-card-img"><img class="nk27-main-img" src="' + a.img + '" alt="' + esc(a.name) + ' — potential 2027 attraction" loading="lazy"></span>' +
+      '<span class="nk27-card-img"><img class="nk27-main-img" src="' + a.img + '" alt="' + esc(a.name) + ' — potential future attraction" loading="lazy"></span>' +
       thumbsHtml(a) +
       '<span class="nk27-card-body">' +
         '<span class="nk27-card-name">' + esc(a.name) + '</span>' +
@@ -55,9 +55,9 @@ function sectionHtml() {
   const eventTypes = ["Birthday Party", "School Event", "Church / Community Event", "Festival", "Corporate Event", "Fundraiser", "Other"];
   return (
     '<div class="nk27-inner">' +
-      '<p class="nk27-eyebrow">Help Shape 2027</p>' +
-      '<h2 class="nk27-title">Help Choose Our Next Attraction for 2027</h2>' +
-      '<p class="nk27-intro">We’re considering adding one or two exciting new attractions for 2027! Choose your favourite below and request our advance booking offer for your next event.</p>' +
+      '<p class="nk27-eyebrow">Help Shape What’s Next</p>' +
+      '<h2 class="nk27-title">Help Choose Our Next Attraction</h2>' +
+      '<p class="nk27-intro">We’re considering adding one or two exciting new attractions! Choose your favourite below and request our advance booking offer for your next event.</p>' +
       '<div class="nk27-cards">' + ATTRACTIONS.map(cardHtml).join("") + '</div>' +
       '<p class="nk27-taxnote">Delivery, staffing and applicable taxes will be outlined in your personalised quote.</p>' +
       '<form class="nk27-form" novalidate>' +
@@ -183,11 +183,11 @@ function wire(root) {
     const payload = {
       access_key: W3F_KEY,
       botcheck: "",
-      subject: "2027 Attraction Enquiry",
+      subject: "Future Attraction Enquiry",
       from_name: name || "Website Visitor",
       replyto: email,
       business: "Nova Kingdom Rentals",
-      enquiryType: "2027 Attraction Enquiry — potential future addition, not a confirmed booking",
+      enquiryType: "Future Attraction Enquiry — potential future addition, not a confirmed booking",
       selectedAttractions: chosen.map((a) => a.name + " (advance " + money(a.adv) + " / regular " + money(a.reg) + ", save " + money(a.save) + ")").join("; "),
       name: name,
       email: email,
@@ -231,7 +231,7 @@ function inject() {
   const sec = document.createElement("section");
   sec.id = "nk-2027-attractions";
   sec.className = "nk27";
-  sec.setAttribute("aria-label", "Help choose our next attraction for 2027");
+  sec.setAttribute("aria-label", "Help choose our next attraction");
   sec.innerHTML = sectionHtml();
   // Restore any prior selection visual state
   selected.forEach((k) => {

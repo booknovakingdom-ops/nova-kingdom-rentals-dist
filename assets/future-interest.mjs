@@ -41,10 +41,10 @@ function init() {
     const payload = {
       access_key: W3F_KEY,
       botcheck: "",
-      subject: "I want this (2027): " + attrs.join(" + ") + " — " + town,
+      subject: "I want this (future attraction): " + attrs.join(" + ") + " — " + town,
       from_name: name,
       business: "Nova Kingdom Rentals",
-      enquiryType: "Future attraction interest (2027) — not a booking",
+      enquiryType: "Future attraction interest — not a booking",
       attractions: attrs.join("; "),
       name: name,
       phone: phone || "Not provided",
