@@ -10,6 +10,7 @@ const ATTRACTIONS = [
   { key: "jump-and-slide",    name: "Jump & Slide",          img: "/images/attractions-2027/jump-and-slide.jpg",        reg: 749,  adv: 599, save: 150, dims: "26.2 ft L × 19.7 ft W × 16.4 ft H" },
   { key: "meltdown-challenge",name: "Meltdown Challenge",    img: "/images/attractions-2027/meltdown-challenge.jpg?v=2", reg: 1249, adv: 999, save: 250, dims: "19.7 × 19.7 ft footprint" },
   { key: "glow-mini-golf",    name: "Glow Mini Golf (9 Holes)", img: "/images/attractions-2027/glow-mini-golf.jpg", reg: 999, adv: 899, save: 100, dims: "9 holes · indoor & outdoor · 1-day rental" },
+  { key: "mechanical-bull",   name: "Mechanical Bull",       img: "/images/attractions-2027/mechanical-bull.jpg", reg: 1249, adv: 999, save: 250, dims: "Operator included · setup & takedown included" },
 ];
 
 const DISCLAIMER = "These are potential future additions and are not yet confirmed. Final selections will depend on demand and advance bookings. Submitting this form does not confirm a reservation. We’ll confirm availability, your full quote and deposit terms—including what happens if the attraction does not go ahead—before arranging payment.";
