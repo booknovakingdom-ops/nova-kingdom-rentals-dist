@@ -12,6 +12,9 @@ const ATTRACTIONS = [
   { key: "glow-mini-golf",    name: "Glow Mini Golf (9 Holes)", img: "/images/attractions-2027/glow-mini-golf.jpg", reg: 999, adv: 899, save: 100, dims: "9 holes · indoor & outdoor · 1-day rental" },
   { key: "mechanical-bull",   name: "Mechanical Bull",       img: "/images/attractions-2027/mechanical-bull.jpg", reg: 1249, adv: 999, save: 250, dims: "Kids, teens & adults · operator included · setup & takedown" },
   { key: "toddler-soft-play", name: "Toddler Soft Play",     img: "/images/attractions-2027/toddler-soft-play.jpg", reg: null, adv: null, save: null, dims: "Babies & toddlers (0–5) · indoor & outdoor" },
+  { key: "inflatable-tennis-game", name: "Inflatable Tennis Game", img: "/images/attractions-2027/inflatable-tennis-game.jpg", reg: null, adv: null, save: null, dims: "All ages · sports game" },
+  { key: "nova-beach-volleyball", name: "Nova Beach Volleyball", img: "/images/attractions-2027/nova-beach-volleyball.jpg", reg: null, adv: null, save: null, dims: "All ages · sports game" },
+  { key: "nova-speedway", name: "Nova Speedway", img: "/images/attractions-2027/nova-speedway.jpg", reg: null, adv: null, save: null, dims: "All ages · obstacle course with double slide" },
 ];
 
 const DISCLAIMER = "These are potential future additions and are not yet confirmed. Final selections will depend on demand and advance bookings. Submitting this form does not confirm a reservation. We’ll confirm availability, your full quote and deposit terms—including what happens if the attraction does not go ahead—before arranging payment.";
