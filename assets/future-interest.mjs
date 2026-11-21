@@ -23,6 +23,11 @@ function init() {
     form.scrollIntoView({ behavior: "smooth", block: "start" });
   }));
 
+  document.querySelectorAll(".card .vid").forEach((w) => w.addEventListener("click", () => {
+    const v = w.querySelector("video"); const n = w.querySelector(".vnote");
+    v.muted = !v.muted; if (v.paused) v.play().catch(() => {});
+    if (n) n.textContent = v.muted ? "Tap video for sound" : "Tap video to mute";
+  }));
   const show = (t) => { err.textContent = t; err.hidden = false; err.scrollIntoView({ behavior: "smooth", block: "center" }); };
   form.addEventListener("submit", async (e) => {
     e.preventDefault();

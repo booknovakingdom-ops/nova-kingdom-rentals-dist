@@ -6,9 +6,9 @@
 const W3F_KEY = "909ed8f7-78ca-494f-b960-1713b60bc012";
 
 const ATTRACTIONS = [
-  { key: "obstacle-course",   name: "72-ft Obstacle Course", img: "/images/attractions-2027/67-ft-obstacle-course.jpg?v=2", gallery: ["/images/attractions-2027/67-ft-obstacle-course.jpg?v=2", "/images/attractions-2027/67-ft-obstacle-course-2.jpg?v=2", "/images/attractions-2027/67-ft-obstacle-course-3.jpg?v=2"], reg: 849,  adv: 699, save: 150, dims: "72 ft L × 10 ft W × 18 ft H · needs 2 blowers" },
+  { key: "obstacle-course",   name: "72-ft Obstacle Course", video: "/videos/72-ft-obstacle-course.mp4", poster: "/videos/72-ft-obstacle-course-poster.jpg", img: "/images/attractions-2027/67-ft-obstacle-course.jpg?v=2", gallery: ["/images/attractions-2027/67-ft-obstacle-course.jpg?v=2", "/images/attractions-2027/67-ft-obstacle-course-2.jpg?v=2", "/images/attractions-2027/67-ft-obstacle-course-3.jpg?v=2"], reg: 849,  adv: 699, save: 150, dims: "72 ft L × 10 ft W × 18 ft H · needs 2 blowers" },
   { key: "jump-and-slide",    name: "Jump & Slide",          img: "/images/attractions-2027/jump-and-slide.jpg",        reg: 749,  adv: 599, save: 150, dims: "26.2 ft L × 19.7 ft W × 16.4 ft H" },
-  { key: "meltdown-challenge",name: "Meltdown Challenge",    img: "/images/attractions-2027/meltdown-challenge.jpg?v=2", reg: 1249, adv: 999, save: 250, dims: "19.7 × 19.7 ft footprint" },
+  { key: "meltdown-challenge",name: "Meltdown Challenge", video: "/videos/meltdown-challenge.mp4", poster: "/videos/meltdown-challenge-poster.jpg",    img: "/images/attractions-2027/meltdown-challenge.jpg?v=2", reg: 1249, adv: 999, save: 250, dims: "19.7 × 19.7 ft footprint" },
   { key: "glow-mini-golf",    name: "Glow Mini Golf (9 Holes)", img: "/images/attractions-2027/glow-mini-golf.jpg", reg: 999, adv: 899, save: 100, dims: "9 holes · indoor & outdoor · 1-day rental" },
   { key: "mechanical-bull",   name: "Mechanical Bull",       img: "/images/attractions-2027/mechanical-bull.jpg", reg: 1249, adv: 999, save: 250, dims: "Kids, teens & adults · operator included · setup & takedown" },
   { key: "toddler-soft-play", name: "Toddler Soft Play",     img: "/images/attractions-2027/toddler-soft-play.jpg", reg: null, adv: null, save: null, dims: "Babies & toddlers (0–5) · indoor & outdoor" },
@@ -42,6 +42,7 @@ function cardHtml(a) {
       '<span class="nk27-card-check" aria-hidden="true">✓</span>' +
       '<span class="nk27-card-img"><img class="nk27-main-img" src="' + a.img + '" alt="' + esc(a.name) + ' — potential future attraction" loading="lazy"></span>' +
       thumbsHtml(a) +
+      (a.video ? '<span class="nk27-video"><video src="' + a.video + '" poster="' + a.poster + '" muted autoplay loop playsinline preload="metadata" aria-label="' + esc(a.name) + ' video"></video><span class="nk27-vnote">Tap video for sound</span></span>' : '') +
       '<span class="nk27-card-body">' +
         '<span class="nk27-card-name">' + esc(a.name) + '</span>' +
         '<span class="nk27-card-dims">' + esc(a.dims) + '</span>' +
@@ -127,6 +128,15 @@ function refreshSelected(root) {
 function wire(root) {
   // Card selection (multi-select)
   root.querySelectorAll(".nk27-card").forEach((card) => {
+    const vid = card.querySelector(".nk27-video video");
+    if (vid) {
+      const note = card.querySelector(".nk27-vnote");
+      card.querySelector(".nk27-video").addEventListener("click", (e) => {
+        e.preventDefault(); e.stopPropagation();
+        vid.muted = !vid.muted; if (vid.paused) vid.play().catch(() => {});
+        if (note) note.textContent = vid.muted ? "Tap video for sound" : "Tap video to mute";
+      });
+    }
     card.addEventListener("click", () => {
       const key = card.dataset.key;
       if (selected.has(key)) { selected.delete(key); card.setAttribute("aria-pressed", "false"); card.classList.remove("selected"); }
