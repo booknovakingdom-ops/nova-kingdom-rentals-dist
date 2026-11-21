@@ -26,6 +26,9 @@ main:has(> #nk-pd) > section.split-section{display:none!important}
 #nk-pd tr:last-child td{border-bottom:0}
 #nk-pd td:first-child{font-weight:700;width:42%;background:#fbf8ef}
 #nk-pd small{font-size:.8em;opacity:.8}
+#nk-pd .pd-vid{position:relative;background:#000;border-radius:14px;overflow:hidden;margin:0 0 6px}
+#nk-pd .pd-vid video{display:block;width:100%;max-height:520px;object-fit:contain;background:#000}
+#nk-pd .pd-vnote{position:absolute;left:10px;bottom:10px;background:rgba(0,0,0,.65);color:#fff;font-size:.78rem;font-weight:700;border-radius:999px;padding:3px 10px;pointer-events:none}
 @media(min-width:700px){#nk-pd .pd-two{grid-template-columns:1fr 1fr}}
 `;
 
@@ -56,7 +59,8 @@ function html(p) {
     ["Capacity", esc(d.capacity)],
     ["Wet or dry", esc(d.wetDry)],
   ].filter((r) => r[1]);
-  return '<h2>Quick facts</h2><ul class="pd-facts">' +
+  return (d.video ? '<h2>See it in action</h2><div class="pd-vid"><video src="' + esc(d.video) + '" poster="' + esc(d.poster || '') + '" muted autoplay loop playsinline preload="metadata" aria-label="' + esc(p.name) + ' video"></video><span class="pd-vnote">Tap video for sound</span></div>' : '') +
+    '<h2>Quick facts</h2><ul class="pd-facts">' +
     fact("👧", d.capacity ? "Capacity" : "Rules", (d.capacity ? esc(d.capacity) + ". Rules:" : "") + "<ul class=\"pd-rules\">" +
       RULES.filter((r) => !(d.skipShoesRule && r === "No shoes")).map((r) => "<li>" + r + "</li>").join("") + "</ul>") +
     fact("🚚", "Delivery", "From Bridgewater, across Atlantic Canada. Delivery quoted based on your address.") +
@@ -88,6 +92,12 @@ function sync() {
   sec.id = "nk-pd"; sec.dataset.slug = slug; sec.setAttribute("aria-label", p.name + " details");
   sec.innerHTML = html(p);
   hero.insertAdjacentElement("afterend", sec);
+  const vw = sec.querySelector(".pd-vid");
+  if (vw) vw.addEventListener("click", () => {
+    const v = vw.querySelector("video"), n = vw.querySelector(".pd-vnote");
+    v.muted = !v.muted; if (v.paused) v.play().catch(() => {});
+    if (n) n.textContent = v.muted ? "Tap video for sound" : "Tap video to mute";
+  });
 }
 
 function load() {

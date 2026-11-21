@@ -1201,14 +1201,13 @@
     "name": "72 ft Obstacle Course",
     "tagline": "Race, Climb & Splash — End to End",
     "category": "Obstacle Course",
-    "price": "Contact for pricing",
-    "status": "Coming Soon",
-    "comingSoon": true,
+    "price": "$699",
+    "status": "Available to Pre-Book",
     "image": "/images/attractions-2027/67-ft-obstacle-course.jpg",
     "metaTitle": "72 ft Obstacle Course Rental Nova Scotia | Water Slide + Obstacle Combo | Nova Kingdom Rentals",
-    "metaDescription": "72 ft Obstacle Course — a giant inflatable obstacle course with a water slide and pool, 72 ft end to end. Coming Soon to Nova Kingdom Rentals in Bridgewater and across Nova Scotia and Atlantic Canada.",
-    "shortDescription": "A giant inflatable obstacle course combined with a water slide and pool — 72 ft end to end — for schools, festivals, and big community events in Nova Scotia. Coming Soon.",
-    "fullDescription": "The 72 ft Obstacle Course is our biggest challenge attraction yet — a giant inflatable obstacle course paired with a water slide and splash pool for end-to-end racing, climbing, and splashing. It is built for schools, festivals, community events, and larger groups that want a real centrepiece. The full setup runs about 72 ft end to end: a 40.5 ft water slide with pool plus a 31.5 ft obstacle course. Setup and takedown included. Coming Soon — contact us to be notified when it launches. Final availability, delivery, and setup suitability confirmed manually.",
+    "metaDescription": "72 ft Obstacle Course — a giant inflatable obstacle course with a water slide and pool, 72 ft end to end. Pre-book now: $699 advance (regular $849). Nova Scotia and Atlantic Canada.",
+    "shortDescription": "A giant inflatable obstacle course combined with a water slide and pool — 72 ft end to end. Arriving soon — pre-book now for $699 (regular $849).",
+    "fullDescription": "The 72 ft Obstacle Course is our biggest challenge attraction yet — a giant inflatable obstacle course paired with a water slide and splash pool for end-to-end racing, climbing, and splashing. It is built for schools, festivals, community events, and larger groups that want a real centrepiece. The full setup runs about 72 ft end to end: a 40.5 ft water slide with pool plus a 31.5 ft obstacle course. Setup and takedown included. Arriving soon — pre-book your date now at the advance price of $699 (regular $849). Final availability, delivery, and setup suitability confirmed manually.",
     "bestFor": [
       "Schools",
       "Festivals",
@@ -1262,7 +1261,10 @@
         "A garden hose (for wet use)",
         "A spot where water can drain (for wet use)"
       ],
-      "about": "Our biggest challenge yet. The 72 ft Obstacle Course joins Nova Reef Runner and Nova Surf Slide end to end — race through the pop-up obstacles, climb the 18 ft slide and finish with a splash in the pool. A real centrepiece for schools, festivals, community events and big groups."
+      "about": "Our biggest challenge yet. The 72 ft Obstacle Course joins Nova Reef Runner and Nova Surf Slide end to end — race through the pop-up obstacles, climb the 18 ft slide and finish with a splash in the pool. A real centrepiece for schools, festivals, community events and big groups.",
+      "priceNote": "pre-book price · regular $849 · HST extra",
+      "video": "/videos/72-ft-obstacle-course.mp4",
+      "poster": "/videos/72-ft-obstacle-course-poster.jpg"
     }
   },
   {
