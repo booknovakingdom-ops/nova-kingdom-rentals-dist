@@ -834,7 +834,7 @@ function makeEssentialsSection(items) {
   sec.appendChild(title);
 
   [
-    { id: EE_CHAIR_ID, label: "Black padded folding chairs", unit: EE_CHAIR_PRICE, max: 15, note: "$3 each · 15 in inventory" },
+    { id: EE_CHAIR_ID, label: "Black padded folding chairs", unit: EE_CHAIR_PRICE, max: 9999, note: "$3 each" },
     { id: EE_WCHAIR_ID, label: "White folding chairs", unit: EE_WCHAIR_PRICE, max: 60, note: "from $3 each · by request" },
     { id: EE_TABLE_ID, label: "6 ft rectangular tables",     unit: EE_TABLE_PRICE, max: 20, note: "$8 each · by request" },
   ].forEach(function (cfg) {
