@@ -20,6 +20,15 @@ const CALL = ["Yes, please call", "Text or email is fine"];
 const CSS = `
 html[data-nkcontact] .contact-layout > form.booking-form,html[data-nkcontact] .contact-layout > aside{display:none!important}
 html[data-nkcontact] .contact-layout{display:block!important;max-width:680px;margin-left:auto;margin-right:auto}
+#nk-cf .cf-offer{border-radius:16px;overflow:hidden;margin-bottom:14px;border:2px solid #f0d16a;box-shadow:0 8px 20px rgba(0,0,0,.18)}
+#nk-cf .cf-offer .w{background:linear-gradient(135deg,#0e3a66,#123f7a 55%,#1b5aa6);padding:16px;color:#fff}
+#nk-cf .cf-offer .s{background:linear-gradient(135deg,#2a1d05,#3d2a07);padding:14px 16px;color:#fff;border-top:1px solid rgba(240,209,106,.45)}
+#nk-cf .cf-offer .k{display:inline-block;background:#f0d16a;color:#1a1300;font-weight:900;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 10px;margin:0 0 8px}
+#nk-cf .cf-offer h3{margin:0 0 4px;font-size:1.45rem;line-height:1.15;color:#fff}
+#nk-cf .cf-offer h4{margin:0 0 4px;font-size:1.05rem;color:#f0d16a}
+#nk-cf .cf-offer p{margin:0 0 6px;color:#e3e8f5;font-size:.93rem;line-height:1.5}
+#nk-cf .cf-offer ul{margin:6px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+#nk-cf .cf-offer li{background:rgba(255,255,255,.1);border:1px solid rgba(240,209,106,.5);border-radius:999px;padding:4px 10px;font-weight:800;font-size:.85rem;color:#fff}
 #nk-cf .cf-reach{background:#fff;border:1px solid #e3dcc4;border-radius:16px;padding:14px;margin-bottom:14px;text-align:center;color:#16203a}
 #nk-cf .cf-reach p{margin:0 0 10px;font-weight:700}
 #nk-cf .cf-reach-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -98,8 +107,16 @@ function reachHtml() {
     '</div></div>';
 }
 
+function offerHtml() {
+  return '<div class="cf-offer"><div class="w"><span class="k">❄️ Winter Special</span><h3>10% off indoor events</h3>' +
+    '<p>Book any rental or party package for an indoor event held <b>Dec 1 – Mar 31</b> and save 10%.</p></div>' +
+    '<div class="s"><h4>☀️ Book summer early — free lawn games</h4>' +
+    '<p>Summer events (May – Sep) booked with a deposit by <b>Mar 31</b> get free lawn games:</p>' +
+    '<ul><li>$400+ → 1 free game</li><li>$800+ → 2 free games</li><li>$1,200+ → 3 free games</li></ul></div></div>';
+}
+
 function formHtml() {
-  return reachHtml() + '<div class="cf-card" id="cf-picks-card" hidden><h2>Your picks</h2><p class="cf-sub">From your quote — <button type="button" class="cf-link" id="cf-edit">edit your quote</button></p><div id="cf-picks"></div></div>' +
+  return offerHtml() + reachHtml() +'<div class="cf-card" id="cf-picks-card" hidden><h2>Your picks</h2><p class="cf-sub">From your quote — <button type="button" class="cf-link" id="cf-edit">edit your quote</button></p><div id="cf-picks"></div></div>' +
   '<form id="cf-form" novalidate>' +
   '<div class="cf-card"><span class="cf-step">STEP 1 · REQUIRED</span><h2>Your event</h2>' +
   '<div id="cf-interest-wrap"><span class="cf-q">What are you interested in? <em>(tap all that apply)</em></span>' + chips("interestedIn", INTERESTS, true) + "</div>" +

@@ -457,6 +457,25 @@ const parsePrice = (t) => {
 };
 const formatMoney = (n) => "$" + Number(n).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g,",");
 
+// ── Seasonal offers ───────────────────────────────────────────────
+// Winter Special: 10% off rentals & packages for events held Dec 1 – Mar 31.
+// Book summer early: events May – Sep booked (requested) on or before Mar 31 of
+// that year get free lawn games by order value ($400+ = 1, $800+ = 2, $1,200+ = 3).
+function promoFor(dateStr, amount) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(dateStr || ""));
+  if (!m) return null;
+  const y = +m[1], mo = +m[2];
+  if (mo === 12 || mo <= 3) return { type: "winter", pct: 10, discount: Math.round(amount * 0.10) };
+  if (mo >= 5 && mo <= 9) {
+    const now = new Date(), deadline = new Date(y, 2, 31, 23, 59, 59);
+    if (now <= deadline) {
+      const games = amount >= 1200 ? 3 : amount >= 800 ? 2 : amount >= 400 ? 1 : 0;
+      return { type: "summer", games: games };
+    }
+  }
+  return null;
+}
+
 // Returns { productId: coveringItemName } for all products blocked by items currently in cart.
 // Handles: package → its included products, and Rush 42 (standalone or via package) → Cascade + Quest.
 function getIncludedProductIds(cart) {
@@ -946,6 +965,7 @@ function makeEstimateSection(items, stats) {
   const tbl = document.createElement("table"); tbl.className = "nk-estimate-table";
   tbl.innerHTML =
     "<tr><td>Subtotal</td><td id='nk-subtotal-val'>" + escHtml(formatMoney(subtotal)) + "</td></tr>" +
+    "<tr id='nk-promo-row' hidden><td id='nk-promo-label' style='color:#1f7a3f;font-weight:700'></td><td id='nk-promo-val' style='color:#1f7a3f;font-weight:700'></td></tr>" +
     "<tr id='nk-booth360-row' hidden><td id='nk-booth360-label' style='font-size:0.82em;color:#888;padding-left:0.8em'></td><td id='nk-booth360-price' style='font-size:0.82em;color:#888'></td></tr>" +
     "<tr><td>Delivery &amp; setup estimate <span class='nk-tooltip-wrap'>" +
       "<button class='nk-tooltip-icon nk-tip-setup' type='button' aria-label='About delivery and setup estimate'>ⓘ</button>" +
@@ -1187,6 +1207,22 @@ function makeFormSection(items, stats) {
     var effectiveSubtotal = subtotal + booth360Adj;
     var subtotalEl = eid("nk-subtotal-val");
     if (subtotalEl) { subtotalEl.textContent = formatMoney(effectiveSubtotal); }
+    var promo = promoFor(formState.eventDate, effectiveSubtotal);
+    var promoRow = eid("nk-promo-row"), promoLabel = eid("nk-promo-label"), promoVal = eid("nk-promo-val");
+    if (promoRow) {
+      if (promo && promo.type === "winter" && promo.discount > 0) {
+        promoRow.hidden = false;
+        promoLabel.textContent = "\u2744\ufe0f Winter Special \u2014 10% off";
+        promoVal.textContent = "\u2212" + formatMoney(promo.discount);
+        effectiveSubtotal = effectiveSubtotal - promo.discount;
+      } else if (promo && promo.type === "summer" && promo.games > 0) {
+        promoRow.hidden = false;
+        promoLabel.textContent = "\u2600\ufe0f Book summer early \u2014 " + promo.games + " free lawn game" + (promo.games > 1 ? "s" : "") + " (we\u2019ll confirm which)";
+        promoVal.textContent = "Free";
+      } else {
+        promoRow.hidden = true;
+      }
+    }
 
     if (deliveryState.isPending) {
       totalEl.textContent = formatMoney(effectiveSubtotal + sandbags + attendantCost) + " + delivery (pending)";
@@ -1241,7 +1277,9 @@ function makeFormSection(items, stats) {
     const attendantCostFinal = extraState.attendantsWanted
       ? Math.max(1, extraState.attendantCount || 1) * Math.max(1, extraState.attendantHours || 1) * ATTENDANT_RATE
       : 0;
-    const totalFinal = subtotal + combinedFeePayload + sandbags + attendantCostFinal;
+    const promoFinal = promoFor(formState.eventDate, subtotal);
+    const winterDiscountFinal = promoFinal && promoFinal.type === "winter" ? promoFinal.discount : 0;
+    const totalFinal = subtotal - winterDiscountFinal + combinedFeePayload + sandbags + attendantCostFinal;
 
     const payload = {
       access_key:            W3F_KEY,
@@ -1269,6 +1307,7 @@ function makeFormSection(items, stats) {
       notes:                 formState.notes,
       selectedItems:         selectedSummary,
       subtotal:              formatMoney(subtotal),
+      seasonalOffer:         promoFinal ? (promoFinal.type === "winter" ? "Winter Special 10% off: -" + formatMoney(winterDiscountFinal) : (promoFinal.games > 0 ? "Book summer early: " + promoFinal.games + " free lawn game(s) — confirm which" : "Summer early booking (order under $400 — no free games)")) : "None",
       // Delivery
       deliveryLookupSource:    hasDeliveryData ? "api" : "manual — api unavailable or address not entered",
       deliveryDistanceKm:      hasDeliveryData ? deliveryState.distanceKm.toFixed(1) + " km" : "Not available",
