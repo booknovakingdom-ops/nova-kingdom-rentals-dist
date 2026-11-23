@@ -50,6 +50,16 @@ const CSS = `
 .nkht-cta a.c{background:#fff;color:#0b1020}
 main:has(> #nk-home-tiles) > section.final-cta{display:none!important}
 body:has(#nk-home-tiles) #nk-quote-strip{display:none!important}
+.nkht-offer{border-radius:18px;overflow:hidden;margin:0 0 1.4rem;border:2px solid #f0d16a;box-shadow:0 10px 26px rgba(0,0,0,.45)}
+.nkht-offer .w{background:linear-gradient(135deg,#0e3a66,#123f7a 55%,#1b5aa6);padding:18px 16px;color:#fff}
+.nkht-offer .s{background:linear-gradient(135deg,#2a1d05,#3d2a07);padding:16px;color:#fff;border-top:1px solid rgba(240,209,106,.45)}
+.nkht-offer .k{display:inline-block;background:#f0d16a;color:#1a1300;font-weight:900;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 10px;margin:0 0 8px}
+.nkht-offer h3{margin:0 0 4px;font-size:clamp(1.35rem,5.6vw,1.9rem);line-height:1.15;color:#fff}
+.nkht-offer h4{margin:0 0 4px;font-size:1.1rem;color:#f0d16a}
+.nkht-offer p{margin:0 0 6px;color:#e3e8f5;font-size:.95rem;line-height:1.5}
+.nkht-offer ul{margin:6px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.nkht-offer li{background:rgba(255,255,255,.1);border:1px solid rgba(240,209,106,.5);border-radius:999px;padding:4px 10px;font-weight:800;font-size:.85rem;color:#fff}
+.nkht-offer a.q{display:inline-flex;align-items:center;min-height:46px;margin-top:10px;background:#f0d16a;color:#1a1300;font-weight:900;border-radius:999px;padding:.6rem 1.3rem;text-decoration:none}
 `;
 
 function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;"); }
@@ -73,7 +83,14 @@ function sectionHtml() {
   const i = fi > -1 ? tiles.indexOf('</a>', fi) : -1;
   const grid = i > -1 ? tiles.slice(0, i + 4) + cta + tiles.slice(i + 4) : cta + tiles;
   const more = MORE.map((m) => '<a href="' + m[1] + '">' + esc(m[0]) + "</a>").join("");
-  return '<div class="nkht-in"><p class="nkht-eyebrow">Browse Rentals</p><h2 class="nkht-title">What are you looking for?</h2>' +
+  const offer = '<div class="nkht-offer" id="nk-winter-offer">' +
+    '<div class="w"><span class="k">❄️ Winter Special</span><h3>10% off indoor events</h3>' +
+    '<p>Book any rental or party package for an indoor event held <b>Dec 1 – Mar 31</b> and save 10%.</p>' +
+    '<a class="q" href="/contact">Get a Free Quote</a></div>' +
+    '<div class="s"><h4>☀️ Book summer early — free lawn games</h4>' +
+    '<p>Summer events (May – Sep) booked with a deposit by <b>Mar 31</b> get free lawn games:</p>' +
+    '<ul><li>$400+ → 1 free game</li><li>$800+ → 2 free games</li><li>$1,200+ → 3 free games</li></ul></div></div>';
+  return '<div class="nkht-in">' + offer + '<p class="nkht-eyebrow">Browse Rentals</p><h2 class="nkht-title">What are you looking for?</h2>' +
     '<div class="nkht-grid">' + grid + '</div><nav class="nkht-more" aria-label="More pages">' + more + "</nav></div>";
 }
 
