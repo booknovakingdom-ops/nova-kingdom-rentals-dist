@@ -132,7 +132,7 @@ function attendantHtml() {
 }
 
 function formHtml() {
-  return offerHtml() + attendantHtml() + reachHtml() +'<div class="cf-card" id="cf-picks-card" hidden><h2>Your picks</h2><p class="cf-sub">From your quote — <button type="button" class="cf-link" id="cf-edit">edit your quote</button></p><div id="cf-picks"></div></div>' +
+  return offerHtml() + reachHtml() +'<div class="cf-card" id="cf-picks-card" hidden><h2>Your picks</h2><p class="cf-sub">From your quote — <button type="button" class="cf-link" id="cf-edit">edit your quote</button></p><div id="cf-picks"></div></div>' +
   '<form id="cf-form" novalidate>' +
   '<div class="cf-card"><span class="cf-step">STEP 1 · REQUIRED</span><h2>Your event</h2>' +
   '<div id="cf-interest-wrap"><span class="cf-q">What are you interested in? <em>(tap all that apply)</em></span>' + chips("interestedIn", INTERESTS, true) + "</div>" +

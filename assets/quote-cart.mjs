@@ -441,11 +441,45 @@ const extraState = {
   attendantHours:   4,
 };
 
+const ATT_KEY = "nk_att_v1";
+try {
+  const sv = JSON.parse(sessionStorage.getItem(ATT_KEY) || "null");
+  if (sv) { extraState.attendantsWanted = !!sv.w; extraState.attendantCount = sv.c || 1; extraState.attendantHours = sv.h || 4; }
+} catch (e) {}
+function saveAttState() {
+  try { sessionStorage.setItem(ATT_KEY, JSON.stringify({ w: extraState.attendantsWanted, c: extraState.attendantCount, h: extraState.attendantHours })); } catch (e) {}
+  document.querySelectorAll(".nk-att-cb input").forEach(function (cb) { cb.checked = extraState.attendantsWanted; });
+}
+
 function clearExtraState() {
   extraState.attendantsWanted = false;
   extraState.attendantCount   = 1;
   extraState.attendantHours   = 4;
+  saveAttState();
   resetDeliveryState();
+}
+
+// Optional attendant checkbox on every product page
+const ATT_CB_CSS = ".nk-att-cb{display:flex;gap:10px;align-items:flex-start;background:#fffbea;border:1px solid #e7d48a;border-radius:12px;padding:10px 12px;margin:12px 0 4px;font-size:.95rem;line-height:1.4;color:#16203a;cursor:pointer;text-align:left}" +
+  ".nk-att-cb input{width:22px;height:22px;flex:0 0 22px;margin:1px 0 0;accent-color:#16203a}.nk-att-cb small{display:block;color:#5b6478;font-size:.82rem}";
+function injectAttendantCheckbox() {
+  if (!/^\/rentals\/[^/]+\/?$/.test(window.location.pathname)) return;
+  const hero = document.querySelector(".product-detail-hero");
+  if (!hero || hero.querySelector(".nk-att-cb")) return;
+  if (!document.getElementById("nk-att-cb-css")) {
+    const st = document.createElement("style"); st.id = "nk-att-cb-css"; st.textContent = ATT_CB_CSS; document.head.appendChild(st);
+  }
+  const lab = document.createElement("label");
+  lab.className = "nk-att-cb";
+  lab.innerHTML = '<input type="checkbox"' + (extraState.attendantsWanted ? " checked" : "") + '><span><b>Add an event attendant (optional) — $45/hour</b>' +
+    '<small>Supervises the inflatables, runs games &amp; foam, and helps your guests for the same hours as your rental.</small></span>';
+  lab.querySelector("input").addEventListener("change", function (e) {
+    extraState.attendantsWanted = e.target.checked;
+    saveAttState();
+    if (typeof triggerRecalcEstimate === "function") triggerRecalcEstimate();
+  });
+  const anchor = hero.querySelector(".nk-tent-quote, .nk-add-to-quote, .button-row");
+  if (anchor) anchor.insertAdjacentElement("afterend", lab); else hero.appendChild(lab);
 }
 
 // Live reference to the active recalcEstimate closure so the async delivery
@@ -1012,11 +1046,11 @@ function makeEssentialsSection(items) {
 // ── Attendant section ────────────────────────────────────────────
 function makeAttendantSection() {
   const sec = document.createElement("section");
-  const title = document.createElement("p"); title.className = "nk-qs-title"; title.textContent = "Event attendants (optional)";
+  const title = document.createElement("p"); title.className = "nk-qs-title"; title.textContent = "Event attendant (optional) — $45/hour per attendant";
   sec.appendChild(title);
 
   const wantGrid = document.createElement("div"); wantGrid.className = "nk-lg-grid";
-  [{ label: "No / not sure", isYes: false }, { label: "Yes", isYes: true }].forEach(({ label, isYes }) => {
+  [{ label: "No / not sure", isYes: false }, { label: "Yes, add attendant ($45/hr)", isYes: true }].forEach(({ label, isYes }) => {
     const btn = document.createElement("button"); btn.type = "button";
     btn.className = "nk-lg-btn" + (isYes === extraState.attendantsWanted ? " selected" : "");
     btn.setAttribute("data-att-want", isYes ? "yes" : "no");
@@ -1032,6 +1066,7 @@ function makeAttendantSection() {
     const btn = e.target.closest("[data-att-want]");
     if (!btn) return;
     extraState.attendantsWanted = btn.dataset.attWant === "yes";
+    saveAttState();
     wantGrid.querySelectorAll("[data-att-want]").forEach((b) => {
       b.classList.toggle("selected", (b.dataset.attWant === "yes") === extraState.attendantsWanted);
     });
@@ -1061,6 +1096,7 @@ function makeAttendantSection() {
   detailDiv.addEventListener("input", (e) => {
     if (e.target.id === "nkf-att-count") extraState.attendantCount = Math.max(1, parseInt(e.target.value) || 1);
     if (e.target.id === "nkf-att-hours") extraState.attendantHours = Math.max(1, parseInt(e.target.value) || 1);
+    saveAttState();
     triggerRecalcEstimate();
   });
 
