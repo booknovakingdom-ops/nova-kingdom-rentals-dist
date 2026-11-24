@@ -14,7 +14,7 @@ const CART_KEY = "nk_quote_v1";
 const INTERESTS = ["Inflatables", "Water Slides", "Foam Party", "Photo / Video Booth", "Lawn Games", "Tables & Chairs", "Packages", "Not sure yet"];
 const EVENT_TYPES = ["Birthday", "School function", "Community event", "Festival", "Fundraiser", "Corporate", "Church", "Grand opening", "Other"];
 const SURFACES = ["Grass", "Indoor (gym, hall)", "Asphalt / concrete", "Not sure"];
-const ATTENDANTS = ["Nova Kingdom attendant (extra cost)", "Our own adult volunteers", "Not sure"];
+const ATTENDANTS = ["Nova Kingdom attendant ($45/hour each)", "Our own adult volunteers", "Not sure"];
 const CALL = ["Yes, please call", "Text or email is fine"];
 
 const CSS = `
@@ -29,6 +29,12 @@ html[data-nkcontact] .contact-layout{display:block!important;max-width:680px;mar
 #nk-cf .cf-offer p{margin:0 0 6px;color:#e3e8f5;font-size:.93rem;line-height:1.5}
 #nk-cf .cf-offer ul{margin:6px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
 #nk-cf .cf-offer li{background:rgba(255,255,255,.1);border:1px solid rgba(240,209,106,.5);border-radius:999px;padding:4px 10px;font-weight:800;font-size:.85rem;color:#fff}
+#nk-cf .cf-att{background:#fff;border:2px solid #16203a;border-radius:16px;padding:16px;margin-bottom:14px;color:#16203a}
+#nk-cf .cf-att .k{display:inline-block;background:#16203a;color:#f0d16a;font-weight:900;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 10px;margin:0 0 8px}
+#nk-cf .cf-att h3{margin:0 0 6px;font-size:1.35rem;color:#16203a}
+#nk-cf .cf-att p{margin:0 0 6px;font-size:.95rem;line-height:1.5}
+#nk-cf .cf-att ul{margin:4px 0 8px;padding-left:20px;line-height:1.6;font-size:.95rem}
+#nk-cf .cf-att .s{font-size:.85rem;color:#5b6478;margin:0}
 #nk-cf .cf-reach{background:#fff;border:1px solid #e3dcc4;border-radius:16px;padding:14px;margin-bottom:14px;text-align:center;color:#16203a}
 #nk-cf .cf-reach p{margin:0 0 10px;font-weight:700}
 #nk-cf .cf-reach-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -118,8 +124,15 @@ function offerHtml() {
     '<ul><li>$400+ → 1 free game</li><li>$800+ → 2 free games</li><li>$1,200+ → 3 free games</li></ul></div></div>';
 }
 
+function attendantHtml() {
+  return '<div class="cf-att"><span class="k">🧑‍🤝‍🧑 Event Attendants</span><h3>$45/hour per attendant</h3>' +
+    '<p>Want someone to run the fun so you can enjoy your event? Our attendants stay for the same hours as your rental and:</p>' +
+    '<ul><li>Supervise the inflatables — turns, rules and safety</li><li>Run the games and foam</li><li>Keep the setup area tidy and help your guests</li></ul>' +
+    '<p class="s">Choose "Nova Kingdom attendant" below or add attendants in your quote.</p></div>';
+}
+
 function formHtml() {
-  return offerHtml() + reachHtml() +'<div class="cf-card" id="cf-picks-card" hidden><h2>Your picks</h2><p class="cf-sub">From your quote — <button type="button" class="cf-link" id="cf-edit">edit your quote</button></p><div id="cf-picks"></div></div>' +
+  return offerHtml() + attendantHtml() + reachHtml() +'<div class="cf-card" id="cf-picks-card" hidden><h2>Your picks</h2><p class="cf-sub">From your quote — <button type="button" class="cf-link" id="cf-edit">edit your quote</button></p><div id="cf-picks"></div></div>' +
   '<form id="cf-form" novalidate>' +
   '<div class="cf-card"><span class="cf-step">STEP 1 · REQUIRED</span><h2>Your event</h2>' +
   '<div id="cf-interest-wrap"><span class="cf-q">What are you interested in? <em>(tap all that apply)</em></span>' + chips("interestedIn", INTERESTS, true) + "</div>" +

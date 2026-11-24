@@ -68,6 +68,7 @@ function html(p) {
     fact("🧽", "Cleaned &amp; sanitized", "Before every rental.") +
     fact("🛡️", "Fully insured") +
     fact("🌬️", "Weather", "Not used in wind 38 km/h or higher. Shut down right away for thunder or lightning.") +
+    fact("🧑‍🤝‍🧑", "Event attendant", "Optional — $45/hour per attendant to help run the fun.") +
     (p.duration ? fact("⏱️", "Rental time", esc(p.duration)) : "") +
     '</ul><div class="pd-two">' +
     "<div><h2>What's included</h2><div class=\"pd-box\"><ul>" + li(d.included) + "</ul></div></div>" +
