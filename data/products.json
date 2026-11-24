@@ -468,6 +468,73 @@
     }
   },
   {
+    "id": "meltdown-challenge",
+    "slug": "meltdown-challenge",
+    "name": "Meltdown Challenge",
+    "tagline": "Jump, Duck, Survive",
+    "category": "Interactive Game",
+    "price": "$999",
+    "status": "Coming Soon",
+    "comingSoon": true,
+    "image": "/images/attractions-2027/meltdown-challenge.jpg",
+    "metaTitle": "Meltdown Challenge Rental | Spinning Arm Inflatable Game | Nova Kingdom Rentals",
+    "metaDescription": "Meltdown Challenge spinning-arm inflatable game for up to 6 players. Coming Soon — pre-book for $999 (regular $1,249). Nova Scotia and Atlantic Canada.",
+    "shortDescription": "Spinning-arm elimination game for all ages, up to 6 players. Coming Soon — pre-book $999 (regular $1,249).",
+    "fullDescription": "Meltdown Challenge is an interactive inflatable game. Players stand around the arena while two padded sweeper arms spin from the centre, and they have to jump or duck to stay in. Miss and you're out — the last player standing wins. The arms are controlled from an operator console. Great for birthdays, school carnivals, corporate events, festivals and youth groups.\n\nComing Soon — pre-book your date now at the advance price of $999 (regular $1,249).",
+    "bestFor": [
+      "Birthdays",
+      "School carnivals",
+      "Corporate events",
+      "Festivals",
+      "Youth groups"
+    ],
+    "features": [
+      "Two spinning padded sweeper arms",
+      "Up to 6 players",
+      "Operator console",
+      "All ages"
+    ],
+    "setupNotes": [
+      "Large clear level setup area required",
+      "Power access required",
+      "Adult supervision required at all times"
+    ],
+    "duration": "Private parties: up to 4 hrs · Events: up to 3 hrs",
+    "wetUse": false,
+    "dimensions": "19.7 ft × 19.7 ft footprint",
+    "specs": [
+      "Footprint: 19.7 ft × 19.7 ft",
+      "Up to 6 players",
+      "Pre-book price $999 · regular $1,249",
+      "Setup and takedown included",
+      "Delivery extra",
+      "HST extra"
+    ],
+    "pageDetails": {
+      "capacity": "Up to 6 players at one time",
+      "ages": "All ages",
+      "itemSize": "19.7 ft × 19.7 ft footprint",
+      "spaceNeeded": "About 28 ft × 28 ft",
+      "wetDry": "Dry",
+      "priceNote": "pre-book price · regular $1,249 · HST extra",
+      "included": [
+        "Meltdown Challenge arena",
+        "Blowers",
+        "Stakes or sandbags",
+        "Extension cords",
+        "Ground tarp"
+      ],
+      "need": [
+        "An adult supervising at all times",
+        "A large, clear, level area",
+        "Power outlets within 100 ft"
+      ],
+      "about": "Meltdown Challenge is an interactive inflatable game. Players stand around the arena while two padded sweeper arms spin from the centre, and they have to jump or duck to stay in. Miss and you're out — the last player standing wins. The arms are controlled from an operator console.",
+      "video": "/videos/meltdown-challenge.mp4",
+      "poster": "/videos/meltdown-challenge-poster.jpg"
+    }
+  },
+  {
     "id": "crown-rush-42",
     "slug": "crown-rush-42",
     "name": "Crown Rush 42",
