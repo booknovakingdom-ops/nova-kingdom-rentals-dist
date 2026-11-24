@@ -174,6 +174,48 @@ const FOAM_PACKAGES = [
 ];
 const FOAM_COLOUR_PRICE = 99; // Royal Colour Foam, per barrel
 
+// Inflatable Foam Pit — hourly pricing by guest count
+const FOAM_PIT_ID = "product-inflatable-foam-pit";
+const FOAM_PIT_TIERS = [
+  { label: "Up to 30 kids", price: 349, prefix: "" },
+  { label: "31–80 kids",    price: 599, prefix: "" },
+  { label: "80+ kids",      price: 800, prefix: "from " },
+];
+function injectFoamPitBtn(container, insertBefore) {
+  if (container.querySelector(".nk-add-to-quote, .nk-pit-quote")) return;
+  const wrap = document.createElement("div");
+  wrap.className = "nk-tent-quote nk-pit-quote";
+  const sel = document.createElement("select");
+  sel.className = "nk-tent-service nk-pit-tier";
+  sel.setAttribute("aria-label", "Foam Pit guest count");
+  FOAM_PIT_TIERS.forEach(function (t, i) {
+    const o = document.createElement("option");
+    o.value = String(i); o.textContent = t.label + " — " + t.prefix + "$" + t.price + "/hr";
+    sel.appendChild(o);
+  });
+  const btn = document.createElement("button");
+  btn.type = "button"; btn.dataset.nkId = FOAM_PIT_ID;
+  const inCart = loadCart().some(function (i) { return i.id === FOAM_PIT_ID; });
+  btn.className = "nk-add-to-quote" + (inCart ? " in-cart" : "");
+  btn.textContent = inCart ? "In Quote ✓" : "Add to Quote";
+  btn.addEventListener("click", function () {
+    let cart = loadCart();
+    if (cart.some(function (i) { return i.id === FOAM_PIT_ID; })) {
+      cart = cart.filter(function (i) { return i.id !== FOAM_PIT_ID; });
+    } else {
+      const t = FOAM_PIT_TIERS[+sel.value] || FOAM_PIT_TIERS[0];
+      cart.push({ id: FOAM_PIT_ID, name: "Inflatable Foam Pit — " + t.label + " (1 hr)", price: t.price, isInflatable: false });
+    }
+    saveCart(cart); updateBar();
+    const after = loadCart().some(function (i) { return i.id === FOAM_PIT_ID; });
+    document.querySelectorAll('.nk-add-to-quote[data-nk-id="' + FOAM_PIT_ID + '"]').forEach(function (b) {
+      b.textContent = after ? "In Quote ✓" : "Add to Quote"; b.classList.toggle("in-cart", after);
+    });
+  });
+  wrap.appendChild(sel); wrap.appendChild(btn);
+  if (insertBefore) insertBefore.insertAdjacentElement("beforebegin", wrap); else container.appendChild(wrap);
+}
+
 function injectFoamBtn(container, insertBefore) {
   if (container.querySelector(".nk-add-to-quote, .nk-foam-quote")) return;
   const wrap = document.createElement("div");
@@ -1467,6 +1509,11 @@ function enhanceProductCards() {
       hideCheckAvailabilityLinks(card);
       return;
     }
+    if (id === FOAM_PIT_ID) {
+      injectFoamPitBtn(card, card.querySelector(".button, a"));
+      hideCheckAvailabilityLinks(card);
+      return;
+    }
     if (id === FOAM_PARTY_ID) {
       injectFoamBtn(card, card.querySelector(".button, a"));
       hideCheckAvailabilityLinks(card);
@@ -1690,6 +1737,11 @@ function enhanceProductDetail() {
   }
   if (TENT_PRICING[id]) {
     injectTentBtn(hero, id, hero.querySelector(".button-row, .button, a"));
+    hideCheckAvailabilityLinks(hero);
+    return;
+  }
+  if (id === FOAM_PIT_ID) {
+    injectFoamPitBtn(hero, hero.querySelector(".button-row, .button, a"));
     hideCheckAvailabilityLinks(hero);
     return;
   }
