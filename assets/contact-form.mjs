@@ -121,7 +121,7 @@ function offerHtml() {
 function formHtml() {
   return offerHtml() + reachHtml() +'<div class="cf-card" id="cf-picks-card" hidden><h2>Your picks</h2><p class="cf-sub">From your quote — <button type="button" class="cf-link" id="cf-edit">edit your quote</button></p><div id="cf-picks"></div></div>' +
   '<form id="cf-form" novalidate>' +
-  '<div class="cf-card"><span class="cf-step">STEP 1 · REQUIRED</span><h2>Your event</h2>' +
+  '<div class="cf-card"><h2>Your event</h2>' +
   '<div id="cf-interest-wrap"><span class="cf-q">What are you interested in? <em>(tap all that apply)</em></span>' + chips("interestedIn", INTERESTS, true) + "</div>" +
   '<div class="cf-row"><div><label for="cf-first">First name <i>*</i></label><input id="cf-first" name="firstName" autocomplete="given-name" required></div>' +
   '<div><label for="cf-last">Last name <i>*</i></label><input id="cf-last" name="lastName" autocomplete="family-name" required></div></div>' +
@@ -130,8 +130,7 @@ function formHtml() {
   '<label for="cf-date">Event date <i>*</i></label><input id="cf-date" name="eventDate" type="date" required>' +
   '<label for="cf-addr">Event address <i>*</i></label><input id="cf-addr" name="eventAddress" autocomplete="street-address" placeholder="Street, town" required>' +
   '<input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none">' +
-  "</div>" +
-  '<div class="cf-card" id="cf-opt"><span class="cf-step opt">STEP 2 · OPTIONAL</span><h2>More details</h2><p class="cf-sub">The more you tell us, the faster and more accurate your quote.</p>' +
+  '<div id="cf-opt">' +
   '<span class="cf-q">Type of event <em>(optional)</em></span>' + chips("eventType", EVENT_TYPES, true) +
   '<div class="cf-row"><div><label for="cf-start">Start time <em>(optional)</em></label><input id="cf-start" name="startTime" type="time"></div><div><label for="cf-end">End time <em>(optional)</em></label><input id="cf-end" name="endTime" type="time"></div></div>' +
   '<label for="cf-guests">Estimated number of guests <em>(optional)</em></label><input id="cf-guests" name="guests" inputmode="numeric" placeholder="e.g. 40 kids">' +
@@ -143,7 +142,7 @@ function formHtml() {
   '<label for="cf-budget">Approximate budget <em>(optional)</em></label><input id="cf-budget" name="budget" placeholder="e.g. $500–$800">' +
   '<span class="cf-q">Would you like a call from us? <em>(optional)</em></span>' + chips("callPreference", CALL, false) +
   '<label for="cf-notes">Anything else? <em>(optional)</em></label><textarea id="cf-notes" name="notes" placeholder="Theme, age of kids, questions…"></textarea>' +
-  "</div>" +
+  "</div></div>" +
   '<div class="cf-msg err" id="cf-err" role="alert" hidden></div>' +
   '<button type="submit" class="cf-send" id="cf-send">Send Request</button>' +
   '<p class="cf-note">Requests are not a confirmed booking. We confirm availability, delivery and setup with you first.</p>' +
