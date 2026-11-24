@@ -55,6 +55,9 @@ html[data-nkcontact] .contact-layout{display:block!important;max-width:680px;mar
 #nk-cf textarea{min-height:84px}
 #nk-cf input[aria-invalid=true]{border-color:#c0392b;background:#fff6f5}
 #nk-cf .cf-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#nk-cf .cf-row > div{min-width:0}
+#nk-cf label em,#nk-cf .cf-q em{text-transform:none;letter-spacing:0;font-weight:500;color:#6b7280;font-style:normal}
+#nk-cf input[type=date],#nk-cf input[type=time]{-webkit-appearance:none;appearance:none;display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;min-height:48px;text-align:left}
 @media(max-width:380px){#nk-cf .cf-row{grid-template-columns:1fr}}
 #nk-cf .cf-chips{display:flex;flex-wrap:wrap;gap:8px}
 #nk-cf .cf-chip{border:1px solid #cfd3de;border-radius:999px;padding:.5rem .85rem;font:inherit;font-weight:700;font-size:.88rem;background:#fff;color:#16203a;cursor:pointer;min-height:40px}
@@ -128,19 +131,18 @@ function formHtml() {
   '<label for="cf-addr">Event address <i>*</i></label><input id="cf-addr" name="eventAddress" autocomplete="street-address" placeholder="Street, town" required>' +
   '<input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none">' +
   "</div>" +
-  '<button type="button" class="cf-more" id="cf-more" aria-expanded="false" aria-controls="cf-opt">＋ Add more details (optional) <span aria-hidden="true">▾</span></button>' +
-  '<div class="cf-card" id="cf-opt" hidden><span class="cf-step opt">STEP 2 · OPTIONAL</span><h2>More details</h2><p class="cf-sub">Helps us quote faster — skip anything.</p>' +
-  '<span class="cf-q">Type of event</span>' + chips("eventType", EVENT_TYPES, true) +
-  '<div class="cf-row"><div><label for="cf-start">Start time</label><input id="cf-start" name="startTime" type="time"></div><div><label for="cf-end">End time</label><input id="cf-end" name="endTime" type="time"></div></div>' +
-  '<label for="cf-guests">Estimated number of guests</label><input id="cf-guests" name="guests" inputmode="numeric" placeholder="e.g. 40 kids">' +
-  '<span class="cf-q">Setup surface</span>' + chips("setupSurface", SURFACES, false) +
-  '<div class="cf-row"><div><label for="cf-power">Power nearby?</label><select id="cf-power" name="powerAccess"><option value="">Choose</option><option>Yes</option><option>No</option><option>Not sure</option></select></div>' +
-  '<div><label for="cf-water">Water hose nearby?</label><select id="cf-water" name="waterAccess"><option value="">Choose</option><option>Yes</option><option>No</option><option>Not sure</option></select></div></div>' +
-  '<span class="cf-q">Attendants / supervisors</span>' + chips("attendants", ATTENDANTS, false) +
-  '<label for="cf-org">School / organization <em>(if any)</em></label><input id="cf-org" name="organization" autocomplete="organization">' +
+  '<div class="cf-card" id="cf-opt"><span class="cf-step opt">STEP 2 · OPTIONAL</span><h2>More details</h2><p class="cf-sub">The more you tell us, the faster and more accurate your quote.</p>' +
+  '<span class="cf-q">Type of event <em>(optional)</em></span>' + chips("eventType", EVENT_TYPES, true) +
+  '<div class="cf-row"><div><label for="cf-start">Start time <em>(optional)</em></label><input id="cf-start" name="startTime" type="time"></div><div><label for="cf-end">End time <em>(optional)</em></label><input id="cf-end" name="endTime" type="time"></div></div>' +
+  '<label for="cf-guests">Estimated number of guests <em>(optional)</em></label><input id="cf-guests" name="guests" inputmode="numeric" placeholder="e.g. 40 kids">' +
+  '<span class="cf-q">Setup surface <em>(optional)</em></span>' + chips("setupSurface", SURFACES, false) +
+  '<div class="cf-row"><div><label for="cf-power">Power nearby? <em>(optional)</em></label><select id="cf-power" name="powerAccess"><option value="">Choose</option><option>Yes</option><option>No</option><option>Not sure</option></select></div>' +
+  '<div><label for="cf-water">Water hose nearby? <em>(optional)</em></label><select id="cf-water" name="waterAccess"><option value="">Choose</option><option>Yes</option><option>No</option><option>Not sure</option></select></div></div>' +
+  '<span class="cf-q">Attendants / supervisors <em>(optional)</em></span>' + chips("attendants", ATTENDANTS, false) +
+  '<label for="cf-org">School / organization <em>(optional)</em></label><input id="cf-org" name="organization" autocomplete="organization">' +
   '<label for="cf-budget">Approximate budget <em>(optional)</em></label><input id="cf-budget" name="budget" placeholder="e.g. $500–$800">' +
-  '<span class="cf-q">Would you like a call from us?</span>' + chips("callPreference", CALL, false) +
-  '<label for="cf-notes">Anything else?</label><textarea id="cf-notes" name="notes" placeholder="Theme, age of kids, questions…"></textarea>' +
+  '<span class="cf-q">Would you like a call from us? <em>(optional)</em></span>' + chips("callPreference", CALL, false) +
+  '<label for="cf-notes">Anything else? <em>(optional)</em></label><textarea id="cf-notes" name="notes" placeholder="Theme, age of kids, questions…"></textarea>' +
   "</div>" +
   '<div class="cf-msg err" id="cf-err" role="alert" hidden></div>' +
   '<button type="submit" class="cf-send" id="cf-send">Send Request</button>' +
