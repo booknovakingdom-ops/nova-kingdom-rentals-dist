@@ -785,13 +785,13 @@
     "name": "Kids Foam Party",
     "tagline": "High-Energy Foam Fun for Kids",
     "category": "Foam Party",
-    "price": "From $349/hr",
+    "price": "From $299",
     "status": "Available Now",
     "image": "/images/kids-foam-party.jpg",
     "metaTitle": "Kids Foam Party Rental Nova Scotia | Bridgewater | Nova Kingdom Rentals",
-    "metaDescription": "Kids Foam Party rental for birthday parties, school fun days, daycares, summer camps, church events, and family celebrations across Nova Scotia and Atlantic Canada. From $349/hr.",
+    "metaDescription": "Kids foam party packages across Nova Scotia and Atlantic Canada: self-pickup Foam & Go from $299, Kingdom Foam Starter $399, fully hosted from $799.",
     "shortDescription": "High-energy foam fun for kids' birthdays, school fun days, daycares, summer camps, church events, and family celebrations.",
-    "fullDescription": "Make your next kids' event unforgettable with a Nova Kingdom Rentals Kids Foam Party. Our foam machine blasts kid-safe, non-toxic foam into a wild, waist-high foam zone — kids love running through it, playing in it, and splashing around. Setup and takedown included. Water source and power access required. Outdoor only on a flat, grassy area.\n\nKids Foam Party is designed for children's events only — it is not available for adult events or alcohol-serving events. Best for ages 3–14.\n\nFoam Party Options: add the Inflatable Foam Pit — A compact inflatable foam pit option for kids' parties and backyard-style events. The pit is 13 ft × 13 ft with 3 ft side walls and a 6 ft back wall, creating a contained foam play area for kids to enjoy. Outdoor use only; water and power access required; foam solution included based on booking; adult supervision required; weather and setup suitability confirmed.",
+    "fullDescription": "Make your next kids' event unforgettable with a Nova Kingdom Rentals foam party. Our foam machine blasts kid-safe, non-toxic foam into a wild foam zone that kids love. Water source and power access required. Outdoor only on a flat, grassy area.\n\nFoam Party Packages (price is for the first hour; extra hours available):\n• Foam & Go Mini — self-pickup, ~15–20 kids — $299 (+$125 each extra hour)\n• Foam & Go Max — self-pickup, ~30–40 kids — $499 (+$245 each extra hour)\n• Kingdom Foam Starter — we deliver, you run it, ~20–25 kids — $399 (+$125 each extra hour)\n• Royal Foam Party — fully hosted, ~40–50 kids — $799 (+$399 each extra hour)\n• Kingdom Foam Fest — fully hosted, ~60–80 kids — $1,389 (+$799 each extra hour)\n• Kingdom Foam Fest Plus — fully hosted, ~90–110 kids — $1,789 (+$995 each extra hour)\n• Ultimate Kingdom Foam Fest — fully hosted, ~120–160 kids — $2,179 (+$1,189 each extra hour)\n• Royal Colour Foam add-on — $99 per barrel\n\nFoam & Go (self-pickup): pick up and return in Bridgewater; refundable damage deposit and photo ID required; foam solution included.\nKingdom Foam Starter: we deliver and set up, show you how to use it, and you run the foam; foam solution included.\nFully hosted packages: foam machine and foam solution, our staff runs the foam, music/speaker, and setup and takedown included.\n\nKids Foam Party is designed for children's events only — it is not available for adult events or alcohol-serving events. Best for ages 3–14.\n\nFoam Party Options: add the Inflatable Foam Pit — a 13 ft × 13 ft contained foam play area with 3 ft side walls and a 6 ft back wall. Outdoor use only; water and power access required.",
     "bestFor": [
       "Kids Birthday Parties",
       "School Fun Days",
@@ -806,7 +806,7 @@
       "High-output foam machine on tripod stand",
       "Foam zone setup included",
       "Setup and takedown included",
-      "Hourly pricing by guest count — no surprise fees",
+      "7 packages from $299 — price shown is for the first hour",
       "Add-on pricing available with any inflatable rental",
       "Inflatable Foam Pit option — 13 ft × 13 ft contained foam play area"
     ],
@@ -818,15 +818,18 @@
       "Adult (19+) supervision required at all times",
       "Not available for adult events or alcohol-serving events"
     ],
-    "duration": "Priced per hour",
+    "duration": "Price is for the first hour · extra hours available",
     "wetUse": true,
     "specs": [
-      "Up to 30 kids: $349/hour + delivery",
-      "31–80 kids: $599/hour + delivery",
-      "80+ kids: from $800/hour + delivery",
-      "Foam Pit option: 13 ft × 13 ft inflatable pit",
-      "Foam Pit walls: 3 ft sides, 6 ft back wall",
-      "Foam Pit: outdoor use only — water and power access required"
+      "Foam & Go Mini (self-pickup, ~15–20 kids): $299 · +$125/extra hr",
+      "Foam & Go Max (self-pickup, ~30–40 kids): $499 · +$245/extra hr",
+      "Kingdom Foam Starter (self-op, delivered, ~20–25 kids): $399 · +$125/extra hr",
+      "Royal Foam Party (fully hosted, ~40–50 kids): $799 · +$399/extra hr",
+      "Kingdom Foam Fest (fully hosted, ~60–80 kids): $1,389 · +$799/extra hr",
+      "Kingdom Foam Fest Plus (fully hosted, ~90–110 kids): $1,789 · +$995/extra hr",
+      "Ultimate Kingdom Foam Fest (fully hosted, ~120–160 kids): $2,179 · +$1,189/extra hr",
+      "Royal Colour Foam add-on: $99 per barrel",
+      "Foam Pit option: 13 ft × 13 ft inflatable pit · outdoor only"
     ]
   },
   {

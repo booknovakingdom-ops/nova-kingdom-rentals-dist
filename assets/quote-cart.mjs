@@ -162,7 +162,78 @@ const EE_TABLE_PRICE = 8;
 const EE_WCHAIR_ID = "ee-white-chairs";
 const EE_WCHAIR_PRICE = 3;
 
-// Foam party pricing tiers by guest count
+// Foam party packages (price = first hour; extra hours quoted at the "extra" rate)
+const FOAM_PACKAGES = [
+  { name: "Foam & Go Mini",             mode: "Self-pickup",        price: 299,  extra: 125,  kids: "15–20" },
+  { name: "Foam & Go Max",              mode: "Self-pickup",        price: 499,  extra: 245,  kids: "30–40" },
+  { name: "Kingdom Foam Starter",       mode: "Self-op, delivered", price: 399,  extra: 125,  kids: "20–25" },
+  { name: "Royal Foam Party",           mode: "Fully hosted",       price: 799,  extra: 399,  kids: "40–50" },
+  { name: "Kingdom Foam Fest",          mode: "Fully hosted",       price: 1389, extra: 799,  kids: "60–80" },
+  { name: "Kingdom Foam Fest Plus",     mode: "Fully hosted",       price: 1789, extra: 995,  kids: "90–110" },
+  { name: "Ultimate Kingdom Foam Fest", mode: "Fully hosted",       price: 2179, extra: 1189, kids: "120–160" },
+];
+const FOAM_COLOUR_PRICE = 99; // Royal Colour Foam, per barrel
+
+function injectFoamBtn(container, insertBefore) {
+  if (container.querySelector(".nk-add-to-quote, .nk-foam-quote")) return;
+  const wrap = document.createElement("div");
+  wrap.className = "nk-tent-quote nk-foam-quote";
+  const sel = document.createElement("select");
+  sel.className = "nk-tent-service nk-foam-pkg";
+  sel.setAttribute("aria-label", "Foam party package");
+  FOAM_PACKAGES.forEach(function (p, i) {
+    const o = document.createElement("option");
+    o.value = String(i);
+    o.textContent = p.name + " — $" + p.price.toLocaleString("en-CA") + " (1 hr · ~" + p.kids + " kids)";
+    sel.appendChild(o);
+  });
+  sel.selectedIndex = 3;
+  const col = document.createElement("select");
+  col.className = "nk-tent-service nk-foam-colour";
+  col.setAttribute("aria-label", "Royal Colour Foam barrels");
+  [0, 1, 2, 3].forEach(function (n) {
+    const o = document.createElement("option");
+    o.value = String(n);
+    o.textContent = n === 0 ? "No colour foam" : "Royal Colour Foam × " + n + " barrel" + (n > 1 ? "s" : "") + " (+$" + (n * FOAM_COLOUR_PRICE) + ")";
+    col.appendChild(o);
+  });
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.dataset.nkId = FOAM_PARTY_ID;
+  const inCart = loadCart().some(function (i) { return i.id === FOAM_PARTY_ID; });
+  btn.className = "nk-add-to-quote" + (inCart ? " in-cart" : "");
+  btn.textContent = inCart ? "In Quote ✓" : "Add to Quote";
+  btn.addEventListener("click", function () {
+    let cart = loadCart();
+    const nowIn = cart.some(function (i) { return i.id === FOAM_PARTY_ID; });
+    if (nowIn) {
+      cart = cart.filter(function (i) { return i.id !== FOAM_PARTY_ID; });
+    } else {
+      const pk = FOAM_PACKAGES[+sel.value] || FOAM_PACKAGES[0];
+      const n = +col.value || 0;
+      cart.push({
+        id: FOAM_PARTY_ID,
+        name: "Foam Party — " + pk.name + " (1 hr, " + pk.mode.toLowerCase() + ")" + (n ? " + Royal Colour Foam × " + n : ""),
+        price: pk.price + n * FOAM_COLOUR_PRICE,
+        isInflatable: false,
+      });
+    }
+    saveCart(cart);
+    updateBar();
+    const after = loadCart().some(function (i) { return i.id === FOAM_PARTY_ID; });
+    document.querySelectorAll('.nk-add-to-quote[data-nk-id="' + FOAM_PARTY_ID + '"]').forEach(function (b) {
+      b.textContent = after ? "In Quote ✓" : "Add to Quote";
+      b.classList.toggle("in-cart", after);
+    });
+  });
+  wrap.appendChild(sel);
+  wrap.appendChild(col);
+  wrap.appendChild(btn);
+  if (insertBefore) insertBefore.insertAdjacentElement("beforebegin", wrap);
+  else container.appendChild(wrap);
+}
+
+// Legacy tier list (no longer used for pricing)
 const FOAM_TIERS = [
   { label: "Up to 30 kids", standalone: 349, addon: 349, prefix: "" },
   { label: "31–80 kids",    standalone: 599, addon: 599, prefix: "" },
@@ -192,7 +263,7 @@ const CART_ITEM_META = {
   },
   [FOAM_PARTY_ID]: {
     image:      "/images/kids-foam-party.jpg",
-    subtitle:   "Hourly pricing by guest count — Inflatable Foam Pit option available (13 ft × 13 ft) — confirm at booking",
+    subtitle:   "Price is for the first hour · extra hours quoted · Inflatable Foam Pit option available — confirm at booking",
   },
   "product-10x10-pop-up-tent": {
     image:    "/images/10x10-pop-up-tent.jpeg",
@@ -1397,8 +1468,7 @@ function enhanceProductCards() {
       return;
     }
     if (id === FOAM_PARTY_ID) {
-      const hasPkg = loadCart().some(function (i) { return i.id.startsWith("pkg-"); });
-      injectAddBtn(card, id, "Kids Foam Party", hasPkg ? FOAM_TIERS[0].addon : FOAM_TIERS[0].standalone, false, card.querySelector(".button, a"), {});
+      injectFoamBtn(card, card.querySelector(".button, a"));
       hideCheckAvailabilityLinks(card);
       return;
     }
@@ -1620,6 +1690,11 @@ function enhanceProductDetail() {
   }
   if (TENT_PRICING[id]) {
     injectTentBtn(hero, id, hero.querySelector(".button-row, .button, a"));
+    hideCheckAvailabilityLinks(hero);
+    return;
+  }
+  if (id === FOAM_PARTY_ID) {
+    injectFoamBtn(hero, hero.querySelector(".button-row, .button, a"));
     hideCheckAvailabilityLinks(hero);
     return;
   }
@@ -1963,12 +2038,10 @@ function injectFoamPartySection() {
   const card = document.createElement("article");
   card.className = "nk-booth-feature-card";
 
-  const tierRows = FOAM_TIERS.map(function (t) {
-    return (
-      "<li><strong>" + t.label + ":</strong> " + t.prefix + "$" + t.standalone +
-      "/hr standalone · " + t.prefix + "$" + t.addon + "/hr add-on</li>"
-    );
-  }).join("");
+  const tierRows = FOAM_PACKAGES.map(function (p) {
+    return "<li><strong>" + p.name + "</strong> (" + p.mode + ", ~" + p.kids + " kids): $" + p.price.toLocaleString("en-CA") +
+      " first hour · +$" + p.extra.toLocaleString("en-CA") + " each extra hour</li>";
+  }).join("") + "<li><strong>Royal Colour Foam</strong> add-on: $" + FOAM_COLOUR_PRICE + " per barrel</li>";
 
   card.innerHTML =
     '<div class="nk-booth-img-wrap">' +
@@ -1978,10 +2051,10 @@ function injectFoamPartySection() {
       '<p class="eyebrow">Foam Party · Kids &amp; Family Only</p>' +
       '<h3>Kids Foam Party</h3>' +
       '<p class="nk-booth-tagline">High-Energy Foam Fun for Kids</p>' +
-      '<p class="nk-booth-pricing-label"><strong>Hourly Foam Party Pricing</strong></p>' +
+      '<p class="nk-booth-pricing-label"><strong>Foam Party Packages</strong></p>' +
       '<ul class="nk-booth-pricing">' +
         tierRows +
-        '<li>Setup &amp; takedown included · Outdoor only · Water &amp; power required</li>' +
+        '<li>Fully hosted: our staff runs the foam, music included · Delivered packages: setup &amp; takedown by us · Outdoor only · Water &amp; power required</li>' +
         '<li>Kid-safe, non-toxic foam · Ages 3–14 · Not for adult or alcohol events</li>' +
       '</ul>' +
       '<div class="nk-booth-btns">' +
@@ -1990,32 +2063,9 @@ function injectFoamPartySection() {
       '</div>' +
     '</div>';
 
-  // Add to Quote button — uses base price of smallest standalone tier
+  // Package picker + Add to Quote
   const btnWrap = card.querySelector(".nk-booth-btns");
-  const qtBtn = document.createElement("button");
-  qtBtn.type = "button";
-  qtBtn.dataset.nkId = FOAM_PARTY_ID;
-  const cartNow = loadCart();
-  const inCart  = cartNow.some(function (i) { return i.id === FOAM_PARTY_ID; });
-  qtBtn.className = "nk-add-to-quote" + (inCart ? " in-cart" : "");
-  qtBtn.textContent = inCart ? "In Quote ✓" : "Add to Quote";
-  qtBtn.addEventListener("click", function () {
-    const current = loadCart();
-    const nowIn   = current.some(function (i) { return i.id === FOAM_PARTY_ID; });
-    if (nowIn) {
-      saveCart(current.filter(function (i) { return i.id !== FOAM_PARTY_ID; }));
-    } else {
-      const hasPkg = current.some(function (i) { return i.id.startsWith("pkg-") || i.isInflatable; });
-      const price  = hasPkg ? FOAM_TIERS[0].addon : FOAM_TIERS[0].standalone;
-      current.push({ id: FOAM_PARTY_ID, name: "Kids Foam Party", price, isInflatable: false });
-      saveCart(current);
-    }
-    const after = loadCart().some(function (i) { return i.id === FOAM_PARTY_ID; });
-    qtBtn.textContent = after ? "In Quote ✓" : "Add to Quote";
-    qtBtn.classList.toggle("in-cart", after);
-    updateBar();
-  });
-  btnWrap.insertAdjacentElement("afterbegin", qtBtn);
+  injectFoamBtn(card, btnWrap);
 
   inner.appendChild(card);
   anchorSection.insertAdjacentElement("afterend", section);
