@@ -28,6 +28,7 @@ DirectoryIndex index.html
   RewriteRule ^royal-lineup/?$ /rentals [R=301,L]
   RewriteRule ^lineup/?$ /rentals [R=301,L]
   RewriteRule ^rentals1/?$ /rentals [R=301,L]
+  RewriteRule ^future-add-ons/(72-ft-obstacle-course|jump-and-slide|meltdown-challenge)/?$ /future-add-ons [R=301,L]
 
   RewriteRule ^bouncy-castle-rental-bridgewater/?$ /bouncy-castle-rentals-bridgewater-ns [R=301,L]
   RewriteRule ^bouncy-castle-rentals-bridgewater/?$ /bouncy-castle-rentals-bridgewater-ns [R=301,L]
