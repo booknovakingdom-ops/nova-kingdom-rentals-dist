@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="LED Glow Furniture — coming soon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b0620"/>
+      <stop offset="1" stop-color="#1c0b3d"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <!-- glows -->
+  <g filter="url(#glow)" opacity="0.85">
+    <rect x="250" y="330" width="170" height="170" rx="14" fill="#ff3fd1"/>
+    <rect x="470" y="250" width="260" height="70" rx="14" fill="#3fe7ff"/>
+    <rect x="555" y="320" width="90" height="180" rx="10" fill="#3fe7ff"/>
+    <rect x="780" y="330" width="170" height="170" rx="14" fill="#7dff5a"/>
+  </g>
+  <!-- cubes and table -->
+  <rect x="250" y="330" width="170" height="170" rx="14" fill="#ff7fe2" stroke="#ffffff" stroke-width="6"/>
+  <rect x="470" y="250" width="260" height="70" rx="14" fill="#8ef2ff" stroke="#ffffff" stroke-width="6"/>
+  <rect x="555" y="320" width="90" height="180" rx="10" fill="#8ef2ff" stroke="#ffffff" stroke-width="6"/>
+  <rect x="780" y="330" width="170" height="170" rx="14" fill="#b6ff9c" stroke="#ffffff" stroke-width="6"/>
+  <ellipse cx="600" cy="520" rx="420" ry="18" fill="#ffffff" opacity="0.12"/>
+  <text x="600" y="640" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="90" font-weight="900" fill="#ffffff" stroke="#3a1a73" stroke-width="5" paint-order="stroke">LED Glow Furniture</text>
+  <rect x="440" y="680" width="320" height="76" rx="38" fill="#f0d16a"/>
+  <text x="600" y="732" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="900" fill="#1a1300" letter-spacing="2">COMING SOON</text>
+</svg>

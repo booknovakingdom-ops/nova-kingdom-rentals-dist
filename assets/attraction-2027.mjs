@@ -19,6 +19,7 @@ const ATTRACTIONS = [
   { key: "party-mascots", name: "Party Mascots", img: "/images/attractions-2027/party-mascots.svg", reg: null, adv: null, save: null, dims: "Costumed mascot visits · 1 hour" },
   { key: "large-event-tents", name: "Large Event Tents", img: "/images/attractions-2027/large-event-tents.svg", reg: null, adv: null, save: null, dims: "20×20 and 20×30 · optional setup" },
   { key: "padded-banquet-chairs", name: "Padded Banquet Chairs", img: "/images/attractions-2027/padded-banquet-chairs.svg", reg: null, adv: null, save: null, dims: "Padded banquet chairs" },
+  { key: "led-glow-furniture", name: "LED Glow Furniture", img: "/images/attractions-2027/led-glow-furniture.svg", reg: null, adv: null, save: null, dims: "LED cubes, tables & lounge seating" },
 ];
 
 const DISCLAIMER = "These are potential future additions and are not yet confirmed. Final selections will depend on demand and advance bookings. Submitting this form does not confirm a reservation. We’ll confirm availability, your full quote and deposit terms—including what happens if the attraction does not go ahead—before arranging payment.";
