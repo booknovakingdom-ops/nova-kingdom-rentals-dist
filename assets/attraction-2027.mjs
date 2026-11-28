@@ -17,6 +17,7 @@ const ATTRACTIONS = [
   { key: "nova-speedway", name: "Nova Speedway", img: "/images/attractions-2027/nova-speedway.jpg", reg: null, adv: null, save: null, dims: "All ages · obstacle course with double slide" },
   { key: "nova-gladiator-arena", name: "Nova Gladiator Arena", img: "/images/attractions-2027/nova-gladiator-arena.jpg", reg: null, adv: null, save: null, dims: "All ages · jousting arena game" },
   { key: "party-mascots", name: "Party Mascots", img: "/images/attractions-2027/party-mascots.svg", reg: null, adv: null, save: null, dims: "Costumed mascot visits · 1 hour" },
+  { key: "large-event-tents", name: "Large Event Tents", img: "/images/attractions-2027/large-event-tents.svg", reg: null, adv: null, save: null, dims: "20×20 and 20×30 · optional setup" },
 ];
 
 const DISCLAIMER = "These are potential future additions and are not yet confirmed. Final selections will depend on demand and advance bookings. Submitting this form does not confirm a reservation. We’ll confirm availability, your full quote and deposit terms—including what happens if the attraction does not go ahead—before arranging payment.";
