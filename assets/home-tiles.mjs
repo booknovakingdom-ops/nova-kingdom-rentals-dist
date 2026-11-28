@@ -11,7 +11,7 @@ const TILES = [
   { t: "Event Essentials",     href: "/tables-and-chairs",  img: "/images/10x20-pole-tent.jpeg",                   c: "#8a63d2" },
   { t: "Party Packages",       href: "/packages",           img: "/images/packages/royal-all-star-package.jpg",    c: "#e86a2c" },
   { t: "Concession Rentals",   href: "/contact", soon: true, items: ["Popcorn", "Cotton Candy", "Snow Cones"],     c: "#1f8a9e" },
-  { t: "Future Add-Ons",  href: "/future-add-ons", full: true, img: "/images/attractions-2027/67-ft-obstacle-course.jpg?v=2", c: "#5b3fb0" },
+  { t: "Future Add-Ons",  href: "/future-add-ons", full: true, img: "/images/attractions-2027/meltdown-challenge.jpg?v=2", c: "#5b3fb0" },
   { t: "Generator Rental",     href: "/rentals/generator",  img: "/images/generator-benchmark.jpg", fit: "contain", bg: "#fff", c: "#c9427e" },
 ];
 const MORE = [
