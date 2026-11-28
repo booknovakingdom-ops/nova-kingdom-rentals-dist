@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Tablecloths, linens and chair covers — coming soon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6efe0"/>
+      <stop offset="1" stop-color="#e6d6b4"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <!-- round table with draped cloth -->
+  <g stroke="#16203a" stroke-width="6" stroke-linejoin="round">
+    <ellipse cx="420" cy="300" rx="190" ry="48" fill="#ffffff"/>
+    <path d="M230 300 L250 520 Q420 560 590 520 L610 300 Q420 350 230 300 Z" fill="#ffffff"/>
+    <path d="M300 330 L310 530 M370 345 L375 545 M470 345 L465 545 M540 330 L530 530" fill="none" stroke="#d9dde6" stroke-width="4"/>
+  </g>
+  <!-- rectangular table with coloured cloth -->
+  <g stroke="#16203a" stroke-width="6" stroke-linejoin="round">
+    <polygon points="700,260 1000,260 1060,320 760,320" fill="#b3202a"/>
+    <path d="M760 320 L1060 320 L1060 520 L760 520 Z" fill="#d8323d"/>
+    <path d="M700 260 L760 320 L760 520 L700 470 Z" fill="#9c1b24"/>
+    <path d="M830 320 L830 520 M910 320 L910 520 M990 320 L990 520" fill="none" stroke="#b3202a" stroke-width="4"/>
+  </g>
+  <text x="600" y="640" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="84" font-weight="900" fill="#16203a">Linens &amp; Chair Covers</text>
+  <rect x="440" y="680" width="320" height="76" rx="38" fill="#16203a"/>
+  <text x="600" y="732" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="900" fill="#f0d16a" letter-spacing="2">COMING SOON</text>
+</svg>
